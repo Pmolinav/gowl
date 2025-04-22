@@ -1,345 +1,127 @@
-[//]: # (# Sports Centre)
-
-[//]: # (This project explains how to use BDD using cucumber in springboot)
-
-[//]: # ()
-[//]: # (### Cucumber)
-
-[//]: # ()
-[//]: # (    * Cucumber is a high-level testing framework that supports behaviour driven development.)
-
-[//]: # (    )
-[//]: # (    * It runs automated acceptance tests on web applications)
-
-[//]: # (    )
-[//]: # (    * Cucumber is a tool that executes plain-text functional descriptions as automated tests. )
-
-[//]: # (      The language that Cucumber understand is Gherkin.)
-
-[//]: # (      )
-[//]: # ()
-[//]: # (       Flow :)
-
-[//]: # (    )
-[//]: # (        1. Describe behaviour.)
-
-[//]: # (        2. Write Step definition.)
-
-[//]: # (        3. Run and Fail.)
-
-[//]: # (        4. Write code to make step pass.)
-
-[//]: # (        5. Run and pass.)
-
-[//]: # ()
-[//]: # (### Feature File Introduction)
-
-[//]: # (    )
-[//]: # (    Feature Introduction Every .feature file conventionally consists of a single feature.)
-
-[//]: # (    A line starting with the keyword Feature followed by free indented text starts a feature. )
-
-[//]: # (    A feature usually contains a list of scenarios. scenarios together independent of your file and directory structure.)
-
-[//]: # (    )
-[//]: # (    Given -> What software will look like to user)
-
-[//]: # (    )
-[//]: # (    When  -> Things that the user will do)
-
-[//]: # (    )
-[//]: # (    Then  -> What the user should expect)
-
-[//]: # (    )
-[//]: # (### Cucumber Structure)
-
-[//]: # ()
-[//]: # (• Feature: Single file, ideally describing a single feature)
-
-[//]: # ()
-[//]: # (• Scenario: A test case)
-
-[//]: # ()
-[//]: # (• Given-When-Then: Test Preconditions, Execution and Postconditions)
-
-[//]: # ()
-[//]: # (• And: Additional test constructs)
-
-[//]: # ()
-[//]: # (    )
-[//]: # ()
-[//]: # (### Calculator Application)
-
-[//]: # ()
-[//]: # (    Here I take simple calculation application which has addition, subtraction, multiplication and divison.)
-
-[//]: # (    )
-[//]: # (    I made simple calcuation service in rest using springboot for add, sub, multi and divide.)
-
-[//]: # (    )
-[//]: # (        For example if you hit the url after the starting spring boot application the output will be like this.)
-
-[//]: # (        )
-[//]: # (              Rest URL : http://localhost:8081/calc/add/5/4)
-
-[//]: # (              Output   : Addition of 5 + 4 is 9)
-
-[//]: # (              )
-[//]: # (        Similar for sub, multi and divide.)
-
-[//]: # (        )
-[//]: # (### Cucumber Configuration and Feature File)
-
-[//]: # ()
-[//]: # (* calculation.feature)
-
-[//]: # ()
-[//]: # ( ![cucum-feature.png]&#40;cucum-feature.png&#41;)
-
-[//]: # (        )
-[//]: # (        )
-[//]: # (* CalculationIntegrationTest.java)
-
-[//]: # (```)
-
-[//]: # (@RunWith&#40;Cucumber.class&#41;)
-
-[//]: # (@CucumberOptions&#40;features = "src/test/resources/features", plugin = {"pretty", "html:target/cucumber"}, glue = {"net.pmolinav.systemtests.cucumber.stepdefs"}&#41;)
-
-[//]: # (public class CalculationIntegrationTest {)
-
-[//]: # (})
-
-[//]: # ()
-[//]: # (```)
-
-[//]: # ()
-[//]: # (* CucumberConfig.java)
-
-[//]: # (```)
-
-[//]: # (@ContextConfiguration)
-
-[//]: # (@SpringBootTest&#40;classes = SpringbootCucumberDemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT&#41;)
-
-[//]: # (public class CucumberConfig {)
-
-[//]: # ()
-[//]: # (    @Autowired)
-
-[//]: # (    public TestRestTemplate testRestTemplate;)
-
-[//]: # ()
-[//]: # (    @LocalServerPort)
-
-[//]: # (    public int port;)
-
-[//]: # ()
-[//]: # (    public String staticURL = "http://localhost:";)
-
-[//]: # ()
-[//]: # (    public HttpHeaders httpHeaders;)
-
-[//]: # ()
-[//]: # (    @Before)
-
-[//]: # (    public void setUp&#40;&#41; throws Exception {)
-
-[//]: # (        httpHeaders = new HttpHeaders&#40;&#41;;)
-
-[//]: # (    })
-
-[//]: # (})
-
-[//]: # (```)
-
-[//]: # ()
-[//]: # (* CalculationStepdefs.java)
-
-[//]: # ()
-[//]: # (```)
-
-[//]: # (public class CalculationStepdefs extends CucumberConfig {)
-
-[//]: # ()
-[//]: # (    private ResponseEntity<String> responseEntity;)
-
-[//]: # ()
-[//]: # (    private String result_add = "Addition of 5 + 4 is 9";)
-
-[//]: # (    private String result_sub = "Subtraction of 6 - 4 is 2";)
-
-[//]: # (    private String result_multi = "Multiple of 2 * 2 is 4";)
-
-[//]: # (    private String result_divi = "Divide of 25 / 5 is 5";)
-
-[//]: # ()
-[//]: # (    @Given&#40;"^Create two numbers for addition$"&#41;)
-
-[//]: # (    public void createTwoNumbersForAddition&#40;&#41; throws Throwable {)
-
-[//]: # (        String URI="/calc";)
-
-[//]: # (        getCompleteEndPoint&#40;URI&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @And&#40;"^Add Number&#40;\\d+&#41; \"&#40;[^\"]*&#41;\" and Number&#40;\\d+&#41; \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void addNumberAndNumber&#40;int arg0, String arg1, int arg2, String arg3&#41; throws Throwable {)
-
-[//]: # (        String URI = "/calc/add/" + arg1 +"/"+arg3;)
-
-[//]: # (        responseEntity = testRestTemplate.getForEntity&#40;getCompleteEndPoint&#40;URI&#41;, String.class&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"5", arg1&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"4", arg3&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Then&#40;"^The output of addition is \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void theOutputOfAdditionIs&#40;String arg0&#41; throws Throwable {)
-
-[//]: # (        Assert.assertEquals&#40;result_add, responseEntity.getBody&#40;&#41;&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    public String getCompleteEndPoint&#40;String URI&#41;{)
-
-[//]: # (        System.out.println&#40;"Complete URL--->" + &#40;staticURL + port + URI&#41;&#41;;)
-
-[//]: # (        return staticURL + port + URI;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Given&#40;"^Create two numbers for subtraction$"&#41;)
-
-[//]: # (    public void createTwoNumbersForSubtraction&#40;&#41; throws Throwable {)
-
-[//]: # (        String URI="/calc";)
-
-[//]: # (        getCompleteEndPoint&#40;URI&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @And&#40;"^Sub NumberA \"&#40;[^\"]*&#41;\" and NumberB \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void subNumberAAndNumberB&#40;String arg0, String arg1&#41; throws Throwable {)
-
-[//]: # (        String URI = "/calc/sub/" + arg0 +"/"+arg1;)
-
-[//]: # (        responseEntity = testRestTemplate.getForEntity&#40;getCompleteEndPoint&#40;URI&#41;, String.class&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"6", arg0&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"4", arg1&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Then&#40;"^The output of subtract is \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void theOutputOfSubtractIs&#40;String arg0&#41; throws Throwable {)
-
-[//]: # (        Assert.assertEquals&#40;result_sub, responseEntity.getBody&#40;&#41;&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Given&#40;"^Create two numbers for Multiplication$"&#41;)
-
-[//]: # (    public void createTwoNumbersForMultiplication&#40;&#41; throws Throwable {)
-
-[//]: # (        String URI="/calc";)
-
-[//]: # (        getCompleteEndPoint&#40;URI&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @And&#40;"^Multi NumberA \"&#40;[^\"]*&#41;\" and NumberB \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void multiNumberAAndNumberB&#40;String arg0, String arg1&#41; throws Throwable {)
-
-[//]: # (        String URI = "/calc/multiply/" + arg0 +"/"+arg1;)
-
-[//]: # (        responseEntity = testRestTemplate.getForEntity&#40;getCompleteEndPoint&#40;URI&#41;, String.class&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"2", arg0&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"2", arg1&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Then&#40;"^The output of multiply is \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void theOutputOfMultiplyIs&#40;String arg0&#41; throws Throwable {)
-
-[//]: # (        Assert.assertEquals&#40;result_multi, responseEntity.getBody&#40;&#41;&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Given&#40;"^Create two numbers for division$"&#41;)
-
-[//]: # (    public void createTwoNumbersForDivision&#40;&#41; throws Throwable {)
-
-[//]: # (        String URI="/calc";)
-
-[//]: # (        getCompleteEndPoint&#40;URI&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @And&#40;"^Divide NumberA \"&#40;[^\"]*&#41;\" and NumberB \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void divideNumberAAndNumberB&#40;String arg0, String arg1&#41; throws Throwable {)
-
-[//]: # (        String URI = "/calc/divide/" + arg0 +"/"+arg1;)
-
-[//]: # (        responseEntity = testRestTemplate.getForEntity&#40;getCompleteEndPoint&#40;URI&#41;, String.class&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"25", arg0&#41;;)
-
-[//]: # (        Assert.assertEquals&#40;"5", arg1&#41;;)
-
-[//]: # (    })
-
-[//]: # ()
-[//]: # (    @Then&#40;"^The output of divison is \"&#40;[^\"]*&#41;\"$"&#41;)
-
-[//]: # (    public void theOutputOfDivisonIs&#40;String arg0&#41; throws Throwable {)
-
-[//]: # (        Assert.assertEquals&#40;result_divi, responseEntity.getBody&#40;&#41;&#41;;)
-
-[//]: # (    })
-
-[//]: # (})
-
-[//]: # ()
-[//]: # (```)
-
-[//]: # ()
-[//]: # (### Project Structure)
-
-[//]: # ()
-[//]: # (![cucumber-project-structure.png]&#40;cucumber-project-structure.png&#41;)
-
-[//]: # ()
-[//]: # ()
-[//]: # (### Test Results &#40;After running the feature file or CalculationIntegrationTest.java&#41;)
-
-[//]: # ()
-[//]: # (![springboot-cucumber.png]&#40;springboot-cucumber.png&#41;)
-
-[//]: # ()
-[//]: # ()
-[//]: # (### Happy Coding)
+# 🚀 Gowl - Play with Friends (Backend)
+
+Spring Boot 3.4.4 backend for a social football prediction game. Compete in leagues by forecasting match results - no betting, just pure skill!
+
+---
+
+## 📌 Features
+- **🏆 League Management** - Private/public leagues with custom rules
+- **🔮 Match Predictions** - Forecast results before deadlines
+- **🎯 Smart Scoring** - Risk-adjusted points (higher odds = more points)
+- **📊 Live Leaderboards** - Redis-cached rankings
+- **🔔 Real-time Alerts** - WebSocket notifications
+
+---
+
+## 🛠️ Tech Stack
+| Category       | Technologies                          |
+|----------------|---------------------------------------|
+| **Core**       | Java 21, Spring Boot 3.4.4           |
+| **Database**   | PostgreSQL 15                         |
+| **Security**   | JWT, Spring Security, OAuth2-ready    |
+| **Integrations**| OddsAPI, WebSocket, Redis             |
+| **DevOps**     | Docker, Maven, GitHub Actions         |
+
+---
+
+## 🚀 Quick Start
+
+### 1. Prerequisites
+- Java 21 JDK
+- PostgreSQL 15+
+- Redis 7+ (optional for caching)
+
+
+
+### 2. Setup
+```bash
+git clone https://github.com/Pmolinav/gowl.git
+cd gowl
+```
+
+---
+## 🌐 API Reference
+
+### **🔐 Authentication**
+| Endpoint                | Method | Request Body                          | Description                     |
+|-------------------------|--------|---------------------------------------|---------------------------------|
+| `/auth/register`        | POST   | `{ email, password, username }`      | Register new user               |
+| `/auth/login`           | POST   | `{ email, password }`                | Authenticate user (returns JWT) |
+
+### **🏆 League Management**
+| Endpoint                     | Method | Parameters                           | Description                     |
+|------------------------------|--------|--------------------------------------|---------------------------------|
+| `/leagues`                   | POST   | `{ name, isPublic, accessCode }`    | Create new league               |
+| `/leagues/{id}/join`         | POST   | `{ accessCode }`                    | Join existing league            |
+| `/leagues/public`            | GET    | `?page=1&size=20`                   | Browse public leagues           |
+
+### **🔮 Predictions**
+| Endpoint                     | Method | Request Body                        | Description                     |
+|------------------------------|--------|--------------------------------------|---------------------------------|
+| `/matchdays/current`         | GET    | -                                   | Active matchday with matches    |
+| `/predictions`               | POST   | `{ matchId, outcome }`              | Submit prediction               |
+| `/predictions/history`       | GET    | `?leagueId={id}`                    | User's prediction history       |
+
+---
+
+## 📡 Response & Error Handling
+
+### **✅ Successful Response**
+```json
+{
+  "status": "success",
+  "data": {
+    "id": "league_123",
+    "name": "Premier League Fans"
+  },
+  "metadata": {
+    "timestamp": "2024-03-16T10:30:00Z",
+    "version": "1.0"
+  }
+}
+```
+
+### **📌 Request Headers**
+```http
+Authorization: Bearer {your_jwt_token}
+Content-Type: application/json
+```
+
+## ⚠️ Common Errors
+
+### **HTTP Error Codes**
+| Status Code | Error Code                   | Description                           | Recommended Action                  |
+|-------------|------------------------------|---------------------------------------|-------------------------------------|
+| `400`       | `MISSING_REQUIRED_FIELD`     | Required field not provided           | Check request body for missing data |
+| `401`       | `INVALID_CREDENTIALS`        | Email/password incorrect              | Verify credentials and retry        |
+| `403`       | `LEAGUE_JOIN_PERMISSION`     | User lacks league join permissions    | Request valid access code           |
+| `404`       | `USER_NOT_FOUND`             | User ID doesn't exist                 | Check provided user ID              |
+| `409`       | `DUPLICATE_LEAGUE_NAME`      | League name already taken             | Choose a unique league name         |
+| `422`       | `INVALID_PREDICTION_RANGE`   | Prediction confidence out of bounds   | Use values between 1-100            |
+| `429`       | `RATE_LIMIT_EXCEEDED`        | Too many requests (1000/day limit)    | Wait 24 hours or contact support    |
+| `500`       | `EXTERNAL_API_FAILURE`       | OddsAPI service unavailable           | Retry in 5 minutes                  |
+
+### **Business Logic Errors**
+| Error Code                  | HTTP Status | Trigger Condition                    |
+|-----------------------------|-------------|---------------------------------------|
+| `PREDICTION_LOCKED`         | `423`       | Attempt to modify locked prediction   |
+| `MATCHDAY_IN_PROGRESS`      | `409`       | Action conflicts with active matchday |
+| `INSUFFICIENT_PRIVILEGES`   | `403`       | User lacks ADMIN/CREATOR role         |
+| `LEAGUE_FULL`               | `410`       | League reached max participants       |
+
+### **Sample Error Response**
+```json
+{
+  "status": "error",
+  "error": {
+    "code": "LEAGUE_FULL",
+    "message": "League 'Premier League Fans' has reached maximum capacity (50/50 players)",
+    "details": {
+      "leagueId": "league_123",
+      "maxCapacity": 50
+    }
+  },
+  "metadata": {
+    "timestamp": "2024-03-16T14:25:30Z"
+  }
+}

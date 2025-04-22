@@ -20,7 +20,6 @@ public class GowlDatabaseConnector {
 
     public GowlDatabaseConnector() throws SQLException {
         connect();
-
     }
 
     private void connect() throws SQLException {
