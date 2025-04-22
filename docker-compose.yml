@@ -1,0 +1,80 @@
+services:
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: gowl
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - spring
+
+  zookeeper:
+    container_name: zookeeper
+    image: 'bitnami/zookeeper:latest'
+    environment:
+      - ZOOKEEPER_CLIENT_PORT=2181
+      - ZOOKEEPER_TICK_TIME=2000
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - spring
+    ports:
+      - '2181:2181'
+    restart: always
+
+  kafka:
+    container_name: kafka
+    image: 'bitnami/kafka:latest'
+    depends_on:
+      - zookeeper
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+    networks:
+      - spring
+    ports:
+      - '9092:9092'
+    restart: always
+
+  configurationboapi:
+    container_name: configurationboapi
+    image: pablo7molina/configurationboapi:latest
+    ports:
+      - "8002:8002"
+      - "5005:5005" # Debugging port
+    env_file: backoffice/ConfigurationBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - spring
+    restart: always
+
+  bookingsservice:
+    container_name: bookingsservice
+    image: pablo7molina/bookingsservice:latest
+    ports:
+      - "8001:8001"
+      - "5006:5006" # Debugging port
+    depends_on:
+      - postgres
+      - kafka
+    env_file: services/BookingsService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+    networks:
+      - spring
+    restart: always
+
+volumes:
+  data-postgres:
+
+networks:
+  spring:
