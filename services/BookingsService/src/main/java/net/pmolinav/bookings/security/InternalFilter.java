@@ -1,6 +1,6 @@
-package net.pmolinav.bookings.security;
+package com.pmolinav.bookings.security;
 
-import net.pmolinav.bookingslib.dto.MDCKeys;
+import com.pmolinav.userslib.dto.MDCKeys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;

@@ -1,6 +1,6 @@
-package net.pmolinav.bookings.controller;
+package com.pmolinav.bookings.controller;
 
-import net.pmolinav.bookingslib.exception.CustomStatusException;
+import com.pmolinav.userslib.exception.CustomStatusException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;

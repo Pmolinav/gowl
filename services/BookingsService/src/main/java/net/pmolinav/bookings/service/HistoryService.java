@@ -1,8 +1,8 @@
-package net.pmolinav.bookings.service;
+package com.pmolinav.bookings.service;
 
-import net.pmolinav.bookings.repository.HistoryRepository;
-import net.pmolinav.bookingslib.exception.InternalServerErrorException;
-import net.pmolinav.bookingslib.model.History;
+import com.pmolinav.bookings.repository.HistoryRepository;
+import com.pmolinav.userslib.exception.InternalServerErrorException;
+import com.pmolinav.userslib.model.History;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -18,7 +18,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>17</java.version>
+        <java.version>21</java.version>
         <spring-cloud.version>2021.0.1</spring-cloud.version>
     </properties>
     <dependencies>
@@ -38,8 +38,8 @@
         </dependency>
         <!-- Gowl libs -->
         <dependency>
-            <groupId>com.pmolinav.gowl.libraries.bookings-lib</groupId>
-            <artifactId>bookings-lib</artifactId>
+            <groupId>com.pmolinav.gowl.libraries.users-lib</groupId>
+            <artifactId>users-lib</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- Lombok -->
@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.2.0</version>
+            <version>5.17.0</version>
             <scope>test</scope>
         </dependency>
         <!-- TestContainers -->
@@ -79,18 +79,18 @@
         <dependency>
             <groupId>net.bytebuddy</groupId>
             <artifactId>byte-buddy</artifactId>
-            <version>1.14.2</version>
+            <version>1.17.5</version>
         </dependency>
         <!-- Logs -->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.32</version>
+            <version>2.0.17</version>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-            <version>1.2.6</version>
+            <version>1.5.18</version>
         </dependency>
         <!-- JUnit -->
         <dependency>
@@ -134,18 +134,18 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.14.0</version>
                 <configuration>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
-                            <version>1.18.20</version>
+                            <version>1.18.38</version>
                         </path>
                         <path>
                             <groupId>org.mapstruct</groupId>
                             <artifactId>mapstruct-processor</artifactId>
-                            <version>1.4.2.Final</version>
+                            <version>1.6.3</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
@@ -153,12 +153,12 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.2.0</version>
+                <version>3.4.2</version>
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>net.pmolinav.bookings.Main</mainClass>
+                            <mainClass>com.pmolinav.bookings.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

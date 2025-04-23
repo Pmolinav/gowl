@@ -1,0 +1,61 @@
+package com.pmolinav.users.auth;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Date;
+
+import static com.pmolinav.users.auth.TokenJwtConfig.SECRET_KEY;
+
+public class TokenUtils {
+
+    //TODO: Get them from application.properties.
+    private final static String ACCESS_TOKEN_SECRET = "c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY";
+    private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 12345L;
+
+    public static String createToken(String username, Collection<? extends GrantedAuthority> roles) throws JsonProcessingException {
+        Claims claims = Jwts.claims()
+                .subject(username)
+                .add("authorities", new ObjectMapper().writeValueAsString(roles))
+                .add("isAdmin", roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN")))
+                .add("username", username)
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .build();
+
+        return Jwts.builder()
+                .claims(claims)
+                .signWith(SECRET_KEY)
+                .compact();
+    }
+
+    public static UsernamePasswordAuthenticationToken getAuthentication(String token) throws IOException {
+        Claims claims = Jwts.parser()
+                .verifyWith(SECRET_KEY)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+
+        Object authoritiesClaims = claims.get("authorities");
+        String username = claims.getSubject();
+        Object username2 = claims.get("username");
+        System.out.println(username);
+        System.out.println(username2);
+
+        Collection<? extends GrantedAuthority> authorities = Arrays
+                .asList(new ObjectMapper()
+                        .addMixIn(SimpleGrantedAuthority.class, SimpleGrantedAuthorityJsonCreator.class)
+                        .readValue(authoritiesClaims.toString().getBytes(), SimpleGrantedAuthority[].class));
+
+        return new UsernamePasswordAuthenticationToken(username, null, authorities);
+    }
+
+}

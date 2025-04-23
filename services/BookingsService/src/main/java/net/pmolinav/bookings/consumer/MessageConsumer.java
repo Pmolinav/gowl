@@ -1,8 +1,8 @@
-package net.pmolinav.bookings.consumer;
+package com.pmolinav.bookings.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.pmolinav.bookings.service.HistoryService;
-import net.pmolinav.bookingslib.model.History;
+import com.pmolinav.bookings.service.HistoryService;
+import com.pmolinav.userslib.model.History;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-//package net.pmolinav.springboot.config;
+//package com.pmolinav.springboot.config;
 //
 //import org.springframework.boot.CommandLineRunner;
 //import org.springframework.stereotype.Component;

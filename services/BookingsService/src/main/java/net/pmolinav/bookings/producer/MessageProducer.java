@@ -1,8 +1,8 @@
-package net.pmolinav.bookings.producer;
+package com.pmolinav.bookings.producer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.pmolinav.bookingslib.model.History;
+import com.pmolinav.userslib.model.History;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

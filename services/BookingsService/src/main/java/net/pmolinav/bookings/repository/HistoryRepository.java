@@ -1,6 +1,6 @@
-package net.pmolinav.bookings.repository;
+package com.pmolinav.bookings.repository;
 
-import net.pmolinav.bookingslib.model.History;
+import com.pmolinav.userslib.model.History;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface HistoryRepository extends JpaRepository<History, Long> {

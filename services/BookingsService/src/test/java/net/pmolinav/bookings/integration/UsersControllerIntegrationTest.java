@@ -1,11 +1,11 @@
-package net.pmolinav.bookings.integration;
+package com.pmolinav.bookings.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.pmolinav.bookingslib.dto.Role;
-import net.pmolinav.bookingslib.dto.UserDTO;
-import net.pmolinav.bookingslib.model.User;
-import net.pmolinav.bookings.repository.UserRepository;
+import com.pmolinav.userslib.dto.Role;
+import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.model.User;
+import com.pmolinav.bookings.repository.UserRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-@EnableJpaRepositories("net.pmolinav.bookings.repository")
-@EntityScan("net.pmolinav.bookingslib.model")
+@EnableJpaRepositories("com.pmolinav.bookings.repository")
+@EntityScan("com.pmolinav.userslib.model")
 class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Autowired

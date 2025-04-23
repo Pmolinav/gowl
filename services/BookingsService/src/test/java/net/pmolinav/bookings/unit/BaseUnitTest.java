@@ -1,13 +1,13 @@
-package net.pmolinav.bookings.unit;
+package com.pmolinav.bookings.unit;
 
-import net.pmolinav.bookings.controller.ActivityController;
-import net.pmolinav.bookings.controller.BookingController;
-import net.pmolinav.bookings.controller.UserController;
-import net.pmolinav.bookings.producer.MessageProducer;
-import net.pmolinav.bookings.service.ActivityService;
-import net.pmolinav.bookings.service.BookingService;
-import net.pmolinav.bookings.service.UserService;
-import net.pmolinav.bookingslib.model.History;
+import com.pmolinav.bookings.controller.ActivityController;
+import com.pmolinav.bookings.controller.BookingController;
+import com.pmolinav.bookings.controller.UserController;
+import com.pmolinav.bookings.producer.MessageProducer;
+import com.pmolinav.bookings.service.ActivityService;
+import com.pmolinav.bookings.service.BookingService;
+import com.pmolinav.bookings.service.UserService;
+import com.pmolinav.userslib.model.History;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

@@ -44,13 +44,13 @@ services:
       - '9092:9092'
     restart: always
 
-  configurationboapi:
-    container_name: configurationboapi
-    image: pablo7molina/configurationboapi:latest
+  usersboapi:
+    container_name: usersboapi
+    image: pablo7molina/usersboapi:latest
     ports:
       - "8002:8002"
       - "5005:5005" # Debugging port
-    env_file: backoffice/ConfigurationBOApi/.env
+    env_file: backoffice/UsersBOApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     networks:

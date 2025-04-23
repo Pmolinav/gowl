@@ -1,7 +1,7 @@
-package net.pmolinav.bookings.integration;
+package com.pmolinav.bookings.integration;
 
 
-import net.pmolinav.bookings.security.WebSecurityConfig;
+import com.pmolinav.bookings.security.WebSecurityConfig;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Value;

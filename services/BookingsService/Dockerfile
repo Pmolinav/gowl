@@ -1,5 +1,5 @@
 # Use a base image with OpenJDK 11
-FROM openjdk:17-alpine
+FROM eclipse-temurin
 
 # Establecer el directorio de trabajo dentro del contenedor
 WORKDIR /app

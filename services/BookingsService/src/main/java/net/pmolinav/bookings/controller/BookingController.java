@@ -1,11 +1,11 @@
-package net.pmolinav.bookings.controller;
+package com.pmolinav.bookings.controller;
 
-import net.pmolinav.bookings.service.BookingService;
-import net.pmolinav.bookingslib.dto.BookingDTO;
-import net.pmolinav.bookingslib.dto.ChangeType;
-import net.pmolinav.bookingslib.exception.InternalServerErrorException;
-import net.pmolinav.bookingslib.exception.NotFoundException;
-import net.pmolinav.bookingslib.model.Booking;
+import com.pmolinav.bookings.service.BookingService;
+import com.pmolinav.userslib.dto.BookingDTO;
+import com.pmolinav.userslib.dto.ChangeType;
+import com.pmolinav.userslib.exception.InternalServerErrorException;
+import com.pmolinav.userslib.exception.NotFoundException;
+import com.pmolinav.userslib.model.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

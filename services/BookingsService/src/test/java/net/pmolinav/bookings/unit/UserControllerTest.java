@@ -1,10 +1,10 @@
-package net.pmolinav.bookings.unit;
+package com.pmolinav.bookings.unit;
 
-import net.pmolinav.bookingslib.dto.Role;
-import net.pmolinav.bookingslib.dto.UserDTO;
-import net.pmolinav.bookingslib.exception.InternalServerErrorException;
-import net.pmolinav.bookingslib.exception.NotFoundException;
-import net.pmolinav.bookingslib.model.User;
+import com.pmolinav.userslib.dto.Role;
+import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.exception.InternalServerErrorException;
+import com.pmolinav.userslib.exception.NotFoundException;
+import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

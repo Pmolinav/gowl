@@ -1,9 +1,9 @@
 REM DEPRECATED
 REM Stop container.
-docker stop configurationboapi
+docker stop usersboapi
 
 REM Remove container.
-docker rm configurationboapi
+docker rm usersboapi
 
 REM Remove image.
-docker rmi configurationboapi-image
+docker rmi usersboapi-image

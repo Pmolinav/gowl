@@ -1,15 +1,15 @@
-package net.pmolinav.bookings.service;
+package com.pmolinav.bookings.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.pmolinav.bookings.producer.MessageProducer;
-import net.pmolinav.bookings.repository.UserRepository;
-import net.pmolinav.bookingslib.dto.ChangeType;
-import net.pmolinav.bookingslib.dto.UserDTO;
-import net.pmolinav.bookingslib.exception.InternalServerErrorException;
-import net.pmolinav.bookingslib.exception.NotFoundException;
-import net.pmolinav.bookingslib.mapper.UserMapper;
-import net.pmolinav.bookingslib.model.History;
-import net.pmolinav.bookingslib.model.User;
+import com.pmolinav.bookings.producer.MessageProducer;
+import com.pmolinav.bookings.repository.UserRepository;
+import com.pmolinav.userslib.dto.ChangeType;
+import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.exception.InternalServerErrorException;
+import com.pmolinav.userslib.exception.NotFoundException;
+import com.pmolinav.userslib.mapper.UserMapper;
+import com.pmolinav.userslib.model.History;
+import com.pmolinav.userslib.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

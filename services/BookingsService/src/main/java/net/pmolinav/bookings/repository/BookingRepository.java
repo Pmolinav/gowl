@@ -1,6 +1,6 @@
-package net.pmolinav.bookings.repository;
+package com.pmolinav.bookings.repository;
 
-import net.pmolinav.bookingslib.model.Booking;
+import com.pmolinav.userslib.model.Booking;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {

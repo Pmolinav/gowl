@@ -1,4 +1,4 @@
-package net.pmolinav.bookings.producer;
+package com.pmolinav.bookings.producer;
 
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;

@@ -1,35 +1,35 @@
 @echo off
 
 REM Change to the service directory
-cd ../../backoffice/ConfigurationBOApi/
+cd ../../backoffice/UsersBOApi/
 
 REM Stop container.
-call docker stop configurationboapi
+call docker stop usersboapi
 
 REM Check if Docker container stop was successful
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: ConfigurationBOApi Docker container stop failed.
+    echo Error: UsersBOApi Docker container stop failed.
     exit /b 1
 )
 
 REM Remove container.
-call docker rm configurationboapi
+call docker rm usersboapi
 
 REM Check if container remove was successful
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: Failed to remove the Docker container for ConfigurationBOApi.
+    echo Error: Failed to remove the Docker container for UsersBOApi.
     exit /b 1
 )
 
 REM Remove image.
-call docker rmi pablo7molina/configurationboapi
+call docker rmi pablo7molina/usersboapi
 
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: Failed to remove ConfigurationBOApi Docker image.
+    echo Error: Failed to remove UsersBOApi Docker image.
     exit /b 1
 )
 
-echo ConfigurationBOApi Docker container and image were removed successfully!
+echo UsersBOApi Docker container and image were removed successfully!
 
 REM Change to the service directory
 cd ../../services/BookingsService/

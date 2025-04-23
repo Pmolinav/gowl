@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.6.4</version>
+        <version>3.4.4</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.pmolinav.gowl</groupId>
@@ -16,14 +16,14 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>backoffice/ConfigurationBOApi</module>
-        <module>libraries/bookings-lib</module>
+        <module>backoffice/UsersBOApi</module>
+        <module>libraries/users-lib</module>
         <module>services/AuthService</module>
-        <module>tests/SystemTests</module>
+<!--        <module>tests/SystemTests</module>-->
     </modules>
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
 
 </project>

@@ -1,5 +1,5 @@
 REM Compiling library
-cd ../../libraries/bookings-lib
+cd ../../libraries/users-lib
 
 REM Build with Maven (skip tests)
 call mvn clean package -DskipTests
@@ -7,18 +7,18 @@ call mvn clean package -DskipTests
 REM Install lib with Maven (skip tests)
 call mvn install -DskipTests
 
-REM Building ConfigurationBOApi image and push it to docker hub
+REM Building UsersBOApi image and push it to docker hub
 
-cd ../../backoffice/ConfigurationBOApi
+cd ../../backoffice/UsersBOApi
 
 REM Build with Maven (skip tests)
 call mvn clean package -DskipTests
 
 REM Build image
-call docker build -t pablo7molina/configurationboapi .
+call docker build -t pablo7molina/usersboapi .
 
 REM Push image
-call docker push pablo7molina/configurationboapi
+call docker push pablo7molina/usersboapi
 
 REM Building BookingsService image and push it to docker hub
 cd ../../services/BookingsService

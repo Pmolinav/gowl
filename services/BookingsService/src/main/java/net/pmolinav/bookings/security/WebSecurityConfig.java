@@ -1,4 +1,4 @@
-package net.pmolinav.bookings.security;
+package com.pmolinav.bookings.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
