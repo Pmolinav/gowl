@@ -26,9 +26,9 @@ class LoginBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void loginBadRequest() throws Exception {
+    void loginNoRequestBodyUnauthorized() throws Exception {
         mockMvc.perform(post("/login"))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isUnauthorized());
     }
 
     @Test

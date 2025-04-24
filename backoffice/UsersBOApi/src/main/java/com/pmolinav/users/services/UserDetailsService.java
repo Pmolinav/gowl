@@ -1,6 +1,6 @@
-package com.pmolinav.users.service;
+package com.pmolinav.users.services;
 
-import com.pmolinav.users.client.UserClient;
+import com.pmolinav.users.clients.UserClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

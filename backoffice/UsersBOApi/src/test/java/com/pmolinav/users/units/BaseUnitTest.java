@@ -2,7 +2,7 @@ package com.pmolinav.users.units;
 
 import com.pmolinav.users.controllers.LoginBOController;
 import com.pmolinav.users.controllers.UserBOController;
-import com.pmolinav.users.service.UserBOService;
+import com.pmolinav.users.services.UserBOService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

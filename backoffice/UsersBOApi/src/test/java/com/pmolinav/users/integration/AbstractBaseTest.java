@@ -3,7 +3,7 @@ package com.pmolinav.users.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.users.auth.SpringSecurityConfig;
-import com.pmolinav.users.client.UserClient;
+import com.pmolinav.users.clients.UserClient;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.Role;
 import com.pmolinav.userslib.model.User;

@@ -5,8 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
+@EnableFeignClients(basePackages = "com.pmolinav.users.clients")
 public class UsersBOApiMain {
 
     public static void main(String[] args) {

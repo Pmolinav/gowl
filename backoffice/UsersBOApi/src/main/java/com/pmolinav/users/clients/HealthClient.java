@@ -1,9 +1,9 @@
-package com.pmolinav.users.client;
+package com.pmolinav.users.clients;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@FeignClient(name = "HealthService", url = "bookingsservice:8001/actuator")
+@FeignClient(name = "HealthService", url = "usersservice:8001/actuator")
 public interface HealthClient {
 
     @GetMapping("/health")

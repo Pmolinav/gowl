@@ -1,4 +1,4 @@
-package com.pmolinav.users.client;
+package com.pmolinav.users.clients;
 
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;

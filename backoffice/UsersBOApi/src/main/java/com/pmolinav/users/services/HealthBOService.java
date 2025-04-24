@@ -1,7 +1,7 @@
 
-package com.pmolinav.users.service;
+package com.pmolinav.users.services;
 
-import com.pmolinav.users.client.HealthClient;
+import com.pmolinav.users.clients.HealthClient;
 import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.InternalServerErrorException;
 import com.pmolinav.users.exceptions.NotFoundException;

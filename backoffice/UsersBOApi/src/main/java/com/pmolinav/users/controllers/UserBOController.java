@@ -3,7 +3,7 @@ package com.pmolinav.users.controllers;
 import com.pmolinav.users.auth.SpringSecurityConfig;
 import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.NotFoundException;
-import com.pmolinav.users.service.UserBOService;
+import com.pmolinav.users.services.UserBOService;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import io.swagger.v3.oas.annotations.Operation;
