@@ -18,7 +18,7 @@
     <modules>
         <module>backoffice/UsersBOApi</module>
         <module>libraries/users-lib</module>
-        <module>services/AuthService</module>
+        <module>services/UsersService</module>
 <!--        <module>tests/SystemTests</module>-->
     </modules>
     <properties>

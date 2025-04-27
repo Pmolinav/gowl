@@ -8,5 +8,5 @@ public abstract class SimpleGrantedAuthorityJsonCreator {
     @JsonCreator
     public SimpleGrantedAuthorityJsonCreator(@JsonProperty("authority") String role) {
     }
-    
+
 }

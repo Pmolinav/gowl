@@ -67,7 +67,7 @@ public abstract class AbstractBaseTest {
                 "soem@email.com",
                 new Date(),
                 null,
-                List.of(new Role(1L, "ROLE_ADMIN")));
+                List.of(new Role(1L, com.pmolinav.users.models.request.Role.ROLE_ADMIN.name())));
         when(userClient.findUserByUsername(anyString())).thenReturn(returnedUser);
         //Mock with stubFor
 //        stubFor(get(urlEqualTo("/users/brauls/repos"))

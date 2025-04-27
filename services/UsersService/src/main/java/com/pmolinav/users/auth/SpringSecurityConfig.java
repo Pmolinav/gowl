@@ -1,8 +1,5 @@
 package com.pmolinav.users.auth;
 
-import com.pmolinav.users.auth.filters.JwtAuthenticationFilter;
-import com.pmolinav.users.auth.filters.JwtValidationFilter;
-import com.pmolinav.users.models.request.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -45,13 +42,11 @@ public class SpringSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.GET, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAnyAuthority(Role.ROLE_USER.name(), Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.POST, "/users").hasAuthority(Role.ROLE_ADMIN.name())
-                        .requestMatchers("/users/**").hasAuthority(Role.ROLE_ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/users/{id}").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
+                        .requestMatchers("/users/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager()))
-                .addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

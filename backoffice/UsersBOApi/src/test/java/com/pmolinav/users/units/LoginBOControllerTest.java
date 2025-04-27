@@ -1,6 +1,7 @@
 package com.pmolinav.users.units;
 
 import com.pmolinav.users.exceptions.CustomStatusException;
+import com.pmolinav.users.models.request.Role;
 import com.pmolinav.userslib.dto.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -55,7 +56,7 @@ class LoginBOControllerTest extends BaseUnitTest {
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 "someUser",
                 "somePassword",
-                Collections.singletonList(new SimpleGrantedAuthority("ROLE_ADMIN"))
+                Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()))
         );
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(auth);
     }

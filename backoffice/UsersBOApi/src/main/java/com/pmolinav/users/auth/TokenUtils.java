@@ -2,6 +2,7 @@ package com.pmolinav.users.auth;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.users.models.request.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,7 +26,7 @@ public class TokenUtils {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("authorities", new ObjectMapper().writeValueAsString(roles))
-                .add("isAdmin", roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN")))
+                .add("isAdmin", roles.stream().anyMatch(r -> r.getAuthority().equals(Role.ROLE_ADMIN.name())))
                 .add("username", username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 3600000))
