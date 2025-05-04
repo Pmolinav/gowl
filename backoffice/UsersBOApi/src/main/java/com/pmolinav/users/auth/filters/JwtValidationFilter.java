@@ -16,8 +16,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.pmolinav.users.auth.TokenJwtConfig.HEADER_AUTHORIZATION;
-import static com.pmolinav.users.auth.TokenJwtConfig.PREFIX_TOKEN;
+import static com.pmolinav.users.auth.TokenUtils.HEADER_AUTHORIZATION;
+import static com.pmolinav.users.auth.TokenUtils.PREFIX_TOKEN;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 

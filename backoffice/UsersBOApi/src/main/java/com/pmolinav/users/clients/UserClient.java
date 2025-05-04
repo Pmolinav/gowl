@@ -7,13 +7,13 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "UserService", url = "userssservice:8001/users")
+@FeignClient(name = "UserService", url = "usersservice:8001/users")
 public interface UserClient {
 
-    @GetMapping("/")
+    @GetMapping
     List<User> findAllUsers();
 
-    @PostMapping("/")
+    @PostMapping
     Long createUser(@RequestBody UserDTO userDTO);
 
     @GetMapping("/{id}")

@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @Transactional
-@EnableJpaRepositories("com.pmolinav.users.repositories")
+//@EnableJpaRepositories("com.pmolinav.users.repositories")
 @EntityScan("com.pmolinav.userslib.model")
 class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
 

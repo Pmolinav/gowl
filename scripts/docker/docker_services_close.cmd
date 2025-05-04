@@ -32,32 +32,32 @@ if %ERRORLEVEL% NEQ 0 (
 echo UsersBOApi Docker container and image were removed successfully!
 
 REM Change to the service directory
-cd ../../services/BookingsService/
+cd ../../services/UsersService/
 
 REM Stop container.
-call docker stop bookingsservice
+call docker stop usersservice
 
 REM Check if Docker container stop was successful
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: BookingsService Docker container stop failed.
+    echo Error: UsersService Docker container stop failed.
     exit /b 1
 )
 
 REM Remove container.
-call docker rm bookingsservice
+call docker rm usersservice
 
 REM Check if container remove was successful
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: Failed to remove the Docker container for BookingsService.
+    echo Error: Failed to remove the Docker container for UsersService.
     exit /b 1
 )
 
 REM Remove image.
-call docker rmi pablo7molina/bookingsservice
+call docker rmi pablo7molina/usersservice
 
 if %ERRORLEVEL% NEQ 0 (
-    echo Error: Failed to remove BookingsService Docker image.
+    echo Error: Failed to remove UsersService Docker image.
     exit /b 1
 )
 
-echo BookingsService Docker container and image were removed successfully!
+echo UsersService Docker container and image were removed successfully!

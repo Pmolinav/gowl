@@ -5,22 +5,29 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.users.models.request.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import javax.crypto.SecretKey;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-
-import static com.pmolinav.users.auth.TokenJwtConfig.SECRET_KEY;
 
 public class TokenUtils {
 
     //TODO: Get them from application.properties.
     private final static String ACCESS_TOKEN_SECRET = "c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY";
-    private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 12345L;
+    private final static Long ACCESS_TOKEN_VALIDITY_SECONDS = 3600000L;
+
+    public final static SecretKey SECRET_KEY = Keys.hmacShaKeyFor(
+            ACCESS_TOKEN_SECRET.getBytes(StandardCharsets.UTF_8)
+    );
+    public final static String PREFIX_TOKEN = "Bearer ";
+    public final static String HEADER_AUTHORIZATION = "Authorization";
 
     public static String createToken(String username, Collection<? extends GrantedAuthority> roles) throws JsonProcessingException {
         Claims claims = Jwts.claims()
@@ -29,7 +36,7 @@ public class TokenUtils {
                 .add("isAdmin", roles.stream().anyMatch(r -> r.getAuthority().equals(Role.ROLE_ADMIN.name())))
                 .add("username", username)
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(new Date(System.currentTimeMillis() + 3600000))
+                .expiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_VALIDITY_SECONDS))
                 .build();
 
         return Jwts.builder()

@@ -20,17 +20,17 @@ call docker build -t pablo7molina/usersboapi .
 REM Push image
 call docker push pablo7molina/usersboapi
 
-REM Building BookingsService image and push it to docker hub
-cd ../../services/BookingsService
+REM Building UsersService image and push it to docker hub
+cd ../../services/UsersService
 
 REM Build with Maven (skip tests)
 call mvn clean package -DskipTests
 
 REM Build image
-call docker build -t pablo7molina/bookingsservice .
+call docker build -t pablo7molina/usersservice .
 
 REM Push image
-call docker push pablo7molina/bookingsservice
+call docker push pablo7molina/usersservice
 
 REM Start Docker compose
 docker-compose up -d
