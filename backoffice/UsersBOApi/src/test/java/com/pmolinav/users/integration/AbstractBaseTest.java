@@ -2,27 +2,17 @@ package com.pmolinav.users.integration;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.users.auth.SpringSecurityConfig;
+import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.users.clients.UserClient;
 import com.pmolinav.userslib.dto.UserDTO;
-import com.pmolinav.userslib.model.Role;
-import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Date;
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import java.util.Collections;
 
 @ActiveProfiles("test")
 public abstract class AbstractBaseTest {
@@ -40,40 +30,10 @@ public abstract class AbstractBaseTest {
     protected static String authToken;
 
     @BeforeEach
-    public void mockLoginSuccessfully() throws Exception {
-        giveSomeValidRequest();
-        giveSomeUserFromClientOK();
-
-        MvcResult result = mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(this.request)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        authToken = result.getResponse().getHeader(HttpHeaders.AUTHORIZATION);
-    }
-
-    protected void giveSomeValidRequest() {
-        this.request = new UserDTO();
-        this.request.setUsername(username);
-        this.request.setPassword(password);
-    }
-
-    protected void giveSomeUserFromClientOK() {
-        User returnedUser = new User(1L,
-                this.request.getUsername(),
-                SpringSecurityConfig.passwordEncoder().encode(this.request.getPassword()),
-                "somename",
-                "soem@email.com",
-                new Date(),
-                null,
-                List.of(new Role(1L, com.pmolinav.users.models.request.Role.ROLE_ADMIN.name())));
-        when(userClient.findUserByUsername(anyString())).thenReturn(returnedUser);
-        //Mock with stubFor
-//        stubFor(get(urlEqualTo("/users/brauls/repos"))
-//                .willReturn(aResponse()
-//                        .withHeader("Content-Type", "application/vnd.github.v3+json")
-//                        .withBody(jsonBody)));
+    public void givenValidToken() throws Exception {
+        authToken = new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY", 12345L)
+                .createToken(username, Collections.singletonList(
+                        new SimpleGrantedAuthority(com.pmolinav.users.models.request.Role.ROLE_ADMIN.name())));
     }
 }
 

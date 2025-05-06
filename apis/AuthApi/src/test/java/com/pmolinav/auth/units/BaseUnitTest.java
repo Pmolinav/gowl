@@ -1,7 +1,7 @@
-package com.pmolinav.users.units;
+package com.pmolinav.auth.units;
 
-import com.pmolinav.users.controllers.UserBOController;
-import com.pmolinav.users.services.UserBOService;
+import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.controllers.LoginController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -13,12 +13,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 @RunWith(MockitoJUnitRunner.class)
 class BaseUnitTest {
 
-    @Mock
-    UserBOService userBOServiceMock;
     @InjectMocks
-    UserBOController userBOController;
+    LoginController loginController;
     @Mock
     AuthenticationManager authenticationManager;
+    @Mock
+    TokenConfig tokenConfig;
 
     public final String requestUid = "someRequestUid";
 

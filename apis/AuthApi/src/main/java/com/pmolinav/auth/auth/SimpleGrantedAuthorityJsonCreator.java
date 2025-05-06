@@ -1,4 +1,4 @@
-package com.pmolinav.users.auth;
+package com.pmolinav.auth.auth;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

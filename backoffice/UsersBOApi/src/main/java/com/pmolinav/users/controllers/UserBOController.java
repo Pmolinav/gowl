@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -65,11 +66,26 @@ public class UserBOController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #id == authentication.principal")
     @GetMapping("{id}")
     @Operation(summary = "Get a specific user by Id", description = "Bearer token is required to authorize users.")
     public ResponseEntity<User> getUserById(@RequestParam String requestUid, @PathVariable long id) {
         try {
             User user = userBOService.findUserById(id);
+            return ResponseEntity.ok(user);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username == authentication.principal")
+    @GetMapping("/users/username/{username}")
+    @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<User> getUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
+        try {
+            User user = userBOService.findUserByUsername(username);
             return ResponseEntity.ok(user);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

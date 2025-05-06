@@ -1,18 +1,19 @@
-package com.pmolinav.users;
+package com.pmolinav.auth;
 
+import com.pmolinav.auth.auth.TokenConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
-@EnableFeignClients(basePackages = "com.pmolinav.users.clients")
-@EnableMethodSecurity
-public class UsersBOApiMain {
+@EnableFeignClients(basePackages = "com.pmolinav.auth.clients")
+@EnableConfigurationProperties(TokenConfig.class)
+public class AuthApiMain {
 
     public static void main(String[] args) {
-        SpringApplication.run(UsersBOApiMain.class, args);
+        SpringApplication.run(AuthApiMain.class, args);
     }
 
 }

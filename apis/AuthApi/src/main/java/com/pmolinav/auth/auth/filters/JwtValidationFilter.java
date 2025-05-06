@@ -1,8 +1,8 @@
-package com.pmolinav.users.auth.filters;
+package com.pmolinav.auth.auth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.auth.auth.TokenConfig;
 import com.pmolinav.auth.utils.TokenUtils;
-import com.pmolinav.users.auth.TokenConfig;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -17,6 +17,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.pmolinav.auth.utils.TokenUtils.HEADER_AUTHORIZATION;
+import static com.pmolinav.auth.utils.TokenUtils.PREFIX_TOKEN;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
 
@@ -32,15 +34,15 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
 
-        String header = request.getHeader("Authorization");
+        String header = request.getHeader(HEADER_AUTHORIZATION);
 
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith(PREFIX_TOKEN)) {
             chain.doFilter(request, response);
             return;
         }
 
         try {
-            String token = header.replace("Bearer ", "");
+            String token = header.replace(PREFIX_TOKEN, "");
             UsernamePasswordAuthenticationToken authentication = new TokenUtils(
                     this.tokenConfig.getSecret(),
                     this.tokenConfig.getValiditySeconds()).getAuthentication(token);
@@ -57,4 +59,5 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             response.setContentType("application/json");
         }
     }
+
 }

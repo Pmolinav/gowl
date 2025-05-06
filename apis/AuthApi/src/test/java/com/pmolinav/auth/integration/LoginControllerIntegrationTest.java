@@ -1,4 +1,4 @@
-package com.pmolinav.users.integration;
+package com.pmolinav.auth.integration;
 
 import com.pmolinav.userslib.dto.UserDTO;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @EntityScan("com.pmolinav.userslib.model")
-class LoginBOControllerIntegrationTest extends AbstractBaseTest {
+class LoginControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void loginHappyPath() {

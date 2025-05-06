@@ -9,11 +9,11 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.pmolinav.gowl.backoffice.UsersBOApi</groupId>
-    <artifactId>UsersBOApi</artifactId>
+    <groupId>com.pmolinav.gowl.apis.AuthApi</groupId>
+    <artifactId>AuthApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>UsersBOApi</name>
-    <description>Configuration BackOffice Api</description>
+    <name>AuthApi</name>
+    <description>Authentication Api</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -168,7 +168,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.pmolinav.users.UsersBOApiMain</mainClass>
+                            <mainClass>com.pmolinav.auth.AuthApiMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

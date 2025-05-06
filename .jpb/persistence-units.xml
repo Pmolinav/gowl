@@ -4,7 +4,7 @@
     <persistence-units>
       <persistence-unit name="Default">
         <packages>
-          <package value="com.pmolinav.users.services.bookingsservice" />
+          <package value="com.pmolinav.auth.services.bookingsservice" />
         </packages>
       </persistence-unit>
     </persistence-units>

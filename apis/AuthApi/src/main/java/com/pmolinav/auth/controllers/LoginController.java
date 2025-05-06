@@ -1,12 +1,14 @@
-package com.pmolinav.users.controllers;
+package com.pmolinav.auth.controllers;
 
 
-import com.pmolinav.users.auth.TokenUtils;
+import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.userslib.dto.UserDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.antlr.v4.runtime.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -24,10 +26,13 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("login")
 @Tag(name = "2. Login", description = "The Login Controller. Required to authorize users. A valid token is granted and allows valid users to call other controllers with permissions.")
-public class LoginBOController {
+public class LoginController {
 
     @Autowired
     private final AuthenticationManager authenticationManager;
+
+    @Autowired
+    private final TokenConfig tokenConfig;
 
     @PostMapping()
     @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
@@ -39,7 +44,10 @@ public class LoginBOController {
 
             return ResponseEntity.ok()
                     .header(HttpHeaders.AUTHORIZATION,
-                            "Bearer " + TokenUtils.createToken(request.getUsername(), authResult.getAuthorities()))
+                            "Bearer " + new TokenUtils(
+                                    this.tokenConfig.getSecret(),
+                                    this.tokenConfig.getValiditySeconds()
+                            ).createToken(request.getUsername(), authResult.getAuthorities()))
                     .build();
         } catch (Exception e) {
             if (e instanceof AuthenticationException) {

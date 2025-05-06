@@ -116,7 +116,23 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<User>() {
                 });
 
-        Assertions.assertEquals(expectedUsers.get(0), userResponse);
+        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
+    }
+
+    @Test
+    void findUserByUsernameHappyPath() throws Exception {
+        andFindUserByUsernameReturnedUser();
+
+        MvcResult result = mockMvc.perform(get("/users/username/someUser?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        User userResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<User>() {
+                });
+
+        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
     }
 
     @Test
@@ -149,7 +165,14 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
                 "someName", "some@email.com", new Date(), null, null));
 
-        when(this.userClient.findUserById(anyLong())).thenReturn(this.expectedUsers.get(0));
+        when(this.userClient.findUserById(anyLong())).thenReturn(this.expectedUsers.getFirst());
+    }
+
+    private void andFindUserByUsernameReturnedUser() {
+        this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
+                "someName", "some@email.com", new Date(), null, null));
+
+        when(this.userClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
     }
 
     private void andFindUserByIdThrowsNonRetryableException() {

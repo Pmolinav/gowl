@@ -1,7 +1,8 @@
-package com.pmolinav.users.auth;
+package com.pmolinav.auth.auth;
 
-import com.pmolinav.users.auth.filters.JwtValidationFilter;
-import com.pmolinav.users.models.request.Role;
+import com.pmolinav.auth.auth.filters.JwtAuthenticationFilter;
+import com.pmolinav.auth.auth.filters.JwtValidationFilter;
+import com.pmolinav.auth.models.request.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -43,12 +44,11 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, TokenConfig tokenConfig) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasAuthority(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority(Role.ROLE_ADMIN.name())
+                        .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/health").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
+                .addFilter(new JwtAuthenticationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig))
                 .addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

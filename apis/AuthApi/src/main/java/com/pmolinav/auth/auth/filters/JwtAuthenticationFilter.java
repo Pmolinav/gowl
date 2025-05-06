@@ -1,7 +1,8 @@
-package com.pmolinav.users.auth.filters;
+package com.pmolinav.auth.auth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.users.auth.TokenUtils;
+import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.userslib.dto.UserDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,15 +19,17 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.pmolinav.users.auth.TokenUtils.HEADER_AUTHORIZATION;
-import static com.pmolinav.users.auth.TokenUtils.PREFIX_TOKEN;
+import static com.pmolinav.auth.utils.TokenUtils.HEADER_AUTHORIZATION;
+import static com.pmolinav.auth.utils.TokenUtils.PREFIX_TOKEN;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
+    private final TokenConfig tokenConfig;
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
         this.authenticationManager = authenticationManager;
+        this.tokenConfig = tokenConfig;
     }
 
     @Override
@@ -61,7 +64,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-        String token = TokenUtils.createToken(username, roles);
+        String token = new TokenUtils(this.tokenConfig.getSecret(),
+                this.tokenConfig.getValiditySeconds()).createToken(username, roles);
 
         response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
 

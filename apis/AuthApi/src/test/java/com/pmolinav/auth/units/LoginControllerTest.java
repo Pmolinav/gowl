@@ -1,7 +1,7 @@
-package com.pmolinav.users.units;
+package com.pmolinav.auth.units;
 
-import com.pmolinav.users.exceptions.CustomStatusException;
-import com.pmolinav.users.models.request.Role;
+import com.pmolinav.auth.exceptions.CustomStatusException;
+import com.pmolinav.auth.models.request.Role;
 import com.pmolinav.userslib.dto.UserDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
@@ -19,13 +19,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-class LoginBOControllerTest extends BaseUnitTest {
+class LoginControllerTest extends BaseUnitTest {
 
     ResponseEntity<?> result;
 
     /* LOGIN */
     @Test
     void loginHappyPath() {
+        returnValidTokenConfigValues();
         doNothingWhenAuthenticateIsCalled();
         andLoginsIsCalledInController();
         thenVerifyAuthenticationHasBeenCalledInManager();
@@ -52,6 +53,11 @@ class LoginBOControllerTest extends BaseUnitTest {
         thenReceivedResponseBodyIsEmpty();
     }
 
+    private void returnValidTokenConfigValues() {
+        when(tokenConfig.getSecret()).thenReturn("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY");
+        when(tokenConfig.getValiditySeconds()).thenReturn(12345L);
+    }
+
     private void doNothingWhenAuthenticateIsCalled() {
         Authentication auth = new UsernamePasswordAuthenticationToken(
                 "someUser",
@@ -75,7 +81,7 @@ class LoginBOControllerTest extends BaseUnitTest {
         UserDTO user = new UserDTO();
         user.setUsername("someUser");
         user.setPassword("somePassword");
-        result = loginBOController.login(user);
+        result = loginController.login(user);
     }
 
     private void thenVerifyAuthenticationHasBeenCalledInManager() {
