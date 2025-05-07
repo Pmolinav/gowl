@@ -16,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -46,10 +47,12 @@ public class SpringSecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/users").hasAuthority(Role.ROLE_ADMIN.name())
                         .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority(Role.ROLE_ADMIN.name())
+                        .requestMatchers(HttpMethod.GET, "/users/username/**").authenticated()
                         .requestMatchers(HttpMethod.GET, "/health").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )
-                .addFilter(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig))
+                .addFilterBefore(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig),
+                        UsernamePasswordAuthenticationFilter.class)
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))

@@ -66,7 +66,6 @@ public class UserBOController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #id == authentication.principal")
     @GetMapping("{id}")
     @Operation(summary = "Get a specific user by Id", description = "Bearer token is required to authorize users.")
     public ResponseEntity<User> getUserById(@RequestParam String requestUid, @PathVariable long id) {
@@ -80,8 +79,8 @@ public class UserBOController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username == authentication.principal")
-    @GetMapping("/users/username/{username}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
+    @GetMapping("/username/{username}")
     @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")
     public ResponseEntity<User> getUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
         try {

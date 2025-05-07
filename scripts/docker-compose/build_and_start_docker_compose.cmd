@@ -1,4 +1,4 @@
-REM Compiling library
+REM Compiling users-lib library
 cd ../../libraries/users-lib
 
 REM Build with Maven (skip tests)
@@ -6,6 +6,28 @@ call mvn clean package -DskipTests
 
 REM Install lib with Maven (skip tests)
 call mvn install -DskipTests
+
+REM Compiling common-auth-lib library
+cd ../../libraries/common-auth-lib
+
+REM Build with Maven (skip tests)
+call mvn clean package -DskipTests
+
+REM Install lib with Maven (skip tests)
+call mvn install -DskipTests
+
+REM Building AuthApi image and push it to docker hub
+
+cd ../../apis/AuthApi
+
+REM Build with Maven (skip tests)
+call mvn clean package -DskipTests
+
+REM Build image
+call docker build -t pablo7molina/authapi .
+
+REM Push image
+call docker push pablo7molina/authapi
 
 REM Building UsersBOApi image and push it to docker hub
 

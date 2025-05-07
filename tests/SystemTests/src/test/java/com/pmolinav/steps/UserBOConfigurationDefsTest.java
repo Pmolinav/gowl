@@ -83,6 +83,11 @@ public class UserBOConfigurationDefsTest extends BaseSystemTest {
         }
     }
 
+    @When("^try to get UsersBOApi health")
+    public void tryToGetHealth() {
+        executeGet(localURL + "/health");
+    }
+
     @When("^try to get all users$")
     public void tryToGetAllUsers() {
         executeGet(localURL + "/users");
@@ -91,6 +96,11 @@ public class UserBOConfigurationDefsTest extends BaseSystemTest {
     @When("^try to get an user by userId$")
     public void tryToGetAnUserByUserId() {
         executeGet(localURL + "/users/" + lastUser.getUserId());
+    }
+
+    @When("^try to get an user by username$")
+    public void tryToGetAnUserByUsername() {
+        executeGet(localURL + "/users/username/" + lastUser.getUsername());
     }
 
     @When("^try to delete an user by userId$")

@@ -12,17 +12,17 @@ Feature: UserBOConfiguration
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
 
-  Scenario: Create a new user unauthorized
+  Scenario: Create a new user with no auth
     Given invalid auth token
     When try to create a new user with data
-      | username | password    | name     | email         | isAdmin |
-      | newUser  | newPassword | someName | new@email.com | true    |
-    Then received status code is 403
+      | username | password    | name    | email         | isAdmin |
+      | newUser  | newPassword | newName | new@email.com | true    |
+    Then received status code is 201
 
   Scenario: Create a new user successfully
     When try to create a new user with data
-      | username | password    | name     | email         | isAdmin |
-      | newUser  | newPassword | someName | new@email.com | true    |
+      | username | password    | name    | email         | isAdmin |
+      | newUser  | newPassword | newName | new@email.com | true    |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
 #    Then an entity User with id N/A has been stored into historical by user Admin and with type CREATE
@@ -36,7 +36,7 @@ Feature: UserBOConfiguration
   Scenario: Get all users successfully
     When try to create a new user with data
       | username  | password      | name      | email           | isAdmin |
-      | newUser   | newPassword   | someName  | new@email.com   | true    |
+      | newUser   | newPassword   | newName   | new@email.com   | true    |
       | otherUser | otherPassword | otherName | other@email.com | true    |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
@@ -47,18 +47,56 @@ Feature: UserBOConfiguration
 
   Scenario: Get user by userId successfully
     When try to create a new user with data
-      | username | password    | name     | email          | isAdmin |
-      | newUser  | newPassword | someName | some@email.com | false   |
+      | username | password    | name    | email          | isAdmin |
+      | newUser  | newPassword | newName | some@email.com | false   |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When try to get an user by userId
     Then received status code is 200
     Then an user with username newUser is returned in response
 
+  Scenario: An normal user is not authorized to get user by userId
+    When try to create a new user with data
+      | username | password    | name    | email          | isAdmin |
+      | newUser  | newPassword | newName | some@email.com | false   |
+    Then received status code is 201
+    Then an user with username newUser has been stored successfully
+    When an user with username newUser and password newPassword tries to log in
+    Then received status code is 200
+    When try to get an user by userId
+    Then received status code is 403
+
+  Scenario: Get user by username successfully
+    When try to create a new user with data
+      | username | password    | name    | email          | isAdmin |
+      | newUser  | newPassword | newName | some@email.com | false   |
+    Then received status code is 201
+    Then an user with username newUser has been stored successfully
+    When an user with username newUser and password newPassword tries to log in
+    When try to get an user by username
+    Then received status code is 200
+    Then an user with username newUser is returned in response
+
+  Scenario: An user is not authorized to get another user by username
+    When try to create a new user with data
+      | username | password    | name    | email          | isAdmin |
+      | newUser  | newPassword | newName | some@email.com | false   |
+    Then received status code is 201
+    Then an user with username newUser has been stored successfully
+    When an user with username newUser and password newPassword tries to log in
+    Then received status code is 200
+    When try to create a new user with data
+      | username  | password      | name      | email           | isAdmin |
+      | otherUser | otherPassword | otherName | other@email.com | false   |
+    Then received status code is 201
+    Then an user with username otherUser has been stored successfully
+    When try to get an user by username
+    Then received status code is 403
+
   Scenario: Delete user by userId successfully
     When try to create a new user with data
-      | username | password    | name     | email          | isAdmin |
-      | newUser  | newPassword | someName | some@email.com | true    |
+      | username | password    | name    | email          | isAdmin |
+      | newUser  | newPassword | newName | some@email.com | true    |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When try to delete an user by userId

@@ -44,15 +44,28 @@ services:
 #      - '9092:9092'
 #    restart: always
 
+  authapi:
+    container_name: authapi
+    image: pablo7molina/authapi:latest
+    ports:
+      - "8003:8003"
+      - "5007:5007" # Debugging port
+    env_file: apis/AuthApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+    networks:
+      - spring
+    restart: always
+
   usersboapi:
     container_name: usersboapi
     image: pablo7molina/usersboapi:latest
     ports:
       - "8002:8002"
-      - "5005:5005" # Debugging port
+      - "5006:5006" # Debugging port
     env_file: backoffice/UsersBOApi/.env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
     networks:
       - spring
     restart: always
@@ -62,13 +75,13 @@ services:
     image: pablo7molina/usersservice:latest
     ports:
       - "8001:8001"
-      - "5006:5006" # Debugging port
+      - "5005:5005" # Debugging port
     depends_on:
       - postgres
 #      - kafka
     env_file: services/UsersService/.env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
     networks:
       - spring
     restart: always

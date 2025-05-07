@@ -123,7 +123,7 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
     void findUserByUsernameHappyPath() throws Exception {
         andFindUserByUsernameReturnedUser();
 
-        MvcResult result = mockMvc.perform(get("/users/username/someUser?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/users/username/" + username + "?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();

@@ -13,5 +13,7 @@ Feature: HealthCheck
     Then received status code is 200
 
   Scenario: Check health status UP
-    When try to get health
+    When try to get AuthApi health
+    Then received status code is 200
+    When try to get UsersBOApi health
     Then received status code is 200

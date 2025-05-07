@@ -31,7 +31,7 @@ public abstract class AbstractBaseTest {
 
     @BeforeEach
     public void givenValidToken() throws Exception {
-        authToken = new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY", 12345L)
+        authToken = "Bearer " + new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY", 12345L)
                 .createToken(username, Collections.singletonList(
                         new SimpleGrantedAuthority(com.pmolinav.users.models.request.Role.ROLE_ADMIN.name())));
     }

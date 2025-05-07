@@ -17,7 +17,7 @@ import static org.junit.Assert.fail;
 
 public class LoginStepDefsTest extends BaseSystemTest {
 
-    private final String localURL = "http://localhost:8002";
+    private final String localURL = "http://localhost:8003";
 
     @Before
     public static void cleanAllAfterTests() {
@@ -33,12 +33,17 @@ public class LoginStepDefsTest extends BaseSystemTest {
         }
     }
 
+    @Given("^wait for (\\d+) seconds$")
+    public void givenInvalidAuthToken(int seconds) throws InterruptedException {
+        Thread.sleep(seconds * 1000L);
+    }
+
     @Given("^invalid auth token$")
     public void givenInvalidAuthToken() {
         authToken = "invalidAuthToken";
     }
 
-    @When("^try to get health")
+    @When("^try to get AuthApi health")
     public void tryToGetHealth() {
         executeGet(localURL + "/health");
     }
