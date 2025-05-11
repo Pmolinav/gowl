@@ -1,4 +1,4 @@
-package com.pmolinav.users.auth;
+package com.pmolinav.leagues.auth;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

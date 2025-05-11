@@ -76,7 +76,7 @@ class UserControllerTest extends BaseUnitTest {
         andFindUserByIdIsCalledInController();
         thenVerifyFindByIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.get(0)));
+        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.getFirst()));
     }
 
     @Test
@@ -102,7 +102,7 @@ class UserControllerTest extends BaseUnitTest {
         andFindUserByUsernameIsCalledInController();
         thenVerifyFindByUsernameHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.get(0)));
+        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.getFirst()));
     }
 
     @Test
@@ -153,9 +153,9 @@ class UserControllerTest extends BaseUnitTest {
     private void whenFindAllUsersInServiceReturnedValidUsers() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date(1L), new Date(), null),
+                        "some@email.com", 1L, new Date().getTime(), null),
                 new User(2L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date(), null, null));
+                        "some@email.com", new Date().getTime(), null, null));
 
         when(userServiceMock.findAllUsers()).thenReturn(expectedUsers);
     }
@@ -171,7 +171,7 @@ class UserControllerTest extends BaseUnitTest {
 
     private void whenCreateUserInServiceReturnedAValidUser() {
         when(userServiceMock.createUser(any())).thenReturn(new User(1L, "someUser", "somePassword", "someName",
-                "some@email.com", new Date(), null, null));
+                "some@email.com", new Date().getTime(), null, null));
     }
 
     private void whenCreateUserInServiceThrowsServerException() {
@@ -182,9 +182,9 @@ class UserControllerTest extends BaseUnitTest {
     private void whenFindUserByIdInServiceReturnedValidUser() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date(), null, null));
+                        "some@email.com", new Date().getTime(), null, null));
 
-        when(userServiceMock.findById(1L)).thenReturn(expectedUsers.get(0));
+        when(userServiceMock.findById(1L)).thenReturn(expectedUsers.getFirst());
     }
 
     private void whenFindUserByIdInServiceThrowsNotFoundException() {
@@ -199,9 +199,10 @@ class UserControllerTest extends BaseUnitTest {
     private void whenFindUserByUsernameInServiceReturnedValidUser() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date(), null, null));
+                        "some@email.com", new Date().getTime(), null, null));
 
-        when(userServiceMock.findByUsername(eq(expectedUsers.get(0).getUsername()))).thenReturn(expectedUsers.get(0));
+        when(userServiceMock.findByUsername(eq(expectedUsers.getFirst().getUsername())))
+                .thenReturn(expectedUsers.getFirst());
     }
 
     private void whenFindUserByUsernameInServiceThrowsNotFoundException() {

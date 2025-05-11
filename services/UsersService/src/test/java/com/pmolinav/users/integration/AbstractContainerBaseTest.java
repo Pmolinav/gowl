@@ -79,11 +79,11 @@ public abstract class AbstractContainerBaseTest {
                 statement.executeUpdate(insertRoleAdminQuery);
 
                 String insertUserQuery = "INSERT INTO users (user_id, username, password, name, email, creation_date, modification_date) " +
-                        "VALUES (" + idUser + ", 'someUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'John Doe', 'john@example.com', '2024-02-14 10:00:00', NULL);";
+                        "VALUES (" + idUser + ", 'someUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'John Doe', 'john@example.com', '12345', NULL);";
                 statement.executeUpdate(insertUserQuery);
 
                 String insertUserQuery2 = "INSERT INTO users (user_id, username, password, name, email, creation_date, modification_date) " +
-                        "VALUES (" + (idUser + 1) + ", 'otherUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'Jane Smith', 'jane@example.com', '2024-02-14 10:30:00', '2024-02-14 11:15:00');";
+                        "VALUES (" + (idUser + 1) + ", 'otherUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'Jane Smith', 'jane@example.com', '123456', '1234567');";
                 statement.executeUpdate(insertUserQuery2);
 
                 String insertUserRoleQuery = "INSERT INTO users_roles (user_id, role_id) VALUES (" + idUser + ", " + 3 + ");";

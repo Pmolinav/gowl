@@ -6,7 +6,6 @@ import com.pmolinav.userslib.model.Role;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,7 +20,7 @@ class MappersTests {
                 "some@email.com", false);
 
         User expectedUser = new User(null, "someUser", "somePassword", "someName",
-                "some@email.com", new Date(1L), null, null);
+                "some@email.com", 1L, null, null);
 
         User user = userMapper.userDTOToUserEntity(userDTO);
 
@@ -31,7 +30,7 @@ class MappersTests {
     @Test
     void userEntityToUserDTOAdminTest() {
         User user = new User(1L, "someUser", "somePassword", "someName",
-                "some@email.com", new Date(1L), null,
+                "some@email.com", 1L, null,
                 List.of(new Role(1L, "ROLE_ADMIN")));
 
         UserDTO expectedUserDTO = new UserDTO("someUser", "somePassword", "someName",
@@ -41,11 +40,12 @@ class MappersTests {
 
         assertEquals(expectedUserDTO, userDTO);
     }
+
     @Test
     void userEntityToUserDTOTest() {
         User user = new User(1L, "someUser", "somePassword", "someName",
-                "some@email.com", new Date(1L), null,
-                List.of(new Role(1L, "ROLE_USER"),new Role(2L, "ROLE_OTHER")));
+                "some@email.com", 1L, null,
+                List.of(new Role(1L, "ROLE_USER"), new Role(2L, "ROLE_OTHER")));
 
         UserDTO expectedUserDTO = new UserDTO("someUser", "somePassword", "someName",
                 "some@email.com", false);

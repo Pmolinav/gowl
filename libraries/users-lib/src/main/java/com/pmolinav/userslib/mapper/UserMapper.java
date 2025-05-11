@@ -16,8 +16,8 @@ public interface UserMapper {
 
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
-    @Mapping(target = "creationDate", expression = "java(new java.util.Date())")
-    @Mapping(target = "modificationDate", expression = "java(new java.util.Date())")
+    @Mapping(target = "creationDate", expression = "java(System.currentTimeMillis())")
+    @Mapping(target = "modificationDate", expression = "java(System.currentTimeMillis())")
     User userDTOToUserEntity(UserDTO userDTO);
 
     @Mapping(target = "admin", expression = "java(hasAdminRole(user.getRoles()))")

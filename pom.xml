@@ -19,8 +19,10 @@
     <modules>
         <module>apis/AuthApi</module>
         <module>backoffice/UsersBOApi</module>
-        <module>libraries/users-lib</module>
         <module>libraries/common-auth-lib</module>
+        <module>libraries/leagues-lib</module>
+        <module>libraries/users-lib</module>
+        <module>services/LeaguesService</module>
         <module>services/UsersService</module>
         <module>tests/SystemTests</module>
     </modules>

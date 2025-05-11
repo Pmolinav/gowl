@@ -32,13 +32,11 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "creationDate", nullable = false)
-    private Date creationDate;
+    private Long creationDate;
 
-    @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "modificationDate")
-    private Date modificationDate;
+    private Long modificationDate;
 
     @ManyToMany
     @JoinTable(

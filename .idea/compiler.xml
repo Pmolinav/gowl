@@ -50,16 +50,38 @@
         <module name="AuthApi" />
         <module name="UsersBOApi" />
       </profile>
+      <profile name="Annotation profile for LeaguesService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="LeaguesService" />
+      </profile>
+      <profile name="Annotation profile for leagues-lib" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.6.3/mapstruct-1.6.3.jar" />
+        </processorPath>
+        <module name="leagues-lib" />
+      </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AuthApi" options="-parameters" />
+      <module name="LeaguesService" options="-parameters" />
       <module name="SystemTests" options="-parameters" />
       <module name="UsersBOApi" options="-parameters" />
       <module name="UsersService" options="-parameters" />
       <module name="common-auth-lib" options="-parameters" />
       <module name="gowl" options="" />
+      <module name="leagues-lib" options="-parameters" />
       <module name="users-lib" options="-parameters" />
     </option>
   </component>
