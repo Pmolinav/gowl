@@ -2,8 +2,9 @@ REM DEPRECATED. Using docker-compose instead.
 REM Create spring network to connect our containers.
 docker network create spring
 
-REM Create container for postgres database.
+REM Create container for postgres databases.
 docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=users --network=spring -v data-postgres:/var/lib/postgresql/data -p 5432:5432 --restart=no -d postgres:15-alpine
+docker run --name postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=mysecretpassword -e POSTGRES_DB=leagues --network=spring -v data-postgres:/var/lib/postgresql/data -p 5432:5432 --restart=no -d postgres:15-alpine
 
 REM Usuario: someUser
 REM Password: $2a$10$pn85ACcwW6v74Kkt3pnPau7A4lv8N2d.fvwXuLsYanv07PzlXTu9S

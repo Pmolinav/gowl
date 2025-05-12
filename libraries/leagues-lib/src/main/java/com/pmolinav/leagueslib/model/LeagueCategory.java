@@ -27,7 +27,7 @@ public class LeagueCategory {
     @Column(name = "description", length = 256)
     private String description;
 
-    @Column(name = "sport", length = 100)
+    @Column(name = "sport", length = 100, nullable = false)
     private String sport;
 
     @Column(name = "country", length = 2, nullable = false)
