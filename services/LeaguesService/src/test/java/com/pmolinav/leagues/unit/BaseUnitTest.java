@@ -1,7 +1,9 @@
 package com.pmolinav.leagues.unit;
 
 import com.pmolinav.leagues.controllers.LeagueCategoryController;
+import com.pmolinav.leagues.controllers.MatchDayController;
 import com.pmolinav.leagues.services.LeagueCategoryService;
+import com.pmolinav.leagues.services.MatchDayService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -17,6 +19,10 @@ class BaseUnitTest {
     LeagueCategoryService leagueCategoryServiceMock;
     @InjectMocks
     LeagueCategoryController leagueCategoryController;
+    @Mock
+    MatchDayService matchDayServiceMock;
+    @InjectMocks
+    MatchDayController matchDayController;
 
     @BeforeEach
     void setUp() {

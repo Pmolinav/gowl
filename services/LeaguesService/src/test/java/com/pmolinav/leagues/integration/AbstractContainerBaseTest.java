@@ -49,6 +49,8 @@ public abstract class AbstractContainerBaseTest {
             try (Statement statement = connection.createStatement()) {
                 String deleteLeagueCategoriesQuery = "DELETE FROM league_category;";
                 statement.executeUpdate(deleteLeagueCategoriesQuery);
+                String deleteMatchDaysQuery = "DELETE FROM match_day;";
+                statement.executeUpdate(deleteMatchDaysQuery);
             }
         } catch (Exception e) {
             Assertions.fail();
@@ -59,8 +61,21 @@ public abstract class AbstractContainerBaseTest {
         try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
             try (Statement statement = connection.createStatement()) {
                 String insertLeagueCategoryQuery = "INSERT INTO league_category (category_id, name, description, sport, country, icon_url, is_active, creation_date, modification_date) " +
-                        "VALUES ('" + categoryId + "', 'Some League Category', 'Some Description', 'FOOTBALL', 'ES', NULL, true, 1, 1);";
+                        "VALUES ('" + categoryId + "', 'Some League Category', 'Some Description', 'FOOTBALL', 'ES', NULL, true, 1, 1) ON CONFLICT DO NOTHING;";
                 statement.executeUpdate(insertLeagueCategoryQuery);
+            }
+        } catch (Exception e) {
+            Assertions.fail();
+        }
+    }
+
+    protected void givenSomePreviouslyStoredMatchDayWithId(String categoryId, Integer season, Integer matchDayNumber) {
+        givenSomePreviouslyStoredLeagueCategoryWithId(categoryId);
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            try (Statement statement = connection.createStatement()) {
+                String insertMatchDayQuery = "INSERT INTO match_day (category_id, season, match_day_number, start_date, end_date) " +
+                        "VALUES ('" + categoryId + "', " + season + ", " + matchDayNumber + ", 123, 12345);";
+                statement.executeUpdate(insertMatchDayQuery);
             }
         } catch (Exception e) {
             Assertions.fail();

@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Transactional
 @EntityScan("com.pmolinav.leagueslib.model")
-class LeagueCategoriesControllerIntegrationTest extends AbstractContainerBaseTest {
+class LeagueCategoryControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Autowired
     private MockMvc mockMvc;

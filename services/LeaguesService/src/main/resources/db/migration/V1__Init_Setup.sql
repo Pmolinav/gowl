@@ -19,8 +19,8 @@ CREATE TABLE match_day (
     category_id VARCHAR(50) NOT NULL,
     season INTEGER NOT NULL,
     match_day_number INTEGER NOT NULL,
-    start_date BIGINT,
-    end_date BIGINT,
+    start_date BIGINT NOT NULL,
+    end_date BIGINT NOT NULL,
     PRIMARY KEY (category_id, season, match_day_number),
     CONSTRAINT fk_matchday_category FOREIGN KEY (category_id)
         REFERENCES league_category(category_id)
