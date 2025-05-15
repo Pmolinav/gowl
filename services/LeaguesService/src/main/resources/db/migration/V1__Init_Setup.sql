@@ -31,7 +31,7 @@ CREATE INDEX idx_matchday_category ON match_day(category_id);
 
 -- Leagues table.
 CREATE TABLE league (
-    league_id BIGINT PRIMARY KEY,
+    league_id BIGSERIAL PRIMARY KEY,
     name VARCHAR(100) NOT NULL UNIQUE,
     description VARCHAR(256),
     category_id VARCHAR(50) NOT NULL,

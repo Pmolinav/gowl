@@ -3,6 +3,8 @@ package com.pmolinav.leagueslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(
         name = "league",
@@ -14,7 +16,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 public class League {
 
@@ -29,14 +30,14 @@ public class League {
     @Column(name = "description", length = 256)
     private String description;
 
-    @Column(name = "category_id", nullable = false, length = 50, insertable = false, updatable = false)
+    @Column(name = "category_id", nullable = false, length = 50)
     private String categoryId;
 
     @Column(name = "is_public", nullable = false)
     private boolean isPublic;
 
     @Column(name = "password")
-    private String passwordHash;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
@@ -61,7 +62,60 @@ public class League {
     private Long modificationDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private LeagueCategory category;
 
+    public League(Long leagueId, String name, String description, String categoryId, boolean isPublic, String password, LeagueStatus status, Integer maxPlayers, String logoUrl, boolean isPremium, String ownerUsername, Long creationDate, Long modificationDate) {
+        this.leagueId = leagueId;
+        this.name = name;
+        this.description = description;
+        this.categoryId = categoryId;
+        this.isPublic = isPublic;
+        this.password = password;
+        this.status = status;
+        this.maxPlayers = maxPlayers;
+        this.logoUrl = logoUrl;
+        this.isPremium = isPremium;
+        this.ownerUsername = ownerUsername;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
+    }
+
+    public League(String name, String description, String categoryId, boolean isPublic, String password, LeagueStatus status, Integer maxPlayers, String logoUrl, boolean isPremium, String ownerUsername, Long creationDate, Long modificationDate) {
+        this.name = name;
+        this.description = description;
+        this.categoryId = categoryId;
+        this.isPublic = isPublic;
+        this.password = password;
+        this.status = status;
+        this.maxPlayers = maxPlayers;
+        this.logoUrl = logoUrl;
+        this.isPremium = isPremium;
+        this.ownerUsername = ownerUsername;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        League league = (League) o;
+        return isPublic == league.isPublic
+                && isPremium == league.isPremium
+                && Objects.equals(leagueId, league.leagueId)
+                && Objects.equals(name, league.name)
+                && Objects.equals(description, league.description)
+                && Objects.equals(categoryId, league.categoryId)
+                && Objects.equals(password, league.password)
+                && status == league.status
+                && Objects.equals(maxPlayers, league.maxPlayers)
+                && Objects.equals(logoUrl, league.logoUrl)
+                && Objects.equals(ownerUsername, league.ownerUsername);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(leagueId, name, description, categoryId, isPublic, password, status, maxPlayers, logoUrl, isPremium, ownerUsername);
+    }
 }

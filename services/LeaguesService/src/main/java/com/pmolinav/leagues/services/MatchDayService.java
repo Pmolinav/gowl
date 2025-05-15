@@ -116,9 +116,6 @@ public class MatchDayService {
             } else {
                 matchDayRepository.deleteAll(matchDaysList);
             }
-            List<MatchDay> matchDays = matchDayRepository.findByCategoryId(categoryId);
-
-            matchDayRepository.deleteAll(matchDays);
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {
@@ -138,9 +135,6 @@ public class MatchDayService {
             } else {
                 matchDayRepository.deleteAll(matchDaysList);
             }
-            List<MatchDay> matchDays = matchDayRepository.findByCategoryId(categoryId);
-
-            matchDayRepository.deleteAll(matchDays);
         } catch (NotFoundException e) {
             throw e;
         } catch (Exception e) {

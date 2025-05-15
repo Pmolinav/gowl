@@ -15,7 +15,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("matchdays")
+@RequestMapping("match-days")
 public class MatchDayController {
 
     @Autowired
@@ -26,6 +26,7 @@ public class MatchDayController {
         this.matchDayService = matchDayService;
     }
 
+    //TODO: Pagination
     @GetMapping
     public ResponseEntity<List<MatchDayDTO>> findAllMatchDays() {
         try {

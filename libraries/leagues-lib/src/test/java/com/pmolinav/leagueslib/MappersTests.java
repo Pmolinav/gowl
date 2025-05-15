@@ -1,11 +1,14 @@
 package com.pmolinav.leagueslib;
 
 import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
+import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
 import com.pmolinav.leagueslib.mapper.LeagueCategoryMapper;
+import com.pmolinav.leagueslib.mapper.LeagueMapper;
+import com.pmolinav.leagueslib.mapper.LeaguePlayerMapper;
 import com.pmolinav.leagueslib.mapper.MatchDayMapper;
-import com.pmolinav.leagueslib.model.LeagueCategory;
-import com.pmolinav.leagueslib.model.MatchDay;
+import com.pmolinav.leagueslib.model.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -14,6 +17,8 @@ class MappersTests {
 
     private final LeagueCategoryMapper leagueCategoryMapper = LeagueCategoryMapper.INSTANCE;
     private final MatchDayMapper matchDayMapper = MatchDayMapper.INSTANCE;
+    private final LeagueMapper leagueMapper = LeagueMapper.INSTANCE;
+    private final LeaguePlayerMapper leaguePlayerMapper = LeaguePlayerMapper.INSTANCE;
 
     @Test
     void leagueCategoryDTOToLeagueCategoryEntityTest() {
@@ -69,4 +74,59 @@ class MappersTests {
         assertEquals(expectedMatchDayDTO, matchDayDTO);
     }
 
+    @Test
+    void leagueDTOToLeagueEntityTest() {
+        LeagueDTO leagueDTO = new LeagueDTO("New League", "League description",
+                "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
+                null, false, "someUser");
+
+        League expectedLeague = new League("New League", "League description",
+                "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
+                null, false, "someUser", 123L, null);
+
+        League league = leagueMapper.leagueDtoToEntity(leagueDTO);
+
+        assertEquals(expectedLeague, league);
+    }
+
+    @Test
+    void leagueEntityToLeagueDTOAdminTest() {
+        League league = new League("New League", "League description",
+                "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
+                null, false, "someUser", 123L, null);
+
+        LeagueDTO expectedLeagueDTO = new LeagueDTO("New League", "League description",
+                "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
+                null, false, "someUser");
+
+        LeagueDTO leagueDTO = leagueMapper.leagueEntityToDto(league);
+
+        assertEquals(expectedLeagueDTO, leagueDTO);
+    }
+
+    @Test
+    void leaguePlayerDTOToLeaguePlayerEntityTest() {
+        LeaguePlayerDTO leaguePlayerDTO = new LeaguePlayerDTO(1L, "someUser",
+                333, PlayerStatus.ACTIVE);
+
+        LeaguePlayer expectedLeaguePlayer = new LeaguePlayer(1L, "someUser",
+                333, PlayerStatus.ACTIVE, 12345L);
+
+        LeaguePlayer leaguePlayer = leaguePlayerMapper.leaguePlayerDtoToEntity(leaguePlayerDTO);
+
+        assertEquals(expectedLeaguePlayer, leaguePlayer);
+    }
+
+    @Test
+    void leaguePlayerEntityToLeaguePlayerDTOAdminTest() {
+        LeaguePlayer leaguePlayer = new LeaguePlayer(1L, "someUser",
+                333, PlayerStatus.ACTIVE, 12345L);
+
+        LeaguePlayerDTO expectedLeaguePlayerDTO = new LeaguePlayerDTO(1L, "someUser",
+                333, PlayerStatus.ACTIVE);
+
+        LeaguePlayerDTO leaguePlayerDTO = leaguePlayerMapper.leaguePlayerEntityToDto(leaguePlayer);
+
+        assertEquals(expectedLeaguePlayerDTO, leaguePlayerDTO);
+    }
 }

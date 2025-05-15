@@ -3,6 +3,8 @@ package com.pmolinav.leagueslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(
         name = "league_player",
@@ -14,7 +16,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 @IdClass(LeaguePlayerId.class)
 public class LeaguePlayer {
@@ -40,4 +41,28 @@ public class LeaguePlayer {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "league_id", insertable = false, updatable = false)
     private League league;
+
+    public LeaguePlayer(Long leagueId, String username, Integer totalPoints, PlayerStatus playerStatus, Long joinDate) {
+        this.leagueId = leagueId;
+        this.username = username;
+        this.totalPoints = totalPoints;
+        this.playerStatus = playerStatus;
+        this.joinDate = joinDate;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LeaguePlayer that = (LeaguePlayer) o;
+        return Objects.equals(leagueId, that.leagueId)
+                && Objects.equals(username, that.username)
+                && Objects.equals(totalPoints, that.totalPoints)
+                && playerStatus == that.playerStatus;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(leagueId, username, totalPoints, playerStatus);
+    }
 }

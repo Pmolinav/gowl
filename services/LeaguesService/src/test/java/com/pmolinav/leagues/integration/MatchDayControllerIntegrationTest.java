@@ -1,19 +1,15 @@
 package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.leagues.repositories.MatchDayRepository;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.model.MatchDayId;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -25,20 +21,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional
 @EntityScan("com.pmolinav.leagueslib.model")
 class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
 
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private MatchDayRepository matchDayRepository;
-    @Autowired
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
     @Test
     void findAllMatchDaysNotFound() throws Exception {
-        mockMvc.perform(get("/matchdays"))
+        mockMvc.perform(get("/match-days"))
                 .andExpect(status().isNotFound());
     }
 
@@ -46,7 +34,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     void findAllMatchDaysHappyPath() throws Exception {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 26);
 
-        MvcResult result = mockMvc.perform(get("/matchdays"))
+        MvcResult result = mockMvc.perform(get("/match-days"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -59,9 +47,10 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void createMatchDayHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeagueCategoryWithId("PREMIER");
         MatchDayDTO requestDto = new MatchDayDTO("PREMIER", 2025, 26, 123L, 1234L);
 
-        MvcResult result = mockMvc.perform(post("/matchdays")
+        MvcResult result = mockMvc.perform(post("/match-days")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated())
@@ -70,11 +59,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
         String responseBody = result.getResponse().getContentAsString();
 
         assertEquals("{\"categoryId\":\"PREMIER\",\"season\":2025,\"matchDayNumber\":26}", responseBody);
+
+        assertTrue(matchDayRepository.existsById(objectMapper.readValue(responseBody, MatchDayId.class)));
     }
 
     @Test
     void findMatchDayByByCategoryIdNotFound() throws Exception {
-        mockMvc.perform(get("/matchdays/categories/OTHER_CATEGORY"))
+        mockMvc.perform(get("/match-days/categories/OTHER_CATEGORY"))
                 .andExpect(status().isNotFound());
     }
 
@@ -83,7 +74,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 26);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 27);
 
-        MvcResult result = mockMvc.perform(get("/matchdays/categories/SOME_CATEGORY"))
+        MvcResult result = mockMvc.perform(get("/match-days/categories/SOME_CATEGORY"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -96,7 +87,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void findMatchDayByByCategoryIdAndSeasonNotFound() throws Exception {
-        mockMvc.perform(get("/matchdays/categories/OTHER_CATEGORY/seasons/10"))
+        mockMvc.perform(get("/match-days/categories/OTHER_CATEGORY/seasons/10"))
                 .andExpect(status().isNotFound());
     }
 
@@ -105,7 +96,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 26);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2024, 27);
 
-        MvcResult result = mockMvc.perform(get("/matchdays/categories/SOME_CATEGORY/seasons/2025"))
+        MvcResult result = mockMvc.perform(get("/match-days/categories/SOME_CATEGORY/seasons/2025"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -120,7 +111,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void deleteMatchDayByCategoryIdNotFound() throws Exception {
-        mockMvc.perform(delete("/matchdays/categories/OTHER_CATEGORY"))
+        mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY"))
                 .andExpect(status().isNotFound());
     }
 
@@ -129,13 +120,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 12);
 
-        mockMvc.perform(delete("/matchdays/categories/SOME_CATEGORY"))
+        mockMvc.perform(delete("/match-days/categories/SOME_CATEGORY"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteMatchDayByCategoryIdAndSeasonNotFound() throws Exception {
-        mockMvc.perform(delete("/matchdays/categories/OTHER_CATEGORY/seasons/2023"))
+        mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY/seasons/2023"))
                 .andExpect(status().isNotFound());
     }
 
@@ -144,13 +135,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 12);
 
-        mockMvc.perform(delete("/matchdays/categories/SOME_CATEGORY/seasons/2025"))
+        mockMvc.perform(delete("/match-days/categories/SOME_CATEGORY/seasons/2025"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteMatchDayByCategoryIdSeasonAndNumberNotFound() throws Exception {
-        mockMvc.perform(delete("/matchdays/categories/OTHER_CATEGORY/seasons/2023/number/33"))
+        mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY/seasons/2023/number/33"))
                 .andExpect(status().isNotFound());
     }
 
@@ -158,7 +149,7 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     void deleteMatchDayByCategoryIdSeasonAndNumberHappyPath() throws Exception {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
 
-        mockMvc.perform(delete("/matchdays/categories/SOME_CATEGORY/seasons/2025/number/11"))
+        mockMvc.perform(delete("/match-days/categories/SOME_CATEGORY/seasons/2025/number/11"))
                 .andExpect(status().isOk());
     }
 

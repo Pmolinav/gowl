@@ -1,40 +1,28 @@
 package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.leagues.repositories.LeagueCategoryRepository;
 import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@Transactional
 @EntityScan("com.pmolinav.leagueslib.model")
 class LeagueCategoryControllerIntegrationTest extends AbstractContainerBaseTest {
-
-    @Autowired
-    private MockMvc mockMvc;
-    @Autowired
-    private LeagueCategoryRepository leagueCategoryRepository;
-    @Autowired
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void findAllLeagueCategoriesNotFound() throws Exception {
@@ -72,6 +60,8 @@ class LeagueCategoryControllerIntegrationTest extends AbstractContainerBaseTest 
         String responseBody = result.getResponse().getContentAsString();
 
         assertEquals("PREMIER", responseBody);
+
+        assertTrue(leagueCategoryRepository.existsById(responseBody));
     }
 
     @Test
