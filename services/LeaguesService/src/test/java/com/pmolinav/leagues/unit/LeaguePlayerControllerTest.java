@@ -123,6 +123,31 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* ADD POINTS TO LEAGUE PLAYER*/
+    @Test
+    void addPointsToLeaguePlayerHappyPath() {
+        whenAddPointsToLeaguePlayerInServiceIsOk();
+        andAddPointsToLeaguePlayerIsCalledInController();
+        thenVerifyAddPointsToLeaguePlayerHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void addPointsToLeaguePlayerNotFound() {
+        whenAddPointsToLeaguePlayerInServiceThrowsNotFoundException();
+        andAddPointsToLeaguePlayerIsCalledInController();
+        thenVerifyAddPointsToLeaguePlayerHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void addPointsToLeaguePlayerServerError() {
+        whenAddPointsToLeaguePlayerInServiceThrowsServerException();
+        andAddPointsToLeaguePlayerIsCalledInController();
+        thenVerifyAddPointsToLeaguePlayerHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     /* DELETE LEAGUE PLAYERS BY LEAGUE ID*/
     @Test
     void deleteLeaguePlayersLeagueIdHappyPath() {
@@ -254,6 +279,22 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
+    private void whenAddPointsToLeaguePlayerInServiceIsOk() {
+        doNothing().when(leaguePlayerServiceMock).addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
+    }
+
+    private void whenAddPointsToLeaguePlayerInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(leaguePlayerServiceMock)
+                .addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
+    }
+
+    private void whenAddPointsToLeaguePlayerInServiceThrowsServerException() {
+        doThrow(new InternalServerErrorException("Internal Server Error"))
+                .when(leaguePlayerServiceMock)
+                .addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
+    }
+
     private void whenDeleteLeaguePlayerLeagueIdInServiceIsOk() {
         doNothing().when(leaguePlayerServiceMock).deleteLeaguePlayersByLeagueId(anyLong());
     }
@@ -302,6 +343,10 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
         result = leaguePlayerController.createLeaguePlayers(leaguePlayersDTO);
     }
 
+    private void andAddPointsToLeaguePlayerIsCalledInController() {
+        result = leaguePlayerController.addPointsToLeaguePlayer(1L,"somePlayer",3);
+    }
+
     private void andDeleteLeaguePlayerLeagueIdIsCalledInController() {
         result = leaguePlayerController.deleteLeaguePlayersByLeagueId(1L);
     }
@@ -328,6 +373,11 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
                 .createLeaguePlayers(anyList());
     }
 
+    private void thenVerifyAddPointsToLeaguePlayerHasBeenCalledInService() {
+        verify(leaguePlayerServiceMock, times(1))
+                .addPointsToLeaguePlayer(anyLong(),anyString(),anyInt());
+    }
+
     private void thenVerifyDeleteLeaguePlayerLeagueIdHasBeenCalledInService() {
         verify(leaguePlayerServiceMock, times(1))
                 .deleteLeaguePlayersByLeagueId(anyLong());
@@ -351,6 +401,7 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
         assertNotNull(result);
         assertEquals(expectedResult, result.getBody());
     }
+
     private void thenReceivedResponseBodyAsLeagueListIs(List<LeagueDTO> expectedResult) {
         assertNotNull(result);
         assertEquals(expectedResult, result.getBody());

@@ -82,6 +82,20 @@ public class LeaguePlayerController {
 
     }
 
+    @PutMapping("/leagues/{id}/players/{username}")
+    public ResponseEntity<?> addPointsToLeaguePlayer(@PathVariable Long id,
+                                                     @PathVariable String username,
+                                                     @RequestParam Integer points) {
+        try {
+            leaguePlayerService.addPointsToLeaguePlayer(id, username, points);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @DeleteMapping("/leagues/{id}")
     public ResponseEntity<?> deleteLeaguePlayersByLeagueId(@PathVariable Long id) {
         try {

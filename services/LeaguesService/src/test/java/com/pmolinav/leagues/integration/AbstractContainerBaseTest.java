@@ -1,10 +1,7 @@
 package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.leagues.repositories.LeagueCategoryRepository;
-import com.pmolinav.leagues.repositories.LeaguePlayerRepository;
-import com.pmolinav.leagues.repositories.LeagueRepository;
-import com.pmolinav.leagues.repositories.MatchDayRepository;
+import com.pmolinav.leagues.repositories.*;
 import com.pmolinav.leagueslib.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +35,8 @@ public abstract class AbstractContainerBaseTest {
     @Autowired
     protected LeaguePlayerRepository leaguePlayerRepository;
     @Autowired
+    protected LeaguePlayerPointsRepository leaguePlayerPointsRepository;
+    @Autowired
     protected LeagueRepository leagueRepository;
     @Autowired
     protected MatchDayRepository matchDayRepository;
@@ -65,27 +64,14 @@ public abstract class AbstractContainerBaseTest {
     @BeforeEach
     public void givenEmptyTablesBeforeTests() {
         try {
-            leagueCategoryRepository.deleteAll();
+            leaguePlayerPointsRepository.deleteAll();
             matchDayRepository.deleteAll();
-            leagueRepository.deleteAll();
             leaguePlayerRepository.deleteAll();
+            leagueRepository.deleteAll();
+            leagueCategoryRepository.deleteAll();
         } catch (Exception e) {
             fail();
         }
-//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-//            try (Statement statement = connection.createStatement()) {
-//                String deleteLeagueCategoriesQuery = "DELETE FROM league_category;";
-//                statement.executeUpdate(deleteLeagueCategoriesQuery);
-//                String deleteMatchDaysQuery = "DELETE FROM match_day;";
-//                statement.executeUpdate(deleteMatchDaysQuery);
-//                String deleteLeaguesQuery = "DELETE FROM league;";
-//                statement.executeUpdate(deleteLeaguesQuery);
-//                String deleteLeaguePlayersQuery = "DELETE FROM league_player;";
-//                statement.executeUpdate(deleteLeaguePlayersQuery);
-//            }
-//        } catch (Exception e) {
-//            Assertions.fail();
-//        }
     }
 
     protected void givenSomePreviouslyStoredLeagueCategoryWithId(String categoryId) {
@@ -96,15 +82,6 @@ public abstract class AbstractContainerBaseTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-//            try (Statement statement = connection.createStatement()) {
-//                String insertLeagueCategoryQuery = "INSERT INTO league_category (category_id, name, description, sport, country, icon_url, is_active, creation_date, modification_date) " +
-//                        "VALUES ('" + categoryId + "', 'Some League Category', 'Some Description', 'FOOTBALL', 'ES', NULL, true, 1, 1) ON CONFLICT DO NOTHING;";
-//                statement.executeUpdate(insertLeagueCategoryQuery);
-//            }
-//        } catch (Exception e) {
-//            fail();
-//        }
     }
 
     protected void givenSomePreviouslyStoredMatchDayWithId(String categoryId, Integer season, Integer matchDayNumber) {
@@ -114,15 +91,6 @@ public abstract class AbstractContainerBaseTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-//            try (Statement statement = connection.createStatement()) {
-//                String insertMatchDayQuery = "INSERT INTO match_day (category_id, season, match_day_number, start_date, end_date) " +
-//                        "VALUES ('" + categoryId + "', " + season + ", " + matchDayNumber + ", 123, 12345);";
-//                statement.executeUpdate(insertMatchDayQuery);
-//            }
-//        } catch (Exception e) {
-//            fail();
-//        }
     }
 
     protected void givenSomePreviouslyStoredLeagueWithId(String categoryId, String user) {
@@ -135,21 +103,6 @@ public abstract class AbstractContainerBaseTest {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-//            String insertLeaguePlayerQuery = "INSERT INTO league (name, description, category_id, is_public, " +
-//                    "password, status, max_players, logo_url, is_premium, owner_username, creation_date, modification_date) " +
-//                    "VALUES ('Some League " + categoryId + "', 'Some description', '" + categoryId + "', true, " +
-//                    "NULL, 'ACTIVE', 100, NULL, false, '" + user + "', 12345, NULL) RETURNING league_id;";
-//
-//            try (Statement statement = connection.createStatement();
-//                 ResultSet rs = statement.executeQuery(insertLeaguePlayerQuery)) {
-//                if (rs.next()) {
-//                    leagueId = rs.getLong("league_id");
-//                }
-//            }
-//        } catch (Exception e) {
-//            fail();
-//        }
     }
 
     protected void givenSomePreviouslyStoredLeaguePlayerWithId(String user) {
@@ -157,19 +110,22 @@ public abstract class AbstractContainerBaseTest {
         givenSomePreviouslyStoredLeagueCategoryWithId("someCategory");
 
         try {
-            leaguePlayerRepository.save(new LeaguePlayer(leagueId, user, 55, PlayerStatus.ACTIVE, 12345L));
+            leaguePlayerRepository.save(new LeaguePlayer(leagueId, user, 0, PlayerStatus.ACTIVE, 12345L));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-//        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
-//            try (Statement statement = connection.createStatement()) {
-//                String insertLeaguePlayerQuery = "INSERT INTO league_player (league_id, username, total_points, player_status, join_date) " +
-//                        "VALUES (" + leagueId + ", '" + user + "', 55, 'ACTIVE', 12345) ON CONFLICT DO NOTHING;";
-//                statement.executeUpdate(insertLeaguePlayerQuery);
-//            }
-//        } catch (Exception e) {
-//            fail();
-//        }
+    }
+
+    protected void givenSomePreviouslyStoredLeaguePlayerPointsWithId(String user, Integer season, Integer number) {
+        givenSomePreviouslyStoredLeaguePlayerWithId(user);
+        givenSomePreviouslyStoredMatchDayWithId("someCategory", season, number);
+
+        try {
+            leaguePlayerPointsRepository.save(new LeaguePlayerPoints("someCategory",
+                    season, number, leagueId, user, 22));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
 

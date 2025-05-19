@@ -137,6 +137,23 @@ public class LeaguePlayerService {
     }
 
     @Transactional
+    public void addPointsToLeaguePlayer(Long leagueId, String username, Integer points) {
+        try {
+            int updated = leaguePlayerRepository.addPointsToLeaguePlayer(leagueId, username, points);
+            if (updated == 0) {
+                throw new NotFoundException(
+                        String.format("League player with id %s and username %s does not exist.", leagueId, username));
+            }
+        } catch (NotFoundException e) {
+            logger.error("League player with leagueId {} and username {} was not found.", leagueId, username, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating points for league player with leagueId {} and username {}.", leagueId, username, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
     public void deleteLeaguePlayersByLeagueId(Long id) {
         try {
             List<LeaguePlayer> leaguePlayers = leaguePlayerRepository.findByLeagueId(id);

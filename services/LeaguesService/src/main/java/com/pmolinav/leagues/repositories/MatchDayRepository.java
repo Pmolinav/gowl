@@ -9,6 +9,7 @@ import java.util.List;
 public interface MatchDayRepository extends JpaRepository<MatchDay, MatchDayId> {
 
     List<MatchDay> findByCategoryId(String categoryId);
+
     List<MatchDay> findByCategoryIdAndSeason(String categoryId, Integer season);
 }
 

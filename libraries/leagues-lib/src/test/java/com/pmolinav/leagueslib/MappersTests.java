@@ -1,13 +1,7 @@
 package com.pmolinav.leagueslib;
 
-import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
-import com.pmolinav.leagueslib.dto.LeagueDTO;
-import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
-import com.pmolinav.leagueslib.dto.MatchDayDTO;
-import com.pmolinav.leagueslib.mapper.LeagueCategoryMapper;
-import com.pmolinav.leagueslib.mapper.LeagueMapper;
-import com.pmolinav.leagueslib.mapper.LeaguePlayerMapper;
-import com.pmolinav.leagueslib.mapper.MatchDayMapper;
+import com.pmolinav.leagueslib.dto.*;
+import com.pmolinav.leagueslib.mapper.*;
 import com.pmolinav.leagueslib.model.*;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +13,7 @@ class MappersTests {
     private final MatchDayMapper matchDayMapper = MatchDayMapper.INSTANCE;
     private final LeagueMapper leagueMapper = LeagueMapper.INSTANCE;
     private final LeaguePlayerMapper leaguePlayerMapper = LeaguePlayerMapper.INSTANCE;
+    private final LeaguePlayerPointsMapper leaguePlayerPointsMapper = LeaguePlayerPointsMapper.INSTANCE;
 
     @Test
     void leagueCategoryDTOToLeagueCategoryEntityTest() {
@@ -129,4 +124,31 @@ class MappersTests {
 
         assertEquals(expectedLeaguePlayerDTO, leaguePlayerDTO);
     }
+
+    @Test
+    void leaguePlayerPointsDtoToEntityTest() {
+        LeaguePlayerPointsDTO dto = new LeaguePlayerPointsDTO("PREMIER", 2025,
+                10, 1L, "someUser", 42);
+
+        LeaguePlayerPoints expectedEntity = new LeaguePlayerPoints("PREMIER", 2025,
+                10, 1L, "someUser", 42);
+
+        LeaguePlayerPoints actualEntity = leaguePlayerPointsMapper.leaguePlayerPointsDtoToEntity(dto);
+
+        assertEquals(expectedEntity, actualEntity);
+    }
+
+    @Test
+    void leaguePlayerPointsEntityToDtoTest() {
+        LeaguePlayerPoints entity = new LeaguePlayerPoints("PREMIER", 2025,
+                10, 1L, "someUser", 42);
+
+        LeaguePlayerPointsDTO expectedDto = new LeaguePlayerPointsDTO("PREMIER", 2025,
+                10, 1L, "someUser", 42);
+
+        LeaguePlayerPointsDTO actualDto = leaguePlayerPointsMapper.leaguePlayerPointsEntityToDto(entity);
+
+        assertEquals(expectedDto, actualDto);
+    }
+
 }

@@ -3,6 +3,8 @@ package com.pmolinav.leagueslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Objects;
+
 @Entity
 @Table(
         name = "league_player_points",
@@ -15,7 +17,6 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
 @ToString
 @IdClass(LeaguePlayerPointsId.class)
 public class LeaguePlayerPoints {
@@ -57,5 +58,27 @@ public class LeaguePlayerPoints {
             @JoinColumn(name = "username", referencedColumnName = "username", insertable = false, updatable = false)
     })
     private LeaguePlayer leaguePlayer;
+
+    public LeaguePlayerPoints(String categoryId, Integer season, Integer matchDayNumber, Long leagueId, String username, Integer points) {
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.leagueId = leagueId;
+        this.username = username;
+        this.points = points;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LeaguePlayerPoints that = (LeaguePlayerPoints) o;
+        return Objects.equals(categoryId, that.categoryId) && Objects.equals(season, that.season) && Objects.equals(matchDayNumber, that.matchDayNumber) && Objects.equals(leagueId, that.leagueId) && Objects.equals(username, that.username) && Objects.equals(points, that.points);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(categoryId, season, matchDayNumber, leagueId, username, points);
+    }
 }
 

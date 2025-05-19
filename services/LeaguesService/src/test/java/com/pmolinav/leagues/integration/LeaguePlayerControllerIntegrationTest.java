@@ -3,6 +3,7 @@ package com.pmolinav.leagues.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
+import com.pmolinav.leagueslib.model.LeaguePlayerId;
 import com.pmolinav.leagueslib.model.PlayerStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -107,6 +108,23 @@ class LeaguePlayerControllerIntegrationTest extends AbstractContainerBaseTest {
         assertEquals("[{\"leagueId\":" + leagueId + ",\"username\":\"someUser\"},{\"leagueId\":" + leagueId + ",\"username\":\"otherUser\"}]", responseBody);
 
         assertFalse(leaguePlayerRepository.findByLeagueId(leagueId).isEmpty());
+    }
+
+    @Test
+    void addPointsToLeaguePlayerNotFound() throws Exception {
+        mockMvc.perform(put("/league-players/leagues/88/players/fakePlayer?points=3"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void addPointsToLeaguePlayerHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeaguePlayerWithId("someUser");
+
+        mockMvc.perform(put("/league-players/leagues/" + leagueId + "/players/someUser?points=10"))
+                .andExpect(status().isOk());
+
+        assertFalse(leaguePlayerRepository.findById(new LeaguePlayerId(leagueId, "someUser")).isEmpty());
+        assertEquals(10, leaguePlayerRepository.findById(new LeaguePlayerId(leagueId, "someUser")).get().getTotalPoints());
     }
 
     @Test
