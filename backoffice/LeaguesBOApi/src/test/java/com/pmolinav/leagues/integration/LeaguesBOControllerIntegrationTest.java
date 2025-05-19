@@ -1,9 +1,9 @@
-package com.pmolinav.users.integration;
+package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.userslib.dto.UserDTO;
-import com.pmolinav.userslib.model.User;
+import com.pmolinav.leaguesslib.dto.UserDTO;
+import com.pmolinav.leaguesslib.model.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
-@EntityScan("com.pmolinav.userslib.model")
-class UserBOControllerIntegrationTest extends AbstractBaseTest {
+@EntityScan("com.pmolinav.leagueslib.model")
+class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
 
     @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
@@ -154,48 +154,48 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andUserIsDeletedOkOnClient() {
-        doNothing().when(this.userClient).deleteUser(anyLong());
+        doNothing().when(this.leaguesClient).deleteUser(anyLong());
     }
 
     private void andUserDeleteThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.userClient).deleteUser(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteUser(anyLong());
     }
 
     private void andFindUserByIdReturnedUser() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", new Date(), null, null));
 
-        when(this.userClient.findUserById(anyLong())).thenReturn(this.expectedUsers.getFirst());
+        when(this.leaguesClient.findUserById(anyLong())).thenReturn(this.expectedUsers.getFirst());
     }
 
     private void andFindUserByUsernameReturnedUser() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", new Date(), null, null));
 
-        when(this.userClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
+        when(this.leaguesClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
     }
 
     private void andFindUserByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.userClient).findUserById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findUserById(anyLong());
     }
 
     private void andCreateUserReturnedValidId() {
-        when(this.userClient.createUser(any(UserDTO.class))).thenReturn(1L);
+        when(this.leaguesClient.createUser(any(UserDTO.class))).thenReturn(1L);
     }
 
     private void andCreateUserThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.userClient).createUser(any(UserDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).createUser(any(UserDTO.class));
     }
 
     private void andFindAllUsersReturnedValidUsers() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", new Date(), null, null));
 
-        when(this.userClient.findAllUsers()).thenReturn(this.expectedUsers);
+        when(this.leaguesClient.findAllUsers()).thenReturn(this.expectedUsers);
     }
 
     private void andFindAllUsersThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.userClient).findAllUsers();
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findAllUsers();
     }
 }
 

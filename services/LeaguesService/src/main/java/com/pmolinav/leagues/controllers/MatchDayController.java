@@ -108,7 +108,7 @@ public class MatchDayController {
 //    }
 
     @DeleteMapping("/categories/{categoryId}")
-    public ResponseEntity<?> deleteMatchDayByCategoryId(@PathVariable String categoryId) {
+    public ResponseEntity<?> deleteMatchDaysByCategoryId(@PathVariable String categoryId) {
         try {
             matchDayService.deleteMatchDayByCategoryId(categoryId);
 
@@ -123,8 +123,8 @@ public class MatchDayController {
     }
 
     @DeleteMapping("/categories/{categoryId}/seasons/{season}")
-    public ResponseEntity<?> deleteMatchDayByCategoryIdAndSeason(@PathVariable String categoryId,
-                                                                 @PathVariable Integer season) {
+    public ResponseEntity<?> deleteMatchDaysByCategoryIdAndSeason(@PathVariable String categoryId,
+                                                                  @PathVariable Integer season) {
         try {
             matchDayService.deleteMatchDayByCategoryIdAndSeason(categoryId, season);
 

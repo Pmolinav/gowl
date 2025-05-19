@@ -1,15 +1,16 @@
-package com.pmolinav.users.units;
+package com.pmolinav.leagues.units;
 
-import com.pmolinav.users.exceptions.CustomStatusException;
-import com.pmolinav.users.exceptions.NotFoundException;
-import com.pmolinav.userslib.dto.UserDTO;
-import com.pmolinav.userslib.model.User;
+import com.pmolinav.leagues.exceptions.CustomStatusException;
+import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.leagueslib.dto.UserDTO;
+import com.pmolinav.leagueslib.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -18,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-class UserBOControllerTest extends BaseUnitTest {
+class LeaguesBOControllerTest extends BaseUnitTest {
 
     UserDTO userDTO;
     List<User> expectedUsers;
@@ -85,7 +86,7 @@ class UserBOControllerTest extends BaseUnitTest {
         andFindUserByIdIsCalledInController();
         thenVerifyFindByIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.getFirst()));
+        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.get(0)));
     }
 
     @Test
@@ -138,85 +139,85 @@ class UserBOControllerTest extends BaseUnitTest {
     private void whenFindAllUsersInServiceReturnedValidUsers() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null),
+                        "some@email.com", new Date(1L), null, null),
                 new User(2L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                        "some@email.com", new Date(1L), null, null));
 
-        when(userBOServiceMock.findAllUsers()).thenReturn(expectedUsers);
+        when(leaguesBOServiceMock.findAllUsers()).thenReturn(expectedUsers);
     }
 
     private void whenFindAllUsersInServiceThrowsNotFoundException() {
-        when(userBOServiceMock.findAllUsers()).thenThrow(new NotFoundException("Not Found"));
+        when(leaguesBOServiceMock.findAllUsers()).thenThrow(new NotFoundException("Not Found"));
     }
 
     private void whenFindAllUsersInServiceThrowsServerException() {
-        when(userBOServiceMock.findAllUsers())
+        when(leaguesBOServiceMock.findAllUsers())
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
     private void whenCreateUserInServiceReturnedAValidUser() {
-        when(userBOServiceMock.createUser(any())).thenReturn(1L);
+        when(leaguesBOServiceMock.createUser(any())).thenReturn(1L);
     }
 
     private void whenCreateUserInServiceThrowsServerException() {
-        when(userBOServiceMock.createUser(any(UserDTO.class)))
+        when(leaguesBOServiceMock.createUser(any(UserDTO.class)))
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
     private void whenFindUserByIdInServiceReturnedValidUser() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                        "some@email.com", new Date(1L), null, null));
 
-        when(userBOServiceMock.findUserById(1L)).thenReturn(expectedUsers.getFirst());
+        when(leaguesBOServiceMock.findUserById(1L)).thenReturn(expectedUsers.get(0));
     }
 
     private void whenFindUserByIdInServiceThrowsNotFoundException() {
-        when(userBOServiceMock.findUserById(1L)).thenThrow(new NotFoundException("Not Found"));
+        when(leaguesBOServiceMock.findUserById(1L)).thenThrow(new NotFoundException("Not Found"));
     }
 
     private void whenFindUserByIdInServiceThrowsServerException() {
-        when(userBOServiceMock.findUserById(1L))
+        when(leaguesBOServiceMock.findUserById(1L))
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
     private void whenFindUserByUsernameInServiceReturnedValidUser() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                        "some@email.com", new Date(1L), null, null));
 
-        when(userBOServiceMock.findUserByUsername(eq(expectedUsers.getFirst().getUsername()))).thenReturn(expectedUsers.getFirst());
+        when(leaguesBOServiceMock.findUserByUsername(eq(expectedUsers.get(0).getUsername()))).thenReturn(expectedUsers.get(0));
     }
 
     private void whenDeleteUserInServiceIsOk() {
-        doNothing().when(userBOServiceMock).deleteUser(anyLong());
+        doNothing().when(leaguesBOServiceMock).deleteUser(anyLong());
     }
 
     private void whenDeleteUserInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
-                .when(userBOServiceMock)
+                .when(leaguesBOServiceMock)
                 .deleteUser(anyLong());
     }
 
     private void whenDeleteUserInServiceThrowsServerException() {
         doThrow(new CustomStatusException("Internal Server Error", 500))
-                .when(userBOServiceMock)
+                .when(leaguesBOServiceMock)
                 .deleteUser(anyLong());
     }
 
     private void andFindAllUsersIsCalledInController() {
-        result = userBOController.findAllUsers(this.requestUid);
+        result = leaguesBOController.findAllUsers(this.requestUid);
     }
 
     private void andFindUserByIdIsCalledInController() {
-        result = userBOController.getUserById(this.requestUid, 1L);
+        result = leaguesBOController.getUserById(this.requestUid, 1L);
     }
 
     private void andCreateUserIsCalledInController() {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
 
-        result = userBOController.createUser(this.requestUid, userDTO, bindingResult);
+        result = leaguesBOController.createUser(this.requestUid, userDTO, bindingResult);
     }
 
     private void andCreateUserIsCalledInControllerWithBindingResultErrors() {
@@ -226,27 +227,27 @@ class UserBOControllerTest extends BaseUnitTest {
                 new FieldError("userDTO", "username", "Username is mandatory.")
         ));
 
-        result = userBOController.createUser(this.requestUid, userDTO, bindingResult);
+        result = leaguesBOController.createUser(this.requestUid, userDTO, bindingResult);
     }
 
     private void andDeleteUserIsCalledInController() {
-        result = userBOController.deleteUser(this.requestUid, 1L);
+        result = leaguesBOController.deleteUser(this.requestUid, 1L);
     }
 
     private void thenVerifyFindAllUsersHasBeenCalledInService() {
-        verify(userBOServiceMock, times(1)).findAllUsers();
+        verify(leaguesBOServiceMock, times(1)).findAllUsers();
     }
 
     private void thenVerifyCreateUserHasBeenCalledInService() {
-        verify(userBOServiceMock, times(1)).createUser(any(UserDTO.class));
+        verify(leaguesBOServiceMock, times(1)).createUser(any(UserDTO.class));
     }
 
     private void thenVerifyFindByIdHasBeenCalledInService() {
-        verify(userBOServiceMock, times(1)).findUserById(anyLong());
+        verify(leaguesBOServiceMock, times(1)).findUserById(anyLong());
     }
 
     private void thenVerifyDeleteUserHasBeenCalledInService() {
-        verify(userBOServiceMock, times(1)).deleteUser(anyLong());
+        verify(leaguesBOServiceMock, times(1)).deleteUser(anyLong());
     }
 
     private void thenReceivedStatusCodeIs(HttpStatus httpStatus) {

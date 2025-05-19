@@ -110,13 +110,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    void deleteMatchDayByCategoryIdNotFound() throws Exception {
+    void deleteMatchDaysByCategoryIdNotFound() throws Exception {
         mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteMatchDayByCategoryIdHappyPath() throws Exception {
+    void deleteMatchDaysByCategoryIdHappyPath() throws Exception {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 12);
 
@@ -125,13 +125,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    void deleteMatchDayByCategoryIdAndSeasonNotFound() throws Exception {
+    void deleteMatchDaysByCategoryIdAndSeasonNotFound() throws Exception {
         mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY/seasons/2023"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteMatchDayByCategoryIdAndSeasonHappyPath() throws Exception {
+    void deleteMatchDaysByCategoryIdAndSeasonHappyPath() throws Exception {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 12);
 
@@ -140,13 +140,13 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
-    void deleteMatchDayByCategoryIdSeasonAndNumberNotFound() throws Exception {
+    void deleteMatchDaysByCategoryIdSeasonAndNumberNotFound() throws Exception {
         mockMvc.perform(delete("/match-days/categories/OTHER_CATEGORY/seasons/2023/number/33"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteMatchDayByCategoryIdSeasonAndNumberHappyPath() throws Exception {
+    void deleteMatchDaysByCategoryIdSeasonAndNumberHappyPath() throws Exception {
         givenSomePreviouslyStoredMatchDayWithId("SOME_CATEGORY", 2025, 11);
 
         mockMvc.perform(delete("/match-days/categories/SOME_CATEGORY/seasons/2025/number/11"))

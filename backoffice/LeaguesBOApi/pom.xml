@@ -9,11 +9,11 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.pmolinav.gowl.backoffice.UsersBOApi</groupId>
-    <artifactId>UsersBOApi</artifactId>
+    <groupId>com.pmolinav.gowl.backoffice.LeaguesBOApi</groupId>
+    <artifactId>LeaguesBOApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>UsersBOApi</name>
-    <description>Users BackOffice Api</description>
+    <name>LeaguesBOApi</name>
+    <description>Leagues BackOffice Api</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -63,8 +63,8 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.pmolinav.gowl.libraries.users-lib</groupId>
-            <artifactId>users-lib</artifactId>
+            <groupId>com.pmolinav.gowl.libraries.leagues-lib</groupId>
+            <artifactId>leagues-lib</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <!-- Lombok -->
@@ -168,7 +168,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.pmolinav.users.UsersBOApiMain</mainClass>
+                            <mainClass>com.pmolinav.leagues.LeaguesBOApiMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

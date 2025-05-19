@@ -123,75 +123,75 @@ class MatchDayControllerTest extends BaseUnitTest {
     /* DELETE MATCH DAYS BY CATEGORY ID*/
     @Test
     void deleteMatchDaysByCategoryIdHappyPath() {
-        whenDeleteMatchDayByCategoryIdInServiceIsOk();
-        andDeleteMatchDayByCategoryIdIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdInServiceIsOk();
+        andDeleteMatchDaysByCategoryIdIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdNotFound() {
-        whenDeleteMatchDayByCategoryIdInServiceThrowsNotFoundException();
-        andDeleteMatchDayByCategoryIdIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdInServiceThrowsNotFoundException();
+        andDeleteMatchDaysByCategoryIdIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdServerError() {
-        whenDeleteMatchDayByCategoryIdInServiceThrowsServerException();
-        andDeleteMatchDayByCategoryIdIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdInServiceThrowsServerException();
+        andDeleteMatchDaysByCategoryIdIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /* DELETE MATCH DAY BY CATEGORY ID AND SEASON*/
     @Test
     void deleteMatchDaysByCategoryIdAndSeasonHappyPath() {
-        whenDeleteMatchDayByCategoryIdAndSeasonInServiceIsOk();
-        andDeleteMatchDayByCategoryIdAndSeasonIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdAndSeasonHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdAndSeasonInServiceIsOk();
+        andDeleteMatchDaysByCategoryIdAndSeasonIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdAndSeasonHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdAndSeasonNotFound() {
-        whenDeleteMatchDayByCategoryIdAndSeasonInServiceThrowsNotFoundException();
-        andDeleteMatchDayByCategoryIdAndSeasonIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdAndSeasonHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdAndSeasonInServiceThrowsNotFoundException();
+        andDeleteMatchDaysByCategoryIdAndSeasonIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdAndSeasonHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdAndSeasonServerError() {
-        whenDeleteMatchDayByCategoryIdAndSeasonInServiceThrowsServerException();
-        andDeleteMatchDayByCategoryIdAndSeasonIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdAndSeasonHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdAndSeasonInServiceThrowsServerException();
+        andDeleteMatchDaysByCategoryIdAndSeasonIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdAndSeasonHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     /* DELETE MATCH DAY BY CATEGORY ID, SEASON AND NUMBER*/
     @Test
     void deleteMatchDaysByCategoryIdSeasonAndNumberHappyPath() {
-        whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceIsOk();
-        andDeleteMatchDayByCategoryIdSeasonAndNumberIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdSeasonAndNumberHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceIsOk();
+        andDeleteMatchDaysByCategoryIdSeasonAndNumberIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdSeasonAndNumberHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdSeasonAndNumberNotFound() {
-        whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException();
-        andDeleteMatchDayByCategoryIdSeasonAndNumberIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdSeasonAndNumberHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException();
+        andDeleteMatchDaysByCategoryIdSeasonAndNumberIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdSeasonAndNumberHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
     void deleteMatchDaysByCategoryIdSeasonAndNumberServerError() {
-        whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceThrowsServerException();
-        andDeleteMatchDayByCategoryIdSeasonAndNumberIsCalledInController();
-        thenVerifyDeleteMatchDayByCategoryIdSeasonAndNumberHasBeenCalledInService();
+        whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceThrowsServerException();
+        andDeleteMatchDaysByCategoryIdSeasonAndNumberIsCalledInController();
+        thenVerifyDeleteMatchDaysByCategoryIdSeasonAndNumberHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -260,49 +260,49 @@ class MatchDayControllerTest extends BaseUnitTest {
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
-    private void whenDeleteMatchDayByCategoryIdInServiceIsOk() {
+    private void whenDeleteMatchDaysByCategoryIdInServiceIsOk() {
         doNothing().when(matchDayServiceMock).deleteMatchDayByCategoryId(anyString());
     }
 
-    private void whenDeleteMatchDayByCategoryIdInServiceThrowsNotFoundException() {
+    private void whenDeleteMatchDaysByCategoryIdInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryId(anyString());
     }
 
-    private void whenDeleteMatchDayByCategoryIdInServiceThrowsServerException() {
+    private void whenDeleteMatchDaysByCategoryIdInServiceThrowsServerException() {
         doThrow(new InternalServerErrorException("Internal Server Error"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryId(anyString());
     }
 
-    private void whenDeleteMatchDayByCategoryIdAndSeasonInServiceIsOk() {
+    private void whenDeleteMatchDaysByCategoryIdAndSeasonInServiceIsOk() {
         doNothing().when(matchDayServiceMock).deleteMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 
-    private void whenDeleteMatchDayByCategoryIdAndSeasonInServiceThrowsNotFoundException() {
+    private void whenDeleteMatchDaysByCategoryIdAndSeasonInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 
-    private void whenDeleteMatchDayByCategoryIdAndSeasonInServiceThrowsServerException() {
+    private void whenDeleteMatchDaysByCategoryIdAndSeasonInServiceThrowsServerException() {
         doThrow(new InternalServerErrorException("Internal Server Error"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 
-    private void whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceIsOk() {
+    private void whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceIsOk() {
         doNothing().when(matchDayServiceMock).deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
-    private void whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException() {
+    private void whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
-    private void whenDeleteMatchDayByCategoryIdSeasonAndNumberInServiceThrowsServerException() {
+    private void whenDeleteMatchDaysByCategoryIdSeasonAndNumberInServiceThrowsServerException() {
         doThrow(new InternalServerErrorException("Internal Server Error"))
                 .when(matchDayServiceMock)
                 .deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
@@ -324,15 +324,15 @@ class MatchDayControllerTest extends BaseUnitTest {
         result = matchDayController.createMatchDay(matchDayDTO);
     }
 
-    private void andDeleteMatchDayByCategoryIdIsCalledInController() {
-        result = matchDayController.deleteMatchDayByCategoryId("PREMIER");
+    private void andDeleteMatchDaysByCategoryIdIsCalledInController() {
+        result = matchDayController.deleteMatchDaysByCategoryId("PREMIER");
     }
 
-    private void andDeleteMatchDayByCategoryIdAndSeasonIsCalledInController() {
-        result = matchDayController.deleteMatchDayByCategoryIdAndSeason("PREMIER", 2025);
+    private void andDeleteMatchDaysByCategoryIdAndSeasonIsCalledInController() {
+        result = matchDayController.deleteMatchDaysByCategoryIdAndSeason("PREMIER", 2025);
     }
 
-    private void andDeleteMatchDayByCategoryIdSeasonAndNumberIsCalledInController() {
+    private void andDeleteMatchDaysByCategoryIdSeasonAndNumberIsCalledInController() {
         result = matchDayController.deleteMatchDayByCategoryIdSeasonAndNumber("PREMIER", 2025, 33);
     }
 
@@ -353,17 +353,17 @@ class MatchDayControllerTest extends BaseUnitTest {
         verify(matchDayServiceMock, times(1)).findByCategoryIdAndSeason(anyString(), anyInt());
     }
 
-    private void thenVerifyDeleteMatchDayByCategoryIdHasBeenCalledInService() {
+    private void thenVerifyDeleteMatchDaysByCategoryIdHasBeenCalledInService() {
         verify(matchDayServiceMock, times(1))
                 .deleteMatchDayByCategoryId(anyString());
     }
 
-    private void thenVerifyDeleteMatchDayByCategoryIdAndSeasonHasBeenCalledInService() {
+    private void thenVerifyDeleteMatchDaysByCategoryIdAndSeasonHasBeenCalledInService() {
         verify(matchDayServiceMock, times(1))
                 .deleteMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 
-    private void thenVerifyDeleteMatchDayByCategoryIdSeasonAndNumberHasBeenCalledInService() {
+    private void thenVerifyDeleteMatchDaysByCategoryIdSeasonAndNumberHasBeenCalledInService() {
         verify(matchDayServiceMock, times(1))
                 .deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
     }

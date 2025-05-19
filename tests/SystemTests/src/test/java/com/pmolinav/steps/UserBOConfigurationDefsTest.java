@@ -51,9 +51,9 @@ public class UserBOConfigurationDefsTest extends BaseSystemTest {
                                 row.get("name"),
                                 row.get("email"),
                                 row.get("creation_date") != null ?
-                                        new Date(Long.parseLong(row.get("creation_date"))) : new Date(),
+                                        Long.parseLong(row.get("creation_date")) : new Date().getTime(),
                                 row.get("modification_date") != null ?
-                                        new Date(Long.parseLong(row.get("modification_date"))) : new Date(),
+                                        Long.parseLong(row.get("modification_date")) : new Date().getTime(),
                                 dbConnector.getRolesByNames(List.of(row.get("roles").split(",")))
                         )
                 );

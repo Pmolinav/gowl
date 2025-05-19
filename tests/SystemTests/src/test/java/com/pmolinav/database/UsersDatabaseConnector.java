@@ -43,8 +43,8 @@ public class UsersDatabaseConnector {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setDate(5, new java.sql.Date(user.getCreationDate().getTime()));
-            preparedStatement.setDate(6, new java.sql.Date(user.getModificationDate().getTime()));
+            preparedStatement.setLong(5, user.getCreationDate());
+            preparedStatement.setLong(6, user.getModificationDate());
 
             preparedStatement.executeUpdate();
 
@@ -95,8 +95,8 @@ public class UsersDatabaseConnector {
                 String dbPassword = resultSet.getString("password");
                 String dbName = resultSet.getString("name");
                 String dbEmail = resultSet.getString("email");
-                Date dbCreationDate = resultSet.getDate("creation_date");
-                Date dbModificationDate = resultSet.getDate("modification_date");
+                Long dbCreationDate = resultSet.getLong("creation_date");
+                Long dbModificationDate = resultSet.getLong("modification_date");
 
                 return new User(dbUserId, dbUsername, dbPassword, dbName, dbEmail,
                         dbCreationDate, dbModificationDate, null);

@@ -37,6 +37,18 @@ public class LeagueCategoryController {
         }
     }
 
+    @GetMapping("{id}")
+    public ResponseEntity<LeagueCategory> findLeagueCategoryById(@PathVariable String id) {
+        try {
+            LeagueCategory leagueCategory = leagueCategoryService.findById(id);
+            return ResponseEntity.ok(leagueCategory);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<String> createLeagueCategory(@RequestBody LeagueCategoryDTO leagueCategoryDTO) {
         try {
@@ -49,18 +61,6 @@ public class LeagueCategoryController {
             return ResponseEntity.internalServerError().build();
         }
 
-    }
-
-    @GetMapping("{id}")
-    public ResponseEntity<LeagueCategory> findLeagueCategoryById(@PathVariable String id) {
-        try {
-            LeagueCategory leagueCategory = leagueCategoryService.findById(id);
-            return ResponseEntity.ok(leagueCategory);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (InternalServerErrorException e) {
-            return ResponseEntity.internalServerError().build();
-        }
     }
 
 // TODO: Complete
