@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("health")
-@Tag(name = "1. Health", description = "The Health Controller. Can be used to watch the application status and no authentication is needed.")
+@Tag(name = "1. Health", description = "The Health Controller. It can be used to check the application status.")
 public class HealthController {
 
     @Autowired
     private AuthHealthService authHealthService;
 
     @GetMapping()
-    @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
+    @Operation(summary = "Health check", description = "This endpoint will notify us if needed services are UP or KO.")
     public ResponseEntity<String> health(@RequestParam String requestUid) {
         try {
             authHealthService.health();

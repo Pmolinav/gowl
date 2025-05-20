@@ -44,5 +44,4 @@ public class LeagueDTO {
     @Size(max = 100, message = "Owner username must not exceed 100 characters.")
     private String ownerUsername;
 
-
 }

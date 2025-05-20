@@ -2,9 +2,8 @@ package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.leaguesslib.dto.UserDTO;
-import com.pmolinav.leaguesslib.model.User;
-import org.junit.jupiter.api.Assertions;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
+import com.pmolinav.leagueslib.model.LeagueStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -15,11 +14,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
-import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -34,41 +33,42 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
     @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private List<User> expectedUsers;
+    private List<LeagueDTO> expectedLEagues;
 
     @Test
-    void findAllUsersInternalServerError() throws Exception {
-        andFindAllUsersThrowsNonRetryableException();
+    void findAllLeaguesInternalServerError() throws Exception {
+        andFindAllLeaguesThrowsNonRetryableException();
 
-        mockMvc.perform(get("/users?requestUid=" + requestUid)
+        mockMvc.perform(get("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void findAllUsersHappyPath() throws Exception {
-        andFindAllUsersReturnedValidUsers();
+    void findAllLeaguesHappyPath() throws Exception {
+        andFindAllLeaguesReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/users?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<User> userResponseList = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<User>>() {
+        List<LeagueDTO> leagueResponseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<LeagueDTO>>() {
                 });
 
-        Assertions.assertEquals(expectedUsers, userResponseList);
+        assertEquals(expectedLEagues, leagueResponseList);
     }
 
     @Test
-    void createUserServerError() throws Exception {
-        andCreateUserThrowsNonRetryableException();
+    void createLeagueServerError() throws Exception {
+        andCreateLeagueThrowsNonRetryableException();
 
-        UserDTO requestDto = new UserDTO("someUser", "somePassword", "someName",
-                "some@email.com", false);
+        LeagueDTO requestDto = new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser");
 
-        mockMvc.perform(post("/users?requestUid=" + requestUid)
+        mockMvc.perform(post("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
@@ -76,13 +76,14 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void createUserHappyPath() throws Exception {
-        andCreateUserReturnedValidId();
+    void createLeagueHappyPath() throws Exception {
+        andCreateLeagueReturnedValidId();
 
-        UserDTO requestDto = new UserDTO("someUser", "somePassword", "someName",
-                "some@email.com", false);
+        LeagueDTO requestDto = new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser");
 
-        MvcResult result = mockMvc.perform(post("/users?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(post("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
@@ -95,107 +96,135 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findUserByIdServerError() throws Exception {
-        andFindUserByIdThrowsNonRetryableException();
+    void findLeagueByIdServerError() throws Exception {
+        andFindLeagueByIdThrowsNonRetryableException();
 
-        mockMvc.perform(get("/users/123?requestUid=" + requestUid)
+        mockMvc.perform(get("/leagues/123?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void findUserByIdHappyPath() throws Exception {
-        andFindUserByIdReturnedUser();
+    void findLeagueByIdHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague();
 
-        MvcResult result = mockMvc.perform(get("/users/3?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/leagues/3?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        User userResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<User>() {
+        LeagueDTO leagueResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<LeagueDTO>() {
                 });
 
-        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
+        assertEquals(expectedLEagues.getFirst(), leagueResponse);
     }
 
     @Test
-    void findUserByUsernameHappyPath() throws Exception {
-        andFindUserByUsernameReturnedUser();
+    void findLeagueByNameHappyPath() throws Exception {
+        andFindLeagueByNameReturnedLeague();
 
-        MvcResult result = mockMvc.perform(get("/users/username/" + username + "?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/leagues/names/" + username + "?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        User userResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<User>() {
+        LeagueDTO leagueResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<LeagueDTO>() {
                 });
 
-        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
+        assertEquals(expectedLEagues.getFirst(), leagueResponse);
     }
 
     @Test
-    void deleteUserByIdInternalServerError() throws Exception {
-        andUserDeleteThrowsNonRetryableException();
+    void deleteLeagueByIdInternalServerError() throws Exception {
+        andLeagueDeleteThrowsNonRetryableException();
 
-        mockMvc.perform(delete("/users/123?requestUid=" + requestUid)
+        mockMvc.perform(delete("/leagues/123?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void deleteUserByIdHappyPath() throws Exception {
-        andUserIsDeletedOkOnClient();
+    void deleteLeagueByIdHappyPath() throws Exception {
+        andLeagueIsDeletedOkOnClient();
 
-        mockMvc.perform(delete("/users/5?requestUid=" + requestUid)
+        mockMvc.perform(delete("/leagues/5?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk());
     }
 
-    private void andUserIsDeletedOkOnClient() {
-        doNothing().when(this.leaguesClient).deleteUser(anyLong());
+    @Test
+    void deleteLeagueByNameInternalServerError() throws Exception {
+        andLeagueDeleteByNameThrowsNonRetryableException();
+
+        mockMvc.perform(delete("/leagues/names/fake league name?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isInternalServerError());
     }
 
-    private void andUserDeleteThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteUser(anyLong());
+    @Test
+    void deleteLeagueByNameHappyPath() throws Exception {
+        andLeagueByNameIsDeletedOkOnClient();
+
+        mockMvc.perform(delete("/leagues/names/Some League?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk());
     }
 
-    private void andFindUserByIdReturnedUser() {
-        this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date(), null, null));
-
-        when(this.leaguesClient.findUserById(anyLong())).thenReturn(this.expectedUsers.getFirst());
+    private void andLeagueIsDeletedOkOnClient() {
+        doNothing().when(this.leaguesClient).deleteLeague(anyLong());
+    }
+    private void andLeagueByNameIsDeletedOkOnClient() {
+        doNothing().when(this.leaguesClient).deleteLeagueByName(anyString());
     }
 
-    private void andFindUserByUsernameReturnedUser() {
-        this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date(), null, null));
-
-        when(this.leaguesClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
+    private void andLeagueDeleteThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteLeague(anyLong());
     }
 
-    private void andFindUserByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findUserById(anyLong());
+    private void andLeagueDeleteByNameThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteLeagueByName(anyString());
     }
 
-    private void andCreateUserReturnedValidId() {
-        when(this.leaguesClient.createUser(any(UserDTO.class))).thenReturn(1L);
+    private void andFindLeagueByIdReturnedLeague() {
+        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser"));
+
+        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLEagues.getFirst());
     }
 
-    private void andCreateUserThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).createUser(any(UserDTO.class));
+    private void andFindLeagueByNameReturnedLeague() {
+        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser"));
+
+        when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLEagues.getFirst());
     }
 
-    private void andFindAllUsersReturnedValidUsers() {
-        this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date(), null, null));
-
-        when(this.leaguesClient.findAllUsers()).thenReturn(this.expectedUsers);
+    private void andFindLeagueByIdThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findLeagueById(anyLong());
     }
 
-    private void andFindAllUsersThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findAllUsers();
+    private void andCreateLeagueReturnedValidId() {
+        when(this.leaguesClient.createLeague(any(LeagueDTO.class))).thenReturn(1L);
+    }
+
+    private void andCreateLeagueThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).createLeague(any(LeagueDTO.class));
+    }
+
+    private void andFindAllLeaguesReturnedValidLeagues() {
+        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser"));
+
+        when(this.leaguesClient.findAllLeagues()).thenReturn(this.expectedLEagues);
+    }
+
+    private void andFindAllLeaguesThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findAllLeagues();
     }
 }
 

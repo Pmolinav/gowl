@@ -4,8 +4,7 @@ import com.pmolinav.leagues.clients.LeaguesClient;
 import com.pmolinav.leagues.exceptions.CustomStatusException;
 import com.pmolinav.leagues.exceptions.InternalServerErrorException;
 import com.pmolinav.leagues.exceptions.NotFoundException;
-import com.pmolinav.leagueslib.dto.UserDTO;
-import com.pmolinav.leagueslib.model.User;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -23,16 +22,16 @@ public class LeaguesBOService {
     @Autowired
     private LeaguesClient leaguesClient;
 
-    public List<User> findAllUsers() {
+    public List<LeagueDTO> findAllLeagues() {
         try {
-            return leaguesClient.findAllUsers();
+            return leaguesClient.findAllLeagues();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("No users found.", e);
-                throw new NotFoundException("No users found");
+                logger.warn("No leagues found.", e);
+                throw new NotFoundException("No leagues found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);
@@ -40,9 +39,9 @@ public class LeaguesBOService {
         }
     }
 
-    public Long createUser(UserDTO userDTO) {
+    public Long createLeague(LeagueDTO leagueDTO) {
         try {
-            return leaguesClient.createUser(userDTO);
+            return leaguesClient.createLeague(leagueDTO);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -52,16 +51,16 @@ public class LeaguesBOService {
         }
     }
 
-    public User findUserById(long id) {
+    public LeagueDTO findLeagueById(long id) {
         try {
-            return leaguesClient.findUserById(id);
+            return leaguesClient.findLeagueById(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("User with id {} not found.", id, e);
-                throw new NotFoundException("User " + id + " not found");
+                logger.warn("League with id {} not found.", id, e);
+                throw new NotFoundException("League " + id + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);
@@ -69,16 +68,16 @@ public class LeaguesBOService {
         }
     }
 
-    public User findUserByUsername(String username) {
+    public LeagueDTO findLeagueByName(String name) {
         try {
-            return leaguesClient.findUserByUsername(username);
+            return leaguesClient.findLeagueByName(name);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("User with username {} not found.", username, e);
-                throw new NotFoundException("User " + username + " not found");
+                logger.warn("League with name {} not found.", name, e);
+                throw new NotFoundException("League " + name + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);
@@ -86,16 +85,33 @@ public class LeaguesBOService {
         }
     }
 
-    public void deleteUser(Long id) {
+    public void deleteLeague(Long id) {
         try {
-            leaguesClient.deleteUser(id);
+            leaguesClient.deleteLeague(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("User with id {} not found.", id, e);
-                throw new NotFoundException("User " + id + " not found");
+                logger.warn("League with id {} not found.", id, e);
+                throw new NotFoundException("League " + id + " not found");
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    public void deleteLeagueByName(String name) {
+        try {
+            leaguesClient.deleteLeagueByName(name);
+        } catch (FeignException e) {
+            if (e instanceof RetryableException) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("League with name {} not found.", name, e);
+                throw new NotFoundException("League " + name + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);

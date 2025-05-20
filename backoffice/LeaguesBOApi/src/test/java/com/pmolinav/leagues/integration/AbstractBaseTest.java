@@ -4,7 +4,7 @@ package com.pmolinav.leagues.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.leagues.clients.LeaguesClient;
-import com.pmolinav.leagueslib.dto.UserDTO;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,14 +26,14 @@ public abstract class AbstractBaseTest {
     protected LeaguesClient leaguesClient;
     @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
-    private UserDTO request;
+    private LeagueDTO request;
     protected static String authToken;
 
     @BeforeEach
     public void givenValidToken() throws Exception {
         authToken = "Bearer " + new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY", 12345L)
                 .createToken(username, Collections.singletonList(
-                        new SimpleGrantedAuthority(com.pmolinav.leagues.models.request.Role.ROLE_ADMIN.name())));
+                        new SimpleGrantedAuthority("ROLE_ADMIN")));
     }
 }
 

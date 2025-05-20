@@ -33,8 +33,7 @@ public class UserBOController {
     @Autowired
     private UserBOService userBOService;
 
-    //TODO: Validar JSON con @Valid y BindingResult. Añadir validaciones en los DTOs.
-
+    //TODO: Pagination
     @GetMapping
     @Operation(summary = "Retrieve all users", description = "Bearer token is required to authorize users.")
     public ResponseEntity<List<User>> findAllUsers(@RequestParam String requestUid) {
@@ -139,7 +138,7 @@ public class UserBOController {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), "The field " + err.getField() + " " + err.getDefaultMessage());
+            errors.put(err.getField(), err.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }

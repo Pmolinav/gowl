@@ -4,17 +4,16 @@ import com.pmolinav.leagues.auth.SpringSecurityConfig;
 import com.pmolinav.leagues.exceptions.CustomStatusException;
 import com.pmolinav.leagues.exceptions.NotFoundException;
 import com.pmolinav.leagues.services.LeaguesBOService;
-import com.pmolinav.leagueslib.dto.UserDTO;
-import com.pmolinav.leagueslib.model.User;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,20 +26,18 @@ import java.util.Map;
 @RestController
 @RequestMapping("leagues")
 @SecurityRequirement(name = "BearerToken")
-@Tag(name = "3. User", description = "The User Controller. Contains all the operations that can be performed on an user.")
+@Tag(name = "2. Leagues", description = "The User Controller. Contains all the operations that can be performed on an user.")
 public class LeaguesBOController {
 
     @Autowired
     private LeaguesBOService leaguesBOService;
 
-    //TODO: Validar JSON con @Valid y BindingResult. Añadir validaciones en los DTOs.
-
     //TODO: Pagination
     @GetMapping
     @Operation(summary = "Retrieve all leagues", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<User>> findAllUsers(@RequestParam String requestUid) {
+    public ResponseEntity<List<LeagueDTO>> findAllLeagues(@RequestParam String requestUid) {
         try {
-            List<User> users = leaguesBOService.findAllUsers();
+            List<LeagueDTO> users = leaguesBOService.findAllLeagues();
             return ResponseEntity.ok(users);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -50,29 +47,31 @@ public class LeaguesBOController {
     }
 
     @PostMapping
-    @Operation(summary = "Create a new user", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<?> createUser(@RequestParam String requestUid,
-                                        @Valid @RequestBody UserDTO userDTO,
-                                        BindingResult result) {
+    @Operation(summary = "Create a new league", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> createLeague(@RequestParam String requestUid,
+                                          @Valid @RequestBody LeagueDTO leagueDTO,
+                                          BindingResult result) {
         try {
             if (result.hasErrors()) {
                 return validation(result);
             }
             // Encode password before save user.
-            userDTO.setPassword(SpringSecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
-            Long createdUserId = leaguesBOService.createUser(userDTO);
-            return new ResponseEntity<>(createdUserId, HttpStatus.CREATED);
+            if (StringUtils.isNotBlank(leagueDTO.getPassword()))
+                leagueDTO.setPassword(SpringSecurityConfig.passwordEncoder().encode(leagueDTO.getPassword()));
+
+            Long createdLeagueId = leaguesBOService.createLeague(leagueDTO);
+            return new ResponseEntity<>(createdLeagueId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Get a specific user by Id", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<User> getUserById(@RequestParam String requestUid, @PathVariable long id) {
+    @Operation(summary = "Get a specific league by Id", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<LeagueDTO> getLeagueById(@RequestParam String requestUid, @PathVariable long id) {
         try {
-            User user = leaguesBOService.findUserById(id);
-            return ResponseEntity.ok(user);
+            LeagueDTO league = leaguesBOService.findLeagueById(id);
+            return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
@@ -80,13 +79,12 @@ public class LeaguesBOController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
-    @GetMapping("/username/{username}")
-    @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<User> getUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
+    @GetMapping("/names/{name}")
+    @Operation(summary = "Get a specific league by name", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<LeagueDTO> getLeagueByName(@RequestParam String requestUid, @PathVariable String name) {
         try {
-            User user = leaguesBOService.findUserByUsername(username);
-            return ResponseEntity.ok(user);
+            LeagueDTO league = leaguesBOService.findLeagueByName(name);
+            return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
@@ -124,10 +122,23 @@ public class LeaguesBOController {
 //    }
 
     @DeleteMapping("{id}")
-    @Operation(summary = "Delete an user by Id", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<HttpStatus> deleteUser(@RequestParam String requestUid, @PathVariable long id) {
+    @Operation(summary = "Delete a league by Id", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> deleteLeague(@RequestParam String requestUid, @PathVariable long id) {
         try {
-            leaguesBOService.deleteUser(id);
+            leaguesBOService.deleteLeague(id);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/names/{name}")
+    @Operation(summary = "Delete a league by name", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> deleteLeagueByName(@RequestParam String requestUid, @PathVariable String name) {
+        try {
+            leaguesBOService.deleteLeagueByName(name);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -140,7 +151,7 @@ public class LeaguesBOController {
         Map<String, String> errors = new HashMap<>();
 
         result.getFieldErrors().forEach(err -> {
-            errors.put(err.getField(), "The field " + err.getField() + " " + err.getDefaultMessage());
+            errors.put(err.getField(), err.getDefaultMessage());
         });
         return ResponseEntity.badRequest().body(errors);
     }

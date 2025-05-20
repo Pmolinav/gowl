@@ -1,13 +1,11 @@
 package com.pmolinav.leagues.auth;
 
 import com.pmolinav.leagues.auth.filters.JwtValidationFilter;
-import com.pmolinav.leagues.models.request.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -44,11 +42,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, TokenConfig tokenConfig) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/users").hasAuthority(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/users/{id}").hasAuthority(Role.ROLE_ADMIN.name())
-                        .requestMatchers(HttpMethod.GET, "/users/username/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "/health").hasAuthority(Role.ROLE_ADMIN.name())
+                        .requestMatchers("*").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig),
