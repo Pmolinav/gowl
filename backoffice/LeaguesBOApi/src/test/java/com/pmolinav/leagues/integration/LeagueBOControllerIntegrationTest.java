@@ -28,12 +28,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ActiveProfiles("test")
 @AutoConfigureMockMvc
 @EntityScan("com.pmolinav.leagueslib.model")
-class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
+class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
 
     @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    private List<LeagueDTO> expectedLEagues;
+    private List<LeagueDTO> expectedLeagues;
 
     @Test
     void findAllLeaguesInternalServerError() throws Exception {
@@ -57,7 +57,7 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<List<LeagueDTO>>() {
                 });
 
-        assertEquals(expectedLEagues, leagueResponseList);
+        assertEquals(expectedLeagues, leagueResponseList);
     }
 
     @Test
@@ -117,7 +117,7 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<LeagueDTO>() {
                 });
 
-        assertEquals(expectedLEagues.getFirst(), leagueResponse);
+        assertEquals(expectedLeagues.getFirst(), leagueResponse);
     }
 
     @Test
@@ -133,7 +133,7 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<LeagueDTO>() {
                 });
 
-        assertEquals(expectedLEagues.getFirst(), leagueResponse);
+        assertEquals(expectedLeagues.getFirst(), leagueResponse);
     }
 
     @Test
@@ -188,19 +188,19 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindLeagueByIdReturnedLeague() {
-        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+        this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser"));
 
-        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLEagues.getFirst());
+        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByNameReturnedLeague() {
-        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+        this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser"));
 
-        when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLEagues.getFirst());
+        when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByIdThrowsNonRetryableException() {
@@ -216,11 +216,11 @@ class LeaguesBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindAllLeaguesReturnedValidLeagues() {
-        this.expectedLEagues = List.of(new LeagueDTO("Some League", "Some description",
+        this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser"));
 
-        when(this.leaguesClient.findAllLeagues()).thenReturn(this.expectedLEagues);
+        when(this.leaguesClient.findAllLeagues()).thenReturn(this.expectedLeagues);
     }
 
     private void andFindAllLeaguesThrowsNonRetryableException() {

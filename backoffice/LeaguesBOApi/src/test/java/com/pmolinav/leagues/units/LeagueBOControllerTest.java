@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
-class LeaguesBOControllerTest extends BaseUnitTest {
+class LeagueBOControllerTest extends BaseUnitTest {
 
     LeagueDTO leagueDTO;
     List<LeagueDTO> expectedLeagues;
@@ -286,22 +286,22 @@ class LeaguesBOControllerTest extends BaseUnitTest {
     }
 
     private void andFindAllLeaguesIsCalledInController() {
-        result = leaguesBOController.findAllLeagues(this.requestUid);
+        result = leagueBOController.findAllLeagues(this.requestUid);
     }
 
     private void andFindLeagueByIdIsCalledInController() {
-        result = leaguesBOController.getLeagueById(this.requestUid, 1L);
+        result = leagueBOController.getLeagueById(this.requestUid, 1L);
     }
 
     private void andFindLeagueByNameIsCalledInController() {
-        result = leaguesBOController.getLeagueByName(this.requestUid, "Some League");
+        result = leagueBOController.getLeagueByName(this.requestUid, "Some League");
     }
 
     private void andCreateLeagueIsCalledInController() {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
 
-        result = leaguesBOController.createLeague(this.requestUid, leagueDTO, bindingResult);
+        result = leagueBOController.createLeague(this.requestUid, leagueDTO, bindingResult);
     }
 
     private void andCreateLeagueIsCalledInControllerWithBindingResultErrors() {
@@ -311,15 +311,15 @@ class LeaguesBOControllerTest extends BaseUnitTest {
                 new FieldError("userDTO", "username", "Name is mandatory.")
         ));
 
-        result = leaguesBOController.createLeague(this.requestUid, leagueDTO, bindingResult);
+        result = leagueBOController.createLeague(this.requestUid, leagueDTO, bindingResult);
     }
 
     private void andDeleteLeagueIsCalledInController() {
-        result = leaguesBOController.deleteLeague(this.requestUid, 1L);
+        result = leagueBOController.deleteLeague(this.requestUid, 1L);
     }
 
     private void andDeleteLeagueByNameIsCalledInController() {
-        result = leaguesBOController.deleteLeagueByName(this.requestUid, "Some League");
+        result = leagueBOController.deleteLeagueByName(this.requestUid, "Some League");
     }
 
     private void thenVerifyFindAllLeaguesHasBeenCalledInService() {

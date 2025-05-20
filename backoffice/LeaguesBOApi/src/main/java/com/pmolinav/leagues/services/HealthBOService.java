@@ -28,8 +28,8 @@ public class HealthBOService {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("No activities found.", e);
-                throw new NotFoundException("No activities found");
+                logger.warn("Activities health not found.", e);
+                throw new NotFoundException("Activities health not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);

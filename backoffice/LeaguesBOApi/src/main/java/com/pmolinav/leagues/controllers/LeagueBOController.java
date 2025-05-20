@@ -26,8 +26,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("leagues")
 @SecurityRequirement(name = "BearerToken")
-@Tag(name = "2. Leagues", description = "The User Controller. Contains all the operations that can be performed on an user.")
-public class LeaguesBOController {
+@Tag(name = "4. Leagues", description = "The League Controller. Contains all the operations that can be performed on a league.")
+public class LeagueBOController {
 
     @Autowired
     private LeaguesBOService leaguesBOService;
@@ -42,7 +42,7 @@ public class LeaguesBOController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -62,81 +62,56 @@ public class LeaguesBOController {
             Long createdLeagueId = leaguesBOService.createLeague(leagueDTO);
             return new ResponseEntity<>(createdLeagueId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
     @GetMapping("{id}")
-    @Operation(summary = "Get a specific league by Id", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<LeagueDTO> getLeagueById(@RequestParam String requestUid, @PathVariable long id) {
+    @Operation(summary = "Get a specific league by ID", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<LeagueDTO> getLeagueById(@RequestParam String requestUid,
+                                                   @PathVariable long id) {
         try {
             LeagueDTO league = leaguesBOService.findLeagueById(id);
             return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
     @GetMapping("/names/{name}")
     @Operation(summary = "Get a specific league by name", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<LeagueDTO> getLeagueByName(@RequestParam String requestUid, @PathVariable String name) {
+    public ResponseEntity<LeagueDTO> getLeagueByName(@RequestParam String requestUid,
+                                                     @PathVariable String name) {
         try {
             LeagueDTO league = leaguesBOService.findLeagueByName(name);
             return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
-    //TODO: Complete
-//    @PutMapping("{id}")
-//    @Operation(summary = "Update a specific user", description = "Bearer token is required to authorize users.")
-//    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody UserDTO userDetails) {
-//
-//        String message = validateMandatoryFieldsInRequest(userDetails);
-//
-//        try {
-//            User updatedUser = userService.findById(id);
-//
-//            if (!StringUtils.hasText(message)) {
-//                updatedUser.setUsername(userDetails.getUsername());
-//                // Encode password before update user.
-//                updatedUser.setPassword(WebSecurityConfig.passwordEncoder().encode(userDetails.getPassword()));
-//                if (userDetails.getRole() != null) {
-//                    updatedUser.setRole(userDetails.getRole().name());
-//                }
-//                userService.createUser(updatedUser);
-//                return ResponseEntity.ok(updatedUser);
-//            } else {
-//                throw new BadRequestException(message);
-//            }
-//        } catch (NotFoundException e) {
-//            logger.error(e.getMessage());
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
-
     @DeleteMapping("{id}")
     @Operation(summary = "Delete a league by Id", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<?> deleteLeague(@RequestParam String requestUid, @PathVariable long id) {
+    public ResponseEntity<?> deleteLeague(@RequestParam String requestUid,
+                                          @PathVariable long id) {
         try {
             leaguesBOService.deleteLeague(id);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
     @DeleteMapping("/names/{name}")
     @Operation(summary = "Delete a league by name", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<?> deleteLeagueByName(@RequestParam String requestUid, @PathVariable String name) {
+    public ResponseEntity<?> deleteLeagueByName(@RequestParam String requestUid,
+                                                @PathVariable String name) {
         try {
             leaguesBOService.deleteLeagueByName(name);
             return ResponseEntity.ok().build();

@@ -3,6 +3,7 @@ package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.utils.TokenUtils;
+import com.pmolinav.leagues.clients.LeagueCategoriesClient;
 import com.pmolinav.leagues.clients.LeaguesClient;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,8 @@ public abstract class AbstractBaseTest {
     protected MockMvc mockMvc;
     @MockitoBean
     protected LeaguesClient leaguesClient;
+    @MockitoBean
+    protected LeagueCategoriesClient leagueCategoriesClient;
     @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
     private LeagueDTO request;

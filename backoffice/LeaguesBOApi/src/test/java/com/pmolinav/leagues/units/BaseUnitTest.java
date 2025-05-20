@@ -1,6 +1,8 @@
 package com.pmolinav.leagues.units;
 
-import com.pmolinav.leagues.controllers.LeaguesBOController;
+import com.pmolinav.leagues.controllers.LeagueBOController;
+import com.pmolinav.leagues.controllers.LeagueCategoryBOController;
+import com.pmolinav.leagues.services.LeagueCategoriesBOService;
 import com.pmolinav.leagues.services.LeaguesBOService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -16,7 +18,13 @@ class BaseUnitTest {
     @Mock
     LeaguesBOService leaguesBOServiceMock;
     @InjectMocks
-    LeaguesBOController leaguesBOController;
+    LeagueBOController leagueBOController;
+
+    @Mock
+    LeagueCategoriesBOService leagueCategoriesBOServiceMock;
+    @InjectMocks
+    LeagueCategoryBOController leagueCategoriesBOController;
+
     @Mock
     AuthenticationManager authenticationManager;
 

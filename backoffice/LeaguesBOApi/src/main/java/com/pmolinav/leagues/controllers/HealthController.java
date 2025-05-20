@@ -1,11 +1,11 @@
 package com.pmolinav.leagues.controllers;
 
 
+import com.pmolinav.leagues.services.HealthBOService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import com.pmolinav.leagues.services.HealthBOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

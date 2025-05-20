@@ -1,7 +1,6 @@
 package com.pmolinav.leagues.clients;
 
 import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
-import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -15,11 +14,11 @@ public interface LeagueCategoriesClient {
     List<LeagueCategory> findAllLeagueCategories();
 
     @GetMapping("/{id}")
-    LeagueDTO findLeagueCategoryById(@PathVariable String id);
+    LeagueCategory findLeagueCategoryById(@PathVariable String id);
 
     @PostMapping
     String createLeagueCategory(@RequestBody LeagueCategoryDTO leagueCategoryDTO);
 
     @DeleteMapping("/{id}")
-    void deleteLeague(@PathVariable String id);
+    void deleteLeagueCategory(@PathVariable String id);
 }

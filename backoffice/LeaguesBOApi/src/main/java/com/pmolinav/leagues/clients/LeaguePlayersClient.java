@@ -18,7 +18,7 @@ public interface LeaguePlayersClient {
     LeaguePlayerDTO findLeaguePlayerByLeagueIdAndPlayer(@PathVariable long id, @PathVariable String username);
 
     @GetMapping("/players/{username}/leagues")
-    List<LeagueDTO> findLeaguePlayersByUsername(@PathVariable String username);
+    List<LeagueDTO> findLeaguesByUsername(@PathVariable String username);
 
     @PostMapping
     List<LeaguePlayerId> createLeaguePlayers(@RequestBody List<LeaguePlayerDTO> leaguePlayers);

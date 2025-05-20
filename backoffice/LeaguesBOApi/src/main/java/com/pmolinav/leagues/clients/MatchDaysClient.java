@@ -22,11 +22,14 @@ public interface MatchDaysClient {
     @PostMapping
     MatchDayId createMatchDay(@RequestBody MatchDayDTO matchDayDTO);
 
+    @PostMapping("/bulk")
+    List<MatchDayId> createMatchDays(@RequestBody List<MatchDayDTO> matchDayDTOList);
+
     @DeleteMapping("/categories/{categoryId}")
     void deleteMatchDaysByCategoryId(@PathVariable String categoryId);
 
     @DeleteMapping("/categories/{categoryId}/seasons/{season}")
-    void deleteMatchDayByCategoryIdAndSeason(@PathVariable String categoryId, @PathVariable int season);
+    void deleteMatchDaysByCategoryIdAndSeason(@PathVariable String categoryId, @PathVariable int season);
 
     @DeleteMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
     void deleteMatchDayByCategoryIdSeasonAndNumber(@PathVariable String categoryId, @PathVariable int season, @PathVariable int number);
