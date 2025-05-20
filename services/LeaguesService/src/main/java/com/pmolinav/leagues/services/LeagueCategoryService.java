@@ -45,8 +45,8 @@ public class LeagueCategoryService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(leagueCategoriesList)) {
-            logger.warn("No league categories were found in repository.");
-            throw new NotFoundException("No league categories found in repository.");
+            logger.warn("League categories were not found in repository.");
+            throw new NotFoundException("League categories not found in repository.");
         } else {
             return leagueCategoriesList;
         }

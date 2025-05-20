@@ -47,8 +47,8 @@ public class MatchDayService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(matchDaysList)) {
-            logger.warn("No match days were found in repository.");
-            throw new NotFoundException("No match days found in repository.");
+            logger.warn("Match days were not found in repository.");
+            throw new NotFoundException("Match days not found in repository.");
         } else {
             return matchDaysList.stream()
                     .map(matchDayMapper::matchDayEntityToDto)
@@ -67,6 +67,20 @@ public class MatchDayService {
         }
     }
 
+    @Transactional
+    public List<MatchDay> createMatchDays(List<MatchDayDTO> matchDayDTOList) {
+        try {
+            List<MatchDay> matchDays = matchDayDTOList.stream()
+                    .map(matchDayMapper::matchDayDtoToEntity)
+                    .toList();
+
+            return matchDayRepository.saveAll(matchDays);
+        } catch (Exception e) {
+            logger.error("Unexpected error while creating several match days in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     @Transactional(readOnly = true)
     public List<MatchDayDTO> findByCategoryId(String categoryId) {
         List<MatchDay> matchDaysList;
@@ -77,8 +91,8 @@ public class MatchDayService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(matchDaysList)) {
-            logger.warn("No match days were found by categoryId {} in repository.", categoryId);
-            throw new NotFoundException("No match days found in repository by requested categoryId.");
+            logger.warn("Match days were not found by categoryId {} in repository.", categoryId);
+            throw new NotFoundException("Match days not found in repository by requested categoryId.");
         } else {
             return matchDaysList.stream()
                     .map(matchDayMapper::matchDayEntityToDto)
@@ -97,8 +111,8 @@ public class MatchDayService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(matchDaysList)) {
-            logger.warn("No match days were found by categoryId {} and season {} in repository.", categoryId, season);
-            throw new NotFoundException("No match days found in repository by requested categoryId and season.");
+            logger.warn("Match days were not found by categoryId {} and season {} in repository.", categoryId, season);
+            throw new NotFoundException("Match days not found in repository by requested categoryId and season.");
         } else {
             return matchDaysList.stream()
                     .map(matchDayMapper::matchDayEntityToDto)
@@ -111,8 +125,8 @@ public class MatchDayService {
         try {
             List<MatchDay> matchDaysList = matchDayRepository.findByCategoryId(categoryId);
             if (CollectionUtils.isEmpty(matchDaysList)) {
-                logger.warn("No match days to delete were found by categoryId {} in repository.", categoryId);
-                throw new NotFoundException("No match days found in repository by requested categoryId.");
+                logger.warn("Match days to delete were not found by categoryId {} in repository.", categoryId);
+                throw new NotFoundException("Match days not found in repository by requested categoryId.");
             } else {
                 matchDayRepository.deleteAll(matchDaysList);
             }
@@ -129,9 +143,9 @@ public class MatchDayService {
         try {
             List<MatchDay> matchDaysList = matchDayRepository.findByCategoryIdAndSeason(categoryId, season);
             if (CollectionUtils.isEmpty(matchDaysList)) {
-                logger.warn("No match days to delete were found by categoryId {} and season {} in repository.",
+                logger.warn("Match days to delete were not found by categoryId {} and season {} in repository.",
                         categoryId, season);
-                throw new NotFoundException("No match days found in repository by requested categoryId and season.");
+                throw new NotFoundException("Match days not found in repository by requested categoryId and season.");
             } else {
                 matchDayRepository.deleteAll(matchDaysList);
             }

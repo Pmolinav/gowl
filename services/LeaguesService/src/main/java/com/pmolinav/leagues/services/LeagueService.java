@@ -45,8 +45,8 @@ public class LeagueService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(leaguesList)) {
-            logger.warn("No leagues were found in repository.");
-            throw new NotFoundException("No leagues found in repository.");
+            logger.warn("Leagues were not found in repository.");
+            throw new NotFoundException("Leagues not found in repository.");
         } else {
             return leaguesList.stream()
                     .map(leagueMapper::leagueEntityToDto)

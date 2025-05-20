@@ -57,8 +57,8 @@ public class LeaguePlayerService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(leaguePlayers)) {
-            logger.warn("No league players were found in repository by leagueId {}.", id);
-            throw new NotFoundException("No players found in repository by requested leagueId.");
+            logger.warn("League players were not found in repository by leagueId {}.", id);
+            throw new NotFoundException("League layers not found in repository by requested leagueId.");
         } else {
             return leaguePlayers.stream()
                     .map(leaguePlayerMapper::leaguePlayerEntityToDto)
@@ -94,8 +94,8 @@ public class LeaguePlayerService {
         }
 
         if (CollectionUtils.isEmpty(leaguePlayers)) {
-            logger.warn("No league players were found in repository by username {}.", username);
-            throw new NotFoundException("No players found in repository by requested username.");
+            logger.warn("League players were not found in repository by username {}.", username);
+            throw new NotFoundException("League players not found in repository by requested username.");
         }
 
         List<Long> leagueIds = leaguePlayers.stream()
@@ -111,8 +111,8 @@ public class LeaguePlayerService {
         }
 
         if (CollectionUtils.isEmpty(leagues)) {
-            logger.warn("No leagues were found in repository for the given league ids {}.", leagueIds);
-            throw new NotFoundException("No leagues found for the requested user.");
+            logger.warn("Leagues were not found in repository for the given league ids {}.", leagueIds);
+            throw new NotFoundException("Leagues not found for the requested user.");
         }
 
         return leagues.stream()
@@ -158,8 +158,8 @@ public class LeaguePlayerService {
         try {
             List<LeaguePlayer> leaguePlayers = leaguePlayerRepository.findByLeagueId(id);
             if (CollectionUtils.isEmpty(leaguePlayers)) {
-                logger.warn("No league players to delete were found by leagueId {} in repository.", id);
-                throw new NotFoundException("No league players found in repository by requested leagueId.");
+                logger.warn("League players to delete were not found by leagueId {} in repository.", id);
+                throw new NotFoundException("League players not found in repository by requested leagueId.");
             } else {
                 leaguePlayerRepository.deleteAll(leaguePlayers);
             }

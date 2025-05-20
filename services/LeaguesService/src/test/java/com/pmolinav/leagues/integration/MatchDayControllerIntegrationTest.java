@@ -64,6 +64,28 @@ class MatchDayControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
+    void createMatchDaysHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeagueCategoryWithId("PREMIER2");
+        List<MatchDayDTO> requestListDto = List.of(
+                new MatchDayDTO("PREMIER2", 2025, 1, 123L, 1234L),
+                new MatchDayDTO("PREMIER2", 2025, 2, 1234L, 1235L),
+                new MatchDayDTO("PREMIER2", 2025, 3, 1235L, 12356L)
+        );
+
+        MvcResult result = mockMvc.perform(post("/match-days/bulk")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestListDto)))
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        String responseBody = result.getResponse().getContentAsString();
+
+        assertTrue(responseBody.contains("PREMIER2"));
+
+        assertEquals(3L, matchDayRepository.findByCategoryId("PREMIER2").size());
+    }
+
+    @Test
     void findMatchDayByByCategoryIdNotFound() throws Exception {
         mockMvc.perform(get("/match-days/categories/OTHER_CATEGORY"))
                 .andExpect(status().isNotFound());

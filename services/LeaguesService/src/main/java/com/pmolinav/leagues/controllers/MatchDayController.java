@@ -55,6 +55,24 @@ public class MatchDayController {
 
     }
 
+    @PostMapping("/bulk")
+    public ResponseEntity<List<MatchDayId>> createMatchDays(@RequestBody List<MatchDayDTO> matchDayDTOList) {
+        try {
+            List<MatchDay> createdMatchDays = matchDayService.createMatchDays(matchDayDTOList);
+
+//            leaguesService.storeInKafka(ChangeType.CREATE, createdMatchDay.getCategoryId(), createdMatchDay);
+
+            return new ResponseEntity<>(createdMatchDays.stream()
+                    .map(matchDay -> new MatchDayId(matchDay.getCategoryId(),
+                            matchDay.getSeason(),
+                            matchDay.getMatchDayNumber()))
+                    .toList(), HttpStatus.CREATED);
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+
+    }
+
     @GetMapping("/categories/{categoryId}")
     public ResponseEntity<List<MatchDayDTO>> findMatchDayByCategoryId(@PathVariable String categoryId) {
         try {

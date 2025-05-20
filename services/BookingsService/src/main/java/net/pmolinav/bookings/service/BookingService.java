@@ -51,8 +51,8 @@ public class BookingService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(bookingsList)) {
-            logger.warn("No bookings were found in repository.");
-            throw new NotFoundException("No bookings found in repository.");
+            logger.warn("Bookings were not found in repository.");
+            throw new NotFoundException("Bookings not found in repository.");
         } else {
             return bookingsList;
         }

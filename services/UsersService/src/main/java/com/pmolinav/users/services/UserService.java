@@ -45,8 +45,8 @@ public class UserService {
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(usersList)) {
-            logger.warn("No users were found in repository.");
-            throw new NotFoundException("No users found in repository.");
+            logger.warn("Users were not found in repository.");
+            throw new NotFoundException("Users not found in repository.");
         } else {
             return usersList;
         }

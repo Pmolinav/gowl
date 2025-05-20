@@ -48,8 +48,8 @@ public class LeaguePlayerPointsService {
         }
 
         if (CollectionUtils.isEmpty(leaguePlayerPoints)) {
-            logger.warn("No league player points were found in repository by leagueId {} and username {}.", id, username);
-            throw new NotFoundException("No league player points found in repository by requested leagueId and username.");
+            logger.warn("League player points were not found in repository by leagueId {} and username {}.", id, username);
+            throw new NotFoundException("League player points not found in repository by requested leagueId and username.");
         }
 
         return leaguePlayerPoints.stream()
@@ -69,9 +69,9 @@ public class LeaguePlayerPointsService {
         }
 
         if (CollectionUtils.isEmpty(leaguePlayerPoints)) {
-            logger.warn("No league player points were found in repository by categoryId {}, season {} and number {}.",
+            logger.warn("League player points were not found in repository by categoryId {}, season {} and number {}.",
                     categoryId, season, number);
-            throw new NotFoundException("No league player points found in repository by requested categoryId, season and number.");
+            throw new NotFoundException("League player points not found in repository by requested categoryId, season and number.");
         }
 
         return leaguePlayerPoints.stream()
@@ -96,9 +96,9 @@ public class LeaguePlayerPointsService {
             List<LeaguePlayerPoints> leaguePlayerPointsList = leaguePlayerPointsRepository.findByLeagueIdAndUsername(id, username);
 
             if (CollectionUtils.isEmpty(leaguePlayerPointsList)) {
-                logger.warn("No league player points to delete were found by leagueId {} and username {} in repository.",
+                logger.warn("League player points to delete were not found by leagueId {} and username {} in repository.",
                         id, username);
-                throw new NotFoundException("No league player points found in repository by requested leagueId and username.");
+                throw new NotFoundException("League player points not found in repository by requested leagueId and username.");
             } else {
                 leaguePlayerPointsRepository.deleteAll(leaguePlayerPointsList);
             }
@@ -117,9 +117,9 @@ public class LeaguePlayerPointsService {
                     leaguePlayerPointsRepository.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);
 
             if (CollectionUtils.isEmpty(leaguePlayerPointsList)) {
-                logger.warn("No league player points to delete were found by categoryId {}, season {} and number {} in repository.",
+                logger.warn("League player points to delete were not found by categoryId {}, season {} and number {} in repository.",
                         categoryId, season, number);
-                throw new NotFoundException("No league player points found in repository by requested categoryId, season and number.");
+                throw new NotFoundException("League player points not found in repository by requested categoryId, season and number.");
             } else {
                 leaguePlayerPointsRepository.deleteAll(leaguePlayerPointsList);
             }

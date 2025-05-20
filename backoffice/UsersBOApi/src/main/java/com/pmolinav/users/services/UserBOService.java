@@ -31,8 +31,8 @@ public class UserBOService {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("No users found.", e);
-                throw new NotFoundException("No users found");
+                logger.warn("Users not found.", e);
+                throw new NotFoundException("Users not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);
