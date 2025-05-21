@@ -1,4 +1,4 @@
-package com.pmolinav.leagues.unit;
+package com.pmolinav.leagues.units;
 
 import com.pmolinav.leagues.exceptions.InternalServerErrorException;
 import com.pmolinav.leagues.exceptions.NotFoundException;
@@ -6,6 +6,7 @@ import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
-class LeaguePlayerPointsControllerTest extends BaseUnitTest {
+class LeaguePlayerPointsBOControllerTest extends BaseUnitTest {
 
     LeaguePlayerPointsDTO leaguePlayerPointsDTO;
     List<LeaguePlayerPointsDTO> expectedLeaguePlayerPoints;
@@ -154,17 +155,17 @@ class LeaguePlayerPointsControllerTest extends BaseUnitTest {
                         2025, 5, 1L, "someUser", 26)
         );
 
-        when(leaguePlayerPointsServiceMock.findByLeagueIdAndPlayer(1L, "someUser"))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByLeagueIdAndPlayer(1L, "someUser"))
                 .thenReturn(expectedLeaguePlayerPoints);
     }
 
     private void whenFindLeaguePlayerPointsByLeagueIdAndUsernameInServiceThrowsNotFoundException() {
-        when(leaguePlayerPointsServiceMock.findByLeagueIdAndPlayer(1L, "someUser"))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByLeagueIdAndPlayer(1L, "someUser"))
                 .thenThrow(new NotFoundException("Not Found"));
     }
 
     private void whenFindLeaguePlayerPointsByLeagueIdInServiceThrowsServerException() {
-        when(leaguePlayerPointsServiceMock.findByLeagueIdAndPlayer(1L, "someUser"))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByLeagueIdAndPlayer(1L, "someUser"))
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
@@ -176,17 +177,17 @@ class LeaguePlayerPointsControllerTest extends BaseUnitTest {
                         2025, 4, 1L, "otherUser", 234)
         );
 
-        when(leaguePlayerPointsServiceMock.findByCategoryIdSeasonAndNumber("PREMIER", 2025, 4))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByCategorySeasonAndNumber("PREMIER", 2025, 4))
                 .thenReturn(expectedLeaguePlayerPoints);
     }
 
     private void whenFindLeaguePlayerPointsByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException() {
-        when(leaguePlayerPointsServiceMock.findByCategoryIdSeasonAndNumber("PREMIER", 2025, 4))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByCategorySeasonAndNumber("PREMIER", 2025, 4))
                 .thenThrow(new NotFoundException("Not Found"));
     }
 
     private void whenFindLeaguePlayerPointsByCategoryIdSeasonAndNumberInServiceThrowsServerException() {
-        when(leaguePlayerPointsServiceMock.findByCategoryIdSeasonAndNumber("PREMIER", 2025, 4))
+        when(leaguePlayerPointsBOServiceMock.findLeaguePlayerPointsByCategorySeasonAndNumber("PREMIER", 2025, 4))
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
@@ -194,91 +195,94 @@ class LeaguePlayerPointsControllerTest extends BaseUnitTest {
         expectedLeaguePlayerPoints = List.of(new LeaguePlayerPointsDTO("PREMIER",
                 2025, 4, 1L, "someUser", 26));
 
-        when(leaguePlayerPointsServiceMock.createLeaguePlayerPoints(any()))
+        when(leaguePlayerPointsBOServiceMock.createLeaguePlayerPoints(any()))
                 .thenReturn(expectedLeaguePlayerPoints.getFirst());
     }
 
     private void whenCreateLeaguePlayerInServiceThrowsServerException() {
-        when(leaguePlayerPointsServiceMock.createLeaguePlayerPoints(any()))
+        when(leaguePlayerPointsBOServiceMock.createLeaguePlayerPoints(any()))
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
     private void whenDeleteLeaguePlayerPointsByLeagueIdAndUsernameInServiceIsOk() {
-        doNothing().when(leaguePlayerPointsServiceMock).deleteLeaguePlayerPointsByLeagueIdAndUsername(anyLong(), anyString());
+        doNothing().when(leaguePlayerPointsBOServiceMock).deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void whenDeleteLeaguePlayerByLeagueIdAndUsernameInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
-                .when(leaguePlayerPointsServiceMock)
-                .deleteLeaguePlayerPointsByLeagueIdAndUsername(anyLong(), anyString());
+                .when(leaguePlayerPointsBOServiceMock)
+                .deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void whenDeleteLeaguePlayerByLeagueIdAndUsernameInServiceThrowsServerException() {
         doThrow(new InternalServerErrorException("Internal Server Error"))
-                .when(leaguePlayerPointsServiceMock)
-                .deleteLeaguePlayerPointsByLeagueIdAndUsername(anyLong(), anyString());
+                .when(leaguePlayerPointsBOServiceMock)
+                .deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void whenDeleteLeaguePlayerPointsByCategoryIdSeasonAndNumberInServiceIsOk() {
-        doNothing().when(leaguePlayerPointsServiceMock)
-                .deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+        doNothing().when(leaguePlayerPointsBOServiceMock)
+                .deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void whenDeleteLeaguePlayerByCategoryIdSeasonAndNumberInServiceThrowsNotFoundException() {
         doThrow(new NotFoundException("Not Found"))
-                .when(leaguePlayerPointsServiceMock)
-                .deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(leaguePlayerPointsBOServiceMock)
+                .deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void whenDeleteLeaguePlayerByCategoryIdSeasonAndNumberInServiceThrowsServerException() {
         doThrow(new InternalServerErrorException("Internal Server Error"))
-                .when(leaguePlayerPointsServiceMock)
-                .deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(leaguePlayerPointsBOServiceMock)
+                .deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andFindLeaguePlayerPointsByLeagueIdAndUsernameIsCalledInController() {
-        result = leaguePlayerPointsController.findLeaguePlayerPointsByLeagueIdAndPlayer(1L, "someUser");
+        result = leaguePlayerPointsBOController.findLeaguePlayerPointsByLeagueIdAndPlayer(this.requestUid, 1L, "someUser");
     }
 
     private void andFindLeaguePlayerPointsByCategoryIdSeasonAndNumberIsCalledInController() {
-        result = leaguePlayerPointsController.findLeaguePlayerPointsByCategorySeasonAndNumber("PREMIER", 2025, 4);
+        result = leaguePlayerPointsBOController.findLeaguePlayerPointsByCategorySeasonAndNumber(this.requestUid, "PREMIER", 2025, 4);
     }
 
     private void andCreateLeaguePlayerPointsIsCalledInController() {
-        result = leaguePlayerPointsController.createLeaguePlayersPoints(leaguePlayerPointsDTO);
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+
+        result = leaguePlayerPointsBOController.createLeaguePlayersPoints(this.requestUid, leaguePlayerPointsDTO, bindingResult);
     }
 
     private void andDeleteLeaguePlayerPointsByLeagueIdAndUsernameIsCalledInController() {
-        result = leaguePlayerPointsController.deleteLeaguePlayerPointsByLeagueIdAndPlayer(1L, "someUser");
+        result = leaguePlayerPointsBOController.deleteLeaguePlayerPointsByLeagueIdAndPlayer(this.requestUid, 1L, "someUser");
     }
 
     private void andDeleteLeaguePlayerPointsByCategoryIdSeasonAndNumberIsCalledInController() {
-        result = leaguePlayerPointsController.deleteLeaguePlayerByCategorySeasonAndNumber("PREMIER", 2025, 4);
+        result = leaguePlayerPointsBOController.deleteLeaguePlayerByCategorySeasonAndNumber(this.requestUid, "PREMIER", 2025, 4);
     }
 
     private void thenVerifyFindLeaguePlayerPointsByLeagueIdAndUsernameHasBeenCalledInService() {
-        verify(leaguePlayerPointsServiceMock, times(1))
-                .findByLeagueIdAndPlayer(anyLong(), anyString());
+        verify(leaguePlayerPointsBOServiceMock, times(1))
+                .findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void thenVerifyFindLeaguePlayerPointsByCategoryIdSeasonAndNumberHasBeenCalledInService() {
-        verify(leaguePlayerPointsServiceMock, times(1))
-                .findByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+        verify(leaguePlayerPointsBOServiceMock, times(1))
+                .findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void thenVerifyCreateLeaguePlayerPointsHasBeenCalledInService() {
-        verify(leaguePlayerPointsServiceMock, times(1))
+        verify(leaguePlayerPointsBOServiceMock, times(1))
                 .createLeaguePlayerPoints(any());
     }
 
     private void thenVerifyDeleteLeaguePlayerPointsByLeagueIdAndUsernameHasBeenCalledInService() {
-        verify(leaguePlayerPointsServiceMock, times(1))
-                .deleteLeaguePlayerPointsByLeagueIdAndUsername(anyLong(), anyString());
+        verify(leaguePlayerPointsBOServiceMock, times(1))
+                .deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void thenVerifyDeleteLeaguePlayerPointsByCategoryIdSeasonAndNumberHasBeenCalledInService() {
-        verify(leaguePlayerPointsServiceMock, times(1))
-                .deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+        verify(leaguePlayerPointsBOServiceMock, times(1))
+                .deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void thenReceivedStatusCodeIs(HttpStatus httpStatus) {

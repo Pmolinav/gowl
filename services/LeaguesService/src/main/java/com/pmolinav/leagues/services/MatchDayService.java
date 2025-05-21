@@ -121,7 +121,7 @@ public class MatchDayService {
     }
 
     @Transactional
-    public void deleteMatchDayByCategoryId(String categoryId) {
+    public void deleteMatchDaysByCategoryId(String categoryId) {
         try {
             List<MatchDay> matchDaysList = matchDayRepository.findByCategoryId(categoryId);
             if (CollectionUtils.isEmpty(matchDaysList)) {
@@ -139,7 +139,7 @@ public class MatchDayService {
     }
 
     @Transactional
-    public void deleteMatchDayByCategoryIdAndSeason(String categoryId, Integer season) {
+    public void deleteMatchDaysByCategoryIdAndSeason(String categoryId, Integer season) {
         try {
             List<MatchDay> matchDaysList = matchDayRepository.findByCategoryIdAndSeason(categoryId, season);
             if (CollectionUtils.isEmpty(matchDaysList)) {

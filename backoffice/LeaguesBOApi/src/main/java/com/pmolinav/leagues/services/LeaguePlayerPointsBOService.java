@@ -57,7 +57,7 @@ public class LeaguePlayerPointsBOService {
         }
     }
 
-    public LeaguePlayerPointsDTO createLeaguePlayersPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
+    public LeaguePlayerPointsDTO createLeaguePlayerPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
         try {
             return leaguePlayerPointsClient.createLeaguePlayersPoints(leaguePlayerPoints);
         } catch (FeignException e) {

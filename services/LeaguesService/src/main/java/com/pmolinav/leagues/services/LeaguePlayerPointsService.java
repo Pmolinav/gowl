@@ -91,7 +91,7 @@ public class LeaguePlayerPointsService {
     }
 
     @Transactional
-    public void deleteLeaguePlayersByLeagueIdAndUsername(Long id, String username) {
+    public void deleteLeaguePlayerPointsByLeagueIdAndUsername(Long id, String username) {
         try {
             List<LeaguePlayerPoints> leaguePlayerPointsList = leaguePlayerPointsRepository.findByLeagueIdAndUsername(id, username);
 
@@ -111,7 +111,7 @@ public class LeaguePlayerPointsService {
     }
 
     @Transactional
-    public void deleteLeaguePlayersByCategoryIdSeasonAndNumber(String categoryId, Integer season, Integer number) {
+    public void deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(String categoryId, Integer season, Integer number) {
         try {
             List<LeaguePlayerPoints> leaguePlayerPointsList =
                     leaguePlayerPointsRepository.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);

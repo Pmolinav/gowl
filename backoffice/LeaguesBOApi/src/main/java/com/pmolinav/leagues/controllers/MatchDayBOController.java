@@ -51,8 +51,8 @@ public class MatchDayBOController {
 
     @GetMapping("/categories/{categoryId}")
     @Operation(summary = "Retrieve match days by category ID", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<MatchDayDTO>> findMatchDayByCategoryId(@RequestParam String requestUid,
-                                                                      @PathVariable String categoryId) {
+    public ResponseEntity<List<MatchDayDTO>> findMatchDaysByCategoryId(@RequestParam String requestUid,
+                                                                       @PathVariable String categoryId) {
         try {
             List<MatchDayDTO> matchDays = matchDaysBOService.findMatchDayByCategoryId(categoryId);
 
@@ -66,9 +66,9 @@ public class MatchDayBOController {
 
     @GetMapping("/categories/{categoryId}/seasons/{season}")
     @Operation(summary = "Retrieve match days by category ID and season", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<MatchDayDTO>> findMatchDayByCategoryIdAndSeason(@RequestParam String requestUid,
-                                                                               @PathVariable String categoryId,
-                                                                               @PathVariable Integer season) {
+    public ResponseEntity<List<MatchDayDTO>> findMatchDaysByCategoryIdAndSeason(@RequestParam String requestUid,
+                                                                                @PathVariable String categoryId,
+                                                                                @PathVariable Integer season) {
         try {
             List<MatchDayDTO> matchDays = matchDaysBOService.findMatchDayByCategoryIdAndSeason(categoryId, season);
             return ResponseEntity.ok(matchDays);
@@ -81,9 +81,13 @@ public class MatchDayBOController {
 
     @PostMapping
     @Operation(summary = "Create new match day", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<MatchDayId> createMatchDay(@RequestParam String requestUid,
-                                                     @RequestBody MatchDayDTO matchDayDTO) {
+    public ResponseEntity<?> createMatchDay(@RequestParam String requestUid,
+                                            @RequestBody MatchDayDTO matchDayDTO,
+                                            BindingResult result) {
         try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
             MatchDayId matchDayId = matchDaysBOService.createMatchDay(matchDayDTO);
 
             return new ResponseEntity<>(matchDayId, HttpStatus.CREATED);

@@ -76,7 +76,7 @@ public class LeaguePlayerPointsBOController {
             if (result.hasErrors()) {
                 return validation(result);
             }
-            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsBOService.createLeaguePlayersPoints(leaguePlayerPoints);
+            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsBOService.createLeaguePlayerPoints(leaguePlayerPoints);
 
             return new ResponseEntity<>(createdLeaguePlayerPoints, HttpStatus.CREATED);
         } catch (CustomStatusException e) {

@@ -128,7 +128,7 @@ public class MatchDayController {
     @DeleteMapping("/categories/{categoryId}")
     public ResponseEntity<?> deleteMatchDaysByCategoryId(@PathVariable String categoryId) {
         try {
-            matchDayService.deleteMatchDayByCategoryId(categoryId);
+            matchDayService.deleteMatchDaysByCategoryId(categoryId);
 
 //            leagueService.storeInKafka(ChangeType.DELETE, id, null);
 
@@ -144,7 +144,7 @@ public class MatchDayController {
     public ResponseEntity<?> deleteMatchDaysByCategoryIdAndSeason(@PathVariable String categoryId,
                                                                   @PathVariable Integer season) {
         try {
-            matchDayService.deleteMatchDayByCategoryIdAndSeason(categoryId, season);
+            matchDayService.deleteMatchDaysByCategoryIdAndSeason(categoryId, season);
 
 //            leagueService.storeInKafka(ChangeType.DELETE, id, null);
 

@@ -1,9 +1,7 @@
 package com.pmolinav.leagues.units;
 
-import com.pmolinav.leagues.controllers.LeagueBOController;
-import com.pmolinav.leagues.controllers.LeagueCategoryBOController;
-import com.pmolinav.leagues.services.LeagueCategoriesBOService;
-import com.pmolinav.leagues.services.LeaguesBOService;
+import com.pmolinav.leagues.controllers.*;
+import com.pmolinav.leagues.services.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -24,6 +22,21 @@ class BaseUnitTest {
     LeagueCategoriesBOService leagueCategoriesBOServiceMock;
     @InjectMocks
     LeagueCategoryBOController leagueCategoriesBOController;
+
+    @Mock
+    MatchDaysBOService matchDaysBOServiceMock;
+    @InjectMocks
+    MatchDayBOController matchDayBOController;
+
+    @Mock
+    LeaguePlayersBOService leaguePlayersBOServiceMock;
+    @InjectMocks
+    LeaguePlayerBOController leaguePlayerBOController;
+
+    @Mock
+    LeaguePlayerPointsBOService leaguePlayerPointsBOServiceMock;
+    @InjectMocks
+    LeaguePlayerPointsBOController leaguePlayerPointsBOController;
 
     @Mock
     AuthenticationManager authenticationManager;

@@ -72,7 +72,7 @@ public class LeaguePlayerPointsController {
     public ResponseEntity<?> deleteLeaguePlayerPointsByLeagueIdAndPlayer(@PathVariable Long id,
                                                                          @PathVariable String username) {
         try {
-            leaguePlayerPointsService.deleteLeaguePlayersByLeagueIdAndUsername(id, username);
+            leaguePlayerPointsService.deleteLeaguePlayerPointsByLeagueIdAndUsername(id, username);
 
 //            leagueService.storeInKafka(ChangeType.DELETE, id, null);
 
@@ -89,7 +89,7 @@ public class LeaguePlayerPointsController {
                                                                          @PathVariable Integer season,
                                                                          @PathVariable Integer number) {
         try {
-            leaguePlayerPointsService.deleteLeaguePlayersByCategoryIdSeasonAndNumber(categoryId, season, number);
+            leaguePlayerPointsService.deleteLeaguePlayerPointsByCategoryIdSeasonAndNumber(categoryId, season, number);
 
 //            leagueService.storeInKafka(ChangeType.DELETE, id, null);
 
