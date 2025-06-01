@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
-public class UserBOConfigurationDefsTest extends BaseSystemTest {
+public class UsersBOApiDefsTest extends BaseSystemTest {
 
     private final String localURL = "http://localhost:8002";
 

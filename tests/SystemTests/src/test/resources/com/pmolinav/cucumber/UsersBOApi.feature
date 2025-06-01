@@ -1,4 +1,4 @@
-Feature: UserBOConfiguration
+Feature: UserBOApi
 
   Background:
     Given the following roles have been stored previously

@@ -15,7 +15,7 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-public class LoginStepDefsTest extends BaseSystemTest {
+public class AuthApiStepDefsTest extends BaseSystemTest {
 
     private final String localURL = "http://localhost:8003";
 

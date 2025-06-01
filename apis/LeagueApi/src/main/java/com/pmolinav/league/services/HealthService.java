@@ -1,10 +1,10 @@
 
-package com.pmolinav.leagues.services;
+package com.pmolinav.league.services;
 
-import com.pmolinav.leagues.clients.HealthClient;
-import com.pmolinav.leagues.exceptions.CustomStatusException;
-import com.pmolinav.leagues.exceptions.InternalServerErrorException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.league.clients.HealthClient;
+import com.pmolinav.league.exceptions.CustomStatusException;
+import com.pmolinav.league.exceptions.InternalServerErrorException;
+import com.pmolinav.league.exceptions.NotFoundException;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -13,9 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HealthBOService {
+public class HealthService {
 
-    private static final Logger logger = LoggerFactory.getLogger(HealthBOService.class);
+    private static final Logger logger = LoggerFactory.getLogger(HealthService.class);
 
     @Autowired
     private HealthClient healthClient;

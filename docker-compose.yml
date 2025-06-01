@@ -1,4 +1,5 @@
 services:
+  ## DATABASE
   postgres:
     container_name: postgres
     image: postgres:15-alpine
@@ -10,6 +11,7 @@ services:
       POSTGRES_DB: users
     volumes:
       - data-postgres:/var/lib/postgresql/data
+      - ./scripts/docker-compose/init_dbs.sh:/docker-entrypoint-initdb.d/init_dbs.sh:ro
     restart: always
     networks:
       - spring
@@ -44,44 +46,89 @@ services:
 #      - '9092:9092'
 #    restart: always
 
+  ## APIS
   authapi:
     container_name: authapi
     image: pablo7molina/authapi:latest
     ports:
       - "8003:8003"
-      - "5007:5007" # Debugging port
+      - "5003:5003" # Debugging port
     env_file: apis/AuthApi/.env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5003
     networks:
       - spring
     restart: always
 
-  usersboapi:
-    container_name: usersboapi
-    image: pablo7molina/usersboapi:latest
+  leagueapi:
+    container_name: leagueapi
+    image: pablo7molina/leagueapi:latest
     ports:
-      - "8002:8002"
+      - "8006:8006"
       - "5006:5006" # Debugging port
-    env_file: backoffice/UsersBOApi/.env
+    env_file: apis/LeagueApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
     networks:
       - spring
     restart: always
 
+  ## BACKOFFICE
+  usersboapi:
+    container_name: usersboapi
+    image: pablo7molina/usersboapi:latest
+    ports:
+      - "8002:8002"
+      - "5002:5002" # Debugging port
+    env_file: backoffice/UsersBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
+    networks:
+      - spring
+    restart: always
+
+  leaguesboapi:
+    container_name: leaguesboapi
+    image: pablo7molina/leaguesboapi:latest
+    ports:
+      - "8005:8005"
+      - "5005:5005" # Debugging port
+    env_file: backoffice/LeaguesBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - spring
+    restart: always
+
+  ## SERVICES
   usersservice:
     container_name: usersservice
     image: pablo7molina/usersservice:latest
     ports:
       - "8001:8001"
-      - "5005:5005" # Debugging port
+      - "5001:5001" # Debugging port
     depends_on:
       - postgres
 #      - kafka
     env_file: services/UsersService/.env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
+    networks:
+      - spring
+    restart: always
+
+  leaguesservice:
+    container_name: leaguesservice
+    image: pablo7molina/leaguesservice:latest
+    ports:
+      - "8004:8004"
+      - "5004:5004" # Debugging port
+    depends_on:
+      - postgres
+#      - kafka
+    env_file: services/LeaguesService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5004
     networks:
       - spring
     restart: always
