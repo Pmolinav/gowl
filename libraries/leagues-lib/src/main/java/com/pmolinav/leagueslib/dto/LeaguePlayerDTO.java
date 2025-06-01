@@ -27,4 +27,9 @@ public class LeaguePlayerDTO {
 
     private PlayerStatus playerStatus = PlayerStatus.ACTIVE;
 
+    public LeaguePlayerDTO(String username, Integer totalPoints, PlayerStatus playerStatus) {
+        this.username = username;
+        this.totalPoints = totalPoints;
+        this.playerStatus = playerStatus;
+    }
 }

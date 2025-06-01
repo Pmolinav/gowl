@@ -13,7 +13,7 @@
     <artifactId>LeaguesBOApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>LeaguesBOApi</name>
-    <description>Leagues BackOffice Api</description>
+    <description>Leagues BackOffice API</description>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

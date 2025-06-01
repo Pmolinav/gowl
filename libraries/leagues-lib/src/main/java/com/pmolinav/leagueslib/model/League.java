@@ -3,6 +3,8 @@ package com.pmolinav.leagueslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -64,6 +66,9 @@ public class League {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private LeagueCategory category;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "league")
+    private List<LeaguePlayer> leaguePlayers;
 
     public League(Long leagueId, String name, String description, String categoryId, boolean isPublic, String password, LeagueStatus status, Integer maxPlayers, String logoUrl, boolean isPremium, String ownerUsername, Long creationDate, Long modificationDate) {
         this.leagueId = leagueId;

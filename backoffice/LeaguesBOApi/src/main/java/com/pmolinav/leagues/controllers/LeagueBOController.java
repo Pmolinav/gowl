@@ -66,6 +66,30 @@ public class LeagueBOController {
         }
     }
 
+    @PutMapping("close/{id}")
+    @Operation(summary = "Close a league by league ID", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> closeLeagueById(@RequestParam String requestUid,
+                                             @PathVariable long id) {
+        try {
+            leaguesBOService.closeLeagueById(id);
+            return ResponseEntity.ok().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
+    @PutMapping("close/names/{name}")
+    @Operation(summary = "Close a league by league name", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> closeLeagueByName(@RequestParam String requestUid,
+                                             @PathVariable String name) {
+        try {
+            leaguesBOService.closeLeagueByName(name);
+            return ResponseEntity.ok().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
     @GetMapping("{id}")
     @Operation(summary = "Get a specific league by ID", description = "Bearer token is required to authorize users.")
     public ResponseEntity<LeagueDTO> getLeagueById(@RequestParam String requestUid,

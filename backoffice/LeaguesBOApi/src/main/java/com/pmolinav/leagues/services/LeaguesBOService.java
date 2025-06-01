@@ -51,6 +51,30 @@ public class LeaguesBOService {
         }
     }
 
+    public void closeLeagueById(long id) {
+        try {
+            leaguesClient.closeLeagueById(id);
+        } catch (FeignException e) {
+            logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+            throw new CustomStatusException(e.getMessage(), e.status());
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    public void closeLeagueByName(String name) {
+        try {
+            leaguesClient.closeLeagueByName(name);
+        } catch (FeignException e) {
+            logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+            throw new CustomStatusException(e.getMessage(), e.status());
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     public LeagueDTO findLeagueById(long id) {
         try {
             return leaguesClient.findLeagueById(id);

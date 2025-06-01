@@ -2,7 +2,10 @@ package com.pmolinav.leagues.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
+import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
+import com.pmolinav.leagueslib.model.League;
 import com.pmolinav.leagueslib.model.LeagueStatus;
+import com.pmolinav.leagueslib.model.PlayerStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -93,7 +97,8 @@ class LeagueControllerIntegrationTest extends AbstractContainerBaseTest {
 
         LeagueDTO requestDto = new LeagueDTO("New League", "League description",
                 "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
-                null, false, "someUser");
+                null, false, "someUser",
+                List.of(new LeaguePlayerDTO("someUser", 33, PlayerStatus.ACTIVE)));
 
         MvcResult result = mockMvc.perform(post("/leagues")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -107,6 +112,34 @@ class LeagueControllerIntegrationTest extends AbstractContainerBaseTest {
 
         assertTrue(leagueRepository.existsById(Long.parseLong(responseBody)));
         assertFalse(leaguePlayerRepository.findByLeagueId(Long.parseLong(responseBody)).isEmpty());
+    }
+
+    @Test
+    void closeLeagueByIdHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeagueWithId("PREMIER2", "someUser");
+
+        mockMvc.perform(put("/leagues/close/" + leagueId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        Optional<League> league = leagueRepository.findById(leagueId);
+
+        assertTrue(league.isPresent());
+        assertEquals(LeagueStatus.CLOSED, leagueRepository.findById(leagueId).get().getStatus());
+    }
+
+    @Test
+    void closeLeagueByNameHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeagueWithId("PREMIER2", "someUser");
+
+        mockMvc.perform(put("/leagues/close/names/" + "Some League " + "PREMIER2")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        Optional<League> league = leagueRepository.findById(leagueId);
+
+        assertTrue(league.isPresent());
+        assertEquals(LeagueStatus.CLOSED, leagueRepository.findByName("Some League " + "PREMIER2").get().getStatus());
     }
 
     @Test

@@ -98,6 +98,28 @@ public class LeagueService {
     }
 
     @Transactional
+    public void closeLeagueById(Long id) {
+        try {
+            int result = leagueRepository.closeLeagueById(id);
+            logger.debug("Closed league with id {} successfully with result {}", id, result);
+        } catch (Exception e) {
+            logger.error("Unexpected error while closing league ID {} in repository.", id, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void closeLeagueByName(String name) {
+        try {
+            int result = leagueRepository.closeLeagueByName(name);
+            logger.debug("Closed league with name {} successfully with result {}", name, result);
+        } catch (Exception e) {
+            logger.error("Unexpected error while closing league name {} in repository.", name, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
     public void deleteLeague(Long id) {
         try {
             League league = leagueRepository.findById(id)

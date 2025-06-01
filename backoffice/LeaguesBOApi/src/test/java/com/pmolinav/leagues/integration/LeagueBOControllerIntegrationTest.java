@@ -66,7 +66,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
 
         LeagueDTO requestDto = new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
-                22, null, false, "someUser");
+                22, null, false, "someUser", null);
 
         mockMvc.perform(post("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -81,7 +81,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
 
         LeagueDTO requestDto = new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
-                22, null, false, "someUser");
+                22, null, false, "someUser", null);
 
         MvcResult result = mockMvc.perform(post("/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -93,6 +93,46 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
         String responseBody = result.getResponse().getContentAsString();
 
         assertThat(responseBody, matchesPattern("\\d+"));
+    }
+
+    @Test
+    void closeLeagueByIdServerError() throws Exception {
+        andCloseLeagueByIdThrowsNonRetryableException();
+
+        mockMvc.perform(put("/leagues/close/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void closeLeagueByIdHappyPath() throws Exception {
+        andCloseLeagueByIdReturnedOk();
+
+        mockMvc.perform(put("/leagues/close/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void closeLeagueByNameServerError() throws Exception {
+        andCloseLeagueByNameThrowsNonRetryableException();
+
+        mockMvc.perform(put("/leagues/close/names/Some League Name?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void closeLeagueByNameHappyPath() throws Exception {
+        andCloseLeagueByNameReturnedOk();
+
+        mockMvc.perform(put("/leagues/close/names/Some League?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -175,6 +215,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
     private void andLeagueIsDeletedOkOnClient() {
         doNothing().when(this.leaguesClient).deleteLeague(anyLong());
     }
+
     private void andLeagueByNameIsDeletedOkOnClient() {
         doNothing().when(this.leaguesClient).deleteLeagueByName(anyString());
     }
@@ -190,7 +231,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
     private void andFindLeagueByIdReturnedLeague() {
         this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
-                22, null, false, "someUser"));
+                22, null, false, "someUser", null));
 
         when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
     }
@@ -198,7 +239,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
     private void andFindLeagueByNameReturnedLeague() {
         this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
-                22, null, false, "someUser"));
+                22, null, false, "someUser", null));
 
         when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
     }
@@ -215,10 +256,28 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
         doThrow(new RuntimeException("someException")).when(this.leaguesClient).createLeague(any(LeagueDTO.class));
     }
 
+    private void andCloseLeagueByIdReturnedOk() {
+        doNothing().when(this.leaguesClient).closeLeagueById(anyLong());
+    }
+
+    private void andCloseLeagueByNameReturnedOk() {
+        doNothing().when(this.leaguesClient).closeLeagueByName(anyString());
+    }
+
+    private void andCloseLeagueByIdThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException"))
+                .when(this.leaguesClient).closeLeagueById(anyLong());
+    }
+
+    private void andCloseLeagueByNameThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException"))
+                .when(this.leaguesClient).closeLeagueByName(anyString());
+    }
+
     private void andFindAllLeaguesReturnedValidLeagues() {
         this.expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
-                22, null, false, "someUser"));
+                22, null, false, "someUser", null));
 
         when(this.leaguesClient.findAllLeagues()).thenReturn(this.expectedLeagues);
     }

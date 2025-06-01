@@ -130,6 +130,40 @@ class LeagueBOControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* CLOSE LEAGUE BY ID */
+    @Test
+    void closeLeagueByIdHappyPath() {
+        whenCloseLeagueByIdInServiceReturnedAValidLeague();
+        andCloseLeagueByIdIsCalledInController();
+        thenVerifyCloseLeagueByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void closeLeagueByIdServerError() {
+        whenCloseLeagueByIdInServiceThrowsServerException();
+        andCloseLeagueByIdIsCalledInController();
+        thenVerifyCloseLeagueByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* CLOSE LEAGUE BY NAME */
+    @Test
+    void closeLeagueByNameHappyPath() {
+        whenCloseLeagueByNameInServiceReturnedAValidLeague();
+        andCloseLeagueByNameIsCalledInController();
+        thenVerifyCloseLeagueByNameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void closeLeagueByNameServerError() {
+        whenCloseLeagueByNameInServiceThrowsServerException();
+        andCloseLeagueByNameIsCalledInController();
+        thenVerifyCloseLeagueByNameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     /* DELETE LEAGUE BY ID */
     @Test
     void deleteLeagueHappyPath() {
@@ -183,17 +217,17 @@ class LeagueBOControllerTest extends BaseUnitTest {
     private void givenValidLeagueDTOForRequest(String name, String description, String categoryId) {
         leagueDTO = new LeagueDTO(name, description, categoryId, false,
                 "somePassword", LeagueStatus.ACTIVE, 26, null,
-                false, "someUser");
+                false, "someUser", null);
     }
 
     private void whenFindAllLeaguesInServiceReturnedValidLeagues() {
         expectedLeagues = List.of(
                 new LeagueDTO("Some League", "Some description", "PREMIER",
                         false, "somePass", LeagueStatus.ACTIVE, 200,
-                        null, false, "someUser"),
+                        null, false, "someUser", null),
                 new LeagueDTO("Other League", "Other description", "PREMIER",
                         true, null, LeagueStatus.COMPLETED, 36,
-                        null, false, "otherUser")
+                        null, false, "otherUser", null)
         );
 
         when(leaguesBOServiceMock.findAllLeagues()).thenReturn(expectedLeagues);
@@ -212,16 +246,34 @@ class LeagueBOControllerTest extends BaseUnitTest {
         when(leaguesBOServiceMock.createLeague(any())).thenReturn(1L);
     }
 
+    private void whenCloseLeagueByIdInServiceReturnedAValidLeague() {
+        doNothing().when(leaguesBOServiceMock).closeLeagueById(anyLong());
+    }
+
+    private void whenCloseLeagueByNameInServiceReturnedAValidLeague() {
+        doNothing().when(leaguesBOServiceMock).closeLeagueByName(anyString());
+    }
+
     private void whenCreateLeagueInServiceThrowsServerException() {
         when(leaguesBOServiceMock.createLeague(any(LeagueDTO.class)))
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
+    }
+
+    private void whenCloseLeagueByIdInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(leaguesBOServiceMock).closeLeagueById(anyLong());
+    }
+
+    private void whenCloseLeagueByNameInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(leaguesBOServiceMock).closeLeagueByName(anyString());
     }
 
     private void whenFindLeagueByIdInServiceReturnedValidLeague() {
         expectedLeagues = List.of(
                 new LeagueDTO("Some League", "Some description", "PREMIER",
                         false, "somePass", LeagueStatus.ACTIVE, 200,
-                        null, false, "someUser")
+                        null, false, "someUser", null)
         );
 
         when(leaguesBOServiceMock.findLeagueById(1L)).thenReturn(expectedLeagues.getFirst());
@@ -239,7 +291,7 @@ class LeagueBOControllerTest extends BaseUnitTest {
     private void whenFindLeagueByNameInServiceReturnedValidLeague() {
         expectedLeagues = List.of(new LeagueDTO("Some League", "Some description", "PREMIER",
                 false, "somePass", LeagueStatus.ACTIVE, 200,
-                null, false, "someUser"));
+                null, false, "someUser", null));
 
         when(leaguesBOServiceMock.findLeagueByName(anyString())).thenReturn(expectedLeagues.getFirst());
     }
@@ -314,6 +366,14 @@ class LeagueBOControllerTest extends BaseUnitTest {
         result = leagueBOController.createLeague(this.requestUid, leagueDTO, bindingResult);
     }
 
+    private void andCloseLeagueByIdIsCalledInController() {
+        result = leagueBOController.closeLeagueById(this.requestUid, 1L);
+    }
+
+    private void andCloseLeagueByNameIsCalledInController() {
+        result = leagueBOController.closeLeagueByName(this.requestUid, "Some League");
+    }
+
     private void andDeleteLeagueIsCalledInController() {
         result = leagueBOController.deleteLeague(this.requestUid, 1L);
     }
@@ -328,6 +388,14 @@ class LeagueBOControllerTest extends BaseUnitTest {
 
     private void thenVerifyCreateLeagueHasBeenCalledInService() {
         verify(leaguesBOServiceMock, times(1)).createLeague(any(LeagueDTO.class));
+    }
+
+    private void thenVerifyCloseLeagueByIdHasBeenCalledInService() {
+        verify(leaguesBOServiceMock, times(1)).closeLeagueById(anyLong());
+    }
+
+    private void thenVerifyCloseLeagueByNameHasBeenCalledInService() {
+        verify(leaguesBOServiceMock, times(1)).closeLeagueByName(anyString());
     }
 
     private void thenVerifyFindByIdHasBeenCalledInService() {

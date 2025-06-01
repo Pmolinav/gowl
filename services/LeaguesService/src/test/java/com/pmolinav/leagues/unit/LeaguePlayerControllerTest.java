@@ -247,10 +247,10 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
         expectedLeagues = List.of(
                 new LeagueDTO("Some League", "Some description", "PREMIER",
                         false, "somePass", LeagueStatus.ACTIVE, 200,
-                        null, false, "someUser"),
+                        null, false, "someUser", null),
                 new LeagueDTO("Other League", "Other description", "PREMIER",
                         true, null, LeagueStatus.COMPLETED, 36,
-                        null, false, "otherUser")
+                        null, false, "otherUser", null)
         );
 
         when(leaguePlayerServiceMock.findLeaguesByUsername("someUser")).thenReturn(expectedLeagues);
@@ -344,7 +344,7 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
     }
 
     private void andAddPointsToLeaguePlayerIsCalledInController() {
-        result = leaguePlayerController.addPointsToLeaguePlayer(1L,"somePlayer",3);
+        result = leaguePlayerController.addPointsToLeaguePlayer(1L, "somePlayer", 3);
     }
 
     private void andDeleteLeaguePlayerLeagueIdIsCalledInController() {
@@ -375,7 +375,7 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
 
     private void thenVerifyAddPointsToLeaguePlayerHasBeenCalledInService() {
         verify(leaguePlayerServiceMock, times(1))
-                .addPointsToLeaguePlayer(anyLong(),anyString(),anyInt());
+                .addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
     }
 
     private void thenVerifyDeleteLeaguePlayerLeagueIdHasBeenCalledInService() {

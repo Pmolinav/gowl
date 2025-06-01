@@ -17,7 +17,6 @@ public interface LeaguePlayerRepository extends JpaRepository<LeaguePlayer, Leag
     List<LeaguePlayer> findByUsername(String username);
 
     @Modifying
-    @Transactional
     @Query("UPDATE LeaguePlayer lp SET lp.totalPoints = lp.totalPoints + :points " +
             "WHERE lp.id.leagueId = :leagueId AND lp.id.username = :username")
     int addPointsToLeaguePlayer(@Param("leagueId") Long leagueId,

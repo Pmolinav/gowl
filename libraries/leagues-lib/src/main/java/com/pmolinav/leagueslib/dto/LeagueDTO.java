@@ -4,6 +4,8 @@ import com.pmolinav.leagueslib.model.LeagueStatus;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -43,5 +45,7 @@ public class LeagueDTO {
     @NotBlank(message = "Owner username is required.")
     @Size(max = 100, message = "Owner username must not exceed 100 characters.")
     private String ownerUsername;
+
+    List<LeaguePlayerDTO> leaguePlayers;
 
 }

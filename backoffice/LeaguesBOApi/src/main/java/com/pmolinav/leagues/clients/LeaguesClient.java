@@ -21,6 +21,12 @@ public interface LeaguesClient {
     @PostMapping
     Long createLeague(@RequestBody LeagueDTO leagueDTO);
 
+    @PutMapping("/close/{id}")
+    void closeLeagueById(@PathVariable Long id);
+
+    @PutMapping("/close/names/{name}")
+    void closeLeagueByName(@PathVariable String name);
+
     @DeleteMapping("/{id}")
     void deleteLeague(@PathVariable long id);
 

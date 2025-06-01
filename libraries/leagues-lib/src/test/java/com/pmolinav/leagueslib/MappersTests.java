@@ -5,6 +5,8 @@ import com.pmolinav.leagueslib.mapper.*;
 import com.pmolinav.leagueslib.model.*;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class MappersTests {
@@ -73,7 +75,8 @@ class MappersTests {
     void leagueDTOToLeagueEntityTest() {
         LeagueDTO leagueDTO = new LeagueDTO("New League", "League description",
                 "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
-                null, false, "someUser");
+                null, false, "someUser",
+                List.of(new LeaguePlayerDTO("somePlayer", 33, PlayerStatus.ACTIVE)));
 
         League expectedLeague = new League("New League", "League description",
                 "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
@@ -92,7 +95,7 @@ class MappersTests {
 
         LeagueDTO expectedLeagueDTO = new LeagueDTO("New League", "League description",
                 "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
-                null, false, "someUser");
+                null, false, "someUser", null);
 
         LeagueDTO leagueDTO = leagueMapper.leagueEntityToDto(league);
 

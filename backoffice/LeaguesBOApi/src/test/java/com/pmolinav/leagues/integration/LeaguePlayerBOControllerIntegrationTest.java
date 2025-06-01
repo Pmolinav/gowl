@@ -286,7 +286,7 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
         this.expectedLeagues = List.of(
                 new LeagueDTO("New League", "League description",
                         "PREMIER", true, null, LeagueStatus.ACTIVE, 10,
-                        null, false, "someUser")
+                        null, false, "someUser", null)
         );
 
         when(this.leaguePlayersClient.findLeaguesByUsername(anyString()))

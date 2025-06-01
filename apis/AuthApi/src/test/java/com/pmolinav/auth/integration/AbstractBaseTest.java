@@ -64,8 +64,8 @@ public abstract class AbstractBaseTest {
                 this.request.getUsername(),
                 SpringSecurityConfig.passwordEncoder().encode(this.request.getPassword()),
                 "somename",
-                "soem@email.com",
-                new Date(),
+                "some@email.com",
+                new Date().getTime(),
                 null,
                 List.of(new Role(1L, com.pmolinav.auth.models.request.Role.ROLE_ADMIN.name())));
 

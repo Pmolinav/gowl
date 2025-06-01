@@ -12,6 +12,7 @@ import com.pmolinav.leagueslib.model.PlayerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -73,12 +74,53 @@ public class LeagueController {
         try {
             League createdLeague = leagueService.createLeague(leagueDTO);
 
-            leaguePlayerService.createLeaguePlayers(List.of(new LeaguePlayerDTO(createdLeague.getLeagueId(),
-                    createdLeague.getOwnerUsername(), 0, PlayerStatus.ACTIVE)));
+            List<LeaguePlayerDTO> leaguePlayers = CollectionUtils.isEmpty(leagueDTO.getLeaguePlayers()) ?
+                    List.of(new LeaguePlayerDTO(
+                            createdLeague.getLeagueId(),
+                            createdLeague.getOwnerUsername(),
+                            0,
+                            PlayerStatus.ACTIVE)
+                    ) :
+                    leagueDTO.getLeaguePlayers().stream()
+                            .map(player -> new LeaguePlayerDTO(
+                                    createdLeague.getLeagueId(),
+                                    player.getUsername(),
+                                    player.getTotalPoints(),
+                                    player.getPlayerStatus()))
+                            .toList();
+
+            leaguePlayerService.createLeaguePlayers(leaguePlayers);
+
+            // leaguesService.storeInKafka(ChangeType.CREATE, createdLeague.getLeagueId(), createdLeague);
+
+            return new ResponseEntity<>(createdLeague.getLeagueId(), HttpStatus.CREATED);
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+
+    @PutMapping("/close/{id}")
+    public ResponseEntity<?> closeLeagueById(@PathVariable Long id) {
+        try {
+            leagueService.closeLeagueById(id);
 
 //            leaguesService.storeInKafka(ChangeType.CREATE, createdLeague.getLeagueId(), createdLeague);
 
-            return new ResponseEntity<>(createdLeague.getLeagueId(), HttpStatus.CREATED);
+            return ResponseEntity.ok().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/close/names/{name}")
+    public ResponseEntity<?> closeLeagueByName(@PathVariable String name) {
+        try {
+            leagueService.closeLeagueByName(name);
+
+//            leaguesService.storeInKafka(ChangeType.CREATE, createdLeague.getLeagueId(), createdLeague);
+
+            return ResponseEntity.ok().build();
         } catch (InternalServerErrorException e) {
             return ResponseEntity.internalServerError().build();
         }

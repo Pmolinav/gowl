@@ -78,6 +78,7 @@ public class UserBOController {
         }
     }
 
+    // TODO: Maybe a new exposed API will be needed.
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
     @GetMapping("/username/{username}")
     @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")

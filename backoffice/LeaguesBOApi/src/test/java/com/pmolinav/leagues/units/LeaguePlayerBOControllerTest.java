@@ -248,10 +248,10 @@ class LeaguePlayerBOControllerTest extends BaseUnitTest {
         expectedLeagues = List.of(
                 new LeagueDTO("Some League", "Some description", "PREMIER",
                         false, "somePass", LeagueStatus.ACTIVE, 200,
-                        null, false, "someUser"),
+                        null, false, "someUser", null),
                 new LeagueDTO("Other League", "Other description", "PREMIER",
                         true, null, LeagueStatus.COMPLETED, 36,
-                        null, false, "otherUser")
+                        null, false, "otherUser", null)
         );
 
         when(leaguePlayersBOServiceMock.findLeaguesByUsername("someUser")).thenReturn(expectedLeagues);

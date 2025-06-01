@@ -47,15 +47,6 @@
         </processorPath>
         <module name="common-auth-lib" />
       </profile>
-      <profile name="Annotation profile for gowl" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="LeaguesBOApi" />
-      </profile>
       <profile name="Annotation profile for LeaguesService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -80,7 +71,7 @@
         </processorPath>
         <module name="leagues-lib" />
       </profile>
-      <profile name="Annotation profile for AuthApi" enabled="true">
+      <profile name="Annotation profile for gowl" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -89,22 +80,16 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
         <module name="AuthApi" />
-      </profile>
-      <profile name="Annotation profile for UsersBOApi" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
         <module name="UsersBOApi" />
+        <module name="LeagueApi" />
+        <module name="LeaguesBOApi" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AuthApi" options="-parameters" />
+      <module name="LeagueApi" options="-parameters" />
       <module name="LeaguesBOApi" options="-parameters" />
       <module name="LeaguesService" options="-parameters" />
       <module name="SystemTests" options="-parameters" />
