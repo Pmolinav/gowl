@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -88,6 +89,11 @@ public class LeaguePlayerController {
                                                  @RequestBody List<LeaguePlayerDTO> leaguePlayers,
                                                  BindingResult result) {
         try {
+            String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+            if (leaguePlayers.size() != 1 || !leaguePlayers.getFirst().getUsername().equals(username)) {
+                return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
+            }
             if (result.hasErrors()) {
                 return validation(result);
             }

@@ -8,8 +8,12 @@ import com.pmolinav.leagueslib.model.LeaguePlayerId;
 import com.pmolinav.leagueslib.model.LeagueStatus;
 import com.pmolinav.leagueslib.model.PlayerStatus;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 
 import java.util.List;
@@ -107,7 +111,8 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
     /* CREATE LEAGUE PLAYERS */
     @Test
     void createLeaguePlayersHappyPath() {
-        givenValidLeaguePlayersDTOForRequest("someUser", "otherUser");
+        givenMockedSecurityContextWithUser("someUser");
+        givenValidLeaguePlayersDTOForRequest("someUser");
         whenCreateLeaguePlayerInServiceReturnedAValidLeaguePlayer();
         andCreateLeaguePlayerIsCalledInController();
         thenVerifyCreateLeaguePlayerHasBeenCalledInService();
@@ -117,7 +122,8 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
 
     @Test
     void createLeaguePlayerServerError() {
-        givenValidLeaguePlayersDTOForRequest("otherUser", "someUser");
+        givenMockedSecurityContextWithUser("someUser");
+        givenValidLeaguePlayersDTOForRequest("someUser");
         whenCreateLeaguePlayerInServiceThrowsServerException();
         andCreateLeaguePlayerIsCalledInController();
         thenVerifyCreateLeaguePlayerHasBeenCalledInService();
@@ -149,10 +155,19 @@ class LeaguePlayerControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private void givenValidLeaguePlayersDTOForRequest(String username1, String username2) {
+    private void givenMockedSecurityContextWithUser(String username) {
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(username, null, List.of());
+
+        SecurityContext context = Mockito.mock(SecurityContext.class);
+
+        Mockito.when(context.getAuthentication()).thenReturn(auth);
+        SecurityContextHolder.setContext(context);
+    }
+
+    private void givenValidLeaguePlayersDTOForRequest(String username1) {
         leaguePlayersDTO = List.of(
-                new LeaguePlayerDTO(1L, username1, 26, PlayerStatus.ACTIVE),
-                new LeaguePlayerDTO(1L, username2, 12, PlayerStatus.ACTIVE)
+                new LeaguePlayerDTO(1L, username1, 26, PlayerStatus.ACTIVE)
         );
     }
 

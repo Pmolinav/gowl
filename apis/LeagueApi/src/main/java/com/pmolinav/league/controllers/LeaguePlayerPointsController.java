@@ -45,8 +45,9 @@ public class LeaguePlayerPointsController {
         }
     }
 
+    //TODO: Este me va a sobrar yo creo.
     @GetMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Retrieve league player info by category ID, season and number", description = "Bearer token is required to authorize users.")
     public ResponseEntity<List<LeaguePlayerPointsDTO>> findLeaguePlayerPointsByCategorySeasonAndNumber(@RequestParam String requestUid,
                                                                                                        @PathVariable String categoryId,
                                                                                                        @PathVariable Integer season,

@@ -6,7 +6,6 @@ import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -43,9 +42,6 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, TokenConfig tokenConfig) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/leagues").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/leagues/{id}").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/leagues/names/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig),

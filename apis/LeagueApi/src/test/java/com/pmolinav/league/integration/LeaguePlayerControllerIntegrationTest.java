@@ -39,6 +39,7 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void findLeaguePlayerByLeagueIdAndPlayerInternalServerError() throws Exception {
+        andFindLeagueByIdReturnedLeague(33);
         andFindLeaguePlayerByLeagueIdAndPlayerThrowsNonRetryableException();
 
         mockMvc.perform(get("/league-players/leagues/33/players/fakeUser?requestUid=" + requestUid)
@@ -48,6 +49,7 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void findLeaguePlayerByLeagueIdAndPlayerHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague(22);
         andFindLeaguePlayerByLeagueIdAndPlayerReturnedValidLeagues();
 
         MvcResult result = mockMvc.perform(get("/league-players/leagues/22/players/someUser?requestUid=" + requestUid)
@@ -64,6 +66,7 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void findLeaguePlayersByLeagueIdInternalServerError() throws Exception {
+        andFindLeagueByIdReturnedLeague(433);
         andFindLeaguePlayersByLeagueIdThrowsNonRetryableException();
 
         mockMvc.perform(get("/league-players/leagues/433?requestUid=" + requestUid)
@@ -73,6 +76,7 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void findLeaguePlayersByLeagueIdHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague(343);
         andFindLeaguePlayersByLeagueIdReturnedValidLeagues();
 
         MvcResult result = mockMvc.perform(get("/league-players/leagues/343?requestUid=" + requestUid)
@@ -89,18 +93,20 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void findLeaguesByPlayerInternalServerError() throws Exception {
+        andFindLeagueByIdReturnedLeague(33);
         andFindLeaguesByUsernameThrowsNonRetryableException();
 
-        mockMvc.perform(get("/league-players/players/aPlayer/leagues?requestUid=" + requestUid)
+        mockMvc.perform(get("/league-players/players/someUser/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     void findLeaguesByPlayerHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague(33);
         andFindLeaguesByUsernameReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/league-players/players/somePlayer/leagues?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/league-players/players/someUser/leagues?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -114,11 +120,11 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void createLeaguePlayersServerError() throws Exception {
+        andFindLeagueByIdReturnedLeague(343);
         andCreateLeaguePlayersThrowsNonRetryableException();
 
         List<LeaguePlayerDTO> requestDto = List.of(
-                new LeaguePlayerDTO(343L, "someUser", 10, PlayerStatus.ACTIVE),
-                new LeaguePlayerDTO(343L, "otherUser", 44, PlayerStatus.ACTIVE)
+                new LeaguePlayerDTO(343L, "someUser", 10, PlayerStatus.ACTIVE)
         );
 
         mockMvc.perform(post("/league-players?requestUid=" + requestUid)
@@ -130,11 +136,11 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void createLeaguePlayersHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague(343);
         andCreateLeaguePlayersReturnedValidIds();
 
         List<LeaguePlayerDTO> requestDto = List.of(
-                new LeaguePlayerDTO(343L, "someUser", 10, PlayerStatus.ACTIVE),
-                new LeaguePlayerDTO(343L, "otherUser", 44, PlayerStatus.ACTIVE)
+                new LeaguePlayerDTO(343L, "someUser", 10, PlayerStatus.ACTIVE)
         );
 
         MvcResult result = mockMvc.perform(post("/league-players?requestUid=" + requestUid)
@@ -152,18 +158,20 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void deleteLeaguePlayersByLeagueIdAndPlayerInternalServerError() throws Exception {
+        andFindLeagueByIdReturnedLeague(333);
         andLeaguePlayerDeleteByLeagueIdAndPlayerThrowsNonRetryableException();
 
-        mockMvc.perform(delete("/league-players/leagues/333/players/fakePlayer?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-players/leagues/333/players/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
     void deleteLeaguePlayersByCategoryIdAndSeasonHappyPath() throws Exception {
+        andFindLeagueByIdReturnedLeague(532);
         andLeaguePlayersAreDeletedOkOnClient();
 
-        mockMvc.perform(delete("/league-players/leagues/532/players/somePlayer?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-players/leagues/532/players/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk());
     }
@@ -237,6 +245,15 @@ class LeaguePlayerControllerIntegrationTest extends AbstractBaseTest {
     private void andFindLeaguesByUsernameThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
                 .when(this.leaguePlayersClient).findLeaguesByUsername(anyString());
+    }
+
+    private void andFindLeagueByIdReturnedLeague(long leagueId) {
+        LeagueDTO expectedLeague = new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                22, null, false, "someUser",
+                List.of(new LeaguePlayerDTO(leagueId, "someUser", 30, PlayerStatus.ACTIVE)));
+
+        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(expectedLeague);
     }
 }
 
