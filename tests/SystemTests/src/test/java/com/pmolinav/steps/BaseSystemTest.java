@@ -3,7 +3,11 @@ package com.pmolinav.steps;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
+import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
+import com.pmolinav.leagueslib.model.League;
+import com.pmolinav.leagueslib.model.LeagueCategory;
+import com.pmolinav.leagueslib.model.MatchDay;
 import com.pmolinav.systemtests.Main;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -28,12 +32,16 @@ public class BaseSystemTest {
 
     @Autowired
     protected RestTemplate restTemplate;
-    protected static UsersDatabaseConnector dbConnector;
+    protected static UsersDatabaseConnector usersDbConnector;
+    protected static LeaguesDatabaseConnector leaguesDbConnector;
     protected final static ObjectMapper objectMapper = new ObjectMapper();
     protected static ResponseResults authResponse = null;
     protected static ResponseResults latestResponse = null;
     protected static String authToken;
     protected static User lastUser;
+    protected static League lastLeague;
+    protected static LeagueCategory lastLeagueCategory;
+    protected static MatchDay lastMatchDay;
 
     protected void executeGet(String url) {
         executeGet(url, UUID.randomUUID().toString());
@@ -49,6 +57,28 @@ public class BaseSystemTest {
 
         restTemplate.setErrorHandler(errorHandler);
         latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid, HttpMethod.GET, requestCallback, response -> {
+            if (errorHandler.hasError) {
+                return errorHandler.getResult();
+            } else {
+                return new ResponseResults(response);
+            }
+        });
+    }
+
+    protected void executePut(String url) {
+        executePut(url, UUID.randomUUID().toString());
+    }
+
+    void executePut(String url, String requestUid) {
+        final Map<String, String> headers = new HashMap<>();
+        headers.put(HttpHeaders.ACCEPT, "application/json");
+        headers.put(HttpHeaders.AUTHORIZATION, authToken);
+
+        final HeaderSettingRequestCallback requestCallback = new HeaderSettingRequestCallback(null, headers);
+        final ResponseResultErrorHandler errorHandler = new ResponseResultErrorHandler();
+
+        restTemplate.setErrorHandler(errorHandler);
+        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid, HttpMethod.PUT, requestCallback, response -> {
             if (errorHandler.hasError) {
                 return errorHandler.getResult();
             } else {

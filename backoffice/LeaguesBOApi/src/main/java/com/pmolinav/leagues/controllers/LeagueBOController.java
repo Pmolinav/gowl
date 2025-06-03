@@ -81,7 +81,7 @@ public class LeagueBOController {
     @PutMapping("close/names/{name}")
     @Operation(summary = "Close a league by league name", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> closeLeagueByName(@RequestParam String requestUid,
-                                             @PathVariable String name) {
+                                               @PathVariable String name) {
         try {
             leaguesBOService.closeLeagueByName(name);
             return ResponseEntity.ok().build();

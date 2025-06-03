@@ -32,7 +32,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
                     .collect(Collectors.toList());
 
             // Insert each requested role
-            dbConnector.insertRoles(roles);
+            usersDbConnector.insertRoles(roles);
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
@@ -45,7 +45,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         try {
             // Insert each requested player
             for (Map<String, String> row : rows) {
-                dbConnector.insertUser(new User(null,
+                usersDbConnector.insertUser(new User(null,
                                 row.get("username"),
                                 new BCryptPasswordEncoder().encode(row.get("password")),
                                 row.get("name"),
@@ -54,7 +54,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
                                         Long.parseLong(row.get("creation_date")) : new Date().getTime(),
                                 row.get("modification_date") != null ?
                                         Long.parseLong(row.get("modification_date")) : new Date().getTime(),
-                                dbConnector.getRolesByNames(List.of(row.get("roles").split(",")))
+                                usersDbConnector.getRolesByNames(List.of(row.get("roles").split(",")))
                         )
                 );
             }
@@ -74,7 +74,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
                                 row.get("password"),
                                 row.get("name"),
                                 row.get("email"),
-                                Boolean.parseBoolean(row.get("isAdmin")))
+                                Boolean.parseBoolean(row.get("is_admin")))
                         ));
             }
         } catch (Exception e) {
@@ -111,8 +111,8 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
     @Then("an user with username (.*) has been stored successfully$")
     public void anUserHasBeenStored(String username) {
         try {
-            dbConnector = new UsersDatabaseConnector();
-            lastUser = dbConnector.getUserByUsername(username);
+            usersDbConnector = new UsersDatabaseConnector();
+            lastUser = usersDbConnector.getUserByUsername(username);
             assertNotNull(lastUser);
         } catch (SQLException e) {
             e.printStackTrace();

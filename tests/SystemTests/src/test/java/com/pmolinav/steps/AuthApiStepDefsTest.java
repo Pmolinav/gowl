@@ -22,10 +22,10 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
     @Before
     public static void cleanAllAfterTests() {
         try {
-            dbConnector = new UsersDatabaseConnector();
-            dbConnector.deleteUsersRoles();
-            dbConnector.deleteRoles();
-            dbConnector.deleteUsers();
+            usersDbConnector = new UsersDatabaseConnector();
+            usersDbConnector.deleteUsersRoles();
+            usersDbConnector.deleteRoles();
+            usersDbConnector.deleteUsers();
 //            dbConnector.deleteHistory();
         } catch (SQLException e) {
             e.printStackTrace();
