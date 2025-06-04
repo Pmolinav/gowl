@@ -20,9 +20,12 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static org.junit.jupiter.api.Assertions.fail;
 
 @CucumberContextConfiguration
 @SpringBootTest(classes = Main.class, webEnvironment = WebEnvironment.DEFINED_PORT)

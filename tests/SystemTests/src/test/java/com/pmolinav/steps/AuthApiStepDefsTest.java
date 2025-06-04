@@ -1,5 +1,6 @@
 package com.pmolinav.steps;
 
+import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.UserDTO;
 import io.cucumber.java.Before;
@@ -26,6 +27,12 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             usersDbConnector.deleteUsersRoles();
             usersDbConnector.deleteRoles();
             usersDbConnector.deleteUsers();
+            leaguesDbConnector = new LeaguesDatabaseConnector();
+            leaguesDbConnector.deleteLeaguePlayerPoints();
+            leaguesDbConnector.deleteMatchDays();
+            leaguesDbConnector.deleteLeaguePlayers();
+            leaguesDbConnector.deleteLeagues();
+            leaguesDbConnector.deleteCategories();
 //            dbConnector.deleteHistory();
         } catch (SQLException e) {
             e.printStackTrace();

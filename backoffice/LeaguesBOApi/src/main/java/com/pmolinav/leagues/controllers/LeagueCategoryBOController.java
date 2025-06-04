@@ -9,6 +9,7 @@ import com.pmolinav.leagueslib.model.LeagueCategory;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -64,7 +65,7 @@ public class LeagueCategoryBOController {
     @PostMapping
     @Operation(summary = "Create a new league category", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createLeagueCategory(@RequestParam String requestUid,
-                                                  @RequestBody LeagueCategoryDTO leagueCategoryDTO,
+                                                  @Valid @RequestBody LeagueCategoryDTO leagueCategoryDTO,
                                                   BindingResult result) {
         try {
             if (result.hasErrors()) {

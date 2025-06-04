@@ -84,8 +84,8 @@ Feature: LeaguesBOApi
 
   Scenario: Create a new match day bad request
     Given try to create a new match day with data
-      | category_id | season | match_day_number |
-      | PREMIER     | 2025   | 5                |
+      | season | match_day_number | start_date | end_date  |
+      | 2025   | 5                | 12345678   | 123456789 |
     Then received status code is 400
 
   Scenario: Create a new match day successfully

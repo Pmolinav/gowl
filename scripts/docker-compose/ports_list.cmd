@@ -7,7 +7,7 @@ echo -----------------------------------------
 echo Public APIs:
 echo -----------------------------------------
 
-echo AuthApi PORT: 8002
+echo AuthApi PORT: 8003
 echo LeagueApi PORT: 8006
 
 echo -----------------------------------------

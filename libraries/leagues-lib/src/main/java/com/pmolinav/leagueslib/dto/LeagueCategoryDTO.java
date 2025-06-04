@@ -23,6 +23,7 @@ public class LeagueCategoryDTO {
     @Size(max = 256, message = "Description must be at most 256 characters long")
     private String description;
 
+    @NotBlank(message = "Sport cannot be blank")
     @Size(max = 100, message = "Sport must be at most 100 characters long")
     private String sport;
 

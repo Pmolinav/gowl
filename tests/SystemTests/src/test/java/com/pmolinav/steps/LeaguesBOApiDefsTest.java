@@ -127,6 +127,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         Map<String, String> row = rows.getFirst();
         MatchDayDTO matchDayDTO = new MatchDayDTO();
         matchDayDTO.setCategoryId(row.get("category_id"));
+        matchDayDTO.setSeason(Integer.parseInt(row.get("season")));
         matchDayDTO.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));
         matchDayDTO.setStartDate(Long.parseLong(row.get("start_date")));
         matchDayDTO.setEndDate(Long.parseLong(row.get("end_date")));

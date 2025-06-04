@@ -82,7 +82,7 @@ public class MatchDayBOController {
     @PostMapping
     @Operation(summary = "Create new match day", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createMatchDay(@RequestParam String requestUid,
-                                            @RequestBody MatchDayDTO matchDayDTO,
+                                            @Valid @RequestBody MatchDayDTO matchDayDTO,
                                             BindingResult result) {
         try {
             if (result.hasErrors()) {

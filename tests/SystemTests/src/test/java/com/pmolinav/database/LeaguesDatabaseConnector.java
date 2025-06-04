@@ -99,7 +99,7 @@ public class LeaguesDatabaseConnector {
     public League getLeagueByName(String name) throws SQLException {
         String query = "SELECT league_id, name, description, category_id, is_public, password, status, " +
                 "max_players, logo_url, is_premium, owner_username, creation_date, modification_date " +
-                "FROM leagues WHERE name = ?";
+                "FROM league WHERE name = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, name);
@@ -240,7 +240,7 @@ public class LeaguesDatabaseConnector {
     public LeagueCategory getLeagueCategoryById(String categoryId) throws SQLException {
         String query = "SELECT category_id, name, description, sport, country, icon_url, " +
                 "is_active, creation_date, modification_date " +
-                "FROM league_categories WHERE category_id = ?";
+                "FROM league_category WHERE category_id = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, categoryId);
@@ -310,7 +310,7 @@ public class LeaguesDatabaseConnector {
 
     public MatchDay getMatchDayByCategoryIdSeasonAndMatchDayNumber(String categoryId, int season, int matchDayNumber) throws SQLException {
         String query = "SELECT category_id, season, match_day_number, start_date, end_date " +
-                "FROM match_days WHERE category_id = ? AND season = ? AND match_day_number = ?";
+                "FROM match_day WHERE category_id = ? AND season = ? AND match_day_number = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.setString(1, categoryId);
@@ -341,7 +341,7 @@ public class LeaguesDatabaseConnector {
 
     public List<MatchDay> getMatchDaysByCategoryId(String categoryId) throws SQLException {
         String query = "SELECT category_id, season, match_day_number, start_date, end_date " +
-                "FROM match_days WHERE category_id = ?";
+                "FROM match_day WHERE category_id = ?";
 
         List<MatchDay> matchDays = new ArrayList<>();
 
@@ -376,6 +376,30 @@ public class LeaguesDatabaseConnector {
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Unexpected error occurred while trying to delete match days.", e);
+        }
+    }
+
+    /*** LEAGUE PLAYERS  ***/
+
+    public void deleteLeaguePlayers() throws SQLException {
+        String query = "DELETE FROM league_player";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete league players.", e);
+        }
+    }
+
+    /*** LEAGUE PLAYER POINTS  ***/
+
+    public void deleteLeaguePlayerPoints() throws SQLException {
+        String query = "DELETE FROM league_player_points";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete league player points.", e);
         }
     }
 

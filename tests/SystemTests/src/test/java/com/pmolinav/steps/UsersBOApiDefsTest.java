@@ -111,7 +111,6 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
     @Then("an user with username (.*) has been stored successfully$")
     public void anUserHasBeenStored(String username) {
         try {
-            usersDbConnector = new UsersDatabaseConnector();
             lastUser = usersDbConnector.getUserByUsername(username);
             assertNotNull(lastUser);
         } catch (SQLException e) {
