@@ -5,9 +5,7 @@ import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
 import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
-import com.pmolinav.leagueslib.model.League;
-import com.pmolinav.leagueslib.model.LeagueCategory;
-import com.pmolinav.leagueslib.model.MatchDay;
+import com.pmolinav.leagueslib.model.*;
 import com.pmolinav.systemtests.Main;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -40,6 +38,8 @@ public class BaseSystemTest {
     protected static String authToken;
     protected static User lastUser;
     protected static League lastLeague;
+    protected static LeaguePlayer lastLeaguePlayer;
+    protected static LeaguePlayerPoints lastLeaguePlayerPoints;
     protected static LeagueCategory lastLeagueCategory;
     protected static MatchDay lastMatchDay;
 

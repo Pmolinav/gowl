@@ -69,8 +69,8 @@ public class LeaguePlayerBOController {
 
     @GetMapping("/players/{username}/leagues")
     @Operation(summary = "Retrieve the leagues for a player by username", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<LeagueDTO>> findLeaguePlayersByUsername(@RequestParam String requestUid,
-                                                                       @PathVariable String username) {
+    public ResponseEntity<List<LeagueDTO>> findLeaguesByUsername(@RequestParam String requestUid,
+                                                                 @PathVariable String username) {
         try {
             List<LeagueDTO> leagues = leaguePlayersBOService.findLeaguesByUsername(username);
 

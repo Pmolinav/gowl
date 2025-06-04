@@ -337,7 +337,7 @@ class LeaguePlayerBOControllerTest extends BaseUnitTest {
     }
 
     private void andFindLeaguesByUsernameIsCalledInController() {
-        result = leaguePlayerBOController.findLeaguePlayersByUsername(this.requestUid, "someUser");
+        result = leaguePlayerBOController.findLeaguesByUsername(this.requestUid, "someUser");
     }
 
     private void andCreateLeaguePlayerIsCalledInController() {

@@ -35,7 +35,7 @@ public class LeaguePlayerPointsBOController {
     }
 
     @GetMapping("/leagues/{id}/players/{username}")
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Retrieve league player points info by league ID and username", description = "Bearer token is required to authorize users.")
     public ResponseEntity<List<LeaguePlayerPointsDTO>> findLeaguePlayerPointsByLeagueIdAndPlayer(@RequestParam String requestUid,
                                                                                                  @PathVariable Long id,
                                                                                                  @PathVariable String username) {
@@ -51,7 +51,7 @@ public class LeaguePlayerPointsBOController {
     }
 
     @GetMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Retrieve league player points info by category ID, season and number", description = "Bearer token is required to authorize users.")
     public ResponseEntity<List<LeaguePlayerPointsDTO>> findLeaguePlayerPointsByCategorySeasonAndNumber(@RequestParam String requestUid,
                                                                                                        @PathVariable String categoryId,
                                                                                                        @PathVariable Integer season,
@@ -68,7 +68,7 @@ public class LeaguePlayerPointsBOController {
     }
 
     @PostMapping
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Create new league player points info", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createLeaguePlayersPoints(@RequestParam String requestUid,
                                                        @Valid @RequestBody LeaguePlayerPointsDTO leaguePlayerPoints,
                                                        BindingResult result) {
@@ -86,7 +86,7 @@ public class LeaguePlayerPointsBOController {
     }
 
     @DeleteMapping("/leagues/{id}/players/{username}")
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Remove league player points info by league ID and username", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> deleteLeaguePlayerPointsByLeagueIdAndPlayer(@RequestParam String requestUid,
                                                                          @PathVariable Long id,
                                                                          @PathVariable String username) {
@@ -102,7 +102,7 @@ public class LeaguePlayerPointsBOController {
     }
 
     @DeleteMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
-    @Operation(summary = "Retrieve league player info by league ID and username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Remove league player points info by category ID, season and number", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> deleteLeaguePlayerByCategorySeasonAndNumber(@RequestParam String requestUid,
                                                                          @PathVariable String categoryId,
                                                                          @PathVariable Integer season,

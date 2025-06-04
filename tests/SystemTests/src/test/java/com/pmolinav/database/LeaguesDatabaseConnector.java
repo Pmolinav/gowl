@@ -138,6 +138,35 @@ public class LeaguesDatabaseConnector {
         }
     }
 
+    public LeaguePlayer getLeaguePlayerByLeagueIdAndUsername(long leagueId, String username) throws SQLException {
+        String query = "SELECT league_id, username, total_points, player_status, join_date " +
+                "FROM league_player WHERE league_id = ? AND username = ?";
+
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.setLong(1, leagueId);
+            preparedStatement.setString(2, username);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                LeaguePlayer leaguePlayer = new LeaguePlayer();
+                leaguePlayer.setLeagueId(resultSet.getLong("league_id"));
+                leaguePlayer.setUsername(resultSet.getString("username"));
+                leaguePlayer.setTotalPoints(resultSet.getInt("total_points"));
+                leaguePlayer.setPlayerStatus(PlayerStatus.valueOf(resultSet.getString("player_status")));
+                leaguePlayer.setJoinDate(resultSet.getLong("join_date"));
+
+                return leaguePlayer;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to find LeaguePlayer in league.", e);
+        }
+    }
+
     public boolean existsPlayerByLeagueId(long leagueId, String username) throws SQLException {
         String query = "SELECT COUNT(*) AS count FROM league_player WHERE league_id = ? AND username = ?";
 

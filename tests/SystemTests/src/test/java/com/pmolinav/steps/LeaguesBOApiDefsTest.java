@@ -3,10 +3,7 @@ package com.pmolinav.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.database.LeaguesDatabaseConnector;
-import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
-import com.pmolinav.leagueslib.dto.LeagueDTO;
-import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
-import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.dto.*;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import com.pmolinav.leagueslib.model.LeagueStatus;
 import com.pmolinav.leagueslib.model.MatchDay;
@@ -241,7 +238,6 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-
     @When("^try to get all leagues$")
     public void tryToGetAllLeagues() {
         executeGet(localURL + "/leagues");
@@ -275,6 +271,110 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @When("^try to delete a league by name")
     public void tryToDeleteALeagueByName() {
         executeDelete(localURL + "/leagues/names/" + lastLeague.getName());
+    }
+
+    @When("^try to create several league players with data$")
+    public void tryToCreateSeveralLeaguePlayers(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        List<LeaguePlayerDTO> leaguePlayerDTOList = new ArrayList<>();
+
+        for (Map<String, String> row : rows) {
+            leaguePlayerDTOList.add(new LeaguePlayerDTO(
+                    lastLeague.getLeagueId(),
+                    row.get("username"),
+                    Integer.parseInt(row.get("total_points")),
+                    PlayerStatus.valueOf(row.get("status"))
+            ));
+        }
+
+        try {
+            executePost(localURL + "/league-players", objectMapper.writeValueAsString(leaguePlayerDTOList));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^try to get league players by leagueId$")
+    public void tryToGetLeaguePlayersByLeagueId() {
+        executeGet(localURL + "/league-players/leagues/" + lastLeague.getLeagueId());
+    }
+
+    @When("^try to get a league player by leagueId and username$")
+    public void tryToGetLeaguePlayersByLeagueIdAndUsername() {
+        executeGet(localURL + "/league-players/leagues/" + lastLeaguePlayer.getLeagueId()
+                + "/players/" + lastLeaguePlayer.getUsername());
+    }
+
+    @When("^try to add (\\d+) points to player in league$")
+    public void tryToAddPointsToPlayerInLeague(int points) {
+        executePut(localURL + "/league-players/leagues/" + lastLeaguePlayer.getLeagueId()
+                + "/players/" + lastLeaguePlayer.getUsername() + "?points=" + points);
+    }
+
+    @When("^try to delete league players by leagueId$")
+    public void tryToDeleteLeaguePlayersByLeagueId() {
+        executeGet(localURL + "/league-players/leagues/" + lastLeague.getLeagueId());
+    }
+
+    @When("^try to delete a league player by leagueId and username$")
+    public void tryToDeleteLeaguePlayerByLeagueIdAndUsername() {
+        executeDelete(localURL + "/league-players/leagues/" + lastLeaguePlayer.getLeagueId()
+                + "/players/" + lastLeaguePlayer.getUsername());
+    }
+
+    @When("^try to get leagues by player username$")
+    public void tryToGetLeaguesByPlayerUsername() {
+        executeGet(localURL + "/league-players/players/" + lastLeaguePlayer.getUsername() + "/leagues");
+    }
+
+    @When("^try to create new league player points with data$")
+    public void tryToCreateNewLeaguePlayerPoints(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        // Just one league player points per test.
+        Map<String, String> row = rows.getFirst();
+        LeaguePlayerPointsDTO leaguePlayerPointsDto = new LeaguePlayerPointsDTO();
+        leaguePlayerPointsDto.setCategoryId(row.get("category_id"));
+        leaguePlayerPointsDto.setSeason(Integer.parseInt(row.get("season")));
+        leaguePlayerPointsDto.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));
+        leaguePlayerPointsDto.setLeagueId(lastLeague.getLeagueId());
+        leaguePlayerPointsDto.setUsername(row.get("username"));
+        leaguePlayerPointsDto.setPoints(Integer.parseInt(row.get("points")));
+
+        try {
+            executePost(localURL + "/league-players-points", objectMapper.writeValueAsString(leaguePlayerPointsDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^try to get league player points by leagueId and username$")
+    public void tryToGetLeaguePlayerPointsByLeagueIdAndUsername() {
+        executeGet(localURL + "/league-player-points/leagues/" + lastLeague.getLeagueId()
+                + "/players/" + lastLeaguePlayer.getUsername());
+    }
+
+    @When("^try to get league player points by categoryId, season and number")
+    public void tryToGetLeaguePlayerPointsByCategoryIdSeasonAndNumber() {
+        executeGet(localURL + "/league-player-points/categories/" + lastLeagueCategory.getCategoryId()
+                + "/seasons/" + lastMatchDay.getSeason()
+                + "/number/" + lastMatchDay.getMatchDayNumber());
+    }
+
+    @When("^try to delete league player points by leagueId and username$")
+    public void tryToDeleteLeaguePlayerPointsByLeagueIdAndUsername() {
+        executeDelete(localURL + "/league-player-points/leagues/" + lastLeague.getLeagueId()
+                + "/players/" + lastLeaguePlayer.getUsername());
+    }
+
+    @When("^try to delete league player points by categoryId, season and number")
+    public void tryToDeleteLeaguePlayerPointsByCategoryIdSeasonAndNumber() {
+        executeDelete(localURL + "/league-player-points/categories/" + lastLeagueCategory.getCategoryId()
+                + "/seasons/" + lastMatchDay.getSeason()
+                + "/number/" + lastMatchDay.getMatchDayNumber());
     }
 
     @Then("a league category with categoryId (.*) has been stored successfully$")
@@ -318,12 +418,19 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     public void aPlayerIsAssociatedToLastLeague(String username) {
         try {
             leaguesDbConnector = new LeaguesDatabaseConnector();
-            assertTrue(leaguesDbConnector.existsPlayerByLeagueId(lastLeague.getLeagueId(), username));
             assertNotNull(lastLeague);
+            assertTrue(leaguesDbConnector.existsPlayerByLeagueId(lastLeague.getLeagueId(), username));
+
+            lastLeaguePlayer = leaguesDbConnector.getLeaguePlayerByLeagueIdAndUsername(lastLeague.getLeagueId(), username);
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
         }
+    }
+
+    @Then("last player has (\\d+) points$")
+    public void aPlayerHasPoints(int points) {
+        assertEquals(points, lastLeaguePlayer.getTotalPoints().intValue());
     }
 
     @Then("a list of league categories with IDs (.*) are returned in response$")
@@ -360,6 +467,28 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
+    @Then("a list of league players with usernames (.*) are returned in response$")
+    public void aListOfLeaguePlayersWithUsernamesIsReturned(String usernames) throws JsonProcessingException {
+        List<String> usernamesList = List.of(usernames.split(","));
+        List<LeaguePlayerDTO> obtainedLeaguePlayers = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<LeaguePlayerDTO>>() {
+        });
+        assertNotNull(obtainedLeaguePlayers);
+        for (String username : usernamesList) {
+            assertTrue(obtainedLeaguePlayers.stream().anyMatch(player -> player.getUsername().equals(username)));
+        }
+    }
+
+    @Then("a list of league player points with usernames (.*) are returned in response$")
+    public void aListOfLeaguePlayerPointsWithUsernamesIsReturned(String usernames) throws JsonProcessingException {
+        List<String> usernamesList = List.of(usernames.split(","));
+        List<LeaguePlayerPointsDTO> obtainedLeaguePlayerPointsList = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<LeaguePlayerPointsDTO>>() {
+        });
+        assertNotNull(obtainedLeaguePlayerPointsList);
+        for (String username : usernamesList) {
+            assertTrue(obtainedLeaguePlayerPointsList.stream().anyMatch(info -> info.getUsername().equals(username)));
+        }
+    }
+
     @Then("a league category with ID (.*) is returned in response$")
     public void aLeagueCategoryWithIDIsReturned(String categoryId) throws JsonProcessingException {
         LeagueCategory obtainedLeagueCategory = objectMapper.readValue(latestResponse.getBody(), LeagueCategory.class);
@@ -372,5 +501,12 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         LeagueDTO obtainedLeague = objectMapper.readValue(latestResponse.getBody(), LeagueDTO.class);
         assertNotNull(obtainedLeague);
         assertEquals(name, obtainedLeague.getName());
+    }
+
+    @Then("a league player with username (.*) is returned in response$")
+    public void aLeaguePlayerWithUsernameIsReturned(String username) throws JsonProcessingException {
+        LeaguePlayerDTO obtainedLeaguePlayer = objectMapper.readValue(latestResponse.getBody(), LeaguePlayerDTO.class);
+        assertNotNull(obtainedLeaguePlayer);
+        assertEquals(username, obtainedLeaguePlayer.getUsername());
     }
 }
