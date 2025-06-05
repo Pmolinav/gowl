@@ -21,7 +21,7 @@ import java.util.Map;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("league-players-points")
+@RequestMapping("league-player-points")
 @SecurityRequirement(name = "BearerToken")
 @Tag(name = "6. League player points", description = "The league player points Controller. Contains all the operations that can be performed on league player points.")
 public class LeaguePlayerPointsBOController {

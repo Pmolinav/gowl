@@ -119,7 +119,7 @@ Feature: LeaguesBOApi
       | category_id | season | match_day_number | start_date | end_date  |
       | PREMIER2    | 2025   | 11               | 12345678   | 123456789 |
     Then received status code is 201
-    Then a match day with categoryId PREMIER, season 2025 and number 11 has been stored successfully
+    Then a match day with categoryId PREMIER2, season 2025 and number 11 has been stored successfully
     When try to get match days by categoryId
     Then received status code is 200
     Then a list of match days with season 2025 and numbers 1,2,11 are returned in response
@@ -166,20 +166,20 @@ Feature: LeaguesBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 403
 
   Scenario: Create a new league bad request
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   |
+      | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 400
 
   Scenario: Create a new league successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -188,8 +188,8 @@ Feature: LeaguesBOApi
 
   Scenario: Get all leagues successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -206,8 +206,8 @@ Feature: LeaguesBOApi
 
   Scenario: Get league by leagueId successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -218,8 +218,8 @@ Feature: LeaguesBOApi
 
   Scenario: Get league by name successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -230,8 +230,8 @@ Feature: LeaguesBOApi
 
   Scenario: Close league by leagueId successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -242,8 +242,8 @@ Feature: LeaguesBOApi
 
   Scenario: Close league by name successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -254,8 +254,8 @@ Feature: LeaguesBOApi
 
   Scenario: Delete league by leagueId successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -265,8 +265,8 @@ Feature: LeaguesBOApi
 
   Scenario: Delete league by name successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -276,6 +276,12 @@ Feature: LeaguesBOApi
 
    # LEAGUE PLAYERS
   Scenario: Try to create new league players by a non-admin player with error
+    Given try to create a new league with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username normalUser has been associated to last league successfully
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create several league players with data
@@ -284,9 +290,15 @@ Feature: LeaguesBOApi
     Then received status code is 403
 
   Scenario: Create new league players bad request
+    Given try to create a new league with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username normalUser has been associated to last league successfully
     Given try to create several league players with data
-      | username | total_points |
-      | someUser | 33           |
+      | status | total_points |
+      | ACTIVE | 33           |
     Then received status code is 400
 
   Scenario: Create new league players successfully
@@ -306,20 +318,20 @@ Feature: LeaguesBOApi
 
   Scenario: Get league players by leagueId successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
     Then a player with username normalUser has been associated to last league successfully
     When try to get league players by leagueId
     Then received status code is 200
-    Then a league with name Friendly League is returned in response
+    Then a list of league players with usernames someUser,normalUser are returned in response
 
   Scenario: Get league player by leagueId and username successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -330,8 +342,8 @@ Feature: LeaguesBOApi
 
   Scenario: Get leagues by username successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -342,21 +354,21 @@ Feature: LeaguesBOApi
 
   Scenario: Add points to player successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
-    Then a player with username someUser has been associated to last league successfully
     Then a player with username normalUser has been associated to last league successfully
+    Then a player with username someUser has been associated to last league successfully
     When try to add 20 points to player in league
     Then received status code is 200
-    Then a player with username normalUser has been associated to last league successfully
+    Then a player with username someUser has been associated to last league successfully
     Then last player has 20 points
 
   Scenario: Delete league players by leagueId successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -366,8 +378,8 @@ Feature: LeaguesBOApi
 
   Scenario: Delete league player by leagueId and username successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
@@ -377,6 +389,19 @@ Feature: LeaguesBOApi
 
    # LEAGUE PLAYER POINTS
   Scenario: Try to create new league player points by a non-admin player with error
+    Given try to create a new league with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username normalUser has been associated to last league successfully
+    Given try to create several league players with data
+      | username  | total_points | status |
+      | someUser  | 10           | ACTIVE |
+      | otherUser | 15           | ACTIVE |
+    Then received status code is 201
+    Then a player with username someUser has been associated to last league successfully
+    Then a player with username otherUser has been associated to last league successfully
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create new league player points with data
@@ -385,15 +410,28 @@ Feature: LeaguesBOApi
     Then received status code is 403
 
   Scenario: Create new league player points bad request
+    Given try to create a new league with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username normalUser has been associated to last league successfully
+    Given try to create several league players with data
+      | username  | total_points | status |
+      | someUser  | 10           | ACTIVE |
+      | otherUser | 15           | ACTIVE |
+    Then received status code is 201
+    Then a player with username otherUser has been associated to last league successfully
+    Then a player with username someUser has been associated to last league successfully
     Given try to create new league player points with data
-      | category_id | season | match_day_number | username   |
-      | PREMIER     | 2025   | 1                | normalUser |
+      | season | match_day_number | username | points |
+      | 2025   | 1                | someUser | 22     |
     Then received status code is 400
 
   Scenario: Create new league player points successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
@@ -405,8 +443,8 @@ Feature: LeaguesBOApi
 
   Scenario: Get league player points by leagueId and username successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
@@ -420,16 +458,26 @@ Feature: LeaguesBOApi
     Then a list of league player points with usernames someUser are returned in response
 
   Scenario: Get league player points by categoryId, season and number successfully
+    Given try to create a new league category with data
+      | category_id | name    | description            | sport    | country | icon_url             | is_active |
+      | LA_LIGA     | La Liga | Spanish First Division | FOOTBALL | ES      | http://example.com/1 | true      |
+    Then received status code is 201
+    Then a league category with categoryId LA_LIGA has been stored successfully
+    Given try to create a new match day with data
+      | category_id | season | match_day_number | start_date | end_date   |
+      | LA_LIGA     | 2025   | 11               | 123456789  | 1234567890 |
+    Then received status code is 201
+    Then a match day with categoryId LA_LIGA, season 2025 and number 11 has been stored successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | LA_LIGA     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
     Then a player with username someUser has been associated to last league successfully
     Given try to create new league player points with data
       | category_id | season | match_day_number | username | points |
-      | PREMIER     | 2025   | 1                | someUser | 22     |
+      | LA_LIGA     | 2025   | 11               | someUser | 22     |
     Then received status code is 201
     When try to get league player points by categoryId, season and number
     Then received status code is 200
@@ -437,8 +485,8 @@ Feature: LeaguesBOApi
 
   Scenario: Delete league player points by leagueId and username successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
@@ -451,16 +499,26 @@ Feature: LeaguesBOApi
     Then received status code is 200
 
   Scenario: Delete league player points by categoryId, season and number successfully
+    Given try to create a new league category with data
+      | category_id | name    | description            | sport    | country | icon_url             | is_active |
+      | LA_LIGA     | La Liga | Spanish First Division | FOOTBALL | ES      | http://example.com/1 | true      |
+    Then received status code is 201
+    Then a league category with categoryId LA_LIGA has been stored successfully
+    Given try to create a new match day with data
+      | category_id | season | match_day_number | start_date | end_date   |
+      | LA_LIGA     | 2025   | 11               | 123456789  | 1234567890 |
+    Then received status code is 201
+    Then a match day with categoryId LA_LIGA, season 2025 and number 11 has been stored successfully
     Given try to create a new league with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                          |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,INACTIVE |
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | LA_LIGA     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
     Then a player with username someUser has been associated to last league successfully
     Given try to create new league player points with data
       | category_id | season | match_day_number | username | points |
-      | PREMIER     | 2025   | 1                | someUser | 22     |
+      | LA_LIGA     | 2025   | 11               | someUser | 22     |
     Then received status code is 201
     When try to delete league player points by categoryId, season and number
     Then received status code is 200

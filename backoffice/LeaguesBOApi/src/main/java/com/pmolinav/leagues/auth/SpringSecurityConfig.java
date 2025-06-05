@@ -42,7 +42,7 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, TokenConfig tokenConfig) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("*").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers("/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(new JwtValidationFilter(authenticationConfiguration.getAuthenticationManager(), tokenConfig),

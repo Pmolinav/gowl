@@ -32,7 +32,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/league-players"); // exclude POST /league-players
 
         registry.addInterceptor(leaguePlayerPointsAccessInterceptor)
-                .addPathPatterns("/league-players-points/**");
+                .addPathPatterns("/league-player-points/**");
     }
 
 }

@@ -4,6 +4,7 @@ import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.UserDTO;
 import io.cucumber.java.Before;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -20,14 +21,23 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
 
     private final String localURL = "http://localhost:8003";
 
+    @BeforeAll
+    public static void connectToDatabases() {
+        try {
+            usersDbConnector = new UsersDatabaseConnector();
+            leaguesDbConnector = new LeaguesDatabaseConnector();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
     @Before
     public static void cleanAllAfterTests() {
         try {
-            usersDbConnector = new UsersDatabaseConnector();
             usersDbConnector.deleteUsersRoles();
             usersDbConnector.deleteRoles();
             usersDbConnector.deleteUsers();
-            leaguesDbConnector = new LeaguesDatabaseConnector();
             leaguesDbConnector.deleteLeaguePlayerPoints();
             leaguesDbConnector.deleteMatchDays();
             leaguesDbConnector.deleteLeaguePlayers();

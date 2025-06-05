@@ -25,7 +25,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
 
     @Test
     void findLeaguePlayerPointsByLeagueIdAndUsernameNotFound() throws Exception {
-        mockMvc.perform(get("/league-players-points/leagues/333/players/fakeUser"))
+        mockMvc.perform(get("/league-player-points/leagues/333/players/fakeUser"))
                 .andExpect(status().isNotFound());
     }
 
@@ -33,7 +33,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
     void findLeaguePlayerPointsByLeagueIdAndUsernameHappyPath() throws Exception {
         givenSomePreviouslyStoredLeaguePlayerPointsWithId("someUser", 2025, 1);
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/leagues/"
+        MvcResult result = mockMvc.perform(get("/league-player-points/leagues/"
                         + leagueId + "/players/someUser"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -47,7 +47,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
 
     @Test
     void findLeaguePlayerPointsByCategoryIdSeasonAndNumberNotFound() throws Exception {
-        mockMvc.perform(get("/league-players-points/categories/invented/seasons/2044/number/5"))
+        mockMvc.perform(get("/league-player-points/categories/invented/seasons/2044/number/5"))
                 .andExpect(status().isNotFound());
     }
 
@@ -55,7 +55,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
     void findLeaguePlayerPointsByCategoryIdSeasonAndNumberHappyPath() throws Exception {
         givenSomePreviouslyStoredLeaguePlayerPointsWithId("someUser", 2025, 1);
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/categories/"
+        MvcResult result = mockMvc.perform(get("/league-player-points/categories/"
                         + "someCategory" + "/seasons/2025/number/1"))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -75,7 +75,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
         LeaguePlayerPointsDTO requestDto = new LeaguePlayerPointsDTO("PREMIER",
                 2023, 10, leagueId, "someUser", 36);
 
-        MvcResult result = mockMvc.perform(post("/league-players-points")
+        MvcResult result = mockMvc.perform(post("/league-player-points")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isCreated())
@@ -90,7 +90,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
 
     @Test
     void deleteLeaguePlayerByLeagueIdAndUsernameNotFound() throws Exception {
-        mockMvc.perform(delete("/league-players-points/leagues/54/players/fakePlayer"))
+        mockMvc.perform(delete("/league-player-points/leagues/54/players/fakePlayer"))
                 .andExpect(status().isNotFound());
     }
 
@@ -98,13 +98,13 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
     void deleteLeaguePlayerByLeagueIdAndUsernameHappyPath() throws Exception {
         givenSomePreviouslyStoredLeaguePlayerPointsWithId("someUser", 2024, 8);
 
-        mockMvc.perform(delete("/league-players-points/leagues/" + leagueId + "/players/someUser"))
+        mockMvc.perform(delete("/league-player-points/leagues/" + leagueId + "/players/someUser"))
                 .andExpect(status().isOk());
     }
 
     @Test
     void deleteLeaguePlayerByCategoryIdSeasonAndNumberNotFound() throws Exception {
-        mockMvc.perform(delete("/league-players-points/categories/invented/seasons/2010/number/9"))
+        mockMvc.perform(delete("/league-player-points/categories/invented/seasons/2010/number/9"))
                 .andExpect(status().isNotFound());
     }
 
@@ -112,7 +112,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractContainerBaseT
     void deleteLeaguePlayerByCategoryIdSeasonAndNumberHappyPath() throws Exception {
         givenSomePreviouslyStoredLeaguePlayerPointsWithId("someUser", 2024, 8);
 
-        mockMvc.perform(delete("/league-players-points/categories/"
+        mockMvc.perform(delete("/league-player-points/categories/"
                         + "someCategory" + "/seasons/2024/number/8"))
                 .andExpect(status().isOk());
     }

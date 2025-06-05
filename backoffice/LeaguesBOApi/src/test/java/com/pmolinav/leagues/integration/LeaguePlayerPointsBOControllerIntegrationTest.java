@@ -35,7 +35,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByLeagueIdAndPlayerInternalServerError() throws Exception {
         andFindLeaguePlayerPointsByLeagueIdAndPlayerThrowsNonRetryableException();
 
-        mockMvc.perform(get("/league-players-points/leagues/2/players/aPlayer?requestUid=" + requestUid)
+        mockMvc.perform(get("/league-player-points/leagues/2/players/aPlayer?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
@@ -44,7 +44,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByLeagueIdAndPlayerHappyPath() throws Exception {
         andFindLeaguePlayerPointsByLeagueIdAndPlayerReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/leagues/15/players/someUser?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/league-player-points/leagues/15/players/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -60,7 +60,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByCategorySeasonAndNumberInternalServerError() throws Exception {
         andFindLeaguePlayerPointsByCategorySeasonAndNumberThrowsNonRetryableException();
 
-        mockMvc.perform(get("/league-players-points/categories/fakeCategory" +
+        mockMvc.perform(get("/league-player-points/categories/fakeCategory" +
                         "/seasons/2021/number/4?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
@@ -70,7 +70,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByCategorySeasonAndNumberHappyPath() throws Exception {
         andFindLeaguePlayerPointsByCategorySeasonAndNumberReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/categories/PREMIER" +
+        MvcResult result = mockMvc.perform(get("/league-player-points/categories/PREMIER" +
                         "/seasons/2025/number/4?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
@@ -90,7 +90,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
         LeaguePlayerPointsDTO requestDto = new LeaguePlayerPointsDTO("PREMIER", 2025,
                 10, 1L, "someUser", 42);
 
-        mockMvc.perform(post("/league-players-points?requestUid=" + requestUid)
+        mockMvc.perform(post("/league-player-points?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
@@ -104,7 +104,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
         LeaguePlayerPointsDTO requestDto = new LeaguePlayerPointsDTO("PREMIER", 2025,
                 10, 1L, "someUser", 42);
 
-        MvcResult result = mockMvc.perform(post("/league-players-points?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(post("/league-player-points?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
@@ -121,7 +121,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void deleteLeaguePlayerPointsByLeagueIdAndPlayerInternalServerError() throws Exception {
         andLeaguePlayerPointsDeleteByLeagueIdAndPlayerThrowsNonRetryableException();
 
-        mockMvc.perform(delete("/league-players-points/leagues/33/players/otherUser?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-player-points/leagues/33/players/otherUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
@@ -130,7 +130,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void deleteLeaguePlayerPointsByLeagueIdAndPlayerHappyPath() throws Exception {
         andLeaguePlayerPointsAreDeletedOkOnClient();
 
-        mockMvc.perform(delete("/league-players-points/leagues/45/players/someUser?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-player-points/leagues/45/players/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk());
     }
@@ -139,7 +139,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void deleteLeaguePlayerPointsByCategoryIdSeasonAndNumberInternalServerError() throws Exception {
         andLeaguePlayerPointsDeleteByCategoryIdSeasonAndNumberThrowsNonRetryableException();
 
-        mockMvc.perform(delete("/league-players-points/categories/fake/seasons/2020/number/5?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-player-points/categories/fake/seasons/2020/number/5?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
@@ -148,7 +148,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     void deleteLeaguePlayerPointsByCategoryIdSeasonAndNumberHappyPath() throws Exception {
         andLeaguePlayerPointsAreDeletedOkOnClient();
 
-        mockMvc.perform(delete("/league-players-points/categories/PREMIER/seasons/2025/number/3?requestUid=" + requestUid)
+        mockMvc.perform(delete("/league-player-points/categories/PREMIER/seasons/2025/number/3?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk());
     }

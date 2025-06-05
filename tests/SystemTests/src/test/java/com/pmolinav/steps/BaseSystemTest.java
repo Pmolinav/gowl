@@ -15,17 +15,15 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.client.ClientHttpResponse;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.ResponseErrorHandler;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.net.URI;
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
-import static org.junit.jupiter.api.Assertions.fail;
 
 @CucumberContextConfiguration
 @SpringBootTest(classes = Main.class, webEnvironment = WebEnvironment.DEFINED_PORT)
@@ -47,10 +45,14 @@ public class BaseSystemTest {
     protected static MatchDay lastMatchDay;
 
     protected void executeGet(String url) {
-        executeGet(url, UUID.randomUUID().toString());
+        executeGet(url, null);
     }
 
-    void executeGet(String url, String requestUid) {
+    protected void executeGet(String url, Map<String, Object> queryParams) {
+        executeGet(url, UUID.randomUUID().toString(), queryParams);
+    }
+
+    void executeGet(String url, String requestUid, Map<String, Object> queryParams) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.ACCEPT, "application/json");
         headers.put(HttpHeaders.AUTHORIZATION, authToken);
@@ -59,20 +61,25 @@ public class BaseSystemTest {
         final ResponseResultErrorHandler errorHandler = new ResponseResultErrorHandler();
 
         restTemplate.setErrorHandler(errorHandler);
-        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid, HttpMethod.GET, requestCallback, response -> {
-            if (errorHandler.hasError) {
-                return errorHandler.getResult();
-            } else {
-                return new ResponseResults(response);
-            }
-        });
+        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid + composeQueryParams(queryParams),
+                HttpMethod.GET, requestCallback, response -> {
+                    if (errorHandler.hasError) {
+                        return errorHandler.getResult();
+                    } else {
+                        return new ResponseResults(response);
+                    }
+                });
     }
 
     protected void executePut(String url) {
-        executePut(url, UUID.randomUUID().toString());
+        executePut(url, null);
     }
 
-    void executePut(String url, String requestUid) {
+    protected void executePut(String url, Map<String, Object> queryParams) {
+        executePut(url, UUID.randomUUID().toString(), queryParams);
+    }
+
+    void executePut(String url, String requestUid, Map<String, Object> queryParams) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.ACCEPT, "application/json");
         headers.put(HttpHeaders.AUTHORIZATION, authToken);
@@ -81,13 +88,14 @@ public class BaseSystemTest {
         final ResponseResultErrorHandler errorHandler = new ResponseResultErrorHandler();
 
         restTemplate.setErrorHandler(errorHandler);
-        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid, HttpMethod.PUT, requestCallback, response -> {
-            if (errorHandler.hasError) {
-                return errorHandler.getResult();
-            } else {
-                return new ResponseResults(response);
-            }
-        });
+        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid + composeQueryParams(queryParams),
+                HttpMethod.PUT, requestCallback, response -> {
+                    if (errorHandler.hasError) {
+                        return errorHandler.getResult();
+                    } else {
+                        return new ResponseResults(response);
+                    }
+                });
     }
 
     protected void executePost(String url, String body) {
@@ -125,10 +133,14 @@ public class BaseSystemTest {
     }
 
     protected void executeDelete(String url) {
-        executeDelete(url, UUID.randomUUID().toString());
+        executeDelete(url, null);
     }
 
-    void executeDelete(String url, String requestUid) {
+    protected void executeDelete(String url, Map<String, Object> queryParams) {
+        executeDelete(url, UUID.randomUUID().toString(), queryParams);
+    }
+
+    void executeDelete(String url, String requestUid, Map<String, Object> queryParams) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.ACCEPT, "application/json");
         headers.put(HttpHeaders.AUTHORIZATION, authToken);
@@ -137,13 +149,29 @@ public class BaseSystemTest {
         final ResponseResultErrorHandler errorHandler = new ResponseResultErrorHandler();
 
         restTemplate.setErrorHandler(errorHandler);
-        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid, HttpMethod.DELETE, requestCallback, response -> {
-            if (errorHandler.hasError) {
-                return (errorHandler.getResult());
-            } else {
-                return new ResponseResults(response);
+        latestResponse = restTemplate.execute(url + "?requestUid=" + requestUid + composeQueryParams(queryParams),
+                HttpMethod.DELETE, requestCallback, response -> {
+                    if (errorHandler.hasError) {
+                        return (errorHandler.getResult());
+                    } else {
+                        return new ResponseResults(response);
+                    }
+                });
+    }
+
+    private String composeQueryParams(Map<String, Object> queryParams) {
+        if (ObjectUtils.isEmpty(queryParams)) {
+            return "";
+        } else {
+            StringBuilder queryString = new StringBuilder();
+            for (Map.Entry<String, Object> entry : queryParams.entrySet()) {
+                queryString.append("&")
+                        .append(entry.getKey())
+                        .append("=")
+                        .append(entry.getValue());
             }
-        });
+            return queryString.toString();
+        }
     }
 
     private static class ResponseResultErrorHandler implements ResponseErrorHandler {

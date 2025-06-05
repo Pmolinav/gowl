@@ -39,7 +39,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
         andFindLeagueByIdReturnedLeague(2);
         andFindLeaguePlayerPointsByLeagueIdAndPlayerThrowsNonRetryableException();
 
-        mockMvc.perform(get("/league-players-points/leagues/2/players/aPlayer?requestUid=" + requestUid)
+        mockMvc.perform(get("/league-player-points/leagues/2/players/aPlayer?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
@@ -49,7 +49,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
         andFindLeagueByIdReturnedLeague(15);
         andFindLeaguePlayerPointsByLeagueIdAndPlayerReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/leagues/15/players/someUser?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/league-player-points/leagues/15/players/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -65,7 +65,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByCategorySeasonAndNumberInternalServerError() throws Exception {
         andFindLeaguePlayerPointsByCategorySeasonAndNumberThrowsNonRetryableException();
 
-        mockMvc.perform(get("/league-players-points/categories/fakeCategory" +
+        mockMvc.perform(get("/league-player-points/categories/fakeCategory" +
                         "/seasons/2021/number/4?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
@@ -75,7 +75,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
     void findLeaguePlayerPointsByCategorySeasonAndNumberHappyPath() throws Exception {
         andFindLeaguePlayerPointsByCategorySeasonAndNumberReturnedValidLeagues();
 
-        MvcResult result = mockMvc.perform(get("/league-players-points/categories/PREMIER" +
+        MvcResult result = mockMvc.perform(get("/league-player-points/categories/PREMIER" +
                         "/seasons/2025/number/4?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())

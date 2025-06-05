@@ -2,7 +2,6 @@ package com.pmolinav.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.leagueslib.dto.*;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import com.pmolinav.leagueslib.model.LeagueStatus;
@@ -311,7 +310,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @When("^try to add (\\d+) points to player in league$")
     public void tryToAddPointsToPlayerInLeague(int points) {
         executePut(localURL + "/league-players/leagues/" + lastLeaguePlayer.getLeagueId()
-                + "/players/" + lastLeaguePlayer.getUsername() + "?points=" + points);
+                + "/players/" + lastLeaguePlayer.getUsername(), Map.of("points", points));
     }
 
     @When("^try to delete league players by leagueId$")
@@ -345,7 +344,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         leaguePlayerPointsDto.setPoints(Integer.parseInt(row.get("points")));
 
         try {
-            executePost(localURL + "/league-players-points", objectMapper.writeValueAsString(leaguePlayerPointsDto));
+            executePost(localURL + "/league-player-points", objectMapper.writeValueAsString(leaguePlayerPointsDto));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             fail();
@@ -381,7 +380,6 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @Then("a league category with categoryId (.*) has been stored successfully$")
     public void aLeagueCategoryHasBeenStored(String categoryId) {
         try {
-            leaguesDbConnector = new LeaguesDatabaseConnector();
             lastLeagueCategory = leaguesDbConnector.getLeagueCategoryById(categoryId);
             assertNotNull(lastLeagueCategory);
         } catch (SQLException e) {
@@ -393,7 +391,6 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @Then("a match day with categoryId (.*), season (\\d+) and number (\\d+) has been stored successfully$")
     public void aMatchDayHasBeenStored(String categoryId, int season, int number) {
         try {
-            leaguesDbConnector = new LeaguesDatabaseConnector();
             lastMatchDay = leaguesDbConnector.getMatchDayByCategoryIdSeasonAndMatchDayNumber(categoryId, season, number);
             assertNotNull(lastMatchDay);
         } catch (SQLException e) {
@@ -405,7 +402,6 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @Then("a league with name (.*) and status (.*) has been stored successfully$")
     public void aLeagueHasBeenStored(String name, String status) {
         try {
-            leaguesDbConnector = new LeaguesDatabaseConnector();
             lastLeague = leaguesDbConnector.getLeagueByName(name);
             assertNotNull(lastLeague);
             assertEquals(status, lastLeague.getStatus().name());
@@ -418,7 +414,6 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
     @Then("a player with username (.*) has been associated to last league successfully$")
     public void aPlayerIsAssociatedToLastLeague(String username) {
         try {
-            leaguesDbConnector = new LeaguesDatabaseConnector();
             assertNotNull(lastLeague);
             assertTrue(leaguesDbConnector.existsPlayerByLeagueId(lastLeague.getLeagueId(), username));
 

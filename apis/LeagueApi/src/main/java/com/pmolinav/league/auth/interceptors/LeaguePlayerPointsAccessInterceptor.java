@@ -27,9 +27,9 @@ public class LeaguePlayerPointsAccessInterceptor implements HandlerInterceptor {
         String path = request.getRequestURI();
 
         try {
-            // GET /league-players-points/leagues/{id}/players/{username}
+            // GET /league-player-points/leagues/{id}/players/{username}
             if ("GET".equalsIgnoreCase(request.getMethod())
-                    && path.matches(".*/league-players-points/leagues/\\d+/players/[^/]+$")) {
+                    && path.matches(".*/league-player-points/leagues/\\d+/players/[^/]+$")) {
 
                 String leagueIdPart = path.split("/")[3];
                 long leagueId = Long.parseLong(leagueIdPart);

@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("league-players-points")
+@RequestMapping("league-player-points")
 public class LeaguePlayerPointsController {
 
     @Autowired
