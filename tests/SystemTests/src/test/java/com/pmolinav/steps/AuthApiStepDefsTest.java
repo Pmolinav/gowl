@@ -33,7 +33,7 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
     }
 
     @Before
-    public static void cleanAllAfterTests() {
+    public static void cleanAllBeforeTests() {
         try {
             usersDbConnector.deleteUsersRoles();
             usersDbConnector.deleteRoles();

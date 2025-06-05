@@ -74,7 +74,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-    @When("^try to get LeaguesBOApi health")
+    @When("^try to get LeaguesBOApi health$")
     public void tryToGetHealth() {
         executeGet(localURL + "/health");
     }
@@ -102,18 +102,17 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-
     @When("^try to get all league categories$")
     public void tryToGetAllLeagueCategories() {
         executeGet(localURL + "/categories");
     }
 
-    @When("^try to get a league category by categoryId")
+    @When("^try to get a league category by categoryId$")
     public void tryToGetALeagueCategoryByCategoryId() {
         executeGet(localURL + "/categories/" + lastLeagueCategory.getCategoryId());
     }
 
-    @When("^try to delete a league category by categoryId")
+    @When("^try to delete a league category by categoryId$")
     public void tryToDeleteALeagueCategoryByCategoryId() {
         executeDelete(localURL + "/categories/" + lastLeagueCategory.getCategoryId());
     }
@@ -167,29 +166,29 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/match-days");
     }
 
-    @When("^try to get match days by categoryId")
+    @When("^try to get match days by categoryId$")
     public void tryToGetMatchDaysByCategoryId() {
         executeGet(localURL + "/match-days/categories/" + lastMatchDay.getCategoryId());
     }
 
-    @When("^try to get match days by categoryId and season")
+    @When("^try to get match days by categoryId and season$")
     public void tryToGetMatchDaysByCategoryIdAndSeason() {
         executeGet(localURL + "/match-days/categories/" + lastMatchDay.getCategoryId()
                 + "/seasons/" + lastMatchDay.getSeason());
     }
 
-    @When("^try to delete match days by categoryId")
+    @When("^try to delete match days by categoryId$")
     public void tryToDeleteMatchDaysByCategoryId() {
         executeDelete(localURL + "/match-days/categories/" + lastMatchDay.getCategoryId());
     }
 
-    @When("^try to delete match days by categoryId and season")
+    @When("^try to delete match days by categoryId and season$")
     public void tryToDeleteMatchDaysByCategoryIdAndSeason() {
         executeDelete(localURL + "/match-days/categories/" + lastMatchDay.getCategoryId()
                 + "/seasons/" + lastMatchDay.getSeason());
     }
 
-    @When("^try to delete match days by categoryId, season and number")
+    @When("^try to delete match days by categoryId, season and number$")
     public void tryToDeleteMatchDaysByCategoryIdAndSeasonAndNumber() {
         executeDelete(localURL + "/match-days/categories/" + lastMatchDay.getCategoryId()
                 + "/seasons/" + lastMatchDay.getSeason() + "/number/" + lastMatchDay.getMatchDayNumber());
@@ -258,7 +257,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         executePut(localURL + "/leagues/close/" + lastLeague.getLeagueId());
     }
 
-    @When("^try to close a league by name")
+    @When("^try to close a league by name$")
     public void tryToCloseALeagueByName() {
         executePut(localURL + "/leagues/close/names/" + lastLeague.getName());
     }
@@ -268,7 +267,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         executeDelete(localURL + "/leagues/" + lastLeague.getLeagueId());
     }
 
-    @When("^try to delete a league by name")
+    @When("^try to delete a league by name$")
     public void tryToDeleteALeagueByName() {
         executeDelete(localURL + "/leagues/names/" + lastLeague.getName());
     }
@@ -357,7 +356,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                 + "/players/" + lastLeaguePlayer.getUsername());
     }
 
-    @When("^try to get league player points by categoryId, season and number")
+    @When("^try to get league player points by categoryId, season and number$")
     public void tryToGetLeaguePlayerPointsByCategoryIdSeasonAndNumber() {
         executeGet(localURL + "/league-player-points/categories/" + lastLeagueCategory.getCategoryId()
                 + "/seasons/" + lastMatchDay.getSeason()
@@ -370,7 +369,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                 + "/players/" + lastLeaguePlayer.getUsername());
     }
 
-    @When("^try to delete league player points by categoryId, season and number")
+    @When("^try to delete league player points by categoryId, season and number$")
     public void tryToDeleteLeaguePlayerPointsByCategoryIdSeasonAndNumber() {
         executeDelete(localURL + "/league-player-points/categories/" + lastLeagueCategory.getCategoryId()
                 + "/seasons/" + lastMatchDay.getSeason()
