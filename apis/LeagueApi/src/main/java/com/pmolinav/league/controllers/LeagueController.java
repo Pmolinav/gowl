@@ -14,6 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class LeagueController {
     @Autowired
     private LeaguesService leaguesService;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #leagueDTO.ownerUsername == authentication.principal")
     @PostMapping
     @Operation(summary = "Create a new league", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createLeague(@RequestParam String requestUid,

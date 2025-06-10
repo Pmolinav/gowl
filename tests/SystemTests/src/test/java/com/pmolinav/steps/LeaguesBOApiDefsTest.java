@@ -282,8 +282,8 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
             leaguePlayerDTOList.add(new LeaguePlayerDTO(
                     lastLeague.getLeagueId(),
                     row.get("username"),
-                    Integer.parseInt(row.get("total_points")),
-                    PlayerStatus.valueOf(row.get("status"))
+                    row.get("total_points") != null ? Integer.parseInt(row.get("total_points")) : null,
+                    row.get("status")!= null ? PlayerStatus.valueOf(row.get("status")) : null
             ));
         }
 

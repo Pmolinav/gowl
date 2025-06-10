@@ -30,5 +30,5 @@ public interface LeaguePlayersClient {
     void deleteLeaguePlayersByLeagueId(@PathVariable long id);
 
     @DeleteMapping("/leagues/{id}/players/{username}")
-    void deleteLeaguePlayersByLeagueIdAndPlayer(@PathVariable long id, @PathVariable String name);
+    void deleteLeaguePlayersByLeagueIdAndPlayer(@PathVariable long id, @PathVariable String username);
 }

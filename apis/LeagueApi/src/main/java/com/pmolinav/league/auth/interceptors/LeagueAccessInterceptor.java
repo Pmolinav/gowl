@@ -37,8 +37,9 @@ public class LeagueAccessInterceptor implements HandlerInterceptor {
                 long leagueId = Long.parseLong(idPart);
 
                 LeagueDTO leagueDTO = leaguesService.findLeagueById(leagueId);
-                if (leagueDTO.getLeaguePlayers().stream().anyMatch(
-                        leaguePlayerDTO -> leaguePlayerDTO.getUsername().equals(username))) {
+                if (leagueDTO.getOwnerUsername().equals(username) &&
+                        leagueDTO.getLeaguePlayers().stream().anyMatch(
+                                leaguePlayerDTO -> leaguePlayerDTO.getUsername().equals(username))) {
                     allowed = true;
                 }
             } else if (path.matches(".*/close/names/[^/]+$")) {
@@ -46,8 +47,9 @@ public class LeagueAccessInterceptor implements HandlerInterceptor {
                 String name = path.substring(path.lastIndexOf("/") + 1);
 
                 LeagueDTO leagueDTO = leaguesService.findLeagueByName(name);
-                if (leagueDTO.getLeaguePlayers().stream().anyMatch(
-                        leaguePlayerDTO -> leaguePlayerDTO.getUsername().equals(username))) {
+                if (leagueDTO.getOwnerUsername().equals(username) &&
+                        leagueDTO.getLeaguePlayers().stream().anyMatch(
+                                leaguePlayerDTO -> leaguePlayerDTO.getUsername().equals(username))) {
                     allowed = true;
                 }
             } else if (path.matches(".*/leagues/[^/]+$")) {

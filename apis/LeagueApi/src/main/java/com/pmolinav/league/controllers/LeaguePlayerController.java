@@ -92,8 +92,11 @@ public class LeaguePlayerController {
         try {
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-            if (leaguePlayers.size() != 1 || !leaguePlayers.getFirst().getUsername().equals(username)) {
+            if (!leaguePlayers.getFirst().getUsername().equals(username)) {
                 return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
+            }
+            if (leaguePlayers.size() != 1) {
+                return new ResponseEntity<>("Only one player can join the league in the same request.", HttpStatus.BAD_REQUEST);
             }
             if (result.hasErrors()) {
                 return validation(result);

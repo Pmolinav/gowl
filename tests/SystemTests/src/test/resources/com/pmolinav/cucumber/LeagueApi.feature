@@ -59,13 +59,12 @@ Feature: LeagueApi
   Scenario: Create a new league with LeagueApi successfully
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | someUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username someUser has been associated to last league successfully
     Then a player with username normalUser has been associated to last league successfully
 
-    # TODO: ERROR - FIX IT
   Scenario: Try to create a new league with LeagueApi for other players with error
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players    |
@@ -120,7 +119,6 @@ Feature: LeagueApi
     Then received status code is 200
     Then a league with name Friendly League and status CLOSED has been stored successfully
 
-    # TODO: ERROR - FIX IT
   Scenario: Try to close league by leagueId from LeagueApi by no owner user with error
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
@@ -159,7 +157,6 @@ Feature: LeagueApi
     Then received status code is 403
 
    # LEAGUE PLAYERS
-  # TODO: REVIEW IF IT IS OK
   Scenario: Create new league player with LeagueApi bad request
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
@@ -167,9 +164,9 @@ Feature: LeagueApi
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
-    Given try to create several league players with data
-      | status | total_points |
-      | ACTIVE | 33           |
+    Given try to create several league players with public endpoint with data
+      | username   | status |
+      | normalUser | ACTIVE |
     Then received status code is 400
 
   Scenario: Try to create several league players with LeagueApi with error
@@ -236,14 +233,12 @@ Feature: LeagueApi
     Then received status code is 200
     Then a league player with username normalUser is returned in response
 
-    # TODO: ERROR - FIX IT
   Scenario: Try to get league player by leagueId and other username from LeagueApi with error
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | someUser,0,ACTIVE;normalUser,0,ACTIVE |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
     Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
-    Then a player with username someUser has been associated to last league successfully
     Then a player with username normalUser has been associated to last league successfully
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
@@ -275,7 +270,6 @@ Feature: LeagueApi
     When try to get leagues by player username normalUser with public endpoint
     Then received status code is 403
 
-    # TODO: ERROR - FIX IT
   Scenario: Delete league player by leagueId and username successfully from LeagueApi
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
@@ -322,29 +316,24 @@ Feature: LeagueApi
     Then received status code is 200
     Then a list of league player points with usernames normalUser are returned in response
 
-    # TODO: ERROR - FIX IT
   Scenario: Get league player points by categoryId, season and number successfully from LeagueApi
     Given try to create a new league with public endpoint with data
       | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
       | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | someUser,0,ACTIVE;normalUser,0,ACTIVE |
     Then received status code is 201
-    When an user with username normalUser and password normalPassword tries to log in
-    Then a league category with categoryId PREMIER has been stored successfully
-    Then a match day with categoryId PREMIER, season 2025 and number 1 has been stored successfully
-    Then received status code is 200
-    Given try to create a new league with public endpoint with data
-      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
-      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser       | someUser,0,ACTIVE;normalUser,0,ACTIVE |
-    Then received status code is 201
     Then a league with name Friendly League and status ACTIVE has been stored successfully
     Then a player with username normalUser has been associated to last league successfully
     Then a player with username someUser has been associated to last league successfully
+    Then a league category with categoryId PREMIER has been stored successfully
+    Then a match day with categoryId PREMIER, season 2025 and number 1 has been stored successfully
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
     Given try to create new league player points with data
       | category_id | season | match_day_number | username | points |
-      | PREMIER     | 2025   | 1                | someUser | 22     |
+      | PREMIER     | 2025   | 1                | normalUser | 22     |
     Then received status code is 201
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
-    When try to get league player points by categoryId PREMIER, season 2025 and number 11
+    When try to get league player points by categoryId PREMIER, season 2025 and number 1 with public endpoint
     Then received status code is 200
     Then a list of league player points with usernames normalUser are returned in response

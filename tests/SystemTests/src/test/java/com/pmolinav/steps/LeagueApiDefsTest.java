@@ -114,8 +114,8 @@ public class LeagueApiDefsTest extends BaseSystemTest {
             leaguePlayerDTOList.add(new LeaguePlayerDTO(
                     lastLeague.getLeagueId(),
                     row.get("username"),
-                    Integer.parseInt(row.get("total_points")),
-                    PlayerStatus.valueOf(row.get("status"))
+                    row.get("total_points") != null ? Integer.parseInt(row.get("total_points")) : null,
+                    row.get("status") != null ? PlayerStatus.valueOf(row.get("status")) : null
             ));
         }
 
@@ -155,7 +155,7 @@ public class LeagueApiDefsTest extends BaseSystemTest {
                 + "/players/" + username);
     }
 
-    @When("^try to get league player points by categoryId (\\w+), season (\\d+) and number (\\d+)$")
+    @When("^try to get league player points by categoryId (\\w+), season (\\d+) and number (\\d+) with public endpoint$")
     public void tryToGetLeaguePlayerPointsByCategoryIdSeasonAndNumberPublicEndpoint(String categoryId, int season, int number) {
         executeGet(localURL + "/league-player-points/categories/" + categoryId
                 + "/seasons/" + season + "/number/" + number);
