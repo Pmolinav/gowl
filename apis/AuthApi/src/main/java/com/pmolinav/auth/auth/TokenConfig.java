@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "token")
 public class TokenConfig {
 
-    // Getters y Setters
     private String secret;
     private Long validitySeconds;
 

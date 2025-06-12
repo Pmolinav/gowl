@@ -7,8 +7,10 @@
     <file url="file://$PROJECT_DIR$/backoffice/UsersBOApi/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/common-auth-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/leagues-lib/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libraries/predictions-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/users-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/LeaguesService/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/services/PredictionsService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/UsersService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources" charset="UTF-8" />

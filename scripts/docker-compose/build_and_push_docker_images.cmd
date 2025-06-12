@@ -45,6 +45,11 @@ call docker build -t pablo7molina/leaguesservice .
 call docker push pablo7molina/leaguesservice
 echo [[32mLeaguesService built and pushed OK[0m]
 
+cd ../../services/PredictionsService
+call docker build -t pablo7molina/predictionsservice .
+call docker push pablo7molina/predictionsservice
+echo [[32mPredictionsService built and pushed OK[0m]
+
 echo -----------------------------------------
 echo Docker images built and pushed!
 echo -----------------------------------------

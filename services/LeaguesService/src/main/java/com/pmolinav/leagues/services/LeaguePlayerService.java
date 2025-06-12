@@ -180,6 +180,7 @@ public class LeaguePlayerService {
 
             leaguePlayerRepository.delete(leaguePlayer);
         } catch (NotFoundException e) {
+            logger.error("League player with id {} and username {} was not found.", id, username, e);
             throw e;
         } catch (Exception e) {
             logger.error("Unexpected error while removing league players by leagueId {} and username {} in repository.", id, username, e);

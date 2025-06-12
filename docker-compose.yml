@@ -16,35 +16,35 @@ services:
     networks:
       - spring
 
-#  zookeeper:
-#    container_name: zookeeper
-#    image: 'bitnami/zookeeper:latest'
-#    environment:
-#      - ZOOKEEPER_CLIENT_PORT=2181
-#      - ZOOKEEPER_TICK_TIME=2000
-#      - ALLOW_ANONYMOUS_LOGIN=yes
-#    networks:
-#      - spring
-#    ports:
-#      - '2181:2181'
-#    restart: always
-#
-#  kafka:
-#    container_name: kafka
-#    image: 'bitnami/kafka:latest'
-#    depends_on:
-#      - zookeeper
-#    environment:
-#      - KAFKA_BROKER_ID=1
-#      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-#      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-#      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
-#      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-#    networks:
-#      - spring
-#    ports:
-#      - '9092:9092'
-#    restart: always
+  #  zookeeper:
+  #    container_name: zookeeper
+  #    image: 'bitnami/zookeeper:latest'
+  #    environment:
+  #      - ZOOKEEPER_CLIENT_PORT=2181
+  #      - ZOOKEEPER_TICK_TIME=2000
+  #      - ALLOW_ANONYMOUS_LOGIN=yes
+  #    networks:
+  #      - spring
+  #    ports:
+  #      - '2181:2181'
+  #    restart: always
+  #
+  #  kafka:
+  #    container_name: kafka
+  #    image: 'bitnami/kafka:latest'
+  #    depends_on:
+  #      - zookeeper
+  #    environment:
+  #      - KAFKA_BROKER_ID=1
+  #      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  #      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+  #      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+  #      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+  #    networks:
+  #      - spring
+  #    ports:
+  #      - '9092:9092'
+  #    restart: always
 
   ## APIS
   authapi:
@@ -74,19 +74,6 @@ services:
     restart: always
 
   ## BACKOFFICE
-  usersboapi:
-    container_name: usersboapi
-    image: pablo7molina/usersboapi:latest
-    ports:
-      - "8002:8002"
-      - "5002:5002" # Debugging port
-    env_file: backoffice/UsersBOApi/.env
-    environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
-    networks:
-      - spring
-    restart: always
-
   leaguesboapi:
     container_name: leaguesboapi
     image: pablo7molina/leaguesboapi:latest
@@ -100,23 +87,20 @@ services:
       - spring
     restart: always
 
-  ## SERVICES
-  usersservice:
-    container_name: usersservice
-    image: pablo7molina/usersservice:latest
+  usersboapi:
+    container_name: usersboapi
+    image: pablo7molina/usersboapi:latest
     ports:
-      - "8001:8001"
-      - "5001:5001" # Debugging port
-    depends_on:
-      - postgres
-#      - kafka
-    env_file: services/UsersService/.env
+      - "8002:8002"
+      - "5002:5002" # Debugging port
+    env_file: backoffice/UsersBOApi/.env
     environment:
-      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
     networks:
       - spring
     restart: always
 
+  ## SERVICES
   leaguesservice:
     container_name: leaguesservice
     image: pablo7molina/leaguesservice:latest
@@ -125,10 +109,42 @@ services:
       - "5004:5004" # Debugging port
     depends_on:
       - postgres
-#      - kafka
+    #      - kafka
     env_file: services/LeaguesService/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5004
+    networks:
+      - spring
+    restart: always
+
+    predictionsservice:
+      container_name: predictionsservice
+      image: pablo7molina/predictionsservice:latest
+      ports:
+        - "8007:8007"
+        - "5007:5007" # Debugging port
+      depends_on:
+        - postgres
+      #      - kafka
+      env_file: services/PredictionsService/.env
+      environment:
+        - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+      networks:
+        - spring
+      restart: always
+
+  usersservice:
+    container_name: usersservice
+    image: pablo7molina/usersservice:latest
+    ports:
+      - "8001:8001"
+      - "5001:5001" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/UsersService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
     networks:
       - spring
     restart: always

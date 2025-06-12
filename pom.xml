@@ -19,12 +19,14 @@
     <modules>
         <module>apis/AuthApi</module>
         <module>apis/LeagueApi</module>
-        <module>backoffice/UsersBOApi</module>
         <module>backoffice/LeaguesBOApi</module>
+        <module>backoffice/UsersBOApi</module>
         <module>libraries/common-auth-lib</module>
         <module>libraries/leagues-lib</module>
+        <module>libraries/predictions-lib</module>
         <module>libraries/users-lib</module>
         <module>services/LeaguesService</module>
+        <module>services/PredictionsService</module>
         <module>services/UsersService</module>
         <module>tests/SystemTests</module>
     </modules>

@@ -18,6 +18,11 @@ call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for le
 echo [[32mleagues-lib OK[0m]
 del build.log
 
+cd ../../libraries/predictions-lib
+call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for predictions-lib. See build.log && exit /b 1)
+echo [[32mpredictions-lib OK[0m]
+del build.log
+
 echo -----------------------------------------
 echo Building Public APIs...
 echo -----------------------------------------
@@ -57,7 +62,12 @@ del build.log
 
 cd ../../services/LeaguesService
 call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for LeaguesService. See build.log && exit /b 1)
-echo [[32musers-lib OK[0m]
+echo [[32mLeaguesService OK[0m]
+del build.log
+
+cd ../../services/PredictionsService
+call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for PredictionsService. See build.log && exit /b 1)
+echo [[32mPredictionsService OK[0m]
 del build.log
 
 echo -----------------------------------------

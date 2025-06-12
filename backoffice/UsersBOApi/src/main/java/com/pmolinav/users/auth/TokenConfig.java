@@ -10,7 +10,6 @@ public class TokenConfig {
     private String secret;
     private Long validitySeconds;
 
-    // Getters y Setters
     public String getSecret() {
         return secret;
     }

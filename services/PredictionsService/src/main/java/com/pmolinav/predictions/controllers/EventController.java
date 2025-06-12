@@ -1,0 +1,97 @@
+
+package com.pmolinav.predictions.controllers;
+
+import com.pmolinav.predictions.exceptions.InternalServerErrorException;
+import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.predictions.services.EventService;
+import com.pmolinav.predictionslib.dto.EventDTO;
+import com.pmolinav.predictionslib.model.Event;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@CrossOrigin("*")
+@RestController
+@RequestMapping("events")
+public class EventController {
+
+    private final EventService eventService;
+
+    @Autowired
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<EventDTO>> findAllEvents() {
+        try {
+            List<EventDTO> events = eventService.findAllEvents();
+            return ResponseEntity.ok(events);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<EventDTO> findEventById(@PathVariable Long id) {
+        try {
+            EventDTO event = eventService.findEventById(id);
+            return ResponseEntity.ok(event);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/match/{matchId}")
+    public ResponseEntity<List<EventDTO>> findEventsByMatchId(@PathVariable Long matchId) {
+        try {
+            List<EventDTO> events = eventService.findByMatchId(matchId);
+            return ResponseEntity.ok(events);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping
+    public ResponseEntity<Long> createEvent(@RequestBody EventDTO eventDTO) {
+        try {
+            Event created = eventService.createEvent(eventDTO);
+            return new ResponseEntity<>(created.getEventId(), HttpStatus.CREATED);
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteEventById(@PathVariable Long id) {
+        try {
+            eventService.deleteEventById(id);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @DeleteMapping("/match/{matchId}")
+    public ResponseEntity<Void> deleteEventsByMatchId(@PathVariable Long matchId) {
+        try {
+            eventService.deleteEventsByMatchId(matchId);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+}

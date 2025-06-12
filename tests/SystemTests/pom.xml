@@ -47,6 +47,11 @@
             <artifactId>leagues-lib</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.pmolinav.gowl.libraries.predictions-lib</groupId>
+            <artifactId>predictions-lib</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- Cucumber libs -->
         <dependency>
             <groupId>io.cucumber</groupId>
