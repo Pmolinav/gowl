@@ -87,6 +87,19 @@ services:
       - spring
     restart: always
 
+  predictionsboapi:
+    container_name: predictionsboapi
+    image: pablo7molina/predictionsboapi:latest
+    ports:
+      - "8008:8008"
+      - "5008:5008" # Debugging port
+    env_file: backoffice/PredictionsBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5008
+    networks:
+      - spring
+    restart: always
+
   usersboapi:
     container_name: usersboapi
     image: pablo7molina/usersboapi:latest

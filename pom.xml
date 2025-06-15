@@ -20,6 +20,7 @@
         <module>apis/AuthApi</module>
         <module>apis/LeagueApi</module>
         <module>backoffice/LeaguesBOApi</module>
+        <module>backoffice/PredictionsBOApi</module>
         <module>backoffice/UsersBOApi</module>
         <module>libraries/common-auth-lib</module>
         <module>libraries/leagues-lib</module>
