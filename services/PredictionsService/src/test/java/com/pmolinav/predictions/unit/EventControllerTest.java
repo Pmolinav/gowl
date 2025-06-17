@@ -105,6 +105,39 @@ class EventControllerTest extends BaseUnitTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
+    /* FIND EVENT BY MATCH ID */
+    @Test
+    void findEventByMatchIdHappyPath() {
+        List<EventDTO> dtoList = List.of(new EventDTO());
+        when(eventServiceMock.findByMatchId(1L)).thenReturn(dtoList);
+
+        result = eventController.findEventsByMatchId(1L);
+
+        verify(eventServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(dtoList, result.getBody());
+    }
+
+    @Test
+    void findEventByMatchIdNotFound() {
+        when(eventServiceMock.findByMatchId(1L)).thenThrow(new NotFoundException("Not found"));
+
+        result = eventController.findEventsByMatchId(1L);
+
+        verify(eventServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void findEventByMatchIdServerError() {
+        when(eventServiceMock.findByMatchId(1L)).thenThrow(new InternalServerErrorException("Error"));
+
+        result = eventController.findEventsByMatchId(1L);
+
+        verify(eventServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+    }
+
     /* DELETE EVENT BY ID */
     @Test
     void deleteEventByIdHappyPath() {

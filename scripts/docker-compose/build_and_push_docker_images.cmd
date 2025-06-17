@@ -19,6 +19,11 @@ call docker build -t pablo7molina/leagueapi .
 call docker push pablo7molina/leagueapi
 echo [[32mLeagueApi built and pushed OK[0m]
 
+cd /d "%~dp0..\..\apis\PredictionApi"
+call docker build -t pablo7molina/predictionapi .
+call docker push pablo7molina/predictionapi
+echo [[32mPredictionApi built and pushed OK[0m]
+
 echo -----------------------------------------
 echo Building and pushing Docker images for BackOffice APIs...
 echo -----------------------------------------

@@ -15,6 +15,12 @@ public interface MatchClient {
     @GetMapping("/{id}")
     MatchDTO findById(@PathVariable("id") Long id);
 
+    @GetMapping("/categories/{categoryId}/seasons/{season}/match-day/{matchDayNumber}")
+    List<MatchDTO> findByCategoryIdSeasonAndMatchDayNumber(
+            @PathVariable String categoryId,
+            @PathVariable Integer season,
+            @PathVariable Integer matchDayNumber);
+
     @PostMapping
     Long create(@RequestBody MatchDTO matchDTO);
 

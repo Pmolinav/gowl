@@ -73,6 +73,19 @@ services:
       - spring
     restart: always
 
+  predictionapi:
+    container_name: predictionapi
+    image: pablo7molina/predictionapi:latest
+    ports:
+      - "8009:8009"
+      - "5009:5009" # Debugging port
+    env_file: apis/LeagueApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5009
+    networks:
+      - spring
+    restart: always
+
   ## BACKOFFICE
   leaguesboapi:
     container_name: leaguesboapi
@@ -130,21 +143,21 @@ services:
       - spring
     restart: always
 
-    predictionsservice:
-      container_name: predictionsservice
-      image: pablo7molina/predictionsservice:latest
-      ports:
-        - "8007:8007"
-        - "5007:5007" # Debugging port
-      depends_on:
-        - postgres
-      #      - kafka
-      env_file: services/PredictionsService/.env
-      environment:
-        - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
-      networks:
-        - spring
-      restart: always
+  predictionsservice:
+    container_name: predictionsservice
+    image: pablo7molina/predictionsservice:latest
+    ports:
+      - "8007:8007"
+      - "5007:5007" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/PredictionsService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+    networks:
+      - spring
+    restart: always
 
   usersservice:
     container_name: usersservice

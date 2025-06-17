@@ -99,6 +99,15 @@ public abstract class AbstractContainerBaseTest {
         return eventRepository.save(event);
     }
 
+    protected Event givenSomePreviouslyStoredEventWithMatchId(long matchId) {
+        Event event = new Event();
+        event.setMatchId(matchId);
+        event.setName("Goals");
+        event.setDescription("Number of goals in the match");
+
+        return eventRepository.save(event);
+    }
+
     protected Odds givenSomePreviouslyStoredOddsWithId() {
         Event event = givenSomePreviouslyStoredEventWithId();
 

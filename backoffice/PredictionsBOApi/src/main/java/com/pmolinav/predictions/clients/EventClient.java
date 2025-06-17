@@ -15,6 +15,9 @@ public interface EventClient {
     @GetMapping("/{id}")
     EventDTO findById(@PathVariable("id") Long id);
 
+    @GetMapping("/match/{matchId}")
+    List<EventDTO> findEventsByMatchId(@PathVariable("matchId") Long matchId);
+
     @PostMapping
     Long create(@RequestBody EventDTO eventDTO);
 

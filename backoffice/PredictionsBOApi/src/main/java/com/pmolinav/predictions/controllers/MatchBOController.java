@@ -55,6 +55,21 @@ public class MatchBOController {
         }
     }
 
+    @GetMapping("/categories/{categoryId}/seasons/{season}/match-day/{matchDayNumber}")
+    public ResponseEntity<List<MatchDTO>> findByCategoryIdSeasonAndMatchDayNumber(
+            @PathVariable String categoryId,
+            @PathVariable Integer season,
+            @PathVariable Integer matchDayNumber) {
+        try {
+            List<MatchDTO> matches = matchBOService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            return ResponseEntity.ok(matches);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
     @PostMapping
     @Operation(summary = "Create a new match", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createMatch(@RequestParam String requestUid,

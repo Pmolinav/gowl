@@ -69,6 +69,30 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
+    void findEventByMatchIdNotFound() throws Exception {
+        mockMvc.perform(get("/events/match/999999"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findEventByMatchIdHappyPath() throws Exception {
+        Match storedMatch = givenSomePreviouslyStoredMatchWithId();
+        Event storedEvent = givenSomePreviouslyStoredEventWithMatchId(storedMatch.getMatchId());
+
+        MvcResult result = mockMvc.perform(get("/events/match/" + storedMatch.getMatchId()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<EventDTO> eventResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<EventDTO>>() {
+                });
+
+        assertNotNull(eventResponse);
+        assertEquals(1, eventResponse.size());
+        assertEquals(storedEvent.getName(), eventResponse.getFirst().getName());
+    }
+
+    @Test
     void createEventHappyPath() throws Exception {
         Match match = givenSomePreviouslyStoredMatchWithId();
 

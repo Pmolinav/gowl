@@ -56,6 +56,26 @@ public class MatchBOService {
         }
     }
 
+    public List<MatchDTO> findByCategoryIdAndSeasonAndMatchDayNumber(String categoryId,
+                                                                     Integer season,
+                                                                     Integer matchDayNumber) {
+        try {
+            return matchClient.findByCategoryIdSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+        } catch (FeignException e) {
+            if (e instanceof RetryableException) {
+                logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("Matches by categoryId {}, season {} and matchDayNumber {} not found.",
+                        categoryId, season, matchDayNumber, e);
+                throw new NotFoundException("Matches not found");
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling Match service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     public void updateMatch(Long id, MatchDTO matchDTO) {
         try {
             matchClient.update(id, matchDTO);

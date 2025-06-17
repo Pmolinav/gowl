@@ -42,6 +42,11 @@ call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for Le
 echo [[32mLeagueApi OK[0m]
 del build.log
 
+cd /d "%BASE_DIR%..\..\apis\PredictionApi"
+call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for PredictionApi. See build.log && exit /b 1)
+echo [[32mPredictionApi OK[0m]
+del build.log
+
 echo -----------------------------------------
 echo Building BackOffice APIs...
 echo -----------------------------------------

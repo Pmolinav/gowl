@@ -9,7 +9,7 @@
         <relativePath>../../pom.xml</relativePath>
     </parent>
 
-    <groupId>com.pmolinav.gowl.backoffice.LeaguesBOApi</groupId>
+    <groupId>com.pmolinav.gowl.apis.LeagueApi</groupId>
     <artifactId>LeagueApi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>LeagueApi</name>

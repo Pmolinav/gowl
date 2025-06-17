@@ -9,6 +9,7 @@ echo -----------------------------------------
 
 echo AuthApi PORT: 8003
 echo LeagueApi PORT: 8006
+echo PredictionApi PORT: 8009
 
 echo -----------------------------------------
 echo BackOffice APIs:
@@ -16,6 +17,7 @@ echo -----------------------------------------
 
 echo UsersBOApi PORT: 8002
 echo LeaguesBOApi PORT: 8005
+echo PredictionsBOApi PORT: 8008
 
 echo -----------------------------------------
 echo Services:

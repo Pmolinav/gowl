@@ -19,6 +19,7 @@
     <modules>
         <module>apis/AuthApi</module>
         <module>apis/LeagueApi</module>
+        <module>apis/PredictionApi</module>
         <module>backoffice/LeaguesBOApi</module>
         <module>backoffice/PredictionsBOApi</module>
         <module>backoffice/UsersBOApi</module>
