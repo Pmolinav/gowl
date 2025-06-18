@@ -9,18 +9,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -33,31 +30,6 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private List<MatchDTO> expectedMatches;
-
-    @Test
-    void findAllMatchesInternalServerError() throws Exception {
-        andFindAllMatchesThrowsNonRetryableException();
-
-        mockMvc.perform(get("/matches?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void findAllMatchesHappyPath() throws Exception {
-        andFindAllMatchesReturnedValidMatches();
-
-        MvcResult result = mockMvc.perform(get("/matches?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        List<MatchDTO> matchResponseList = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<MatchDTO>>() {
-                });
-
-        assertEquals(expectedMatches, matchResponseList);
-    }
 
     @Test
     void findMatchByIdServerError() throws Exception {
@@ -85,65 +57,28 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void createMatchServerError() throws Exception {
-        andCreateMatchThrowsNonRetryableException();
+    void findMatchesByCategoryIdSeasonAndMatchDayNumberServerError() throws Exception {
+        andFindMatchesByCategoryIdSeasonAndMatchDayNumberThrowsNonRetryableException();
 
-        MatchDTO matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
-
-        mockMvc.perform(post("/matches?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(matchDTO)))
+        mockMvc.perform(get("/matches/categories/PREMIER/seasons/2025/number/5?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void createMatchHappyPath() throws Exception {
-        andCreateMatchReturnedValidId();
+    void findMatchesByCategoryIdSeasonAndMatchDayNumberHappyPath() throws Exception {
+        andFindMatchesByCategoryIdSeasonAndMatchDayNumberReturnedMatch();
 
-        MatchDTO matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
-
-        MvcResult result = mockMvc.perform(post("/matches?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(matchDTO)))
-                .andExpect(status().isCreated())
+        MvcResult result = mockMvc.perform(get("/matches/categories/PREMIER/seasons/2025/number/5?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk())
                 .andReturn();
 
-        String responseBody = result.getResponse().getContentAsString();
+        List<MatchDTO> matchesResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<MatchDTO>>() {
+                });
 
-        assertThat(responseBody, matchesPattern("\\d+"));
-    }
-
-    @Test
-    void deleteMatchByIdInternalServerError() throws Exception {
-        andDeleteMatchThrowsNonRetryableException();
-
-        mockMvc.perform(delete("/matches/321?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void deleteMatchByIdHappyPath() throws Exception {
-        andMatchDeletedOk();
-
-        mockMvc.perform(delete("/matches/5?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk());
-    }
-
-    private void andFindAllMatchesReturnedValidMatches() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE"));
-
-        when(this.matchClient.findAll()).thenReturn(expectedMatches);
-    }
-
-    private void andFindAllMatchesThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).findAll();
+        assertEquals(expectedMatches, matchesResponse);
     }
 
     private void andFindMatchByIdReturnedMatch() {
@@ -157,20 +92,18 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
         doThrow(new RuntimeException("someException")).when(this.matchClient).findById(anyLong());
     }
 
-    private void andCreateMatchReturnedValidId() {
-        when(this.matchClient.create(any(MatchDTO.class))).thenReturn(1L);
+    private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberReturnedMatch() {
+        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+                "Team A", "Team B", 1234567L, "ACTIVE"));
+
+        when(this.matchClient.findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt()))
+                .thenReturn(expectedMatches);
     }
 
-    private void andCreateMatchThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).create(any(MatchDTO.class));
+    private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException"))
+                .when(this.matchClient).findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt());
     }
 
-    private void andMatchDeletedOk() {
-        doNothing().when(this.matchClient).delete(anyLong());
-    }
-
-    private void andDeleteMatchThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).delete(anyLong());
-    }
 }
 

@@ -23,8 +23,6 @@ public abstract class AbstractBaseTest {
     @MockitoBean
     protected MatchClient matchClient;
     @MockitoBean
-    protected PlayerBetSelectionClient playerBetSelectionClient;
-    @MockitoBean
     protected EventClient eventClient;
     @MockitoBean
     protected PlayerBetClient playerBetClient;

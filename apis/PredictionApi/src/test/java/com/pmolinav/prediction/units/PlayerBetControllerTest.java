@@ -3,9 +3,14 @@ package com.pmolinav.prediction.units;
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -20,30 +25,6 @@ class PlayerBetControllerTest extends BaseUnitTest {
     private PlayerBetDTO playerBetDTO;
     private List<PlayerBetDTO> expectedPlayerBets;
     private ResponseEntity<?> result;
-
-    /* FIND ALL */
-    @Test
-    void findAllHappyPath() {
-        whenFindAllPlayerBetsInServiceReturnsValidList();
-        andFindAllPlayerBetsIsCalled();
-        thenVerifyFindAllPlayerBetsCalled();
-        thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseListIs(expectedPlayerBets);
-    }
-
-    @Test
-    void findAllNotFound() {
-        whenFindAllPlayerBetsThrowsNotFound();
-        andFindAllPlayerBetsIsCalled();
-        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
-    }
-
-    @Test
-    void findAllServerError() {
-        whenFindAllPlayerBetsThrowsServerError();
-        andFindAllPlayerBetsIsCalled();
-        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     /* FIND BY ID */
     @Test
@@ -66,6 +47,54 @@ class PlayerBetControllerTest extends BaseUnitTest {
     void findByIdServerError() {
         whenFindPlayerBetByIdThrowsServerError();
         andFindPlayerBetByIdIsCalled();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* FIND BY MATCH ID */
+    @Test
+    void findByMatchIdHappyPath() {
+        whenFindPlayersBetsByMatchIdReturnsValidDTO();
+        andFindPlayerBetsByMatchIdIsCalled();
+        thenVerifyFindPlayerBetsByMatchIdCalled();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseListIs(expectedPlayerBets);
+    }
+
+    @Test
+    void findByMatchIdNotFound() {
+        whenFindPlayerBetsByMatchIdThrowsNotFound();
+        andFindPlayerBetsByMatchIdIsCalled();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void findByMatchIdServerError() {
+        whenFindPlayerBetsByMatchIdThrowsServerError();
+        andFindPlayerBetsByMatchIdIsCalled();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* FIND BY USERNAME */
+    @Test
+    void findByUsernameHappyPath() {
+        whenFindPlayersBetsByUsernameReturnsValidDTO();
+        andFindPlayerBetsByUsernameIsCalled();
+        thenVerifyFindPlayerBetsByUsernameCalled();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseListIs(expectedPlayerBets);
+    }
+
+    @Test
+    void findByUsernameNotFound() {
+        whenFindPlayerBetsByUsernameThrowsNotFound();
+        andFindPlayerBetsByUsernameIsCalled();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void findByUsernameServerError() {
+        whenFindPlayerBetsByUsernameThrowsServerError();
+        andFindPlayerBetsByUsernameIsCalled();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -123,22 +152,6 @@ class PlayerBetControllerTest extends BaseUnitTest {
         playerBetDTO = new PlayerBetDTO(1L, "someUser", 2L, null);
     }
 
-    private void whenFindAllPlayerBetsInServiceReturnsValidList() {
-        expectedPlayerBets = List.of(
-                new PlayerBetDTO(1L, "someUser", 2L, null),
-                new PlayerBetDTO(1L, "someUser", 3L, null)
-        );
-        when(playerBetServiceMock.findAll()).thenReturn(expectedPlayerBets);
-    }
-
-    private void whenFindAllPlayerBetsThrowsNotFound() {
-        when(playerBetServiceMock.findAll()).thenThrow(new NotFoundException("No bets found"));
-    }
-
-    private void whenFindAllPlayerBetsThrowsServerError() {
-        when(playerBetServiceMock.findAll()).thenThrow(new CustomStatusException("Error", 500));
-    }
-
     private void whenFindPlayerBetByIdReturnsValidDTO() {
         playerBetDTO = new PlayerBetDTO(1L, "someUser", 2L, null);
         when(playerBetServiceMock.findById(1L)).thenReturn(playerBetDTO);
@@ -150,6 +163,36 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private void whenFindPlayerBetByIdThrowsServerError() {
         when(playerBetServiceMock.findById(1L)).thenThrow(new CustomStatusException("Error", 500));
+    }
+
+    private void whenFindPlayersBetsByMatchIdReturnsValidDTO() {
+        expectedPlayerBets = List.of(
+                new PlayerBetDTO(1L, "someUser", 2L, null)
+        );
+        when(playerBetServiceMock.findByMatchId(2L)).thenReturn(expectedPlayerBets);
+    }
+
+    private void whenFindPlayerBetsByMatchIdThrowsNotFound() {
+        when(playerBetServiceMock.findByMatchId(2L)).thenThrow(new NotFoundException("Not found"));
+    }
+
+    private void whenFindPlayerBetsByMatchIdThrowsServerError() {
+        when(playerBetServiceMock.findByMatchId(2L)).thenThrow(new CustomStatusException("Error", 500));
+    }
+
+    private void whenFindPlayersBetsByUsernameReturnsValidDTO() {
+        expectedPlayerBets = List.of(
+                new PlayerBetDTO(1L, "someUser", 2L, null)
+        );
+        when(playerBetServiceMock.findByUsername("someUser")).thenReturn(expectedPlayerBets);
+    }
+
+    private void whenFindPlayerBetsByUsernameThrowsNotFound() {
+        when(playerBetServiceMock.findByUsername("someUser")).thenThrow(new NotFoundException("Not found"));
+    }
+
+    private void whenFindPlayerBetsByUsernameThrowsServerError() {
+        when(playerBetServiceMock.findByUsername("someUser")).thenThrow(new CustomStatusException("Error", 500));
     }
 
     private void whenCreatePlayerBetReturnsId() {
@@ -174,12 +217,16 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     // --- CALL CONTROLLER ---
 
-    private void andFindAllPlayerBetsIsCalled() {
-        result = playerBetController.findAllPlayerBets(requestUid);
-    }
-
     private void andFindPlayerBetByIdIsCalled() {
         result = playerBetController.findPlayerBetById(requestUid, 1L);
+    }
+
+    private void andFindPlayerBetsByMatchIdIsCalled() {
+        result = playerBetController.findPlayerBetsByMatchId(requestUid, 2L);
+    }
+
+    private void andFindPlayerBetsByUsernameIsCalled() {
+        result = playerBetController.findPlayerBetsByUsername(requestUid, "someUser");
     }
 
     private void andCreatePlayerBetIsCalled() {
@@ -203,12 +250,16 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     // --- VERIFY ---
 
-    private void thenVerifyFindAllPlayerBetsCalled() {
-        verify(playerBetServiceMock, times(1)).findAll();
-    }
-
     private void thenVerifyFindPlayerBetByIdCalled() {
         verify(playerBetServiceMock, times(1)).findById(1L);
+    }
+
+    private void thenVerifyFindPlayerBetsByMatchIdCalled() {
+        verify(playerBetServiceMock, times(1)).findByMatchId(2L);
+    }
+
+    private void thenVerifyFindPlayerBetsByUsernameCalled() {
+        verify(playerBetServiceMock, times(1)).findByUsername("someUser");
     }
 
     private void thenVerifyCreatePlayerBetCalled() {

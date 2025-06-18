@@ -38,13 +38,14 @@ public class MatchController {
         }
     }
 
-    @GetMapping("/categories/{categoryId}/seasons/{season}/match-day/{matchDayNumber}")
+    @GetMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
     public ResponseEntity<List<MatchDTO>> findByCategoryIdSeasonAndMatchDayNumber(
+            @RequestParam String requestUid,
             @PathVariable String categoryId,
             @PathVariable Integer season,
-            @PathVariable Integer matchDayNumber) {
+            @PathVariable Integer number) {
         try {
-            List<MatchDTO> matches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            List<MatchDTO> matches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);
             return ResponseEntity.ok(matches);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

@@ -9,17 +9,14 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.List;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.matchesPattern;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -32,31 +29,6 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private List<EventDTO> expectedEvents;
-
-    @Test
-    void findAllEventsInternalServerError() throws Exception {
-        andFindAllEventsThrowsNonRetryableException();
-
-        mockMvc.perform(get("/events?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void findAllEventsHappyPath() throws Exception {
-        andFindAllEventsReturnedValidEvents();
-
-        MvcResult result = mockMvc.perform(get("/events?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        List<EventDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<>() {
-                });
-
-        assertEquals(expectedEvents, responseList);
-    }
 
     @Test
     void findEventByIdInternalServerError() throws Exception {
@@ -82,60 +54,28 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void createEventInternalServerError() throws Exception {
-        andCreateEventThrowsNonRetryableException();
+    void findEventsByMatchIdInternalServerError() throws Exception {
+        andFindEventsByMatchIdThrowsNonRetryableException();
 
-        EventDTO request = buildEventDTO();
-
-        mockMvc.perform(post("/events?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
+        mockMvc.perform(get("/events/match/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void createEventHappyPath() throws Exception {
-        andCreateEventReturnsValidId();
+    void findEventsByMatchIdHappyPath() throws Exception {
+        andFindEventsByMatchIdReturnsEvent();
 
-        EventDTO request = buildEventDTO();
-
-        MvcResult result = mockMvc.perform(post("/events?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isCreated())
+        MvcResult result = mockMvc.perform(get("/events/match/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk())
                 .andReturn();
 
-        String response = result.getResponse().getContentAsString();
-        assertThat(response, matchesPattern("\\d+"));
-    }
+        List<EventDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<EventDTO>>() {
+                });
 
-    @Test
-    void deleteEventByIdInternalServerError() throws Exception {
-        andDeleteEventThrowsNonRetryableException();
-
-        mockMvc.perform(delete("/events/1?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void deleteEventByIdHappyPath() throws Exception {
-        andDeleteEventReturnsOk();
-
-        mockMvc.perform(delete("/events/1?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk());
-    }
-
-    private void andFindAllEventsReturnedValidEvents() {
-        this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findAll()).thenReturn(expectedEvents);
-    }
-
-    private void andFindAllEventsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findAll();
+        assertEquals(expectedEvents, responseList);
     }
 
     private void andFindEventByIdReturnsEvent() {
@@ -147,20 +87,13 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
         doThrow(new RuntimeException("someException")).when(this.eventClient).findById(anyLong());
     }
 
-    private void andCreateEventReturnsValidId() {
-        when(this.eventClient.create(any(EventDTO.class))).thenReturn(1L);
+    private void andFindEventsByMatchIdReturnsEvent() {
+        this.expectedEvents = List.of(buildEventDTO());
+        when(this.eventClient.findEventsByMatchId(anyLong())).thenReturn(expectedEvents);
     }
 
-    private void andCreateEventThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).create(any(EventDTO.class));
-    }
-
-    private void andDeleteEventReturnsOk() {
-        doNothing().when(this.eventClient).delete(anyLong());
-    }
-
-    private void andDeleteEventThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).delete(anyLong());
+    private void andFindEventsByMatchIdThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.eventClient).findEventsByMatchId(anyLong());
     }
 
     private EventDTO buildEventDTO() {

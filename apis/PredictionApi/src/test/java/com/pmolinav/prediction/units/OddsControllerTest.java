@@ -6,15 +6,12 @@ import com.pmolinav.predictionslib.dto.OddsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 class OddsControllerTest extends BaseUnitTest {
@@ -22,32 +19,6 @@ class OddsControllerTest extends BaseUnitTest {
     private OddsDTO oddsDTO;
     private List<OddsDTO> expectedOdds;
     private ResponseEntity<?> result;
-
-    /* FIND ALL ODDS */
-    @Test
-    void findAllOddsHappyPath() {
-        whenFindAllOddsInServiceReturnedValidOdds();
-        andFindAllOddsIsCalledInController();
-        thenVerifyFindAllOddsHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseListIs(expectedOdds);
-    }
-
-    @Test
-    void findAllOddsNotFound() {
-        whenFindAllOddsInServiceThrowsNotFoundException();
-        andFindAllOddsIsCalledInController();
-        thenVerifyFindAllOddsHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
-    }
-
-    @Test
-    void findAllOddsServerError() {
-        whenFindAllOddsInServiceThrowsServerException();
-        andFindAllOddsIsCalledInController();
-        thenVerifyFindAllOddsHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
 
     /* FIND ODD BY ID */
     @Test
@@ -75,108 +46,33 @@ class OddsControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /* CREATE ODD */
+    /* FIND ODDS BY EVENT ID */
     @Test
-    void createOddHappyPath() {
-        givenValidOddsDTOForRequest();
-        whenCreateOddInServiceReturnedValidId();
-        andCreateOddIsCalledInController();
-        thenVerifyCreateOddHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.CREATED);
-        thenReceivedResponseLongIs(1L);
-    }
-
-    @Test
-    void createOddBadRequest() {
-        givenValidOddsDTOForRequest();
-        andCreateOddIsCalledInControllerWithBindingResultErrors();
-        thenReceivedStatusCodeIs(HttpStatus.BAD_REQUEST);
-    }
-
-    @Test
-    void createOddServerError() {
-        givenValidOddsDTOForRequest();
-        whenCreateOddInServiceThrowsServerException();
-        andCreateOddIsCalledInController();
-        thenVerifyCreateOddHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
-    /* UPDATE ODD */
-    @Test
-    void updateOddHappyPath() {
-        givenValidOddsDTOForRequest();
-        whenUpdateOddInServiceDoesNothing();
-        andUpdateOddIsCalledInController();
-        thenVerifyUpdateOddHasBeenCalledInService();
+    void findOddByEventIdHappyPath() {
+        whenFindOddByEventIdInServiceReturnedValidOdd();
+        andFindOddByEventIdIsCalledInController();
+        thenVerifyFindOddByEventIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseListIs(expectedOdds);
     }
 
     @Test
-    void updateOddNotFound() {
-        givenValidOddsDTOForRequest();
-        whenUpdateOddInServiceThrowsNotFoundException();
-        andUpdateOddIsCalledInController();
-        thenVerifyUpdateOddHasBeenCalledInService();
+    void findOddByEventIdNotFound() {
+        whenFindOddByEventIdInServiceThrowsNotFoundException();
+        andFindOddByEventIdIsCalledInController();
+        thenVerifyFindOddByEventIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
-    void updateOddServerError() {
-        givenValidOddsDTOForRequest();
-        whenUpdateOddInServiceThrowsServerException();
-        andUpdateOddIsCalledInController();
-        thenVerifyUpdateOddHasBeenCalledInService();
+    void findOddByEventIdServerError() {
+        whenFindOddByEventIdInServiceThrowsServerException();
+        andFindOddByEventIdIsCalledInController();
+        thenVerifyFindOddByEventIdHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    /* DELETE ODD */
-    @Test
-    void deleteOddHappyPath() {
-        whenDeleteOddInServiceDoesNothing();
-        andDeleteOddIsCalledInController();
-        thenVerifyDeleteOddHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.OK);
-    }
-
-    @Test
-    void deleteOddNotFound() {
-        whenDeleteOddInServiceThrowsNotFoundException();
-        andDeleteOddIsCalledInController();
-        thenVerifyDeleteOddHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
-    }
-
-    @Test
-    void deleteOddServerError() {
-        whenDeleteOddInServiceThrowsServerException();
-        andDeleteOddIsCalledInController();
-        thenVerifyDeleteOddHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
 
     // --- SETUP MOCK RETURNS ---
-
-    private void givenValidOddsDTOForRequest() {
-        oddsDTO = new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true);
-    }
-
-    private void whenFindAllOddsInServiceReturnedValidOdds() {
-        expectedOdds = List.of(
-                new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true),
-                new OddsDTO(1L, 1L, "LABEL2", BigDecimal.valueOf(3.5), true)
-        );
-        when(oddsServiceMock.findAll()).thenReturn(expectedOdds);
-    }
-
-    private void whenFindAllOddsInServiceThrowsNotFoundException() {
-        when(oddsServiceMock.findAll()).thenThrow(new NotFoundException("Odds not found"));
-    }
-
-    private void whenFindAllOddsInServiceThrowsServerException() {
-        when(oddsServiceMock.findAll()).thenThrow(new CustomStatusException("Internal Server Error", 500));
-    }
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
         oddsDTO = new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true);
@@ -191,106 +87,41 @@ class OddsControllerTest extends BaseUnitTest {
         when(oddsServiceMock.findById(1L)).thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
-    private void whenCreateOddInServiceReturnedValidId() {
-        when(oddsServiceMock.create(any(OddsDTO.class))).thenReturn(1L);
+    private void whenFindOddByEventIdInServiceReturnedValidOdd() {
+        expectedOdds = List.of(
+                new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true)
+        );
+        when(oddsServiceMock.findByEventId(1L)).thenReturn(expectedOdds);
     }
 
-    private void whenCreateOddInServiceThrowsServerException() {
-        when(oddsServiceMock.create(any(OddsDTO.class)))
-                .thenThrow(new CustomStatusException("Internal Server Error", 500));
+    private void whenFindOddByEventIdInServiceThrowsNotFoundException() {
+        when(oddsServiceMock.findByEventId(1L)).thenThrow(new NotFoundException("Odd not found"));
     }
 
-    private void whenUpdateOddInServiceDoesNothing() {
-        doNothing().when(oddsServiceMock).update(eq(1L), any(OddsDTO.class));
-    }
-
-    private void whenUpdateOddInServiceThrowsNotFoundException() {
-        doThrow(new NotFoundException("Odd not found")).when(oddsServiceMock).update(eq(1L), any(OddsDTO.class));
-    }
-
-    private void whenUpdateOddInServiceThrowsServerException() {
-        doThrow(new CustomStatusException("Internal Server Error", 500)).when(oddsServiceMock).update(eq(1L), any(OddsDTO.class));
-    }
-
-    private void whenDeleteOddInServiceDoesNothing() {
-        doNothing().when(oddsServiceMock).delete(1L);
-    }
-
-    private void whenDeleteOddInServiceThrowsNotFoundException() {
-        doThrow(new NotFoundException("Odd not found")).when(oddsServiceMock).delete(1L);
-    }
-
-    private void whenDeleteOddInServiceThrowsServerException() {
-        doThrow(new CustomStatusException("Internal Server Error", 500)).when(oddsServiceMock).delete(1L);
+    private void whenFindOddByEventIdInServiceThrowsServerException() {
+        when(oddsServiceMock.findByEventId(1L)).thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
 
     // --- CALL CONTROLLER METHODS ---
 
-    private void andFindAllOddsIsCalledInController() {
-        result = oddsController.findAllOdds(requestUid);
-    }
-
     private void andFindOddByIdIsCalledInController() {
         result = oddsController.findOddsById(requestUid, 1L);
     }
 
-    private void andCreateOddIsCalledInController() {
-        BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.hasErrors()).thenReturn(false);
-        result = oddsController.createOdds(requestUid, oddsDTO, bindingResult);
-    }
-
-    private void andCreateOddIsCalledInControllerWithBindingResultErrors() {
-        BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.hasErrors()).thenReturn(true);
-        when(bindingResult.getFieldErrors()).thenReturn(List.of(
-                new FieldError("oddDTO", "value", "Value is mandatory")
-        ));
-        result = oddsController.createOdds(requestUid, oddsDTO, bindingResult);
-    }
-
-    private void andUpdateOddIsCalledInController() {
-        BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.hasErrors()).thenReturn(false);
-        result = oddsController.updateOdds(requestUid, 1L, oddsDTO, bindingResult);
-    }
-
-    private void andUpdateOddIsCalledInControllerWithBindingResultErrors() {
-        BindingResult bindingResult = mock(BindingResult.class);
-        when(bindingResult.hasErrors()).thenReturn(true);
-        when(bindingResult.getFieldErrors()).thenReturn(List.of(
-                new FieldError("oddDTO", "value", "Value is mandatory")
-        ));
-        result = oddsController.updateOdds(requestUid, 1L, oddsDTO, bindingResult);
-    }
-
-    private void andDeleteOddIsCalledInController() {
-        result = oddsController.deleteOdds(requestUid, 1L);
+    private void andFindOddByEventIdIsCalledInController() {
+        result = oddsController.findOddsByEventId(requestUid, 1L);
     }
 
     // --- VERIFY SERVICE CALLS ---
-
-    private void thenVerifyFindAllOddsHasBeenCalledInService() {
-        verify(oddsServiceMock, times(1)).findAll();
-    }
 
     private void thenVerifyFindOddByIdHasBeenCalledInService() {
         verify(oddsServiceMock, times(1)).findById(1L);
     }
 
-    private void thenVerifyCreateOddHasBeenCalledInService() {
-        verify(oddsServiceMock, times(1)).create(any(OddsDTO.class));
+    private void thenVerifyFindOddByEventIdHasBeenCalledInService() {
+        verify(oddsServiceMock, times(1)).findByEventId(1L);
     }
-
-    private void thenVerifyUpdateOddHasBeenCalledInService() {
-        verify(oddsServiceMock, times(1)).update(eq(1L), any(OddsDTO.class));
-    }
-
-    private void thenVerifyDeleteOddHasBeenCalledInService() {
-        verify(oddsServiceMock, times(1)).delete(1L);
-    }
-
 
     // --- ASSERTIONS ---
 
@@ -304,11 +135,6 @@ class OddsControllerTest extends BaseUnitTest {
     }
 
     private void thenReceivedResponseListIs(List<OddsDTO> expectedResponse) {
-        assertNotNull(result);
-        assertEquals(expectedResponse, result.getBody());
-    }
-
-    private void thenReceivedResponseLongIs(Long expectedResponse) {
         assertNotNull(result);
         assertEquals(expectedResponse, result.getBody());
     }

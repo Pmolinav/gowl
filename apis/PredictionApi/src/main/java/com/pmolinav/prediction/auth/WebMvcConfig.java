@@ -1,8 +1,6 @@
 package com.pmolinav.prediction.auth;
 
-import com.pmolinav.prediction.auth.interceptors.LeagueAccessInterceptor;
-import com.pmolinav.prediction.auth.interceptors.LeaguePlayerPointsAccessInterceptor;
-import com.pmolinav.prediction.auth.interceptors.LeaguePlayersAccessInterceptor;
+import com.pmolinav.prediction.auth.interceptors.PlayerBetAccessInterceptor;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -19,20 +17,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        LeagueAccessInterceptor interceptor = applicationContext.getBean(LeagueAccessInterceptor.class);
-        LeaguePlayersAccessInterceptor leaguePlayersAccessInterceptor = applicationContext.getBean(LeaguePlayersAccessInterceptor.class);
-        LeaguePlayerPointsAccessInterceptor leaguePlayerPointsAccessInterceptor = applicationContext.getBean(LeaguePlayerPointsAccessInterceptor.class);
+        PlayerBetAccessInterceptor interceptor = applicationContext.getBean(PlayerBetAccessInterceptor.class);
 
         registry.addInterceptor(interceptor)
-                .addPathPatterns("/leagues/**")
-                .excludePathPatterns("/leagues"); // exclude POST /leagues
+                .addPathPatterns("/player-bets/**");
 
-        registry.addInterceptor(leaguePlayersAccessInterceptor)
-                .addPathPatterns("/league-players/**")
-                .excludePathPatterns("/league-players"); // exclude POST /league-players
-
-        registry.addInterceptor(leaguePlayerPointsAccessInterceptor)
-                .addPathPatterns("/league-player-points/**");
     }
 
 }

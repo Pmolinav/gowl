@@ -34,19 +34,69 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     private List<PlayerBetDTO> expectedPlayerBets;
 
     @Test
-    void findAllPlayerBetsInternalServerError() throws Exception {
-        andFindAllPlayerBetsThrowsNonRetryableException();
+    void findPlayerBetByIdInternalServerError() throws Exception {
+        andFindPlayerBetByIdThrowsNonRetryableException();
 
-        mockMvc.perform(get("/player-bets?requestUid=" + requestUid)
+        mockMvc.perform(get("/player-bets/123?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
 
     @Test
-    void findAllPlayerBetsHappyPath() throws Exception {
-        andFindAllPlayerBetsReturnedValidList();
+    void findPlayerBetByIdHappyPath() throws Exception {
+        andFindPlayerBetByIdReturnedPlayerBet();
 
-        MvcResult result = mockMvc.perform(get("/player-bets?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/player-bets/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        PlayerBetDTO response = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<PlayerBetDTO>() {
+                });
+
+        assertEquals(expectedPlayerBets.getFirst(), response);
+    }
+
+    @Test
+    void findPlayerBetsByMatchIdInternalServerError() throws Exception {
+        andFindPlayerBetsByMatchIdThrowsNonRetryableException();
+
+        mockMvc.perform(get("/player-bets/match/123?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void findPlayerBestByMatchIdHappyPath() throws Exception {
+        andFindPlayerBetsByMatchIdReturnedPlayerBets();
+
+        MvcResult result = mockMvc.perform(get("/player-bets/match/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PlayerBetDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<PlayerBetDTO>>() {
+                });
+
+        assertEquals(expectedPlayerBets, responseList);
+    }
+
+    @Test
+    void findPlayerBetsByUsernameInternalServerError() throws Exception {
+        andFindPlayerBetsByUsernameThrowsNonRetryableException();
+
+        mockMvc.perform(get("/player-bets/username/someUser?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    void findPlayerBestByUsernameHappyPath() throws Exception {
+        andFindPlayerBetsByUsernameReturnedPlayerBets();
+
+        MvcResult result = mockMvc.perform(get("/player-bets/username/someUser?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();
@@ -89,32 +139,8 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findPlayerBetByIdInternalServerError() throws Exception {
-        andFindPlayerBetByIdThrowsNonRetryableException();
-
-        mockMvc.perform(get("/player-bets/123?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void findPlayerBetByIdHappyPath() throws Exception {
-        andFindPlayerBetByIdReturnedPlayerBet();
-
-        MvcResult result = mockMvc.perform(get("/player-bets/1?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        PlayerBetDTO response = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<PlayerBetDTO>() {
-                });
-
-        assertEquals(expectedPlayerBets.getFirst(), response);
-    }
-
-    @Test
     void deletePlayerBetByIdInternalServerError() throws Exception {
+        andFindPlayerBetByIdReturnedPlayerBet();
         andDeletePlayerBetThrowsNonRetryableException();
 
         mockMvc.perform(delete("/player-bets/99?requestUid=" + requestUid)
@@ -124,6 +150,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void deletePlayerBetByIdHappyPath() throws Exception {
+        andFindPlayerBetByIdReturnedPlayerBet();
         andDeletePlayerBetReturnsOk();
 
         mockMvc.perform(delete("/player-bets/7?requestUid=" + requestUid)
@@ -133,14 +160,31 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     // ----- Mock setup helpers -----
 
-    private void andFindAllPlayerBetsReturnedValidList() {
+    private void andFindPlayerBetByIdReturnedPlayerBet() {
         this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
-        when(this.playerBetClient.findAll()).thenReturn(expectedPlayerBets);
-
+        when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
     }
 
-    private void andFindAllPlayerBetsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findAll();
+    private void andFindPlayerBetByIdThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findById(anyLong());
+    }
+
+    private void andFindPlayerBetsByMatchIdReturnedPlayerBets() {
+        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
+        when(this.playerBetClient.findByMatchId(anyLong())).thenReturn(expectedPlayerBets);
+    }
+
+    private void andFindPlayerBetsByMatchIdThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findByMatchId(anyLong());
+    }
+
+    private void andFindPlayerBetsByUsernameReturnedPlayerBets() {
+        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
+        when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBets);
+    }
+
+    private void andFindPlayerBetsByUsernameThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findByUsername(anyString());
     }
 
     private void andCreatePlayerBetReturnedValidId() {
@@ -149,15 +193,6 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     private void andCreatePlayerBetThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException")).when(this.playerBetClient).create(any(PlayerBetDTO.class));
-    }
-
-    private void andFindPlayerBetByIdReturnedPlayerBet() {
-        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
-        when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
-    }
-
-    private void andFindPlayerBetByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findById(anyLong());
     }
 
     private void andDeletePlayerBetReturnsOk() {
