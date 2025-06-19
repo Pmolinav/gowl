@@ -1,5 +1,7 @@
 @echo off
 
+echo DEPRECATED: This script is deprecated and will be removed in the future.
+
 REM Change to the service directory
 cd ../../backoffice/UsersBOApi/
 

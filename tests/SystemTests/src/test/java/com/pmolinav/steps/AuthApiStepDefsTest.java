@@ -1,6 +1,7 @@
 package com.pmolinav.steps;
 
 import com.pmolinav.database.LeaguesDatabaseConnector;
+import com.pmolinav.database.PredictionsDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.UserDTO;
 import io.cucumber.java.Before;
@@ -26,6 +27,7 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         try {
             usersDbConnector = new UsersDatabaseConnector();
             leaguesDbConnector = new LeaguesDatabaseConnector();
+            predictionsDbConnector = new PredictionsDatabaseConnector();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();

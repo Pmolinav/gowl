@@ -37,10 +37,10 @@ public class OddsController {
         }
     }
 
-    @GetMapping("/{oddsId}")
-    public ResponseEntity<OddsDTO> findOddsById(@PathVariable Long oddsId) {
+    @GetMapping("/{id}")
+    public ResponseEntity<OddsDTO> findOddsById(@PathVariable Long id) {
         try {
-            OddsDTO odds = oddsService.findOddsById(oddsId);
+            OddsDTO odds = oddsService.findOddsById(id);
             return ResponseEntity.ok(odds);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -71,10 +71,10 @@ public class OddsController {
         }
     }
 
-    @PutMapping("/{oddsId}")
-    public ResponseEntity<Void> updateOdds(@PathVariable Long oddsId, @RequestBody OddsDTO oddsDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateOdds(@PathVariable Long id, @RequestBody OddsDTO oddsDTO) {
         try {
-            oddsService.updateOdds(oddsId, oddsDTO);
+            oddsService.updateOdds(id, oddsDTO);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -83,10 +83,10 @@ public class OddsController {
         }
     }
 
-    @DeleteMapping("/{oddsId}")
-    public ResponseEntity<Void> deleteOdds(@PathVariable Long oddsId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteOdds(@PathVariable Long id) {
         try {
-            oddsService.deleteOdds(oddsId);
+            oddsService.deleteOdds(id);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

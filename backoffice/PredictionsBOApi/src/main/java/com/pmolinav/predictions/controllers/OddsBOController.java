@@ -52,7 +52,7 @@ public class OddsBOController {
         }
     }
 
-    @GetMapping("/event/{eventId}")
+    @GetMapping("/events/{eventId}")
     @Operation(summary = "Retrieve odds by event ID", description = "Bearer token is required to authorize users.")
     public ResponseEntity<List<OddsDTO>> findOddsByEventId(@RequestParam String requestUid, @PathVariable Long eventId) {
         try {

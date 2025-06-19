@@ -29,8 +29,7 @@ public class PredictionApiDefsTest extends BaseSystemTest {
 
     @When("^try to get a match by categoryId, season and matchDayNumber with public endpoint$")
     public void tryToGetMatchByCategoryIdSeasonAndMatchDayNumberPublicEndpoint() {
-        executeGet(localURL + "/matches/" + lastMatch.getMatchId()
-                + "/categories/" + lastMatch.getCategoryId()
+        executeGet(localURL + "/matches/categories/" + lastMatch.getCategoryId()
                 + "/seasons/" + lastMatch.getSeason()
                 + "/number/" + lastMatch.getMatchDayNumber());
     }
@@ -45,14 +44,14 @@ public class PredictionApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/events/match/" + lastEvent.getMatchId());
     }
 
-    @When("^try to get odds by eventId with public endpoint")
-    public void tryToGetOddsByEventIdPublicEndpoint() {
-        executeGet(localURL + "/odds/event/" + lastOdds.getEventId());
+    @When("^try to get odds by oddsId with public endpoint$")
+    public void tryToGetOddsByOddsIdPublicEndpoint() {
+        executeGet(localURL + "/odds/" + lastOdds.getOddsId());
     }
 
-    @When("^try to delete odds by oddsId with public endpoint$")
-    public void tryToDeleteOddsByOddsIdPublicEndpoint() {
-        executeDelete(localURL + "/odds/" + lastOdds.getOddsId());
+    @When("^try to get odds by eventId with public endpoint")
+    public void tryToGetOddsByEventIdPublicEndpoint() {
+        executeGet(localURL + "/odds/events/" + lastOdds.getEventId());
     }
 
     @When("^try to create new player bet with data with public endpoint$")
@@ -72,7 +71,7 @@ public class PredictionApiDefsTest extends BaseSystemTest {
                 String[] selectionParts = selectionsRaw.split(";");
                 for (String selectionStr : selectionParts) {
                     String[] fields = selectionStr.trim().split(",");
-                    if (fields.length == 3) {
+                    if (fields.length == 2) {
                         PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
                         selection.setOddsId(Long.parseLong(fields[0].trim()));
                         selection.setStake(new BigDecimal(fields[1].trim()));

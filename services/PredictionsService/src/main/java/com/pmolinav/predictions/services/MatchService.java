@@ -4,7 +4,9 @@ import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.repositories.MatchRepository;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.mapper.MatchMapper;
+import com.pmolinav.predictionslib.model.Match;
 import com.pmolinav.predictionslib.model.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -63,6 +65,25 @@ public class MatchService {
             return matchRepository.save(match);
         } catch (Exception e) {
             logger.error("Unexpected error while creating new match in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+    
+    @Transactional
+    public void updateMatch(Long matchId, MatchDTO matchDTO) {
+        try {
+            Match existing = matchRepository.findById(matchId)
+                    .orElseThrow(() -> new NotFoundException("Match with id " + matchId + " not found."));
+
+            Match updated = matchMapper.matchDtoToEntity(matchDTO);
+            updated.setMatchId(existing.getMatchId()); // ensure ID is preserved
+
+            matchRepository.save(updated);
+        } catch (NotFoundException e) {
+            logger.error("Match not found with id: {}", matchId);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error while updating match with id {}", matchId, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

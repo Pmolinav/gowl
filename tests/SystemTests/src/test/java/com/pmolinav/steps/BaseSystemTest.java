@@ -95,12 +95,13 @@ public class BaseSystemTest {
     }
 
     protected void executePut(String url, Map<String, Object> queryParams, String body) {
-        executePut(url, UUID.randomUUID().toString(), queryParams, null);
+        executePut(url, UUID.randomUUID().toString(), queryParams, body);
     }
 
     void executePut(String url, String requestUid, Map<String, Object> queryParams, String body) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.ACCEPT, "application/json");
+        headers.put(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.put(HttpHeaders.AUTHORIZATION, authToken);
 
         final HeaderSettingRequestCallback requestCallback = new HeaderSettingRequestCallback(body, headers);

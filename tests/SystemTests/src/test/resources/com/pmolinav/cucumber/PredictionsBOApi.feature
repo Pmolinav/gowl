@@ -88,7 +88,7 @@ Feature: PredictionsBOApi
     Given try to update a match with data
       | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
       | 101      | PREMIER2    | 2025   | 1                | Team B    | Team C    | SCHEDULED | 1624125600 |
-    Then received status code is 201
+    Then received status code is 200
     Then last stored match home team is Team B and away team is Team C
 
   Scenario: Delete match by categoryId successfully
@@ -105,8 +105,8 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 403
 
   Scenario: Create a new event bad request
@@ -117,15 +117,15 @@ Feature: PredictionsBOApi
 
   Scenario: Create a new event successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     Then an event with name Result has been stored successfully
 
   Scenario: Get all events successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     When try to get all events
     Then received status code is 200
@@ -133,8 +133,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get event by eventId successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     Then an event with name Result has been stored successfully
     When try to get an event by eventId
@@ -143,8 +143,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get events by matchId successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     Then an event with name Result has been stored successfully
     When try to get events by matchId
@@ -153,20 +153,20 @@ Feature: PredictionsBOApi
 
   Scenario: Update an event successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     Then an event with name Result has been stored successfully
     Given try to update an event with data
-      | match_id | event_type  | timestamp  | description         |
+      | match_id | name        | timestamp  | description         |
       | 101      | Score First | 1624125655 | Team to Score First |
-    Then received status code is 201
-    Then an event with name Score First has been returned in response
+    Then received status code is 200
+    Then an event with name Score First has been stored successfully
 
   Scenario: Delete event by eventId successfully
     Given try to create a new event with data
-      | match_id | event_type | timestamp  | description |
-      | 101      | Result     | 1624125650 | First goal  |
+      | match_id | name   | timestamp  | description |
+      | 101      | Result | 1624125650 | First goal  |
     Then received status code is 201
     Then an event with name Result has been stored successfully
     When try to delete an event by eventId
@@ -232,7 +232,7 @@ Feature: PredictionsBOApi
     Given try to update odds with data
       | event_id | label     | value | probability |
       | 202      | Under 3.5 | 2.10  | 0.40        |
-    Then received status code is 201
+    Then received status code is 200
     Then odds with label Under 3.5 have been stored successfully
 
   Scenario: Delete odds by oddsId successfully

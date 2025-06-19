@@ -168,7 +168,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.pmolinav.predictions.PredictionsBOApi</mainClass>
+                            <mainClass>com.pmolinav.predictions.PredictionsBOApiMain</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

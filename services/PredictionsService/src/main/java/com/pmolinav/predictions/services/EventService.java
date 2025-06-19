@@ -94,6 +94,25 @@ public class EventService {
     }
 
     @Transactional
+    public void updateEvent(Long eventId, EventDTO eventDTO) {
+        try {
+            Event existing = eventRepository.findById(eventId)
+                    .orElseThrow(() -> new NotFoundException("Event with id " + eventId + " not found."));
+
+            Event updated = eventMapper.eventDtoToEntity(eventDTO);
+            updated.setEventId(existing.getEventId()); // ensure ID is preserved
+
+            eventRepository.save(updated);
+        } catch (NotFoundException e) {
+            logger.error("Event not found with id: {}", eventId);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error while updating event with id {}", eventId, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
     public void deleteEventById(Long id) {
         try {
             Event event = eventRepository.findById(id)

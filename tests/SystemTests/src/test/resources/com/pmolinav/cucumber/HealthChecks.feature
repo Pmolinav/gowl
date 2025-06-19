@@ -29,7 +29,7 @@ Feature: HealthChecks
 
   Scenario: Check health status by unauthorized user
     When an user with username normalUser and password normalPassword tries to log in
-    Then received status code is 403
+    Then received status code is 200
     When try to get AuthApi health
     Then received status code is 403
     When try to get UsersBOApi health

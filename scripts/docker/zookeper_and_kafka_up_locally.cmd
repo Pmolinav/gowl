@@ -1,4 +1,8 @@
-REM DEPRECATED. Using docker-compose instead.
+@echo off
+
+echo DEPRECATED: This script is deprecated and will be removed in the future.
+echo Using docker-compose instead.
+
 REM Create spring (if not exists) network to connect our containers.
 docker network create spring
 

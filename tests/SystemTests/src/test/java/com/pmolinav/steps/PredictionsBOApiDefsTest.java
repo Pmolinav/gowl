@@ -215,8 +215,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
     @When("^try to get a match by categoryId, season and matchDayNumber$")
     public void tryToGetMatchByCategoryIdSeasonAndMatchDayNumber() {
-        executeGet(localURL + "/matches/" + lastMatch.getMatchId()
-                + "/categories/" + lastMatch.getCategoryId()
+        executeGet(localURL + "/matches/categories/" + lastMatch.getCategoryId()
                 + "/seasons/" + lastMatch.getSeason()
                 + "/number/" + lastMatch.getMatchDayNumber());
     }
@@ -334,7 +333,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
     @When("^try to get odds by eventId$")
     public void tryToGetOddsByEventId() {
-        executeGet(localURL + "/odds/event/" + lastOdds.getEventId());
+        executeGet(localURL + "/odds/events/" + lastOdds.getEventId());
     }
 
     @When("^try to delete odds by oddsId$")
@@ -359,7 +358,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                 String[] selectionParts = selectionsRaw.split(";");
                 for (String selectionStr : selectionParts) {
                     String[] fields = selectionStr.trim().split(",");
-                    if (fields.length == 3) {
+                    if (fields.length == 2) {
                         PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
                         selection.setOddsId(Long.parseLong(fields[0].trim()));
                         selection.setStake(new BigDecimal(fields[1].trim()));
@@ -464,7 +463,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-    @Then("an event with name (\\w+) has been stored successfully$")
+    @Then("an event with name (.*) has been stored successfully$")
     public void anEventByNameHasBeenStored(String name) {
         try {
             List<Event> events = predictionsDbConnector.getEventsByName(name);

@@ -48,10 +48,22 @@ public class MatchController {
         }
     }
 
-    @GetMapping("/{matchId}")
-    public ResponseEntity<MatchDTO> findByMatchId(@PathVariable Long matchId) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateMatch(@PathVariable Long id, @RequestBody MatchDTO matchDTO) {
         try {
-            MatchDTO match = matchService.findByMatchId(matchId);
+            matchService.updateMatch(id, matchDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<MatchDTO> findByMatchId(@PathVariable Long id) {
+        try {
+            MatchDTO match = matchService.findByMatchId(id);
             return ResponseEntity.ok(match);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -75,10 +87,10 @@ public class MatchController {
         }
     }
 
-    @DeleteMapping("/{matchId}")
-    public ResponseEntity<Void> deleteByMatchId(@PathVariable Long matchId) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteByMatchId(@PathVariable Long id) {
         try {
-            matchService.deleteByMatchId(matchId);
+            matchService.deleteByMatchId(id);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

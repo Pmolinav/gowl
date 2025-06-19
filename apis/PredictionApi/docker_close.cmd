@@ -1,9 +1,9 @@
 REM DEPRECATED
-REM Stop leagueapi container.
-docker stop leagueapi
+REM Stop predictionapi container.
+docker stop predictionapi
 
-REM Remove leagueapi container.
-docker rm leagueapi
+REM Remove predictionapi container.
+docker rm predictionapi
 
-REM Remove leagueapi image.
-docker rmi leagueapi-image
+REM Remove predictionapi image.
+docker rmi predictionapi-image

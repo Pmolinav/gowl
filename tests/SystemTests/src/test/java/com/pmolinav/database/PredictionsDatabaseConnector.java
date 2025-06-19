@@ -32,7 +32,7 @@ public class PredictionsDatabaseConnector {
 
     public void insertMatches(List<Match> matches) throws SQLException {
         String query = "INSERT INTO match " +
-                "(match_id, category_id, season, match_day_number, home_team, away_team, start_date, status, start_time, creation_date, modification_date) " +
+                "(match_id, category_id, season, match_day_number, home_team, away_team, status, start_time, creation_date, modification_date) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         for (Match match : matches) {
@@ -43,8 +43,8 @@ public class PredictionsDatabaseConnector {
                 preparedStatement.setInt(4, match.getMatchDayNumber());
                 preparedStatement.setString(5, match.getHomeTeam());
                 preparedStatement.setString(6, match.getAwayTeam());
-                preparedStatement.setLong(7, match.getStartTime());
-                preparedStatement.setString(8, match.getStatus());
+                preparedStatement.setString(7, match.getStatus());
+                preparedStatement.setLong(8, match.getStartTime());
                 if (match.getCreationDate() != null) {
                     preparedStatement.setLong(9, match.getCreationDate());
                 } else {

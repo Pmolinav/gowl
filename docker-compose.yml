@@ -79,7 +79,7 @@ services:
     ports:
       - "8009:8009"
       - "5009:5009" # Debugging port
-    env_file: apis/LeagueApi/.env
+    env_file: apis/PredictionApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5009
     networks:

@@ -71,6 +71,18 @@ public class EventController {
         }
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
+        try {
+            eventService.updateEvent(id, eventDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteEventById(@PathVariable Long id) {
         try {

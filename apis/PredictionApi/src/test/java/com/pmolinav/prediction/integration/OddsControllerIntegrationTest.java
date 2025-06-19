@@ -60,7 +60,7 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     void findOddsByEventIdInternalServerError() throws Exception {
         andFindOddsByEventIdThrowsNonRetryableException();
 
-        mockMvc.perform(get("/odds/event/123?requestUid=" + requestUid)
+        mockMvc.perform(get("/odds/events/123?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isInternalServerError());
     }
@@ -69,7 +69,7 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     void findOddsByEventIdHappyPath() throws Exception {
         andFindOddsByEventIdReturnedOdds();
 
-        MvcResult result = mockMvc.perform(get("/odds/event/1?requestUid=" + requestUid)
+        MvcResult result = mockMvc.perform(get("/odds/events/1?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
                 .andExpect(status().isOk())
                 .andReturn();

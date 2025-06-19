@@ -55,18 +55,18 @@ Feature: PredictionApi
     Then an event with name Goal has been stored successfully
     When try to get an event by eventId with public endpoint
     Then received status code is 200
-    Then an event with name Result has been returned in response
+    Then an event with name Goal has been returned in response
 
   Scenario: Get events by matchId successfully
     Then an event with name Goal has been stored successfully
     When try to get events by matchId with public endpoint
     Then received status code is 200
-    Then a list of events with names Goal,Yellow Card,Result are returned in response
+    Then a list of events with names Goal,Yellow Card,Goal are returned in response
 
     # ODDS
   Scenario: Get odds by oddsId successfully
     Then odds with label Over 2.5 have been stored successfully
-    When try to get odds by oddsId
+    When try to get odds by oddsId with public endpoint
     Then received status code is 200
     Then odds with label Over 2.5 are returned in response
 
@@ -74,7 +74,7 @@ Feature: PredictionApi
     Then odds with label Home Win have been stored successfully
     When try to get odds by eventId with public endpoint
     Then received status code is 200
-    Then a list of odds with labels Home Win, Away Win are returned in response
+    Then a list of odds with labels Home Win,Away Win are returned in response
 
   # PLAYER BETS
   Scenario: Create new player bet for other user with error

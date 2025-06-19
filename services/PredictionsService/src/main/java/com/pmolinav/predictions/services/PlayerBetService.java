@@ -125,6 +125,9 @@ public class PlayerBetService {
     @Transactional
     public void deleteById(Long id) {
         try {
+            List<PlayerBetSelection> selections = playerBetSelectionRepository.findByBetId(id);
+            playerBetSelectionRepository.deleteAll(selections);
+
             PlayerBet bet = playerBetRepository.findById(id)
                     .orElseThrow(() -> new NotFoundException("Player bet not found with id: " + id));
             playerBetRepository.delete(bet);
