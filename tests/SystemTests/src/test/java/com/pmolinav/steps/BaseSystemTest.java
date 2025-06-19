@@ -4,8 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
 import com.pmolinav.database.LeaguesDatabaseConnector;
+import com.pmolinav.database.PredictionsDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.leagueslib.model.*;
+import com.pmolinav.predictionslib.model.*;
 import com.pmolinav.systemtests.Main;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.spring.CucumberContextConfiguration;
@@ -33,16 +35,25 @@ public class BaseSystemTest {
     protected RestTemplate restTemplate;
     protected static UsersDatabaseConnector usersDbConnector;
     protected static LeaguesDatabaseConnector leaguesDbConnector;
+    protected static PredictionsDatabaseConnector predictionsDbConnector;
     protected final static ObjectMapper objectMapper = new ObjectMapper();
     protected static ResponseResults authResponse = null;
     protected static ResponseResults latestResponse = null;
     protected static String authToken;
+    // Users
     protected static User lastUser;
+    // Leagues
     protected static League lastLeague;
     protected static LeaguePlayer lastLeaguePlayer;
     protected static LeaguePlayerPoints lastLeaguePlayerPoints;
     protected static LeagueCategory lastLeagueCategory;
     protected static MatchDay lastMatchDay;
+    // Predictions
+    protected static Match lastMatch;
+    protected static Event lastEvent;
+    protected static Odds lastOdds;
+    protected static PlayerBet lastPlayerBet;
+    protected static PlayerBetSelection lastPlayerBetSelection;
 
     protected void executeGet(String url) {
         executeGet(url, null);
@@ -72,19 +83,27 @@ public class BaseSystemTest {
     }
 
     protected void executePut(String url) {
-        executePut(url, null);
+        executePut(url, null, null);
+    }
+
+    protected void executePut(String url, String body) {
+        executePut(url, UUID.randomUUID().toString(), null, body);
     }
 
     protected void executePut(String url, Map<String, Object> queryParams) {
-        executePut(url, UUID.randomUUID().toString(), queryParams);
+        executePut(url, UUID.randomUUID().toString(), queryParams, null);
     }
 
-    void executePut(String url, String requestUid, Map<String, Object> queryParams) {
+    protected void executePut(String url, Map<String, Object> queryParams, String body) {
+        executePut(url, UUID.randomUUID().toString(), queryParams, null);
+    }
+
+    void executePut(String url, String requestUid, Map<String, Object> queryParams, String body) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.ACCEPT, "application/json");
         headers.put(HttpHeaders.AUTHORIZATION, authToken);
 
-        final HeaderSettingRequestCallback requestCallback = new HeaderSettingRequestCallback(null, headers);
+        final HeaderSettingRequestCallback requestCallback = new HeaderSettingRequestCallback(body, headers);
         final ResponseResultErrorHandler errorHandler = new ResponseResultErrorHandler();
 
         restTemplate.setErrorHandler(errorHandler);

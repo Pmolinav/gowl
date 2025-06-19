@@ -35,14 +35,9 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
     @Before
     public static void cleanAllBeforeTests() {
         try {
-            usersDbConnector.deleteUsersRoles();
-            usersDbConnector.deleteRoles();
-            usersDbConnector.deleteUsers();
-            leaguesDbConnector.deleteLeaguePlayerPoints();
-            leaguesDbConnector.deleteMatchDays();
-            leaguesDbConnector.deleteLeaguePlayers();
-            leaguesDbConnector.deleteLeagues();
-            leaguesDbConnector.deleteCategories();
+            usersDbConnector.deleteAll();
+            leaguesDbConnector.deleteAll();
+            predictionsDbConnector.deleteAll();
 //            dbConnector.deleteHistory();
         } catch (SQLException e) {
             e.printStackTrace();

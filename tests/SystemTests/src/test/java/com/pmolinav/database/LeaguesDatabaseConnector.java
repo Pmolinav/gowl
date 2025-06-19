@@ -403,6 +403,19 @@ public class LeaguesDatabaseConnector {
         }
     }
 
+    public void deleteAll() throws SQLException {
+        try {
+            deleteLeaguePlayerPoints();
+            deleteMatchDays();
+            deleteLeaguePlayers();
+            deleteLeagues();
+            deleteCategories();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete all league data.", e);
+        }
+    }
+
     /*** HISTORY  ***/
 
 //    public void deleteHistory() throws SQLException {

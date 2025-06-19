@@ -184,6 +184,16 @@ public class UsersDatabaseConnector {
         }
     }
 
+    public void deleteAll() throws SQLException {
+        try {
+            deleteUsersRoles();
+            deleteRoles();
+            deleteUsers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete all users data.", e);
+        }
+    }
     /*** HISTORY  ***/
 
 //    public void deleteHistory() throws SQLException {
