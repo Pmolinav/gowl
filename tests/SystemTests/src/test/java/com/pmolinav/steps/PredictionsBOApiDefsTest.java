@@ -214,7 +214,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     }
 
     @When("^try to get a match by categoryId, season and matchDayNumber$")
-    public void tryToGetMatchByCategoryIdSeasonAndMatchDayNmber() {
+    public void tryToGetMatchByCategoryIdSeasonAndMatchDayNumber() {
         executeGet(localURL + "/matches/" + lastMatch.getMatchId()
                 + "/categories/" + lastMatch.getCategoryId()
                 + "/seasons/" + lastMatch.getSeason()
@@ -332,7 +332,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/odds/" + lastOdds.getOddsId());
     }
 
-    @When("^try to get odds by eventId")
+    @When("^try to get odds by eventId$")
     public void tryToGetOddsByEventId() {
         executeGet(localURL + "/odds/event/" + lastOdds.getEventId());
     }
@@ -340,23 +340,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     @When("^try to delete odds by oddsId$")
     public void tryToDeleteOddsByOddsId() {
         executeDelete(localURL + "/odds/" + lastOdds.getOddsId());
-    }
-
-    @When("^try to create a new player bet selection with data$")
-    public void tryToCreateANewPlayerBetSelection(DataTable dataTable) {
-        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
-
-        Map<String, String> row = rows.getFirst();
-        PlayerBetSelectionDTO selectionDto = new PlayerBetSelectionDTO();
-        selectionDto.setOddsId(Long.parseLong(row.get("odds_id")));
-        selectionDto.setStake(new BigDecimal(row.get("stake")));
-
-        try {
-            executePost(localURL + "/player-bet-selections", objectMapper.writeValueAsString(selectionDto));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-            fail();
-        }
     }
 
     @When("^try to create new player bet with data$")
@@ -399,7 +382,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     }
 
 
-
     @When("^try to get all player bets$")
     public void tryToGetAllPlayerBets() {
         executeGet(localURL + "/player-bets");
@@ -428,6 +410,23 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     @When("^try to get all player bet selections$")
     public void tryToGetAllPlayerBetSelections() {
         executeGet(localURL + "/player-bet-selections");
+    }
+
+    @When("^try to create a new player bet selection with data$")
+    public void tryToCreateANewPlayerBetSelection(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+
+        Map<String, String> row = rows.getFirst();
+        PlayerBetSelectionDTO selectionDto = new PlayerBetSelectionDTO();
+        selectionDto.setOddsId(Long.parseLong(row.get("odds_id")));
+        selectionDto.setStake(new BigDecimal(row.get("stake")));
+
+        try {
+            executePost(localURL + "/player-bet-selections", objectMapper.writeValueAsString(selectionDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
 
     @When("^try to get a player bet selection by selectionId$")

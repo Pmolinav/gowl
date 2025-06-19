@@ -244,7 +244,7 @@ Feature: PredictionsBOApi
     When try to delete odds by oddsId
     Then received status code is 200
 
-  # PLAYER BET
+  # PLAYER BETS
   Scenario: Try to create new player bet by a non-admin player with error
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
