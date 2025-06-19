@@ -49,10 +49,10 @@ public class Match {
     @Column(name = "modification_date")
     private Long modificationDate;
 
-    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<Event> events;
 
-    @OneToMany(mappedBy = "match", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<PlayerBet> playerBets;
 
     public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status, Long creationDate, Long modificationDate) {

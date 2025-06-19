@@ -75,7 +75,7 @@ class OddsControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
-        oddsDTO = new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
         when(oddsServiceMock.findById(1L)).thenReturn(oddsDTO);
     }
 
@@ -89,7 +89,7 @@ class OddsControllerTest extends BaseUnitTest {
 
     private void whenFindOddByEventIdInServiceReturnedValidOdd() {
         expectedOdds = List.of(
-                new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true)
+                new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true)
         );
         when(oddsServiceMock.findByEventId(1L)).thenReturn(expectedOdds);
     }

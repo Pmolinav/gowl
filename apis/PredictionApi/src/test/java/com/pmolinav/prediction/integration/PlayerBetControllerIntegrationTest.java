@@ -3,6 +3,7 @@ package com.pmolinav.prediction.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
+import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -13,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -112,7 +114,8 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetInternalServerError() throws Exception {
         andCreatePlayerBetThrowsNonRetryableException();
 
-        PlayerBetDTO requestDto = new PlayerBetDTO(1L, "someUser", 2L, null);
+        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
+                List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
 
         mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -125,7 +128,8 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetHappyPath() throws Exception {
         andCreatePlayerBetReturnedValidId();
 
-        PlayerBetDTO requestDto = new PlayerBetDTO(1L, "someUser", 2L, null);
+        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
+                List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -161,7 +165,9 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     // ----- Mock setup helpers -----
 
     private void andFindPlayerBetByIdReturnedPlayerBet() {
-        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
+        this.expectedPlayerBets = List.of(
+                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+        );
         when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
     }
 
@@ -170,7 +176,9 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindPlayerBetsByMatchIdReturnedPlayerBets() {
-        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
+        this.expectedPlayerBets = List.of(
+                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+        );
         when(this.playerBetClient.findByMatchId(anyLong())).thenReturn(expectedPlayerBets);
     }
 
@@ -179,7 +187,9 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindPlayerBetsByUsernameReturnedPlayerBets() {
-        this.expectedPlayerBets = List.of(new PlayerBetDTO(1L, "someUser", 2L, null));
+        this.expectedPlayerBets = List.of(
+                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+        );
         when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBets);
     }
 

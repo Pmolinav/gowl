@@ -56,8 +56,8 @@ public class PlayerBetBOController {
 
     @GetMapping("/match/{matchId}")
     @Operation(summary = "Retrieve player bets by match ID", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<PlayerBetDTO>> getPlayerBetsByMatchId(@RequestParam String requestUid,
-                                                                     @PathVariable Long matchId) {
+    public ResponseEntity<List<PlayerBetDTO>> findPlayerBetsByMatchId(@RequestParam String requestUid,
+                                                                      @PathVariable Long matchId) {
         try {
             return ResponseEntity.ok(playerBetBOService.findByMatchId(matchId));
         } catch (CustomStatusException e) {
@@ -67,8 +67,8 @@ public class PlayerBetBOController {
 
     @GetMapping("/username/{username}")
     @Operation(summary = "Retrieve player bets by username", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<PlayerBetDTO>> getPlayerBetsByUsername(@RequestParam String requestUid,
-                                                                      @PathVariable String username) {
+    public ResponseEntity<List<PlayerBetDTO>> findPlayerBetsByUsername(@RequestParam String requestUid,
+                                                                       @PathVariable String username) {
         try {
             return ResponseEntity.ok(playerBetBOService.findByUsername(username));
         } catch (CustomStatusException e) {

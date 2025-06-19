@@ -3,9 +3,11 @@ package com.pmolinav.predictions.services;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.repositories.PlayerBetRepository;
+import com.pmolinav.predictions.repositories.PlayerBetSelectionRepository;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.mapper.PlayerBetMapper;
 import com.pmolinav.predictionslib.model.PlayerBet;
+import com.pmolinav.predictionslib.model.PlayerBetSelection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,7 @@ public class PlayerBetService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerBetService.class);
 
     private final PlayerBetRepository playerBetRepository;
+    private final PlayerBetSelectionRepository playerBetSelectionRepository;
     private final PlayerBetMapper playerBetMapper;
 //    private final MessageProducer messageProducer;
 
@@ -30,8 +33,10 @@ public class PlayerBetService {
 
     @Autowired
     public PlayerBetService(PlayerBetRepository playerBetRepository,
+                            PlayerBetSelectionRepository playerBetSelectionRepository,
                             PlayerBetMapper playerBetMapper) {
         this.playerBetRepository = playerBetRepository;
+        this.playerBetSelectionRepository = playerBetSelectionRepository;
         this.playerBetMapper = playerBetMapper;
 //        this.messageProducer = messageProducer;
     }
@@ -101,7 +106,16 @@ public class PlayerBetService {
     public PlayerBet create(PlayerBetDTO dto) {
         try {
             PlayerBet bet = playerBetMapper.playerBetDtoToEntity(dto);
-            return playerBetRepository.save(bet);
+            PlayerBet storedPlayerBet = playerBetRepository.save(bet);
+
+            List<PlayerBetSelection> selections = bet.getSelections();
+            selections.forEach(playerBetSelection ->
+                    playerBetSelection.setBetId(storedPlayerBet.getBetId()));
+
+            List<PlayerBetSelection> storedSelections = playerBetSelectionRepository.saveAll(selections);
+            storedPlayerBet.setSelections(storedSelections);
+
+            return storedPlayerBet;
         } catch (Exception e) {
             logger.error("Error creating player bet.", e);
             throw new InternalServerErrorException(e.getMessage());

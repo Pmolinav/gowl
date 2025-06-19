@@ -164,6 +164,6 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private EventDTO buildEventDTO() {
-        return new EventDTO(1L, 2L, "Event 1", "Event description");
+        return new EventDTO(2L, "Event 1", "Event description");
     }
 }

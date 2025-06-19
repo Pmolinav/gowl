@@ -3,11 +3,13 @@ package com.pmolinav.predictions.unit;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
+import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.PlayerBet;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,7 +60,9 @@ class PlayerBetControllerTest extends BaseUnitTest {
     void createPlayerBetHappyPath() {
         PlayerBet playerBet = new PlayerBet();
         playerBet.setBetId(1L);
+
         playerBetDTO = new PlayerBetDTO();
+        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
 
         when(playerBetServiceMock.create(any(PlayerBetDTO.class))).thenReturn(playerBet);
 
@@ -70,8 +74,22 @@ class PlayerBetControllerTest extends BaseUnitTest {
     }
 
     @Test
+    void createPlayerBetBadRequest() {
+        PlayerBet playerBet = new PlayerBet();
+        playerBet.setBetId(1L);
+
+        playerBetDTO = new PlayerBetDTO();
+
+        result = playerBetController.create(playerBetDTO);
+
+        assertEquals(HttpStatus.BAD_REQUEST, result.getStatusCode());
+    }
+
+    @Test
     void createPlayerBetServerError() {
         playerBetDTO = new PlayerBetDTO();
+        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
+
         when(playerBetServiceMock.create(any(PlayerBetDTO.class))).thenThrow(new InternalServerErrorException("Error"));
 
         result = playerBetController.create(playerBetDTO);

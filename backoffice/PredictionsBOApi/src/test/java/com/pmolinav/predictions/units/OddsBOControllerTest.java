@@ -159,13 +159,13 @@ class OddsBOControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void givenValidOddsDTOForRequest() {
-        oddsDTO = new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
     }
 
     private void whenFindAllOddsInServiceReturnedValidOdds() {
         expectedOdds = List.of(
-                new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true),
-                new OddsDTO(1L, 1L, "LABEL2", BigDecimal.valueOf(3.5), true)
+                new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true),
+                new OddsDTO(1L, "LABEL2", BigDecimal.valueOf(3.5), true)
         );
         when(oddsBOServiceMock.findAll()).thenReturn(expectedOdds);
     }
@@ -179,7 +179,7 @@ class OddsBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
-        oddsDTO = new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
         when(oddsBOServiceMock.findById(1L)).thenReturn(oddsDTO);
     }
 

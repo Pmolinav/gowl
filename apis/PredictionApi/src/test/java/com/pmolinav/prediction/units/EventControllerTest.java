@@ -74,7 +74,7 @@ class EventControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
-        eventDTO = new EventDTO(1L, 2L, "Event Test", "Some description");
+        eventDTO = new EventDTO(2L, "Event Test", "Some description");
         when(eventServiceMock.findEventById(1L)).thenReturn(eventDTO);
     }
 
@@ -87,8 +87,9 @@ class EventControllerTest extends BaseUnitTest {
     }
 
     private void whenFindEventByMatchIdInServiceReturnedValidEvent() {
-        expectedEvents = List.of(new EventDTO(1L, 2L,
-                "Event Test", "Some description"));
+        expectedEvents = List.of(
+                new EventDTO(2L, "Event Test", "Some description")
+        );
         when(eventServiceMock.findEventsByMatchId(1L)).thenReturn(expectedEvents);
     }
 

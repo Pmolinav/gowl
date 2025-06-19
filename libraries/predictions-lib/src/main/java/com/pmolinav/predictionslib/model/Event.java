@@ -41,7 +41,7 @@ public class Event {
     @JoinColumn(name = "match_id", insertable = false, updatable = false)
     private Match match;
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "event", fetch = FetchType.LAZY)
     private List<Odds> oddsList;
 
     public Event(Long eventId, Long matchId, String name, String description, Long creationDate, Long modificationDate) {

@@ -29,6 +29,8 @@ public abstract class AbstractContainerBaseTest {
     static String username;
     static String password;
 
+    protected static Match lastMatch;
+
     @Autowired
     protected MockMvc mockMvc;
     @Autowired
@@ -85,7 +87,8 @@ public abstract class AbstractContainerBaseTest {
         match.setStartTime(System.currentTimeMillis());
         match.setStatus("ACTIVE");
 
-        return matchRepository.save(match);
+        lastMatch = matchRepository.save(match);
+        return lastMatch;
     }
 
     protected Event givenSomePreviouslyStoredEventWithId() {
@@ -126,6 +129,7 @@ public abstract class AbstractContainerBaseTest {
         PlayerBet bet = new PlayerBet();
         bet.setUsername(username);
         bet.setMatchId(match.getMatchId());
+        bet.setTotalStake(BigDecimal.valueOf(100.00));
 
         return playerBetRepository.save(bet);
     }

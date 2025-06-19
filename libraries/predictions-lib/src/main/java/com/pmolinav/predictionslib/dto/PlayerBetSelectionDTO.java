@@ -14,11 +14,6 @@ import java.math.BigDecimal;
 @ToString
 public class PlayerBetSelectionDTO {
 
-    private Long selectionId;
-
-    @NotNull(message = "Bet ID must not be null.")
-    private Long betId;
-
     @NotNull(message = "Odds ID must not be null.")
     private Long oddsId;
 

@@ -13,8 +13,6 @@ import lombok.*;
 @ToString
 public class EventDTO {
 
-    private Long eventId;
-
     @NotNull(message = "Match ID must not be null.")
     private Long matchId;
 

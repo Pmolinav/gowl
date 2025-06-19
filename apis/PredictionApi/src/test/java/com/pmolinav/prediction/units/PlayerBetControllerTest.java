@@ -3,17 +3,13 @@ package com.pmolinav.prediction.units;
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -149,11 +145,11 @@ class PlayerBetControllerTest extends BaseUnitTest {
     // --- SETUP MOCKS ---
 
     private void givenValidPlayerBetDTO() {
-        playerBetDTO = new PlayerBetDTO(1L, "someUser", 2L, null);
+        playerBetDTO = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null);
     }
 
     private void whenFindPlayerBetByIdReturnsValidDTO() {
-        playerBetDTO = new PlayerBetDTO(1L, "someUser", 2L, null);
+        playerBetDTO = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null);
         when(playerBetServiceMock.findById(1L)).thenReturn(playerBetDTO);
     }
 
@@ -167,7 +163,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private void whenFindPlayersBetsByMatchIdReturnsValidDTO() {
         expectedPlayerBets = List.of(
-                new PlayerBetDTO(1L, "someUser", 2L, null)
+                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
         );
         when(playerBetServiceMock.findByMatchId(2L)).thenReturn(expectedPlayerBets);
     }
@@ -182,7 +178,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private void whenFindPlayersBetsByUsernameReturnsValidDTO() {
         expectedPlayerBets = List.of(
-                new PlayerBetDTO(1L, "someUser", 2L, null)
+                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
         );
         when(playerBetServiceMock.findByUsername("someUser")).thenReturn(expectedPlayerBets);
     }

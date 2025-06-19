@@ -16,8 +16,6 @@ import java.math.BigDecimal;
 @ToString
 public class OddsDTO {
 
-    private Long oddsId;
-
     @NotNull(message = "Event ID must not be null.")
     private Long eventId;
 

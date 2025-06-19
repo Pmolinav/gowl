@@ -159,7 +159,6 @@ class EventBOControllerTest extends BaseUnitTest {
 
     private void givenValidEventDTOForRequest() {
         eventDTO = new EventDTO();
-        eventDTO.setEventId(1L);
         eventDTO.setMatchId(2L);
         eventDTO.setName("Event Test");
         // set other properties as needed
@@ -167,8 +166,8 @@ class EventBOControllerTest extends BaseUnitTest {
 
     private void whenFindAllEventsInServiceReturnedValidEvents() {
         expectedEvents = List.of(
-                new EventDTO(1L, 2L, "Event 1", "Event description"),
-                new EventDTO(2L, 2L, "Event 2", "Event description 2")
+                new EventDTO(2L, "Event 1", "Event description"),
+                new EventDTO(2L, "Event 2", "Event description 2")
         );
         when(eventBOServiceMock.findAllEvents()).thenReturn(expectedEvents);
     }
@@ -182,7 +181,7 @@ class EventBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
-        eventDTO = new EventDTO(1L, 2L, "Event Test", "Some description");
+        eventDTO = new EventDTO(2L, "Event Test", "Some description");
         when(eventBOServiceMock.findEventById(1L)).thenReturn(eventDTO);
     }
 

@@ -121,13 +121,13 @@ class PlayerBetSelectionBOControllerTest extends BaseUnitTest {
     // --- SETUP MOCKS ---
 
     private void givenValidDTO() {
-        dto = new PlayerBetSelectionDTO(1L, 2L, 3L, BigDecimal.ONE);
+        dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
     }
 
     private void whenFindAllReturnsList() {
         expectedList = List.of(
-                new PlayerBetSelectionDTO(1L, 2L, 3L, BigDecimal.ONE),
-                new PlayerBetSelectionDTO(1L, 2L, 4L, BigDecimal.ONE)
+                new PlayerBetSelectionDTO(3L, BigDecimal.ONE),
+                new PlayerBetSelectionDTO(4L, BigDecimal.ONE)
         );
         when(playerBetSelectionBOServiceMock.findAll()).thenReturn(expectedList);
     }
@@ -141,7 +141,7 @@ class PlayerBetSelectionBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindByIdReturnsDTO() {
-        dto = new PlayerBetSelectionDTO(1L, 2L, 3L, BigDecimal.ONE);
+        dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
         when(playerBetSelectionBOServiceMock.findById(1L)).thenReturn(dto);
     }
 

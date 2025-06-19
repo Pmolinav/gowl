@@ -15,10 +15,8 @@ public interface PlayerBetSelectionMapper {
     PlayerBetSelectionMapper INSTANCE = Mappers.getMapper(PlayerBetSelectionMapper.class);
 
     @Mapping(target = "creationDate", expression = "java(System.currentTimeMillis())")
-    @Mapping(target = "betId", source = "betId")
     PlayerBetSelection playerBetSelectionDtoToEntity(PlayerBetSelectionDTO dto);
 
-    @Mapping(target = "betId", source = "betId")
     PlayerBetSelectionDTO playerBetSelectionEntityToDto(PlayerBetSelection entity);
 
     void updateEntityFromDto(PlayerBetSelectionDTO dto, @MappingTarget PlayerBetSelection entity);

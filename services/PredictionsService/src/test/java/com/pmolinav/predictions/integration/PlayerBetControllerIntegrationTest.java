@@ -2,7 +2,9 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
+import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.Match;
+import com.pmolinav.predictionslib.model.Odds;
 import com.pmolinav.predictionslib.model.PlayerBet;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -12,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -69,11 +72,12 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void createPlayerBetHappyPath() throws Exception {
-        Match match = givenSomePreviouslyStoredMatchWithId();
+        Odds odds = givenSomePreviouslyStoredOddsWithId();
 
         PlayerBetDTO request = new PlayerBetDTO();
-        request.setMatchId(match.getMatchId());
+        request.setMatchId(lastMatch.getMatchId());
         request.setUsername("newUser");
+        request.setSelections(List.of(new PlayerBetSelectionDTO(odds.getOddsId(), BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -94,7 +98,7 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
         mockMvc.perform(post("/player-bets")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isInternalServerError());
+                .andExpect(status().isBadRequest());
     }
 
     @Test

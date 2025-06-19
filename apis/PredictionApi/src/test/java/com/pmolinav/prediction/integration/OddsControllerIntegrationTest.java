@@ -84,7 +84,7 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     // ----- Mock setup helpers -----
 
     private void andFindOddsByIdReturnedOdds() {
-        this.expectedOdds = List.of(new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true));
+        this.expectedOdds = List.of(new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true));
         when(this.oddsClient.findById(anyLong())).thenReturn(expectedOdds.getFirst());
     }
 
@@ -93,7 +93,7 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindOddsByEventIdReturnedOdds() {
-        this.expectedOdds = List.of(new OddsDTO(1L, 1L, "LABEL1", BigDecimal.valueOf(2.0), true));
+        this.expectedOdds = List.of(new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true));
         when(this.oddsClient.findByEventId(anyLong())).thenReturn(expectedOdds);
     }
 

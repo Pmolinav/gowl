@@ -3,6 +3,7 @@ package com.pmolinav.predictionslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,6 +30,9 @@ public class PlayerBet {
     @Column(name = "match_id", nullable = false)
     private Long matchId;
 
+    @Column(name = "total_stake", nullable = false, precision = 10, scale = 2)
+    private BigDecimal totalStake;
+
     @Column(name = "creation_date")
     private Long creationDate;
 
@@ -36,13 +40,14 @@ public class PlayerBet {
     @JoinColumn(name = "match_id", nullable = false, insertable = false, updatable = false)
     private Match match;
 
-    @OneToMany(mappedBy = "playerBet", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "playerBet", fetch = FetchType.EAGER)
     private List<PlayerBetSelection> selections;
 
-    public PlayerBet(Long betId, String username, Long matchId, Long creationDate) {
+    public PlayerBet(Long betId, String username, Long matchId, BigDecimal totalStake, Long creationDate) {
         this.betId = betId;
         this.username = username;
         this.matchId = matchId;
+        this.totalStake = totalStake;
         this.creationDate = creationDate;
     }
 
@@ -53,11 +58,12 @@ public class PlayerBet {
         PlayerBet playerBet = (PlayerBet) o;
         return Objects.equals(betId, playerBet.betId)
                 && Objects.equals(username, playerBet.username)
-                && Objects.equals(matchId, playerBet.matchId);
+                && Objects.equals(matchId, playerBet.matchId)
+                && Objects.equals(totalStake, playerBet.totalStake);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(betId, username, matchId);
+        return Objects.hash(betId, username, matchId, totalStake);
     }
 }

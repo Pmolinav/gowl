@@ -60,13 +60,13 @@ public class MatchController {
         }
     }
 
-    @GetMapping("/categories/{categoryId}/seasons/{season}/match-day/{matchDayNumber}")
+    @GetMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
     public ResponseEntity<List<MatchDTO>> findByCategoryIdSeasonAndMatchDayNumber(
             @PathVariable String categoryId,
             @PathVariable Integer season,
-            @PathVariable Integer matchDayNumber) {
+            @PathVariable Integer number) {
         try {
-            List<MatchDTO> matches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            List<MatchDTO> matches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);
             return ResponseEntity.ok(matches);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -87,13 +87,13 @@ public class MatchController {
         }
     }
 
-    @DeleteMapping("/categories/{categoryId}/seasons/{season}/match-day/{matchDayNumber}")
+    @DeleteMapping("/categories/{categoryId}/seasons/{season}/number/{number}")
     public ResponseEntity<Void> deleteByCategoryIdSeasonAndMatchDayNumber(
             @PathVariable String categoryId,
             @PathVariable Integer season,
-            @PathVariable Integer matchDayNumber) {
+            @PathVariable Integer number) {
         try {
-            matchService.deleteByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            matchService.deleteByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
