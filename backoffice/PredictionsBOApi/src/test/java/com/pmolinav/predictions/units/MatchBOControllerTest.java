@@ -158,16 +158,16 @@ class MatchBOControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void givenValidMatchDTOForRequest() {
-        matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
+        matchDTO = new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE");
     }
 
     private void whenFindAllMatchesInServiceReturnedValidMatches() {
         expectedMatches = List.of(
-                new MatchDTO(1L, "PREMIER", 2025, 3,
+                new MatchDTO("PREMIER", 2025, 3,
                         "Team A", "Team B", 1234567L, "ACTIVE"),
-                new MatchDTO(2L, "PREMIER", 2025, 3,
-                        "Team A", "Team B", 1234567L, "ACTIVE")
+                new MatchDTO("PREMIER", 2025, 3,
+                        "Team B", "Team A", 1234567L, "ACTIVE")
         );
         when(matchBOServiceMock.findAllMatches()).thenReturn(expectedMatches);
     }
@@ -181,7 +181,7 @@ class MatchBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindMatchByIdInServiceReturnedValidMatch() {
-        matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
+        matchDTO = new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE");
         when(matchBOServiceMock.findMatchById(1L)).thenReturn(matchDTO);
     }

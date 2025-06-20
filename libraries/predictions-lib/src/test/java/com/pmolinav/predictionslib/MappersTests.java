@@ -20,13 +20,14 @@ class MappersTests {
 
     @Test
     void matchDtoToEntityTest() {
-        MatchDTO dto = new MatchDTO(1L, "PREMIER", 2024, 3,
+        MatchDTO dto = new MatchDTO("PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, "SCHEDULED");
 
         Match expected = new Match(1L, "PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, "SCHEDULED", null, null);
 
         Match actual = matchMapper.matchDtoToEntity(dto);
+        actual.setMatchId(1L);
 
         assertEquals(expected, actual);
     }
@@ -36,7 +37,7 @@ class MappersTests {
         Match entity = new Match(1L, "PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, "SCHEDULED", null, null);
 
-        MatchDTO expected = new MatchDTO(1L, "PREMIER", 2024, 3,
+        MatchDTO expected = new MatchDTO("PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, "SCHEDULED");
 
         MatchDTO actual = matchMapper.matchEntityToDto(entity);
@@ -73,11 +74,11 @@ class MappersTests {
 
     @Test
     void oddsDtoToEntityTest() {
-        OddsDTO dto = new OddsDTO(2L, "Over",
-                BigDecimal.valueOf(1.85), true);
+        OddsDTO dto = new OddsDTO(2L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), true);
 
-        Odds expected = new Odds(1L, 2L, "Over",
-                BigDecimal.valueOf(1.85), true, null, null);
+        Odds expected = new Odds(1L, 2L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), true, null, null);
 
         Odds actual = oddsMapper.oddsDtoToEntity(dto);
         actual.setOddsId(1L);
@@ -87,11 +88,11 @@ class MappersTests {
 
     @Test
     void oddsEntityToDtoTest() {
-        Odds entity = new Odds(2L, 1L, "Over",
-                BigDecimal.valueOf(1.85), true, 1000L, 2000L);
+        Odds entity = new Odds(2L, 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), true, 1000L, 2000L);
 
-        OddsDTO expected = new OddsDTO(1L, "Over",
-                BigDecimal.valueOf(1.85), true);
+        OddsDTO expected = new OddsDTO(1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), true);
 
         OddsDTO actual = oddsMapper.oddsEntityToDto(entity);
 

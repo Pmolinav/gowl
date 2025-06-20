@@ -13,8 +13,6 @@ import lombok.*;
 @ToString
 public class MatchDTO {
 
-    private Long matchId;
-
     @NotNull(message = "Category ID must not be null.")
     private String categoryId;
 
@@ -38,4 +36,16 @@ public class MatchDTO {
     @Size(max = 20, message = "Status must be at most 20 characters.")
     private String status = "ACTIVE";
 
+    @Size(max = 100, message = "External ID must be at most 100 characters.")
+    private String externalId;
+
+    public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status) {
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.startTime = startTime;
+        this.status = status;
+    }
 }

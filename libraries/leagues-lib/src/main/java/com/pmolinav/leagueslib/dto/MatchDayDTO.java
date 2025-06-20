@@ -31,6 +31,16 @@ public class MatchDayDTO {
     @Min(value = 0, message = "End date must be a positive timestamp (milliseconds since epoch)")
     private Long endDate;
 
+    private boolean synced = false;
+
+    public MatchDayDTO(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate) {
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
     @JsonIgnore
     @AssertTrue(message = "Start date must be earlier than end date")
     public boolean isStartDateBeforeEndDate() {
@@ -39,5 +49,4 @@ public class MatchDayDTO {
         }
         return startDate < endDate;
     }
-
 }

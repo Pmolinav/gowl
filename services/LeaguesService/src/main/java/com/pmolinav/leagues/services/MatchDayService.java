@@ -38,23 +38,41 @@ public class MatchDayService {
     }
 
     @Transactional(readOnly = true)
-    public List<MatchDayDTO> findAllMatchDays() {
+    public List<MatchDayDTO> findAllMatchDays(Long dateFrom, Long dateTo, Boolean synced) {
         List<MatchDay> matchDaysList;
         try {
-            matchDaysList = matchDayRepository.findAll();
+            if (dateFrom != null && dateTo != null && synced != null) {
+                matchDaysList = matchDayRepository.findByStartDateBetweenAndSynced(dateFrom, dateTo, synced);
+            } else if (dateFrom != null && dateTo != null) {
+                matchDaysList = matchDayRepository.findByStartDateBetween(dateFrom, dateTo);
+            } else if (dateFrom != null && synced != null) {
+                matchDaysList = matchDayRepository.findByStartDateGreaterThanEqualAndSynced(dateFrom, synced);
+            } else if (dateTo != null && synced != null) {
+                matchDaysList = matchDayRepository.findByStartDateLessThanEqualAndSynced(dateTo, synced);
+            } else if (dateFrom != null) {
+                matchDaysList = matchDayRepository.findByStartDateGreaterThanEqual(dateFrom);
+            } else if (dateTo != null) {
+                matchDaysList = matchDayRepository.findByStartDateLessThanEqual(dateTo);
+            } else if (synced != null) {
+                matchDaysList = matchDayRepository.findBySynced(synced);
+            } else {
+                matchDaysList = matchDayRepository.findAll();
+            }
         } catch (Exception e) {
-            logger.error("Unexpected error while searching all match days in repository.", e);
+            logger.error("Unexpected error while searching match days in repository.", e);
             throw new InternalServerErrorException(e.getMessage());
         }
+
         if (CollectionUtils.isEmpty(matchDaysList)) {
             logger.warn("Match days were not found in repository.");
             throw new NotFoundException("Match days not found in repository.");
-        } else {
-            return matchDaysList.stream()
-                    .map(matchDayMapper::matchDayEntityToDto)
-                    .collect(Collectors.toList());
         }
+
+        return matchDaysList.stream()
+                .map(matchDayMapper::matchDayEntityToDto)
+                .collect(Collectors.toList());
     }
+
 
     @Transactional
     public MatchDay createMatchDay(MatchDayDTO matchDayDTO) {
@@ -78,6 +96,23 @@ public class MatchDayService {
         } catch (Exception e) {
             logger.error("Unexpected error while creating several match days in repository.", e);
             throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void updateMatchDay(MatchDayDTO matchDayDTO) {
+        MatchDay matchDay = matchDayRepository.findById(
+                        new MatchDayId(matchDayDTO.getCategoryId(),
+                                matchDayDTO.getSeason(), matchDayDTO.getMatchDayNumber()))
+                .orElseThrow(() -> new NotFoundException("Match day not found"));
+
+        matchDay.setSynced(matchDayDTO.isSynced());
+
+        try {
+            matchDayRepository.save(matchDay);
+        } catch (Exception e) {
+            logger.error("Error updating match day", e);
+            throw new InternalServerErrorException("Error updating match day");
         }
     }
 

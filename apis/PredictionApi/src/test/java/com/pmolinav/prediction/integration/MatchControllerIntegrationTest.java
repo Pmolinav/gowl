@@ -82,7 +82,7 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindMatchByIdReturnedMatch() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+        expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE"));
 
         when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
@@ -93,7 +93,7 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberReturnedMatch() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+        expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE"));
 
         when(this.matchClient.findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt()))

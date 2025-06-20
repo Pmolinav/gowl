@@ -31,6 +31,9 @@ public class Odds {
     @Column(name = "value", nullable = false, precision = 6, scale = 2)
     private BigDecimal value;
 
+    @Column(name = "point", precision = 6, scale = 2)
+    private BigDecimal point;
+
     @Column(name = "active")
     private Boolean active = true;
 
@@ -54,6 +57,17 @@ public class Odds {
         this.modificationDate = modificationDate;
     }
 
+    public Odds(Long oddsId, Long eventId, String label, BigDecimal value, BigDecimal point, Boolean active, Long creationDate, Long modificationDate) {
+        this.oddsId = oddsId;
+        this.eventId = eventId;
+        this.label = label;
+        this.value = value;
+        this.point = point;
+        this.active = active;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -63,12 +77,13 @@ public class Odds {
                 && Objects.equals(eventId, odds.eventId)
                 && Objects.equals(label, odds.label)
                 && Objects.equals(value, odds.value)
+                && Objects.equals(point, odds.point)
                 && Objects.equals(active, odds.active);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oddsId, eventId, label, value, active);
+        return Objects.hash(oddsId, eventId, label, value, point, active);
     }
 }
 

@@ -27,6 +27,14 @@ public class OddsDTO {
     @DecimalMin(value = "1.00", message = "Odds must be at least 1.00.")
     private BigDecimal value;
 
+    private BigDecimal point;
+
     private Boolean active = true;
 
+    public OddsDTO(Long eventId, String label, BigDecimal value, Boolean active) {
+        this.eventId = eventId;
+        this.label = label;
+        this.value = value;
+        this.active = active;
+    }
 }

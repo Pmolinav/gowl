@@ -162,7 +162,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         MatchDTO matchDto = new MatchDTO();
-        matchDto.setMatchId(Long.parseLong(row.get("match_id")));
         matchDto.setCategoryId(row.get("category_id"));
         matchDto.setSeason(Integer.parseInt(row.get("season")));
         matchDto.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));
@@ -185,7 +184,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         MatchDTO matchDto = new MatchDTO();
-        matchDto.setMatchId(Long.parseLong(row.get("match_id")));
         matchDto.setCategoryId(row.get("category_id"));
         matchDto.setSeason(Integer.parseInt(row.get("season")));
         matchDto.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));

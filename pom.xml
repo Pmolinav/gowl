@@ -28,6 +28,7 @@
         <module>libraries/predictions-lib</module>
         <module>libraries/users-lib</module>
         <module>services/LeaguesService</module>
+        <module>services/MatchDataSyncService</module>
         <module>services/PredictionsService</module>
         <module>services/UsersService</module>
         <module>tests/SystemTests</module>

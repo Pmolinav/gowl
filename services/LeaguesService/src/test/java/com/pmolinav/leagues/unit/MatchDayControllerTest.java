@@ -205,22 +205,23 @@ class MatchDayControllerTest extends BaseUnitTest {
                 new MatchDayDTO("PREMIER", 2025, 10, 12345L, 12345678L)
         );
 
-        when(matchDayServiceMock.findAllMatchDays()).thenReturn(expectedMatchDay);
+        when(matchDayServiceMock.findAllMatchDays(nullable(Long.class), nullable(Long.class), nullable(Boolean.class)))
+                .thenReturn(expectedMatchDay);
     }
 
     private void whenFindAllMatchDaysInServiceThrowsNotFoundException() {
-        when(matchDayServiceMock.findAllMatchDays()).thenThrow(new NotFoundException("Not Found"));
+        when(matchDayServiceMock.findAllMatchDays(nullable(Long.class), nullable(Long.class), nullable(Boolean.class))).thenThrow(new NotFoundException("Not Found"));
     }
 
     private void whenFindAllMatchDaysInServiceThrowsServerException() {
-        when(matchDayServiceMock.findAllMatchDays())
+        when(matchDayServiceMock.findAllMatchDays(nullable(Long.class), nullable(Long.class), nullable(Boolean.class)))
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
     private void whenCreateMatchDayInServiceReturnedAValidMatchDay() {
         when(matchDayServiceMock.createMatchDay(any()))
                 .thenReturn(new MatchDay("PREMIER", 2025,
-                        10, 12345L, 12345678L));
+                        10, 12345L, 12345678L, false));
     }
 
     private void whenCreateMatchDayInServiceThrowsServerException() {
@@ -309,7 +310,7 @@ class MatchDayControllerTest extends BaseUnitTest {
     }
 
     private void andFindAllMatchDaysIsCalledInController() {
-        result = matchDayController.findAllMatchDays();
+        result = matchDayController.findAllMatchDays(null, null, null);
     }
 
     private void andFindMatchDayByCategoryIdIsCalledInController() {
@@ -337,7 +338,8 @@ class MatchDayControllerTest extends BaseUnitTest {
     }
 
     private void thenVerifyFindAllMatchDaysHasBeenCalledInService() {
-        verify(matchDayServiceMock, times(1)).findAllMatchDays();
+        verify(matchDayServiceMock, times(1))
+                .findAllMatchDays(nullable(Long.class), nullable(Long.class), nullable(Boolean.class));
     }
 
     private void thenVerifyCreateMatchDayHasBeenCalledInService() {

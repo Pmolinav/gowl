@@ -5,7 +5,7 @@ WORKDIR /app
 
 COPY ./target/AuthApi-*.jar app.jar
 
-ENV PORT=8002
+ENV PORT=8003
 EXPOSE $PORT
 
 CMD ["java", "-jar", "app.jar"]

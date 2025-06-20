@@ -28,9 +28,12 @@ public class MatchDayController {
 
     //TODO: Pagination
     @GetMapping
-    public ResponseEntity<List<MatchDayDTO>> findAllMatchDays() {
+    public ResponseEntity<List<MatchDayDTO>> findAllMatchDays(
+            @RequestParam(required = false) Long dateFrom,
+            @RequestParam(required = false) Long dateTo,
+            @RequestParam(required = false) Boolean synced) {
         try {
-            List<MatchDayDTO> matchDays = matchDayService.findAllMatchDays();
+            List<MatchDayDTO> matchDays = matchDayService.findAllMatchDays(dateFrom, dateTo, synced);
             return ResponseEntity.ok(matchDays);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -71,6 +74,18 @@ public class MatchDayController {
             return ResponseEntity.internalServerError().build();
         }
 
+    }
+
+    @PutMapping
+    public ResponseEntity<Void> updateMatchDay(@RequestBody MatchDayDTO matchDayDTO) {
+        try {
+            matchDayService.updateMatchDay(matchDayDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
     }
 
     @GetMapping("/categories/{categoryId}")

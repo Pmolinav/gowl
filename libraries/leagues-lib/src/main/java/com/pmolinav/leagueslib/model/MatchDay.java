@@ -9,7 +9,8 @@ import java.util.Objects;
 @Table(
         name = "match_day",
         indexes = {
-                @Index(name = "idx_matchday_category", columnList = "category_id")
+                @Index(name = "idx_matchday_category", columnList = "category_id"),
+                @Index(name = "idx_matchday_startdate_synced", columnList = "start_date, synced")
         }
 )
 @Getter
@@ -38,9 +39,21 @@ public class MatchDay {
     @Column(name = "end_date", nullable = false)
     private Long endDate;
 
+    @Column(name = "synced", nullable = false)
+    private boolean synced = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private LeagueCategory category;
+
+    public MatchDay(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate, boolean synced) {
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.synced = synced;
+    }
 
     public MatchDay(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate) {
         this.categoryId = categoryId;
@@ -59,11 +72,12 @@ public class MatchDay {
                 && Objects.equals(season, matchDay.season)
                 && Objects.equals(matchDayNumber, matchDay.matchDayNumber)
                 && Objects.equals(startDate, matchDay.startDate)
-                && Objects.equals(endDate, matchDay.endDate);
+                && Objects.equals(endDate, matchDay.endDate)
+                && Objects.equals(synced, matchDay.synced);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryId, season, matchDayNumber, startDate, endDate);
+        return Objects.hash(categoryId, season, matchDayNumber, startDate, endDate, synced);
     }
 }

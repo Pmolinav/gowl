@@ -89,9 +89,19 @@
         </processorPath>
         <module name="AuthApi" />
         <module name="UsersBOApi" />
+        <module name="LeagueApi" />
         <module name="PredictionsBOApi" />
         <module name="PredictionApi" />
         <module name="LeaguesBOApi" />
+      </profile>
+      <profile name="Annotation profile for MatchDataSyncService" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="MatchDataSyncService" />
       </profile>
     </annotationProcessing>
   </component>
@@ -101,6 +111,7 @@
       <module name="LeagueApi" options="-parameters" />
       <module name="LeaguesBOApi" options="-parameters" />
       <module name="LeaguesService" options="-parameters" />
+      <module name="MatchDataSyncService" options="-parameters" />
       <module name="PredictionApi" options="-parameters" />
       <module name="PredictionsBOApi" options="-parameters" />
       <module name="PredictionsService" options="-parameters" />

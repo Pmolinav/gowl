@@ -43,6 +43,9 @@ public class Match {
     @Column(name = "status", nullable = false, length = 20)
     private String status = "ACTIVE";
 
+    @Column(name = "external_id")
+    private String externalId;
+
     @Column(name = "creation_date")
     private Long creationDate;
 
@@ -68,6 +71,20 @@ public class Match {
         this.modificationDate = modificationDate;
     }
 
+    public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status, String externalId, Long creationDate, Long modificationDate) {
+        this.matchId = matchId;
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.startTime = startTime;
+        this.status = status;
+        this.externalId = externalId;
+        this.creationDate = creationDate;
+        this.modificationDate = modificationDate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,11 +97,12 @@ public class Match {
                 && Objects.equals(homeTeam, match.homeTeam)
                 && Objects.equals(awayTeam, match.awayTeam)
                 && Objects.equals(startTime, match.startTime)
-                && Objects.equals(status, match.status);
+                && Objects.equals(status, match.status)
+                && Objects.equals(externalId, match.externalId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(matchId, categoryId, season, matchDayNumber, homeTeam, awayTeam, startTime, status);
+        return Objects.hash(matchId, categoryId, season, matchDayNumber, homeTeam, awayTeam, startTime, status, externalId);
     }
 }

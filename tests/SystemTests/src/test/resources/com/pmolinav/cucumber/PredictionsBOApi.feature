@@ -33,27 +33,27 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER     | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER     | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 403
 
   Scenario: Create a new match bad request
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | status    | start_time |
-      | 101      | PREMIER     | 2025   | 1                | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | status    | start_time |
+      | PREMIER     | 2025   | 1                | SCHEDULED | 1624125600 |
     Then received status code is 400
 
   Scenario: Create a new match successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     Then a match with categoryId PREMIER2 has been stored successfully
 
   Scenario: Get all matches successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     When try to get all matches
     Then received status code is 200
@@ -61,8 +61,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get match by matchId successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     Then a match with categoryId PREMIER2 has been stored successfully
     When try to get a match by matchId
@@ -71,8 +71,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get match by categoryId, season and matchDayNumber successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER     | 2025   | 5                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER     | 2025   | 5                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     Then a match with categoryId PREMIER has been stored successfully
     When try to get a match by categoryId, season and matchDayNumber
@@ -81,20 +81,20 @@ Feature: PredictionsBOApi
 
   Scenario: Update a new match successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     Then a match with categoryId PREMIER2 has been stored successfully
     Given try to update a match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team B    | Team C    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team B    | Team C    | SCHEDULED | 1624125600 |
     Then received status code is 200
     Then last stored match home team is Team B and away team is Team C
 
   Scenario: Delete match by categoryId successfully
     Given try to create a new match with data
-      | match_id | category_id | season | match_day_number | home_team | away_team | status    | start_time |
-      | 101      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
+      | category_id | season | match_day_number | home_team | away_team | status    | start_time |
+      | PREMIER2    | 2025   | 1                | Team A    | Team B    | SCHEDULED | 1624125600 |
     Then received status code is 201
     Then a match with categoryId PREMIER2 has been stored successfully
     When try to delete a match by matchId

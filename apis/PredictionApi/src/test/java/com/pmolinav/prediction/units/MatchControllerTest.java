@@ -74,7 +74,7 @@ class MatchControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindMatchByIdInServiceReturnedValidMatch() {
-        matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
+        matchDTO = new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE");
         when(matchServiceMock.findMatchById(1L)).thenReturn(matchDTO);
     }
@@ -88,7 +88,7 @@ class MatchControllerTest extends BaseUnitTest {
     }
 
     private void whenFindMatchByCategoryIdAndSeasonAndMatchDayNumberInServiceReturnedValidMatch() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+        expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE")
         );
         when(matchServiceMock.findByCategoryIdAndSeasonAndMatchDayNumber("PREMIER", 2025, 3)).thenReturn(expectedMatches);

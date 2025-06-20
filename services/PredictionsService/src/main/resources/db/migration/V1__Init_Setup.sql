@@ -11,6 +11,7 @@ CREATE TABLE match (
     away_team VARCHAR(100) NOT NULL,
     start_time BIGINT NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    external_id VARCHAR(100),
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
     modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
 );
@@ -37,6 +38,7 @@ CREATE TABLE odds (
     event_id BIGINT NOT NULL,
     label VARCHAR(50) NOT NULL,
     value DECIMAL(6,2) NOT NULL,
+    point DECIMAL(6,2),
     active BOOLEAN DEFAULT TRUE,
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
     modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,

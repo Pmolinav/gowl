@@ -14,13 +14,14 @@ CREATE TABLE league_category (
     modification_date BIGINT
 );
 
--- Match day tables by category and season.
+-- Match day tables by category, season and number.
 CREATE TABLE match_day (
     category_id VARCHAR(50) NOT NULL,
     season INTEGER NOT NULL,
     match_day_number INTEGER NOT NULL,
     start_date BIGINT NOT NULL,
     end_date BIGINT NOT NULL,
+    synced BOOLEAN NOT NULL,
     PRIMARY KEY (category_id, season, match_day_number),
     CONSTRAINT fk_matchday_category FOREIGN KEY (category_id)
         REFERENCES league_category(category_id)
@@ -28,6 +29,7 @@ CREATE TABLE match_day (
 );
 
 CREATE INDEX idx_matchday_category ON match_day(category_id);
+CREATE INDEX idx_matchday_startdate_synced ON match_day(start_date,synced);
 
 -- Leagues table.
 CREATE TABLE league (

@@ -88,7 +88,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
     void createMatchServerError() throws Exception {
         andCreateMatchThrowsNonRetryableException();
 
-        MatchDTO matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
+        MatchDTO matchDTO = new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE");
 
         mockMvc.perform(post("/matches?requestUid=" + requestUid)
@@ -102,7 +102,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
     void createMatchHappyPath() throws Exception {
         andCreateMatchReturnedValidId();
 
-        MatchDTO matchDTO = new MatchDTO(1L, "PREMIER", 2025, 3,
+        MatchDTO matchDTO = new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE");
 
         MvcResult result = mockMvc.perform(post("/matches?requestUid=" + requestUid)
@@ -136,7 +136,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindAllMatchesReturnedValidMatches() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+        expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE"));
 
         when(this.matchClient.findAll()).thenReturn(expectedMatches);
@@ -147,7 +147,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindMatchByIdReturnedMatch() {
-        expectedMatches = List.of(new MatchDTO(1L, "PREMIER", 2025, 3,
+        expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, "ACTIVE"));
 
         when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
