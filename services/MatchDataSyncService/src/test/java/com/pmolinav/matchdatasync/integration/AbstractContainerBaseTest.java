@@ -2,6 +2,7 @@ package com.pmolinav.matchdatasync.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.matchdatasync.repositories.EventRepository;
+import com.pmolinav.matchdatasync.repositories.ExternalCategoryMappingRepository;
 import com.pmolinav.matchdatasync.repositories.MatchRepository;
 import com.pmolinav.matchdatasync.repositories.OddsRepository;
 import com.pmolinav.predictionslib.model.Event;
@@ -10,13 +11,21 @@ import com.pmolinav.predictionslib.model.Odds;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
@@ -44,6 +53,8 @@ public abstract class AbstractContainerBaseTest {
     @Autowired
     protected EventRepository eventRepository;
     @Autowired
+    protected ExternalCategoryMappingRepository mappingRepository;
+    @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
 
     static final PostgreSQLContainer<?> postgresContainer = new PostgreSQLContainer<>("postgres:15.0")
@@ -70,6 +81,7 @@ public abstract class AbstractContainerBaseTest {
             oddsRepository.deleteAll();
             eventRepository.deleteAll();
             matchRepository.deleteAll();
+            mappingRepository.deleteAll();
         } catch (Exception e) {
             fail();
         }
@@ -121,6 +133,18 @@ public abstract class AbstractContainerBaseTest {
         return oddsRepository.save(odds);
     }
 
+    protected String readJsonFromResource(String relativePath) {
+        try {
+            // Partimos desde el directorio actual del test: src/test/java (por defecto)
+            Path basePath = Paths.get("src/test/java")
+                    .resolve(Paths.get(this.getClass()
+                            .getPackageName().replace(".", "/"))); // carpeta donde está el test
 
+            Path fullPath = basePath.resolve(relativePath);
+            return Files.readString(fullPath, StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new UncheckedIOException("Failed to read JSON from relative file: " + relativePath, e);
+        }
+    }
 }
 

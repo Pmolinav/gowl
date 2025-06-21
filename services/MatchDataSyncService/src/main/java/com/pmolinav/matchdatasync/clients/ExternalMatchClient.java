@@ -28,10 +28,6 @@ public class ExternalMatchClient {
                 .baseUrl(baseUrl)
                 .build();
     }
-    // Just for testing purposes (direct WebClient injection).
-    public ExternalMatchClient(WebClient webClient) {
-        this.webClient = webClient;
-    }
 
     public List<ExternalMatchDTO> fetchOdds(MatchDayDTO matchDay, String sportKey, String apiKey) {
         // Converting timestamps to ISO-8601 UTC format.

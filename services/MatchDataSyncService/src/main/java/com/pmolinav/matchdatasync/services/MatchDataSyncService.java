@@ -62,6 +62,8 @@ public class MatchDataSyncService {
                     // Store data on our side.
                     matchDataProcessor.processMatches(matchDay,matches);
                     // Set match day as synced.
+                    // TODO: Comprobar si se han actualizado todos los matches necesarios?
+                    // TODO: Cómo puedo saber si me quedan partidos por encontrar?
                     matchDay.setSynced(true);
                     matchDaysClient.updateMatchDay(matchDay);
 

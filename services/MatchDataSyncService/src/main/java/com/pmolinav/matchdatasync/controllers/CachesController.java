@@ -1,7 +1,7 @@
 package com.pmolinav.matchdatasync.controllers;
 
 import com.pmolinav.matchdatasync.services.ExternalCategoryMappingService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.pmolinav.predictionslib.model.ExternalCategoryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +14,18 @@ public class CachesController {
 
     public CachesController(ExternalCategoryMappingService mappingService) {
         this.mappingService = mappingService;
+    }
+
+    @GetMapping("/categories/{categoryId}")
+    public ResponseEntity<?> getExternalCategoryCache(@PathVariable String categoryId,
+                                                      @RequestParam(required = false) Boolean onlyCache) {
+        ExternalCategoryMapping mapping;
+        if (Boolean.TRUE.equals(onlyCache)) {
+            mapping = mappingService.getCachedOnly(categoryId);
+        } else {
+            mapping = mappingService.cachedFindById(categoryId);
+        }
+        return mapping != null ? ResponseEntity.ok(mapping) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/categories")
