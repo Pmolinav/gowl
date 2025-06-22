@@ -21,10 +21,10 @@ class MappersTests {
     @Test
     void matchDtoToEntityTest() {
         MatchDTO dto = new MatchDTO("PREMIER", 2024, 3,
-                "Team A", "Team B", 123456789L, "SCHEDULED");
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED);
 
         Match expected = new Match(1L, "PREMIER", 2024, 3,
-                "Team A", "Team B", 123456789L, "SCHEDULED", null, null);
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED, null, null);
 
         Match actual = matchMapper.matchDtoToEntity(dto);
         actual.setMatchId(1L);
@@ -35,10 +35,10 @@ class MappersTests {
     @Test
     void matchEntityToDtoTest() {
         Match entity = new Match(1L, "PREMIER", 2024, 3,
-                "Team A", "Team B", 123456789L, "SCHEDULED", null, null);
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED, null, null);
 
         MatchDTO expected = new MatchDTO("PREMIER", 2024, 3,
-                "Team A", "Team B", 123456789L, "SCHEDULED");
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED);
 
         MatchDTO actual = matchMapper.matchEntityToDto(entity);
 

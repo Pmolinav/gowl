@@ -5,6 +5,7 @@ import com.pmolinav.matchdatasync.repositories.EventRepository;
 import com.pmolinav.matchdatasync.repositories.ExternalCategoryMappingRepository;
 import com.pmolinav.matchdatasync.repositories.MatchRepository;
 import com.pmolinav.matchdatasync.repositories.OddsRepository;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
 import com.pmolinav.predictionslib.model.Odds;
@@ -95,7 +96,7 @@ public abstract class AbstractContainerBaseTest {
         match.setHomeTeam("Team A");
         match.setAwayTeam("Team B");
         match.setStartTime(System.currentTimeMillis());
-        match.setStatus("ACTIVE");
+        match.setStatus(MatchStatus.ACTIVE);
 
         lastMatch = matchRepository.save(match);
         return lastMatch;

@@ -1,7 +1,6 @@
 package com.pmolinav.matchdatasync.services;
 
 import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
-import com.pmolinav.matchdatasync.exceptions.NotFoundException;
 import com.pmolinav.matchdatasync.repositories.MatchRepository;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.mapper.MatchMapper;
@@ -12,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @EnableAsync
 @Service
@@ -44,4 +40,24 @@ public class MatchService {
         }
     }
 
+    @Transactional
+    public Match updateMatch(Match match) {
+        try {
+            return matchRepository.save(match);
+        } catch (Exception e) {
+            logger.error("Error updating match entity {}", match.getMatchId(), e);
+            throw new InternalServerErrorException("Failed to update match.");
+        }
+    }
+
+    @Transactional(readOnly = true)
+    public List<Match> findByCategoryIdAndSeasonAndMatchDayNumber(String categoryId, Integer season, Integer matchDayNumber) {
+        try {
+            return matchRepository.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+        } catch (Exception e) {
+            logger.error("Unexpected error while searching matches by categoryId: {}, season: {} and matchDayNumber: {} in repository.",
+                    categoryId, season, matchDayNumber, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
 }

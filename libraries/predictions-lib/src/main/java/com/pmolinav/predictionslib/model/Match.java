@@ -1,5 +1,6 @@
 package com.pmolinav.predictionslib.model;
 
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,8 +41,9 @@ public class Match {
     @Column(name = "start_time", nullable = false)
     private Long startTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
-    private String status = "ACTIVE";
+    private MatchStatus status = MatchStatus.SCHEDULED;
 
     @Column(name = "external_id")
     private String externalId;
@@ -58,7 +60,7 @@ public class Match {
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<PlayerBet> playerBets;
 
-    public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status, Long creationDate, Long modificationDate) {
+    public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status, Long creationDate, Long modificationDate) {
         this.matchId = matchId;
         this.categoryId = categoryId;
         this.season = season;
@@ -71,7 +73,7 @@ public class Match {
         this.modificationDate = modificationDate;
     }
 
-    public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status, String externalId, Long creationDate, Long modificationDate) {
+    public Match(Long matchId, String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status, String externalId, Long creationDate, Long modificationDate) {
         this.matchId = matchId;
         this.categoryId = categoryId;
         this.season = season;

@@ -3,6 +3,7 @@ package com.pmolinav.predictions.units;
 import com.pmolinav.predictions.exceptions.CustomStatusException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -159,15 +160,15 @@ class MatchBOControllerTest extends BaseUnitTest {
 
     private void givenValidMatchDTOForRequest() {
         matchDTO = new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE);
     }
 
     private void whenFindAllMatchesInServiceReturnedValidMatches() {
         expectedMatches = List.of(
                 new MatchDTO("PREMIER", 2025, 3,
-                        "Team A", "Team B", 1234567L, "ACTIVE"),
+                        "Team A", "Team B", 1234567L, MatchStatus.ACTIVE),
                 new MatchDTO("PREMIER", 2025, 3,
-                        "Team B", "Team A", 1234567L, "ACTIVE")
+                        "Team B", "Team A", 1234567L, MatchStatus.ACTIVE)
         );
         when(matchBOServiceMock.findAllMatches()).thenReturn(expectedMatches);
     }
@@ -182,7 +183,7 @@ class MatchBOControllerTest extends BaseUnitTest {
 
     private void whenFindMatchByIdInServiceReturnedValidMatch() {
         matchDTO = new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE);
         when(matchBOServiceMock.findMatchById(1L)).thenReturn(matchDTO);
     }
 

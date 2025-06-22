@@ -3,6 +3,7 @@ package com.pmolinav.predictions.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -89,7 +90,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
         andCreateMatchThrowsNonRetryableException();
 
         MatchDTO matchDTO = new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE);
 
         mockMvc.perform(post("/matches?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -103,7 +104,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
         andCreateMatchReturnedValidId();
 
         MatchDTO matchDTO = new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE);
 
         MvcResult result = mockMvc.perform(post("/matches?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -137,7 +138,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindAllMatchesReturnedValidMatches() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE"));
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
         when(this.matchClient.findAll()).thenReturn(expectedMatches);
     }
@@ -148,7 +149,7 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindMatchByIdReturnedMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE"));
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
         when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
     }

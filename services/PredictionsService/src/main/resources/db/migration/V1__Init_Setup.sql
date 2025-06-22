@@ -10,7 +10,7 @@ CREATE TABLE match (
     home_team VARCHAR(100) NOT NULL,
     away_team VARCHAR(100) NOT NULL,
     start_time BIGINT NOT NULL,
-    status VARCHAR(20) NOT NULL DEFAULT 'ACTIVE',
+    status VARCHAR(20) NOT NULL DEFAULT 'SCHEDULED',
     external_id VARCHAR(100),
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
     modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000

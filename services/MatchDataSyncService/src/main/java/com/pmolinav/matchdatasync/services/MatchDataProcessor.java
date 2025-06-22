@@ -4,20 +4,20 @@ import com.pmolinav.leagueslib.dto.MatchDayDTO;
 import com.pmolinav.matchdatasync.dto.ExternalBookmakerDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMarketDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
-import com.pmolinav.matchdatasync.dto.ExternalOutcomeDTO;
 import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
 import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class MatchDataProcessor {
@@ -36,26 +36,74 @@ public class MatchDataProcessor {
         this.oddsService = oddsService;
     }
 
-    public void processMatches(MatchDayDTO matchDayDTO, List<ExternalMatchDTO> externalMatches) {
+    public boolean processMatches(MatchDayDTO matchDayDTO, List<ExternalMatchDTO> externalMatches) {
+        final long TIME_MARGIN_MS = 18000000L; // 5 hours, for example.
+        Set<String> storedExternalMatchIds = new HashSet<>();
+        List<Match> scheduledMatches = new ArrayList<>();
+
+        List<Match> existingMatches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(
+                matchDayDTO.getCategoryId(),
+                matchDayDTO.getSeason(),
+                matchDayDTO.getMatchDayNumber()
+        );
+
+        if (!CollectionUtils.isEmpty(existingMatches)) {
+            // Get already stored external Ids.
+            storedExternalMatchIds = existingMatches.stream()
+                    .map(Match::getExternalId)
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toSet());
+            // Filter matches by SCHEDULED to be updated.
+            scheduledMatches = existingMatches.stream()
+                    .filter(m -> m.getStatus().equals(MatchStatus.SCHEDULED))
+                    .toList();
+        }
+
+        Set<Match> updatedMatches = new HashSet<>();
+
         for (ExternalMatchDTO externalMatch : externalMatches) {
             try {
                 logger.debug("Processing external match with ID {}", externalMatch.getId());
 
-                // Convert commence_time (OffsetDateTime) to millis.
-                long startTime = externalMatch.getCommence_time().toInstant().toEpochMilli();
+                // If this match had been already processed previously, just skip it.
+                if (storedExternalMatchIds.contains(externalMatch.getId())) {
+                    logger.debug("Match with external ID {} is already stored. Skipping.", externalMatch.getId());
+                    continue;
+                }
 
-                // Create Match
-                MatchDTO matchDTO = new MatchDTO(
-                        matchDayDTO.getCategoryId(),
-                        matchDayDTO.getSeason(),
-                        matchDayDTO.getMatchDayNumber(),
-                        externalMatch.getHome_team(),
-                        externalMatch.getAway_team(),
-                        startTime,
-                        "ACTIVE",
-                        externalMatch.getId()
-                );
-                Match createdMatch = matchService.createMatch(matchDTO);
+                long externalStartTime = externalMatch.getCommence_time().toInstant().toEpochMilli();
+
+                // Try to match external matches with stored matches. They will normally match.
+                Optional<Match> matchingScheduled = scheduledMatches.stream()
+                        .filter(m -> m.getHomeTeam().equalsIgnoreCase(externalMatch.getHome_team())
+                                && m.getAwayTeam().equalsIgnoreCase(externalMatch.getAway_team())
+                                && Math.abs(m.getStartTime() - externalStartTime) <= TIME_MARGIN_MS)
+                        .findFirst();
+
+                Match match;
+                if (matchingScheduled.isPresent()) {
+                    Match existing = matchingScheduled.get();
+                    updatedMatches.add(existing);
+
+                    existing.setStartTime(externalStartTime);
+                    existing.setStatus(MatchStatus.ACTIVE);
+                    existing.setExternalId(externalMatch.getId());
+
+                    match = matchService.updateMatch(existing);
+                } else {
+                    // If not present yet (a strange situation), the new match is stored.
+                    MatchDTO matchDTO = new MatchDTO(
+                            matchDayDTO.getCategoryId(),
+                            matchDayDTO.getSeason(),
+                            matchDayDTO.getMatchDayNumber(),
+                            externalMatch.getHome_team(),
+                            externalMatch.getAway_team(),
+                            externalStartTime,
+                            MatchStatus.ACTIVE,
+                            externalMatch.getId()
+                    );
+                    match = matchService.createMatch(matchDTO);
+                }
 
                 // Choose the provider with more markets.
                 ExternalBookmakerDTO bestBookmaker = externalMatch.getBookmakers().stream()
@@ -68,31 +116,34 @@ public class MatchDataProcessor {
                 // For each market, create Event and Odds.
                 for (ExternalMarketDTO market : bestBookmaker.getMarkets()) {
                     EventDTO eventDTO = new EventDTO(
-                            createdMatch.getMatchId(),
+                            match.getMatchId(),
                             market.getKey(),
                             market.getLink()
                     );
                     Event createdEvent = eventService.createEvent(eventDTO);
 
-                    List<OddsDTO> oddsDTOList = new ArrayList<>();
-                    for (ExternalOutcomeDTO outcome : market.getOutcomes()) {
-                        oddsDTOList.add(new OddsDTO(
-                                createdEvent.getEventId(),
-                                outcome.getName(),
-                                outcome.getPrice(),
-                                outcome.getPoint(),
-                                true
-                        ));
-                    }
+                    List<OddsDTO> oddsDTOList = market.getOutcomes().stream()
+                            .map(outcome -> new OddsDTO(
+                                    createdEvent.getEventId(),
+                                    outcome.getName(),
+                                    outcome.getPrice(),
+                                    outcome.getPoint(),
+                                    true
+                            ))
+                            .toList();
+
                     oddsService.createOddsList(oddsDTOList);
                 }
 
             } catch (Exception e) {
-                logger.error("Unexpected error occurred while processing external match {}",
-                        externalMatch.getId(), e);
-                throw new InternalServerErrorException("Unexpected error occurred while calling external API.");
+                logger.error("Unexpected error occurred while processing external match {}", externalMatch.getId(), e);
+                throw new InternalServerErrorException("Unexpected error occurred while processing match " + externalMatch.getId());
             }
         }
+
+        // Return true if all expected matches are synchronized.
+        return scheduledMatches.size() == updatedMatches.size();
     }
+
 }
 

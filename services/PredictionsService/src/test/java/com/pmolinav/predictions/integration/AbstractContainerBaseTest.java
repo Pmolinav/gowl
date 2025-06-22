@@ -2,6 +2,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictions.repositories.*;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,7 +86,7 @@ public abstract class AbstractContainerBaseTest {
         match.setHomeTeam("Team A");
         match.setAwayTeam("Team B");
         match.setStartTime(System.currentTimeMillis());
-        match.setStatus("ACTIVE");
+        match.setStatus(MatchStatus.ACTIVE);
 
         lastMatch = matchRepository.save(match);
         return lastMatch;

@@ -9,6 +9,7 @@ import com.pmolinav.matchdatasync.services.EventService;
 import com.pmolinav.matchdatasync.services.MatchDataProcessor;
 import com.pmolinav.matchdatasync.services.MatchService;
 import com.pmolinav.matchdatasync.services.OddsService;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
 import com.pmolinav.predictionslib.model.Odds;
@@ -86,7 +87,7 @@ class MatchDataProcessorTest {
     private void andMatchServiceReturnsCreatedMatch() {
         Match match = new Match(1L, "LA_LIGA", 2025, 1,
                 "Valencia", "Barcelona", 123456789L,
-                "ACTIVE", null, null);
+                MatchStatus.ACTIVE, null, null);
 
         when(this.matchService.createMatch(any()))
                 .thenReturn(match);

@@ -779,5 +779,328 @@
         ]
       }
     ]
+  },
+  {
+    "id": "e9bd90b497142f15a4d4221268bd8446",
+    "sport_key": "soccer_spain_la_liga",
+    "sport_title": "La Liga - Spain",
+    "commence_time": "2025-04-22T19:30:00Z",
+    "home_team": "Barcelona",
+    "away_team": "Mallorca",
+    "bookmakers": [
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-04-21T18:56:14Z",
+        "link": "https://1xbet.com/en/line/football/127733-spain-la-liga/257410747-barcelona-mallorca",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.24,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 14.2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 7.14,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.73,
+                "point": -1.5,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 2.29,
+                "point": 1.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.26,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.75,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-04-21T18:56:19Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/50852725",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:19Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.22,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 12.5,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 7.25,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "tipico_de",
+        "title": "Tipico",
+        "last_update": "2025-04-21T18:56:16Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:16Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.2,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 10.5,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 7.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-04-21T18:56:16Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.75,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-04-21T18:56:14Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV35258606/barcelona-vs-mallorca",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.22,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 11,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 6,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.44,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.6,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-04-21T18:56:16Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/spain/spain-la-liga?tab=liveAndUpcoming&eventId=f-rgC63THxAUGI4aQqoCbsfw&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:16Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.22,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 13,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-04-21T18:56:16Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.2,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.7,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-04-21T18:56:14Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/la-liga/game/490673621",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.22,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 13,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 7.1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Barcelona",
+                "price": 1.83,
+                "point": -1.75,
+                "link": null
+              },
+              {
+                "name": "Mallorca",
+                "price": 2.01,
+                "point": 1.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-04-21T18:56:14Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.94,
+                "point": 3.25,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.88,
+                "point": 3.25,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
   }
 ]

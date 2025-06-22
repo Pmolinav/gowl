@@ -3,6 +3,7 @@ package com.pmolinav.prediction.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -83,7 +84,7 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindMatchByIdReturnedMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE"));
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
         when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
     }
@@ -94,7 +95,7 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberReturnedMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE"));
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
         when(this.matchClient.findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt()))
                 .thenReturn(expectedMatches);

@@ -3,6 +3,7 @@ package com.pmolinav.prediction.units;
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,7 +76,7 @@ class MatchControllerTest extends BaseUnitTest {
 
     private void whenFindMatchByIdInServiceReturnedValidMatch() {
         matchDTO = new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE");
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE);
         when(matchServiceMock.findMatchById(1L)).thenReturn(matchDTO);
     }
 
@@ -89,7 +90,7 @@ class MatchControllerTest extends BaseUnitTest {
 
     private void whenFindMatchByCategoryIdAndSeasonAndMatchDayNumberInServiceReturnedValidMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
-                "Team A", "Team B", 1234567L, "ACTIVE")
+                "Team A", "Team B", 1234567L, MatchStatus.ACTIVE)
         );
         when(matchServiceMock.findByCategoryIdAndSeasonAndMatchDayNumber("PREMIER", 2025, 3)).thenReturn(expectedMatches);
     }

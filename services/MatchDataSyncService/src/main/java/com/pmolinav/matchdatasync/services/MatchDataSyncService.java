@@ -60,13 +60,14 @@ public class MatchDataSyncService {
                     // Get matches from external API.
                     List<ExternalMatchDTO> matches = externalMatchClient.fetchOdds(matchDay, sportKeyMapping.getExternalSportKey(), apiKey);
                     // Store data on our side.
-                    matchDataProcessor.processMatches(matchDay,matches);
-                    // Set match day as synced.
-                    // TODO: Comprobar si se han actualizado todos los matches necesarios?
-                    // TODO: Cómo puedo saber si me quedan partidos por encontrar?
-                    matchDay.setSynced(true);
-                    matchDaysClient.updateMatchDay(matchDay);
-
+                    boolean completed = matchDataProcessor.processMatches(matchDay, matches);
+                    // Set match day as synced if all matches are completed.
+                    if (completed) {
+                        matchDay.setSynced(true);
+                        matchDaysClient.updateMatchDay(matchDay);
+                    } else {
+                        logger.info("Some matches were not completed yet for MatchDay: {}.", matchDay);
+                    }
                     logger.debug("MatchDay synchronized successfully");
                 } catch (Exception e) {
                     logger.error("Unexpected error occurred synchronizing MatchDay: {}", matchDay, e);

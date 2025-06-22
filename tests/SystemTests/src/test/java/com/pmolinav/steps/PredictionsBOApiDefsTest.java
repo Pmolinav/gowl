@@ -36,7 +36,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                         match.setHomeTeam(row.get("home_team"));
                         match.setAwayTeam(row.get("away_team"));
                         match.setStartTime(Long.parseLong(row.get("start_time")));
-                        match.setStatus(row.get("status"));
+                        match.setStatus(MatchStatus.valueOf(row.get("status")));
                         match.setCreationDate(row.get("creation_date") != null ?
                                 Long.parseLong(row.get("creation_date")) : null);
                         match.setModificationDate(row.get("modification_date") != null ?
@@ -168,7 +168,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         matchDto.setHomeTeam(row.get("home_team"));
         matchDto.setAwayTeam(row.get("away_team"));
         matchDto.setStartTime(Long.parseLong(row.get("start_time")));
-        matchDto.setStatus(row.get("status"));
+        matchDto.setStatus(MatchStatus.valueOf(row.get("status")));
 
         try {
             executePost(localURL + "/matches", objectMapper.writeValueAsString(matchDto));
@@ -190,7 +190,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         matchDto.setHomeTeam(row.get("home_team"));
         matchDto.setAwayTeam(row.get("away_team"));
         matchDto.setStartTime(Long.parseLong(row.get("start_time")));
-        matchDto.setStatus(row.get("status"));
+        matchDto.setStatus(MatchStatus.valueOf(row.get("status")));
 
         try {
             executePut(localURL + "/matches/" + lastMatch.getMatchId(),

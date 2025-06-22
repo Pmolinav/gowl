@@ -1,5 +1,6 @@
 package com.pmolinav.database;
 
+import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.*;
 
 import java.sql.*;
@@ -43,7 +44,7 @@ public class PredictionsDatabaseConnector {
                 preparedStatement.setInt(4, match.getMatchDayNumber());
                 preparedStatement.setString(5, match.getHomeTeam());
                 preparedStatement.setString(6, match.getAwayTeam());
-                preparedStatement.setString(7, match.getStatus());
+                preparedStatement.setString(7, match.getStatus().name());
                 preparedStatement.setLong(8, match.getStartTime());
                 if (match.getCreationDate() != null) {
                     preparedStatement.setLong(9, match.getCreationDate());
@@ -79,7 +80,7 @@ public class PredictionsDatabaseConnector {
                         rs.getString("home_team"),
                         rs.getString("away_team"),
                         rs.getLong("start_time"),
-                        rs.getString("status"),
+                        MatchStatus.valueOf(rs.getString("status")),
                         rs.getLong("creation_date"),
                         rs.getLong("modification_date")
                 );
@@ -105,7 +106,7 @@ public class PredictionsDatabaseConnector {
                         rs.getString("home_team"),
                         rs.getString("away_team"),
                         rs.getLong("start_time"),
-                        rs.getString("status"),
+                        MatchStatus.valueOf(rs.getString("status")),
                         rs.getLong("creation_date"),
                         rs.getLong("modification_date")
                 );

@@ -33,13 +33,12 @@ public class MatchDTO {
     @NotNull(message = "Start time must not be null.")
     private Long startTime;
 
-    @Size(max = 20, message = "Status must be at most 20 characters.")
-    private String status = "ACTIVE";
+    private MatchStatus status = MatchStatus.SCHEDULED;
 
     @Size(max = 100, message = "External ID must be at most 100 characters.")
     private String externalId;
 
-    public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, String status) {
+    public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status) {
         this.categoryId = categoryId;
         this.season = season;
         this.matchDayNumber = matchDayNumber;
