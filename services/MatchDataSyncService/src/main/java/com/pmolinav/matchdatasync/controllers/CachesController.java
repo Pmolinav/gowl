@@ -1,6 +1,8 @@
 package com.pmolinav.matchdatasync.controllers;
 
+import com.pmolinav.matchdatasync.services.EventService;
 import com.pmolinav.matchdatasync.services.ExternalCategoryMappingService;
+import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.ExternalCategoryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +13,12 @@ import org.springframework.web.bind.annotation.*;
 public class CachesController {
 
     private final ExternalCategoryMappingService mappingService;
+    private final EventService eventService;
 
-    public CachesController(ExternalCategoryMappingService mappingService) {
+    public CachesController(ExternalCategoryMappingService mappingService,
+                            EventService eventService) {
         this.mappingService = mappingService;
+        this.eventService = eventService;
     }
 
     @GetMapping("/categories/{categoryId}")
@@ -33,7 +38,29 @@ public class CachesController {
         if (categoryId != null && !categoryId.isBlank()) {
             mappingService.evictCategoryCache(categoryId);
         } else {
-            mappingService.clearAllCache();
+            mappingService.clearAllCategoryCache();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/events/{eventType}")
+    public ResponseEntity<?> getEventCache(@PathVariable String eventType,
+                                           @RequestParam(required = false) Boolean onlyCache) {
+        Event event;
+        if (Boolean.TRUE.equals(onlyCache)) {
+            event = eventService.getCachedOnly(eventType);
+        } else {
+            event = eventService.cachedFindEventByType(eventType);
+        }
+        return event != null ? ResponseEntity.ok(event) : ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/events")
+    public ResponseEntity<Void> invalidateEventCache(@RequestParam(required = false) String eventType) {
+        if (eventType != null && !eventType.isBlank()) {
+            eventService.evictEventCache(eventType);
+        } else {
+            eventService.clearAllEventCache();
         }
         return ResponseEntity.ok().build();
     }

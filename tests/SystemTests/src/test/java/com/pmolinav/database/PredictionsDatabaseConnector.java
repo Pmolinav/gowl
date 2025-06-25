@@ -131,25 +131,24 @@ public class PredictionsDatabaseConnector {
 
     public void insertEvents(List<Event> events) throws SQLException {
         String query = "INSERT INTO event " +
-                "(event_id, match_id, name, description, creation_date, modification_date) " +
+                "(event_type, match_id, name, description, creation_date, modification_date) " +
                 "VALUES (?, ?, ?, ?, ?, ?)";
 
         for (Event event : events) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
-                preparedStatement.setLong(1, event.getEventId());
+                preparedStatement.setString(1, event.getEventType());
                 preparedStatement.setLong(2, event.getMatchId());
-                preparedStatement.setString(3, event.getName());
-                preparedStatement.setString(4, event.getDescription());
+                preparedStatement.setString(3, event.getDescription());
 
                 if (event.getCreationDate() != null) {
-                    preparedStatement.setLong(5, event.getCreationDate());
+                    preparedStatement.setLong(4, event.getCreationDate());
                 } else {
-                    preparedStatement.setNull(5, Types.BIGINT);
+                    preparedStatement.setNull(4, Types.BIGINT);
                 }
                 if (event.getModificationDate() != null) {
-                    preparedStatement.setLong(6, event.getModificationDate());
+                    preparedStatement.setLong(5, event.getModificationDate());
                 } else {
-                    preparedStatement.setNull(6, Types.BIGINT);
+                    preparedStatement.setNull(5, Types.BIGINT);
                 }
 
                 preparedStatement.executeUpdate();
@@ -169,9 +168,8 @@ public class PredictionsDatabaseConnector {
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Event event = new Event(
-                        rs.getLong("event_id"),
+                        rs.getString("event_type"),
                         rs.getLong("match_id"),
-                        rs.getString("name"),
                         rs.getString("description"),
                         rs.getLong("creation_date"),
                         rs.getLong("modification_date")
@@ -197,13 +195,13 @@ public class PredictionsDatabaseConnector {
 
     public void insertOdds(List<Odds> oddsList) throws SQLException {
         String query = "INSERT INTO odds " +
-                "(odds_id, event_id, label, value, active, creation_date, modification_date) " +
+                "(odds_id, event_type, label, value, active, creation_date, modification_date) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         for (Odds odds : oddsList) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setLong(1, odds.getOddsId());
-                preparedStatement.setLong(2, odds.getEventId());
+                preparedStatement.setString(2, odds.getEventType());
                 preparedStatement.setString(3, odds.getLabel());
                 preparedStatement.setBigDecimal(4, odds.getValue());
                 preparedStatement.setBoolean(5, odds.getActive());
@@ -237,7 +235,7 @@ public class PredictionsDatabaseConnector {
             while (rs.next()) {
                 Odds odds = new Odds(
                         rs.getLong("odds_id"),
-                        rs.getLong("event_id"),
+                        rs.getString("event_type"),
                         rs.getString("label"),
                         rs.getBigDecimal("value"),
                         rs.getBoolean("active"),
@@ -358,6 +356,7 @@ public class PredictionsDatabaseConnector {
                 return new PlayerBetSelection(
                         rs.getLong("selection_id"),
                         rs.getLong("bet_id"),
+                        rs.getString("event_type"),
                         rs.getLong("odds_id"),
                         rs.getBigDecimal("stake"),
                         rs.getLong("creation_date")

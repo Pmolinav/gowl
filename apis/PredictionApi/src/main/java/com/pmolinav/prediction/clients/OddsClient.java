@@ -15,8 +15,8 @@ public interface OddsClient {
     @GetMapping("/{id}")
     OddsDTO findById(@PathVariable("id") Long id);
 
-    @GetMapping("/events/{eventId}")
-    List<OddsDTO> findByEventId(@PathVariable("eventId") Long eventId);
+    @GetMapping("/events/{eventType}")
+    List<OddsDTO> findByEventType(@PathVariable("eventType") String eventType);
 
     @PostMapping
     Long create(@RequestBody OddsDTO oddsDTO);

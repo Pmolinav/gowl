@@ -1,6 +1,8 @@
-package com.pmolinav.predictions.repositories;
+package com.pmolinav.matchdatasync.repositories;
 
 import com.pmolinav.predictionslib.model.PlayerBet;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -11,10 +13,6 @@ public interface PlayerBetRepository extends JpaRepository<PlayerBet, Long> {
 
     @Override
     @EntityGraph(attributePaths = "selections")
-    List<PlayerBet> findAll();
-
-    @Override
-    @EntityGraph(attributePaths = "selections")
     Optional<PlayerBet> findById(Long aLong);
 
     @EntityGraph(attributePaths = "selections")
@@ -22,6 +20,8 @@ public interface PlayerBetRepository extends JpaRepository<PlayerBet, Long> {
 
     @EntityGraph(attributePaths = "selections")
     List<PlayerBet> findByUsername(String username);
+
+    @EntityGraph(attributePaths = "selections")
+    Page<PlayerBet> findByMatchId(Long matchId, Pageable pageable);
+
 }
-
-

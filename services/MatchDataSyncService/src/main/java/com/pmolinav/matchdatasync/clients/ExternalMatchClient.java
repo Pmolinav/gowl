@@ -2,6 +2,7 @@ package com.pmolinav.matchdatasync.clients;
 
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
+import com.pmolinav.matchdatasync.dto.ExternalMatchScoreDTO;
 import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,6 +66,31 @@ public class ExternalMatchClient {
             logger.error("Failed to search odds from external API by commenceTimeFrom {} and commenceTimeTo {}",
                     commenceTimeFrom, commenceTimeTo, e);
             throw new InternalServerErrorException("Unexpected error occurred while calling external API.");
+        }
+    }
+
+    public List<ExternalMatchScoreDTO> fetchResults(String sportKey, String apiKey, int daysFrom) {
+        try {
+            return webClient.get()
+                    .uri(uriBuilder -> uriBuilder
+                            .path("/sports/" + sportKey + "/scores")
+                            .queryParam("apiKey", apiKey)
+                            .queryParam("daysFrom", daysFrom)
+                            .build())
+                    .retrieve()
+                    .onStatus(HttpStatusCode::isError, clientResponse ->
+                            clientResponse.bodyToMono(String.class).flatMap(errorBody -> {
+                                logger.error("External API Error on scores endpoint. Status: {}, Body: {}",
+                                        clientResponse.statusCode(), errorBody);
+                                return Mono.error(new RuntimeException("External API error: " + errorBody));
+                            }))
+                    .bodyToFlux(ExternalMatchScoreDTO.class)
+                    .collectList()
+                    .block(); // BLOCK: synchronous call
+        } catch (Exception e) {
+            logger.error("Failed to fetch match results from external API for sportKey {} and daysFrom {}",
+                    sportKey, daysFrom, e);
+            throw new InternalServerErrorException("Unexpected error occurred while fetching match results.");
         }
     }
 

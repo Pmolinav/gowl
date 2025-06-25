@@ -16,15 +16,15 @@ Feature: PredictionApi
       | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
       | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
     Given the following events have been stored previously
-      | event_id | match_id | name        | description       | creation_date | modification_date |
-      | 201      | 101      | Goal        | Goal scored event | 1624000000    | 1624005000        |
-      | 202      | 101      | Yellow Card | Yellow card event | 1624001000    | 1624006000        |
-      | 203      | 102      | Red Card    | Red card event    | 1624002000    | 1624007000        |
+      | event_type  | match_id | description       | creation_date | modification_date |
+      | Goal        | 101      | Goal scored event | 1624000000    | 1624005000        |
+      | Yellow Card | 101      | Yellow card event | 1624001000    | 1624006000        |
+      | Red Card    | 102      | Red card event    | 1624002000    | 1624007000        |
     Given the following odds have been stored previously
-      | odds_id | event_id | label    | value | active | creation_date | modification_date |
-      | 301     | 201      | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | 201      | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | 202      | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | odds_id | event_type  | label    | value | active | creation_date | modification_date |
+      | 301     | Goal        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
+      | 302     | Goal        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
+      | 303     | Yellow Card | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
 
@@ -51,9 +51,9 @@ Feature: PredictionApi
     Then a list of matches with categoryIds PREMIER are returned in response
 
    # EVENTS
-  Scenario: Get event by eventId successfully
+  Scenario: Get event by eventType successfully
     Then an event with name Goal has been stored successfully
-    When try to get an event by eventId with public endpoint
+    When try to get an event by eventType with public endpoint
     Then received status code is 200
     Then an event with name Goal has been returned in response
 
@@ -70,9 +70,9 @@ Feature: PredictionApi
     Then received status code is 200
     Then odds with label Over 2.5 are returned in response
 
-  Scenario: Get odds by eventId successfully
+  Scenario: Get odds by eventType successfully
     Then odds with label Home Win have been stored successfully
-    When try to get odds by eventId with public endpoint
+    When try to get odds by eventType with public endpoint
     Then received status code is 200
     Then a list of odds with labels Home Win,Away Win are returned in response
 

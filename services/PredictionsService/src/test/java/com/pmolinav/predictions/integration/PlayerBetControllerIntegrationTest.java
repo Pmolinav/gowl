@@ -3,7 +3,6 @@ package com.pmolinav.predictions.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
-import com.pmolinav.predictionslib.model.Match;
 import com.pmolinav.predictionslib.model.Odds;
 import com.pmolinav.predictionslib.model.PlayerBet;
 import org.junit.jupiter.api.Test;
@@ -77,7 +76,7 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
         PlayerBetDTO request = new PlayerBetDTO();
         request.setMatchId(lastMatch.getMatchId());
         request.setUsername("newUser");
-        request.setSelections(List.of(new PlayerBetSelectionDTO(odds.getOddsId(), BigDecimal.ONE)));
+        request.setSelections(List.of(new PlayerBetSelectionDTO(lastEvent.getEventType(), odds.getOddsId(), BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets")
                         .contentType(MediaType.APPLICATION_JSON)

@@ -33,6 +33,8 @@ public class MatchDayDTO {
 
     private boolean synced = false;
 
+    private boolean resultsChecked = false;
+
     public MatchDayDTO(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate) {
         this.categoryId = categoryId;
         this.season = season;

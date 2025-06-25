@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @ToString
 public class OddsDTO {
 
-    @NotNull(message = "Event ID must not be null.")
-    private Long eventId;
+    @NotNull(message = "Event type must not be null.")
+    private String eventType;
 
     @NotBlank(message = "Label is mandatory.")
     @Size(max = 50, message = "Label must be at most 50 characters.")
@@ -31,8 +31,8 @@ public class OddsDTO {
 
     private Boolean active = true;
 
-    public OddsDTO(Long eventId, String label, BigDecimal value, Boolean active) {
-        this.eventId = eventId;
+    public OddsDTO(String eventType, String label, BigDecimal value, Boolean active) {
+        this.eventType = eventType;
         this.label = label;
         this.value = value;
         this.active = active;

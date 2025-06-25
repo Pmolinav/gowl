@@ -5,6 +5,7 @@ import com.pmolinav.matchdatasync.dto.ExternalBookmakerDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMarketDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
 import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
+import com.pmolinav.matchdatasync.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.dto.MatchStatus;
@@ -115,16 +116,22 @@ public class MatchDataProcessor {
 
                 // For each market, create Event and Odds.
                 for (ExternalMarketDTO market : bestBookmaker.getMarkets()) {
-                    EventDTO eventDTO = new EventDTO(
-                            match.getMatchId(),
-                            market.getKey(),
-                            market.getLink()
-                    );
-                    Event createdEvent = eventService.createEvent(eventDTO);
+                    Event event;
+                    try {
+                        event = eventService.cachedFindEventByType(market.getKey());
+                    } catch (NotFoundException nFe) {
+                        EventDTO eventDTO = new EventDTO(
+                                market.getKey(),
+                                match.getMatchId(),
+                                market.getLink()
+                        );
+                        event = eventService.createEvent(eventDTO);
+                    }
 
+                    Event finalEvent = event;
                     List<OddsDTO> oddsDTOList = market.getOutcomes().stream()
                             .map(outcome -> new OddsDTO(
-                                    createdEvent.getEventId(),
+                                    finalEvent.getEventType(),
                                     outcome.getName(),
                                     outcome.getPrice(),
                                     outcome.getPoint(),

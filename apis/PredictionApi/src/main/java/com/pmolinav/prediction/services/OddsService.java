@@ -41,11 +41,11 @@ public class OddsService {
         }
     }
 
-    public List<OddsDTO> findByEventId(Long eventId) {
+    public List<OddsDTO> findByEventType(String eventType) {
         try {
-            return oddsClient.findByEventId(eventId);
+            return oddsClient.findByEventType(eventType);
         } catch (Exception e) {
-            logger.error("Unexpected error while fetching odds by eventId", e);
+            logger.error("Unexpected error while fetching odds by eventType", e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

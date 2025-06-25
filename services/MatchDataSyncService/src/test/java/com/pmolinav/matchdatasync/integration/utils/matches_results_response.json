@@ -1,0 +1,42 @@
+[
+  {
+    "id": "78ee12a03a3be4eca4b74ed1a2d78ba8",
+    "sport_key": "soccer_spain_la_liga",
+    "sport_title": "La Liga - Spain",
+    "commence_time": "2025-04-22T19:00:00Z",
+    "completed": true,
+    "home_team": "Valencia",
+    "away_team": "Espanyol",
+    "scores": [
+      {
+        "name": "Valencia",
+        "score": "2"
+      },
+      {
+        "name": "Espanyol",
+        "score": "1"
+      }
+    ],
+    "last_update": "2025-04-22T21:00:00Z"
+  },
+  {
+    "id": "e9bd90b497142f15a4d4221268bd8446",
+    "sport_key": "soccer_spain_la_liga",
+    "sport_title": "La Liga - Spain",
+    "commence_time": "2025-04-22T19:30:00Z",
+    "completed": true,
+    "home_team": "Barcelona",
+    "away_team": "Mallorca",
+    "scores": [
+      {
+        "name": "Barcelona",
+        "score": "4"
+      },
+      {
+        "name": "Mallorca",
+        "score": "1"
+      }
+    ],
+    "last_update": "2025-04-22T21:30:00Z"
+  }
+]

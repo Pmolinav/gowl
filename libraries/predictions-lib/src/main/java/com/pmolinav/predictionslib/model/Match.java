@@ -54,9 +54,11 @@ public class Match {
     @Column(name = "modification_date")
     private Long modificationDate;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<Event> events;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
     private List<PlayerBet> playerBets;
 

@@ -73,6 +73,41 @@ public class MatchDayService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<MatchDayDTO> findCompletedMatchDays(Long endDateFrom, Long endDateTo, Boolean resultsChecked) {
+        List<MatchDay> matchDaysList;
+        try {
+            if (endDateFrom != null && endDateTo != null && resultsChecked != null) {
+                matchDaysList = matchDayRepository.findByEndDateBetweenAndResultsChecked(endDateFrom, endDateTo, resultsChecked);
+            } else if (endDateFrom != null && endDateTo != null) {
+                matchDaysList = matchDayRepository.findByEndDateBetween(endDateFrom, endDateTo);
+            } else if (endDateFrom != null && resultsChecked != null) {
+                matchDaysList = matchDayRepository.findByEndDateGreaterThanEqualAndResultsChecked(endDateFrom, resultsChecked);
+            } else if (endDateTo != null && resultsChecked != null) {
+                matchDaysList = matchDayRepository.findByEndDateLessThanEqualAndResultsChecked(endDateTo, resultsChecked);
+            } else if (endDateFrom != null) {
+                matchDaysList = matchDayRepository.findByEndDateGreaterThanEqual(endDateFrom);
+            } else if (endDateTo != null) {
+                matchDaysList = matchDayRepository.findByEndDateLessThanEqual(endDateTo);
+            } else if (resultsChecked != null) {
+                matchDaysList = matchDayRepository.findByResultsChecked(resultsChecked);
+            } else {
+                matchDaysList = matchDayRepository.findAll();
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected error while searching completed match days in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+
+        if (CollectionUtils.isEmpty(matchDaysList)) {
+            logger.warn("Completed match days were not found in repository.");
+            throw new NotFoundException("Completed match days not found in repository.");
+        }
+
+        return matchDaysList.stream()
+                .map(matchDayMapper::matchDayEntityToDto)
+                .collect(Collectors.toList());
+    }
 
     @Transactional
     public MatchDay createMatchDay(MatchDayDTO matchDayDTO) {

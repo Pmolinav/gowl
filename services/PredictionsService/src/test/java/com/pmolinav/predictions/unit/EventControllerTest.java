@@ -3,6 +3,7 @@ package com.pmolinav.predictions.unit;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.EventDTO;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.model.Event;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -50,7 +51,7 @@ class EventControllerTest extends BaseUnitTest {
     @Test
     void createEventHappyPath() {
         Event event = new Event();
-        event.setEventId(1L);
+        event.setEventType(EventType.H2H.getName());
         when(eventServiceMock.createEvent(any(EventDTO.class))).thenReturn(event);
 
         eventDTO = new EventDTO();
@@ -58,7 +59,7 @@ class EventControllerTest extends BaseUnitTest {
 
         verify(eventServiceMock).createEvent(any(EventDTO.class));
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-        assertEquals(1L, result.getBody());
+        assertEquals(EventType.H2H.getName(), result.getBody());
     }
 
     @Test
@@ -72,36 +73,36 @@ class EventControllerTest extends BaseUnitTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
-    /* FIND EVENT BY ID */
+    /* FIND EVENT BY TYPE */
     @Test
-    void findEventByIdHappyPath() {
+    void findEventByTypeHappyPath() {
         EventDTO dto = new EventDTO();
-        when(eventServiceMock.findEventById(1L)).thenReturn(dto);
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenReturn(dto);
 
-        result = eventController.findEventById(1L);
+        result = eventController.findEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).findEventById(1L);
+        verify(eventServiceMock).findEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.OK, result.getStatusCode());
         assertEquals(dto, result.getBody());
     }
 
     @Test
-    void findEventByIdNotFound() {
-        when(eventServiceMock.findEventById(1L)).thenThrow(new NotFoundException("Not found"));
+    void findEventByTypeNotFound() {
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenThrow(new NotFoundException("Not found"));
 
-        result = eventController.findEventById(1L);
+        result = eventController.findEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).findEventById(1L);
+        verify(eventServiceMock).findEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 
     @Test
-    void findEventByIdServerError() {
-        when(eventServiceMock.findEventById(1L)).thenThrow(new InternalServerErrorException("Error"));
+    void findEventByTypeServerError() {
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenThrow(new InternalServerErrorException("Error"));
 
-        result = eventController.findEventById(1L);
+        result = eventController.findEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).findEventById(1L);
+        verify(eventServiceMock).findEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
@@ -140,41 +141,43 @@ class EventControllerTest extends BaseUnitTest {
 
     /* DELETE EVENT BY ID */
     @Test
-    void deleteEventByIdHappyPath() {
-        doNothing().when(eventServiceMock).deleteEventById(1L);
+    void deleteEventByEventTypeHappyPath() {
+        doNothing().when(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
 
-        result = eventController.deleteEventById(1L);
+        result = eventController.deleteEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).deleteEventById(1L);
+        verify(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.OK, result.getStatusCode());
     }
 
     @Test
-    void deleteEventByIdNotFound() {
-        doThrow(new NotFoundException("Not found")).when(eventServiceMock).deleteEventById(1L);
+    void deleteEventByEventTypeNotFound() {
+        doThrow(new NotFoundException("Not found"))
+                .when(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
 
-        result = eventController.deleteEventById(1L);
+        result = eventController.deleteEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).deleteEventById(1L);
+        verify(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
     }
 
     @Test
-    void deleteEventByIdServerError() {
-        doThrow(new InternalServerErrorException("Error")).when(eventServiceMock).deleteEventById(1L);
+    void deleteEventByEventTypeServerError() {
+        doThrow(new InternalServerErrorException("Error"))
+                .when(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
 
-        result = eventController.deleteEventById(1L);
+        result = eventController.deleteEventByEventType(EventType.H2H.getName());
 
-        verify(eventServiceMock).deleteEventById(1L);
+        verify(eventServiceMock).deleteEventByEventType(EventType.H2H.getName());
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
     /* Helpers */
     private List<EventDTO> expectedEvents() {
         EventDTO e1 = new EventDTO();
-        e1.setName("Event 1");
+        e1.setEventType(EventType.H2H.getName());
         EventDTO e2 = new EventDTO();
-        e2.setName("Event 2");
+        e2.setEventType(EventType.TOTALS.getName());
         return List.of(e1, e2);
     }
 

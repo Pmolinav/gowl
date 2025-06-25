@@ -25,6 +25,21 @@ public interface MatchDayRepository extends JpaRepository<MatchDay, MatchDayId> 
     List<MatchDay> findByStartDateLessThanEqual(Long dateTo);
 
     List<MatchDay> findBySynced(boolean synced);
+
+    List<MatchDay> findByEndDateBetweenAndResultsChecked(Long from, Long to, Boolean resultsChecked);
+
+    List<MatchDay> findByEndDateBetween(Long from, Long to);
+
+    List<MatchDay> findByEndDateGreaterThanEqualAndResultsChecked(Long from, Boolean resultsChecked);
+
+    List<MatchDay> findByEndDateLessThanEqualAndResultsChecked(Long to, Boolean resultsChecked);
+
+    List<MatchDay> findByEndDateGreaterThanEqual(Long from);
+
+    List<MatchDay> findByEndDateLessThanEqual(Long to);
+
+    List<MatchDay> findByResultsChecked(Boolean resultsChecked);
+
 }
 
 

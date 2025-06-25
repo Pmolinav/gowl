@@ -37,10 +37,10 @@ public class EventController {
         }
     }
 
-    @GetMapping("{id}")
-    public ResponseEntity<EventDTO> findEventById(@PathVariable Long id) {
+    @GetMapping("{type}")
+    public ResponseEntity<EventDTO> findEventByEventType(@PathVariable String type) {
         try {
-            EventDTO event = eventService.findEventById(id);
+            EventDTO event = eventService.findEventByEventType(type);
             return ResponseEntity.ok(event);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -62,19 +62,19 @@ public class EventController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createEvent(@RequestBody EventDTO eventDTO) {
+    public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO) {
         try {
             Event created = eventService.createEvent(eventDTO);
-            return new ResponseEntity<>(created.getEventId(), HttpStatus.CREATED);
+            return new ResponseEntity<>(created.getEventType(), HttpStatus.CREATED);
         } catch (InternalServerErrorException e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Void> updateEvent(@PathVariable Long id, @RequestBody EventDTO eventDTO) {
+    @PutMapping("/{type}")
+    public ResponseEntity<Void> updateEvent(@PathVariable String type, @RequestBody EventDTO eventDTO) {
         try {
-            eventService.updateEvent(id, eventDTO);
+            eventService.updateEvent(type, eventDTO);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -83,10 +83,10 @@ public class EventController {
         }
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteEventById(@PathVariable Long id) {
+    @DeleteMapping("{type}")
+    public ResponseEntity<Void> deleteEventByEventType(@PathVariable String type) {
         try {
-            eventService.deleteEventById(id);
+            eventService.deleteEventByEventType(type);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

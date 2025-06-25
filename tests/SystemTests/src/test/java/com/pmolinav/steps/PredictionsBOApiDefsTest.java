@@ -59,9 +59,8 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
             List<Event> events = rows.stream()
                     .map(row -> {
                         Event event = new Event();
-                        event.setEventId(Long.parseLong(row.get("event_id")));
+                        event.setEventType(row.get("event_type"));
                         event.setMatchId(Long.parseLong(row.get("match_id")));
-                        event.setName(row.get("name"));
                         event.setDescription(row.get("description"));
                         event.setCreationDate(row.get("creation_date") != null ?
                                 Long.parseLong(row.get("creation_date")) : null);
@@ -86,7 +85,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                     .map(row -> {
                         Odds odds = new Odds();
                         odds.setOddsId(Long.parseLong(row.get("odds_id")));
-                        odds.setEventId(Long.parseLong(row.get("event_id")));
+                        odds.setEventType(row.get("event_type"));
                         odds.setLabel(row.get("label"));
                         odds.setValue(new BigDecimal(row.get("value")));
                         odds.setActive(Boolean.parseBoolean(row.get("active")));
@@ -229,8 +228,8 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         EventDTO eventDto = new EventDTO();
+        eventDto.setEventType(row.get("event_type"));
         eventDto.setMatchId(Long.parseLong(row.get("match_id")));
-        eventDto.setName(row.get("name"));
         eventDto.setDescription(row.get("description"));
 
         try {
@@ -247,12 +246,12 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         EventDTO eventDto = new EventDTO();
+        eventDto.setEventType(row.get("event_type"));
         eventDto.setMatchId(Long.parseLong(row.get("match_id")));
-        eventDto.setName(row.get("name"));
         eventDto.setDescription(row.get("description"));
 
         try {
-            executePut(localURL + "/events/" + lastEvent.getEventId(),
+            executePut(localURL + "/events/" + lastEvent.getEventType(),
                     objectMapper.writeValueAsString(eventDto));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -265,9 +264,9 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/events");
     }
 
-    @When("^try to get an event by eventId$")
-    public void tryToGetEventByEventId() {
-        executeGet(localURL + "/events/" + lastEvent.getEventId());
+    @When("^try to get an event by eventType$")
+    public void tryToGetEventByEventType() {
+        executeGet(localURL + "/events/" + lastEvent.getEventType());
     }
 
     @When("^try to get events by matchId$")
@@ -275,9 +274,9 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/events/match/" + lastEvent.getMatchId());
     }
 
-    @When("^try to delete an event by eventId$")
-    public void tryToDeleteEventByEventId() {
-        executeDelete(localURL + "/events/" + lastEvent.getEventId());
+    @When("^try to delete an event by eventType$")
+    public void tryToDeleteEventByEventType() {
+        executeDelete(localURL + "/events/" + lastEvent.getEventType());
     }
 
     @When("^try to create new odds with data$")
@@ -286,7 +285,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         OddsDTO oddsDto = new OddsDTO();
-        oddsDto.setEventId(Long.parseLong(row.get("event_id")));
+        oddsDto.setEventType(row.get("event_type"));
         oddsDto.setLabel(row.get("label"));
         oddsDto.setValue(new BigDecimal(row.get("value")));
         oddsDto.setActive(Boolean.parseBoolean(row.get("active")));
@@ -305,7 +304,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         Map<String, String> row = rows.getFirst();
         OddsDTO oddsDto = new OddsDTO();
-        oddsDto.setEventId(Long.parseLong(row.get("event_id")));
+        oddsDto.setEventType(row.get("event_type"));
         oddsDto.setLabel(row.get("label"));
         oddsDto.setValue(new BigDecimal(row.get("value")));
         oddsDto.setActive(Boolean.parseBoolean(row.get("active")));
@@ -329,9 +328,9 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/odds/" + lastOdds.getOddsId());
     }
 
-    @When("^try to get odds by eventId$")
-    public void tryToGetOddsByEventId() {
-        executeGet(localURL + "/odds/events/" + lastOdds.getEventId());
+    @When("^try to get odds by eventType$")
+    public void tryToGetOddsByEventType() {
+        executeGet(localURL + "/odds/events/" + lastOdds.getEventType());
     }
 
     @When("^try to delete odds by oddsId$")
@@ -541,7 +540,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     public void eventWithNameHasBeenStoredSuccessfully(String name) throws JsonProcessingException {
         Event obtainedEvent = objectMapper.readValue(latestResponse.getBody(), Event.class);
         assertNotNull(obtainedEvent);
-        assertEquals(name, obtainedEvent.getName());
+        assertEquals(name, obtainedEvent.getEventType());
     }
 
     @Then("a list of events with name (\\w+) is returned in response$")
@@ -551,7 +550,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         assertNotNull(obtainedEvents);
         assertFalse(obtainedEvents.isEmpty());
         for (Event event : obtainedEvents) {
-            assertEquals(name, event.getName());
+            assertEquals(name, event.getEventType());
         }
     }
 
@@ -562,7 +561,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         });
         assertNotNull(obtainedEvents);
         for (String name : nameList) {
-            assertTrue(obtainedEvents.stream().anyMatch(event -> event.getName().equals(name)));
+            assertTrue(obtainedEvents.stream().anyMatch(event -> event.getEventType().equals(name)));
         }
     }
 

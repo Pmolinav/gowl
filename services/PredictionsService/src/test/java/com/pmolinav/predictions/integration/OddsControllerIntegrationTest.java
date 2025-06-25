@@ -73,7 +73,7 @@ class OddsControllerIntegrationTest extends AbstractContainerBaseTest {
         Event event = givenSomePreviouslyStoredEventWithId();
 
         OddsDTO requestDto = new OddsDTO();
-        requestDto.setEventId(event.getEventId());
+        requestDto.setEventType(event.getEventType());
         requestDto.setLabel("Win");
         requestDto.setValue(BigDecimal.valueOf(1.75));
         requestDto.setActive(true);

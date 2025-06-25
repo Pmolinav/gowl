@@ -4,6 +4,7 @@ import com.pmolinav.leagueslib.dto.MatchDayDTO;
 import com.pmolinav.matchdatasync.clients.ExternalMatchClient;
 import com.pmolinav.matchdatasync.clients.MatchDaysClient;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
+import com.pmolinav.matchdatasync.dto.ExternalMatchScoreDTO;
 import com.pmolinav.predictionslib.model.ExternalCategoryMapping;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,26 +23,31 @@ public class MatchDataSyncService {
     private final ExternalMatchClient externalMatchClient;
     private final ExternalCategoryMappingService externalCategoryMappingService;
     private final MatchDataProcessor matchDataProcessor;
+    private final PlayerBetDataProcessor playerBetDataProcessor;
 
-    @Value("${sync.matchday.offset-ms}")
-    private long offsetMs;
+    @Value("${sync.matchday.start.offset-ms}")
+    private long offsetStartMs;
+    @Value("${sync.matchday.end.offset-ms}")
+    private long offsetEndMs;
     @Value("${external.api.key}")
     private String apiKey;
 
     public MatchDataSyncService(MatchDaysClient matchDaysClient,
                                 ExternalMatchClient externalMatchClient,
                                 ExternalCategoryMappingService externalCategoryMappingService,
-                                MatchDataProcessor matchDataProcessor) {
+                                MatchDataProcessor matchDataProcessor,
+                                PlayerBetDataProcessor playerBetDataProcessor) {
         this.matchDaysClient = matchDaysClient;
         this.externalMatchClient = externalMatchClient;
         this.externalCategoryMappingService = externalCategoryMappingService;
         this.matchDataProcessor = matchDataProcessor;
+        this.playerBetDataProcessor = playerBetDataProcessor;
     }
 
-    @Scheduled(fixedRateString = "${sync.match.rate-ms}")
+    @Scheduled(fixedRateString = "${sync.matches.rate-ms}")
     public void scheduleMatchDaySync() {
         long now = System.currentTimeMillis();
-        long dateTo = now + offsetMs;
+        long dateTo = now + offsetStartMs;
 
         try {
             List<MatchDayDTO> upcomingMatchDays = matchDaysClient.findAllMatchDays(now, dateTo, false);
@@ -78,5 +84,49 @@ public class MatchDataSyncService {
             logger.error("Unexpected generic error occurred synchronizing match days.", e);
         }
     }
+
+    @Scheduled(fixedRateString = "${sync.results.rate-ms}")
+    public void schedulePlayerBetResultCheck() {
+        try {
+            long now = System.currentTimeMillis();
+            long dateFrom = now - offsetEndMs;
+
+            List<MatchDayDTO> completedMatchDays = matchDaysClient.findCompletedMatchDays(dateFrom, now, false);
+
+            if (completedMatchDays.isEmpty()) {
+                logger.debug("No completed match days pending result check were found.");
+                return;
+            }
+
+            for (MatchDayDTO matchDay : completedMatchDays) {
+                try {
+                    logger.debug("Checking results for MatchDay: {}", matchDay);
+
+                    ExternalCategoryMapping mapping = externalCategoryMappingService.cachedFindById(matchDay.getCategoryId());
+
+                    List<ExternalMatchScoreDTO> results = externalMatchClient.fetchResults(
+                            mapping.getExternalSportKey(),
+                            apiKey,
+                            3 // This can be configurable too
+                    );
+
+                    boolean allChecked = playerBetDataProcessor.processResults(matchDay, results);
+
+                    if (allChecked) {
+                        matchDay.setResultsChecked(true); // Nuevo flag similar a "synced"
+                        matchDaysClient.updateMatchDay(matchDay);
+                    } else {
+                        logger.info("Some player bets are still pending result resolution for MatchDay: {}", matchDay);
+                    }
+
+                } catch (Exception e) {
+                    logger.error("Error while checking results for MatchDay: {}", matchDay, e);
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Generic error occurred while checking player bet results.", e);
+        }
+    }
+
 }
 

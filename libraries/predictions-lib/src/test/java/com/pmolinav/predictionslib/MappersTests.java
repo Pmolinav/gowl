@@ -47,25 +47,23 @@ class MappersTests {
 
     @Test
     void eventDtoToEntityTest() {
-        EventDTO dto = new EventDTO(2L, "Over 2.5 goals",
-                "Total goals over 2.5");
+        EventDTO dto = new EventDTO(EventType.H2H.getName(), 2L,
+                EventType.H2H.getDescription());
 
-        Event expected = new Event(1L, 2L, "Over 2.5 goals",
-                "Total goals over 2.5", null, null);
+        Event expected = new Event(EventType.H2H.getName(), 2L,
+                EventType.H2H.getDescription(), null, null);
 
         Event actual = eventMapper.eventDtoToEntity(dto);
-        actual.setEventId(1L);
 
         assertEquals(expected, actual);
     }
 
     @Test
     void eventEntityToDtoTest() {
-        Event entity = new Event(2L, 1L, "Over 2.5 goals",
-                "Total goals over 2.5", 123L, 456L);
+        Event entity = new Event(EventType.H2H.getName(), 1L,
+                EventType.H2H.getDescription(), 123L, 456L);
 
-        EventDTO expected = new EventDTO(1L, "Over 2.5 goals",
-                "Total goals over 2.5");
+        EventDTO expected = new EventDTO(EventType.H2H.getName(), 1L, EventType.H2H.getDescription());
 
         EventDTO actual = eventMapper.eventEntityToDto(entity);
 
@@ -74,10 +72,10 @@ class MappersTests {
 
     @Test
     void oddsDtoToEntityTest() {
-        OddsDTO dto = new OddsDTO(2L, "Over", BigDecimal.valueOf(1.85),
+        OddsDTO dto = new OddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
                 BigDecimal.valueOf(1.5), true);
 
-        Odds expected = new Odds(1L, 2L, "Over", BigDecimal.valueOf(1.85),
+        Odds expected = new Odds(1L, EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
                 BigDecimal.valueOf(1.5), true, null, null);
 
         Odds actual = oddsMapper.oddsDtoToEntity(dto);
@@ -88,10 +86,10 @@ class MappersTests {
 
     @Test
     void oddsEntityToDtoTest() {
-        Odds entity = new Odds(2L, 1L, "Over", BigDecimal.valueOf(1.85),
+        Odds entity = new Odds(2L, EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
                 BigDecimal.valueOf(2.5), true, 1000L, 2000L);
 
-        OddsDTO expected = new OddsDTO(1L, "Over", BigDecimal.valueOf(1.85),
+        OddsDTO expected = new OddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
                 BigDecimal.valueOf(2.5), true);
 
         OddsDTO actual = oddsMapper.oddsEntityToDto(entity);
@@ -126,16 +124,16 @@ class MappersTests {
     void playerBetDtoToEntityWithSelectionTest() {
         PlayerBetDTO dto = new PlayerBetDTO("user123", 3L,
                 BigDecimal.TEN, List.of(
-                new PlayerBetSelectionDTO(3L, BigDecimal.ONE),
-                new PlayerBetSelectionDTO(4L, BigDecimal.TWO)
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 4L, BigDecimal.TWO)
         ));
 
         PlayerBet expected = new PlayerBet(1L, "user123",
                 3L, BigDecimal.TEN, 123456789L);
         expected.setSelections(List.of(
-                new PlayerBetSelection(11L, 1L, 3L,
+                new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 3L,
                         BigDecimal.ONE, 123456789L),
-                new PlayerBetSelection(11L, 1L, 4L,
+                new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 4L,
                         BigDecimal.TWO, 123456789L)
         ));
 
@@ -143,7 +141,7 @@ class MappersTests {
         actual.setBetId(1L);
         actual.setSelections(actual.getSelections().stream()
                 .map(playerBetSelection -> new PlayerBetSelection(
-                        11L, 1L, playerBetSelection.getOddsId(),
+                        11L, 1L, playerBetSelection.getEventType(), playerBetSelection.getOddsId(),
                         playerBetSelection.getStake(), playerBetSelection.getCreationDate())).toList());
 
         assertEquals(expected, actual);
@@ -154,16 +152,16 @@ class MappersTests {
         PlayerBet entity = new PlayerBet(1L, "user123",
                 3L, BigDecimal.TEN, 123456789L);
         entity.setSelections(List.of(
-                new PlayerBetSelection(11L, 1L, 3L,
+                new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 3L,
                         BigDecimal.ONE, 123456789L),
-                new PlayerBetSelection(11L, 1L, 4L,
+                new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 4L,
                         BigDecimal.TWO, 123456789L)
         ));
 
         PlayerBetDTO expected = new PlayerBetDTO("user123", 3L,
                 BigDecimal.TEN, List.of(
-                new PlayerBetSelectionDTO(3L, BigDecimal.ONE),
-                new PlayerBetSelectionDTO(4L, BigDecimal.TWO)
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 4L, BigDecimal.TWO)
         ));
 
         PlayerBetDTO actual = playerBetMapper.playerBetEntityToDto(entity);
@@ -173,9 +171,9 @@ class MappersTests {
 
     @Test
     void playerBetSelectionDtoToEntityTest() {
-        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(3L, BigDecimal.valueOf(100.50));
+        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(EventType.TOTALS.getName(), 3L, BigDecimal.valueOf(100.50));
 
-        PlayerBetSelection expected = new PlayerBetSelection(1L, 2L,
+        PlayerBetSelection expected = new PlayerBetSelection(1L, 2L, EventType.TOTALS.getName(),
                 3L, BigDecimal.valueOf(100.50), null);
 
         PlayerBetSelection actual = playerBetSelectionMapper.playerBetSelectionDtoToEntity(dto);
@@ -187,10 +185,10 @@ class MappersTests {
 
     @Test
     void playerBetSelectionEntityToDtoTest() {
-        PlayerBetSelection entity = new PlayerBetSelection(1L, 2L,
+        PlayerBetSelection entity = new PlayerBetSelection(1L, 2L, EventType.SPREADS.getName(),
                 3L, BigDecimal.valueOf(100.50), 555555L);
 
-        PlayerBetSelectionDTO expected = new PlayerBetSelectionDTO(3L, BigDecimal.valueOf(100.50));
+        PlayerBetSelectionDTO expected = new PlayerBetSelectionDTO(EventType.SPREADS.getName(), 3L, BigDecimal.valueOf(100.50));
 
         PlayerBetSelectionDTO actual = playerBetSelectionMapper.playerBetSelectionEntityToDto(entity);
 

@@ -2,6 +2,7 @@ package com.pmolinav.prediction.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,8 +58,8 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findOddsByEventIdInternalServerError() throws Exception {
-        andFindOddsByEventIdThrowsNonRetryableException();
+    void findOddsByEventTypeInternalServerError() throws Exception {
+        andFindOddsByEventTypeThrowsNonRetryableException();
 
         mockMvc.perform(get("/odds/events/123?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
@@ -66,8 +67,8 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findOddsByEventIdHappyPath() throws Exception {
-        andFindOddsByEventIdReturnedOdds();
+    void findOddsByEventTypeHappyPath() throws Exception {
+        andFindOddsByEventTypeReturnedOdds();
 
         MvcResult result = mockMvc.perform(get("/odds/events/1?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
@@ -84,7 +85,7 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
     // ----- Mock setup helpers -----
 
     private void andFindOddsByIdReturnedOdds() {
-        this.expectedOdds = List.of(new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true));
+        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true));
         when(this.oddsClient.findById(anyLong())).thenReturn(expectedOdds.getFirst());
     }
 
@@ -92,13 +93,13 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
         doThrow(new RuntimeException("someException")).when(this.oddsClient).findById(anyLong());
     }
 
-    private void andFindOddsByEventIdReturnedOdds() {
-        this.expectedOdds = List.of(new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true));
-        when(this.oddsClient.findByEventId(anyLong())).thenReturn(expectedOdds);
+    private void andFindOddsByEventTypeReturnedOdds() {
+        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true));
+        when(this.oddsClient.findByEventType(anyString())).thenReturn(expectedOdds);
     }
 
-    private void andFindOddsByEventIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findByEventId(anyLong());
+    private void andFindOddsByEventTypeThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.oddsClient).findByEventType(anyString());
     }
 
 }

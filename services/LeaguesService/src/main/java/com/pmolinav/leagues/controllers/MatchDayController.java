@@ -41,6 +41,20 @@ public class MatchDayController {
             return ResponseEntity.internalServerError().build();
         }
     }
+    @GetMapping("/completed")
+    public ResponseEntity<List<MatchDayDTO>> findCompletedMatchDays(
+            @RequestParam(required = false) Long endDateFrom,
+            @RequestParam(required = false) Long endDateTo,
+            @RequestParam(required = false) Boolean resultsChecked) {
+        try {
+            List<MatchDayDTO> matchDays = matchDayService.findCompletedMatchDays(endDateFrom, endDateTo, resultsChecked);
+            return ResponseEntity.ok(matchDays);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     @PostMapping
     public ResponseEntity<MatchDayId> createMatchDay(@RequestBody MatchDayDTO matchDayDTO) {

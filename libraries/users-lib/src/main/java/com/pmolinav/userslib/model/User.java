@@ -3,7 +3,6 @@ package com.pmolinav.userslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -37,6 +36,7 @@ public class User {
 
     @Column(name = "modificationDate")
     private Long modificationDate;
+
 
     @ManyToMany
     @JoinTable(

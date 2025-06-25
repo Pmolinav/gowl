@@ -1,5 +1,7 @@
 package com.pmolinav.predictionslib.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.pmolinav.predictionslib.dto.PlayerBetStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,15 +35,29 @@ public class PlayerBet {
     @Column(name = "total_stake", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalStake;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private PlayerBetStatus status = PlayerBetStatus.PENDING;
+
     @Column(name = "creation_date")
     private Long creationDate;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "match_id", nullable = false, insertable = false, updatable = false)
     private Match match;
 
-    @OneToMany(mappedBy = "playerBet", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "playerBet", fetch = FetchType.LAZY)
     private List<PlayerBetSelection> selections;
+
+    public PlayerBet(Long betId, String username, Long matchId, BigDecimal totalStake, PlayerBetStatus status, Long creationDate) {
+        this.betId = betId;
+        this.username = username;
+        this.matchId = matchId;
+        this.totalStake = totalStake;
+        this.status = status;
+        this.creationDate = creationDate;
+    }
 
     public PlayerBet(Long betId, String username, Long matchId, BigDecimal totalStake, Long creationDate) {
         this.betId = betId;
@@ -49,6 +65,20 @@ public class PlayerBet {
         this.matchId = matchId;
         this.totalStake = totalStake;
         this.creationDate = creationDate;
+    }
+
+    public BigDecimal getCalculatedStake() {
+        return totalStake != null ? totalStake :
+                selections.stream()
+                        .map(PlayerBetSelection::getStake)
+                        .reduce(BigDecimal.ONE, BigDecimal::multiply);
+    }
+
+    @JsonIgnore
+    public void setCalculatedStake() {
+        this.totalStake = selections.stream()
+                .map(PlayerBetSelection::getStake)
+                .reduce(BigDecimal.ONE, BigDecimal::multiply);
     }
 
     @Override

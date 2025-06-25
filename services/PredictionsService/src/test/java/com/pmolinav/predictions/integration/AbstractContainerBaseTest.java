@@ -2,6 +2,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictions.repositories.*;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,6 +32,7 @@ public abstract class AbstractContainerBaseTest {
     static String password;
 
     protected static Match lastMatch;
+    protected static Event lastEvent;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -97,26 +99,28 @@ public abstract class AbstractContainerBaseTest {
 
         Event event = new Event();
         event.setMatchId(match.getMatchId());
-        event.setName("Goals");
+        event.setEventType(EventType.H2H.getName());
         event.setDescription("Number of goals in the match");
 
-        return eventRepository.save(event);
+        lastEvent = eventRepository.save(event);
+        return lastEvent;
     }
 
     protected Event givenSomePreviouslyStoredEventWithMatchId(long matchId) {
         Event event = new Event();
         event.setMatchId(matchId);
-        event.setName("Goals");
+        event.setEventType(EventType.H2H.getName());
         event.setDescription("Number of goals in the match");
 
-        return eventRepository.save(event);
+        lastEvent = eventRepository.save(event);
+        return lastEvent;
     }
 
     protected Odds givenSomePreviouslyStoredOddsWithId() {
         Event event = givenSomePreviouslyStoredEventWithId();
 
         Odds odds = new Odds();
-        odds.setEventId(event.getEventId());
+        odds.setEventType(event.getEventType());
         odds.setLabel("Over 2.5");
         odds.setValue(BigDecimal.valueOf(2.10));
         odds.setActive(true);

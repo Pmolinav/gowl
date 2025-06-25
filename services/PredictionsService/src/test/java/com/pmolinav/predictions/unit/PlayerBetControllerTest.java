@@ -2,6 +2,7 @@ package com.pmolinav.predictions.unit;
 
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.PlayerBet;
@@ -62,7 +63,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
         playerBet.setBetId(1L);
 
         playerBetDTO = new PlayerBetDTO();
-        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
+        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         when(playerBetServiceMock.create(any(PlayerBetDTO.class))).thenReturn(playerBet);
 
@@ -88,7 +89,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
     @Test
     void createPlayerBetServerError() {
         playerBetDTO = new PlayerBetDTO();
-        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
+        playerBetDTO.setSelections(List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         when(playerBetServiceMock.create(any(PlayerBetDTO.class))).thenThrow(new InternalServerErrorException("Error"));
 

@@ -2,6 +2,7 @@ package com.pmolinav.predictions.units;
 
 import com.pmolinav.predictions.exceptions.CustomStatusException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -121,13 +122,13 @@ class PlayerBetSelectionBOControllerTest extends BaseUnitTest {
     // --- SETUP MOCKS ---
 
     private void givenValidDTO() {
-        dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
+        dto = new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE);
     }
 
     private void whenFindAllReturnsList() {
         expectedList = List.of(
-                new PlayerBetSelectionDTO(3L, BigDecimal.ONE),
-                new PlayerBetSelectionDTO(4L, BigDecimal.ONE)
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 4L, BigDecimal.ONE)
         );
         when(playerBetSelectionBOServiceMock.findAll()).thenReturn(expectedList);
     }
@@ -141,7 +142,7 @@ class PlayerBetSelectionBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindByIdReturnsDTO() {
-        dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
+        dto = new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE);
         when(playerBetSelectionBOServiceMock.findById(1L)).thenReturn(dto);
     }
 

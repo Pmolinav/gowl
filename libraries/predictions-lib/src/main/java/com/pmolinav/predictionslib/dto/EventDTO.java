@@ -13,12 +13,12 @@ import lombok.*;
 @ToString
 public class EventDTO {
 
+    @NotBlank(message = "Event type is mandatory.")
+    @Size(max = 100, message = "Event type must be at most 100 characters.")
+    private String eventType;
+
     @NotNull(message = "Match ID must not be null.")
     private Long matchId;
-
-    @NotBlank(message = "Event name is mandatory.")
-    @Size(max = 100, message = "Event name must be at most 100 characters.")
-    private String name;
 
     @Size(max = 255, message = "Description must be at most 255 characters.")
     private String description;

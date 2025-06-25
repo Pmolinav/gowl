@@ -3,6 +3,7 @@ package com.pmolinav.prediction.units;
 import com.pmolinav.prediction.exceptions.InternalServerErrorException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.EventDTO;
+import com.pmolinav.predictionslib.dto.EventType;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -74,7 +75,7 @@ class EventControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
-        eventDTO = new EventDTO(2L, "Event Test", "Some description");
+        eventDTO = new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
         when(eventServiceMock.findEventById(1L)).thenReturn(eventDTO);
     }
 
@@ -88,7 +89,7 @@ class EventControllerTest extends BaseUnitTest {
 
     private void whenFindEventByMatchIdInServiceReturnedValidEvent() {
         expectedEvents = List.of(
-                new EventDTO(2L, "Event Test", "Some description")
+                new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription())
         );
         when(eventServiceMock.findEventsByMatchId(1L)).thenReturn(expectedEvents);
     }

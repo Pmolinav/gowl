@@ -68,17 +68,17 @@ public class OddsService {
     }
 
     @Transactional(readOnly = true)
-    public List<OddsDTO> findOddsByEventId(Long eventId) {
+    public List<OddsDTO> findOddsByEventType(String eventType) {
         List<Odds> oddsList;
         try {
-            oddsList = oddsRepository.findByEventId(eventId);
+            oddsList = oddsRepository.findByEventType(eventType);
         } catch (Exception e) {
-            logger.error("Error while retrieving odds by eventId {}", eventId, e);
+            logger.error("Error while retrieving odds by eventType {}", eventType, e);
             throw new InternalServerErrorException(e.getMessage());
         }
         if (CollectionUtils.isEmpty(oddsList)) {
-            logger.warn("No odds found for eventId {}", eventId);
-            throw new NotFoundException("No odds found for provided eventId.");
+            logger.warn("No odds found for eventType {}", eventType);
+            throw new NotFoundException("No odds found for provided eventType.");
         }
         return oddsList.stream().map(oddsMapper::oddsEntityToDto).collect(Collectors.toList());
     }

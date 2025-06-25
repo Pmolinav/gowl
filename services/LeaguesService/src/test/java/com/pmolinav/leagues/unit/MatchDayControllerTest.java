@@ -221,7 +221,7 @@ class MatchDayControllerTest extends BaseUnitTest {
     private void whenCreateMatchDayInServiceReturnedAValidMatchDay() {
         when(matchDayServiceMock.createMatchDay(any()))
                 .thenReturn(new MatchDay("PREMIER", 2025,
-                        10, 12345L, 12345678L, false));
+                        10, 12345L, 12345678L, false, false));
     }
 
     private void whenCreateMatchDayInServiceThrowsServerException() {

@@ -63,7 +63,7 @@ public class ExternalCategoryMappingService {
     }
 
     @CacheEvict(value = "externalSportKeyCache", allEntries = true)
-    public void clearAllCache() {
+    public void clearAllCategoryCache() {
         // No operation. Manual invalidation for all entries.
         logger.debug("Categories cache (externalSportKeyCache) was completely invalidated.");
     }

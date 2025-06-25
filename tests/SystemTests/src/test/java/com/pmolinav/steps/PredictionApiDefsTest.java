@@ -34,9 +34,9 @@ public class PredictionApiDefsTest extends BaseSystemTest {
                 + "/number/" + lastMatch.getMatchDayNumber());
     }
 
-    @When("^try to get an event by eventId with public endpoint$")
-    public void tryToGetEventByEventIdPublicEndpoint() {
-        executeGet(localURL + "/events/" + lastEvent.getEventId());
+    @When("^try to get an event by eventType with public endpoint$")
+    public void tryToGetEventByEventTypePublicEndpoint() {
+        executeGet(localURL + "/events/" + lastEvent.getEventType());
     }
 
     @When("^try to get events by matchId with public endpoint$")
@@ -49,9 +49,9 @@ public class PredictionApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/odds/" + lastOdds.getOddsId());
     }
 
-    @When("^try to get odds by eventId with public endpoint")
-    public void tryToGetOddsByEventIdPublicEndpoint() {
-        executeGet(localURL + "/odds/events/" + lastOdds.getEventId());
+    @When("^try to get odds by eventType with public endpoint")
+    public void tryToGetOddsByEventTypePublicEndpoint() {
+        executeGet(localURL + "/odds/events/" + lastOdds.getEventType());
     }
 
     @When("^try to create new player bet with data with public endpoint$")

@@ -2,6 +2,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,7 +87,7 @@ class PlayerBetSelectionBOControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetSelectionInternalServerError() throws Exception {
         andCreateSelectionThrowsException();
 
-        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
+        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE);
 
         mockMvc.perform(post("/player-bet-selections?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -99,7 +100,7 @@ class PlayerBetSelectionBOControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetSelectionHappyPath() throws Exception {
         andCreateSelectionReturnsValidId();
 
-        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(3L, BigDecimal.ONE);
+        PlayerBetSelectionDTO dto = new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE);
 
         MvcResult result = mockMvc.perform(post("/player-bet-selections?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -137,8 +138,8 @@ class PlayerBetSelectionBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindAllSelectionsReturnsValidList() {
-        expectedSelections = List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE),
-                new PlayerBetSelectionDTO(3L, BigDecimal.ONE));
+        expectedSelections = List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
+                new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE));
         when(this.playerBetSelectionClient.findAll()).thenReturn(expectedSelections);
     }
 
@@ -147,7 +148,7 @@ class PlayerBetSelectionBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindByIdReturnsValid() {
-        expectedSelections = List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE));
+        expectedSelections = List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE));
         when(this.playerBetSelectionClient.findById(4L)).thenReturn(expectedSelections.getFirst());
     }
 

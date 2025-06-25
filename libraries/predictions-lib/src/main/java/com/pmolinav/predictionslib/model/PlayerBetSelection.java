@@ -1,5 +1,6 @@
 package com.pmolinav.predictionslib.model;
 
+import com.pmolinav.predictionslib.dto.PlayerBetStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,26 +27,51 @@ public class PlayerBetSelection {
     @Column(name = "bet_id", nullable = false)
     private Long betId;
 
+    @Column(name = "event_type", nullable = false)
+    private String eventType;
+
     @Column(name = "odds_id", nullable = false)
     private Long oddsId;
 
     @Column(name = "stake", nullable = false, precision = 10, scale = 2)
     private BigDecimal stake;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false, length = 20)
+    private PlayerBetStatus status = PlayerBetStatus.PENDING;
+
     @Column(name = "creation_date")
     private Long creationDate;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bet_id", nullable = false, insertable = false, updatable = false)
     private PlayerBet playerBet;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "odds_id", nullable = false, insertable = false, updatable = false)
     private Odds odds;
 
-    public PlayerBetSelection(Long selectionId, Long betId, Long oddsId, BigDecimal stake, Long creationDate) {
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "event_type", nullable = false, insertable = false, updatable = false)
+    private Event event;
+
+    public PlayerBetSelection(Long selectionId, Long betId, String eventType, Long oddsId, BigDecimal stake, PlayerBetStatus status, Long creationDate) {
         this.selectionId = selectionId;
         this.betId = betId;
+        this.eventType = eventType;
+        this.oddsId = oddsId;
+        this.stake = stake;
+        this.status = status;
+        this.creationDate = creationDate;
+    }
+
+    public PlayerBetSelection(Long selectionId, Long betId, String eventType, Long oddsId, BigDecimal stake, Long creationDate) {
+        this.selectionId = selectionId;
+        this.betId = betId;
+        this.eventType = eventType;
         this.oddsId = oddsId;
         this.stake = stake;
         this.creationDate = creationDate;
@@ -58,12 +84,14 @@ public class PlayerBetSelection {
         PlayerBetSelection that = (PlayerBetSelection) o;
         return Objects.equals(selectionId, that.selectionId)
                 && Objects.equals(betId, that.betId)
+                && Objects.equals(eventType, that.eventType)
                 && Objects.equals(oddsId, that.oddsId)
-                && Objects.equals(stake, that.stake);
+                && Objects.equals(stake, that.stake)
+                && Objects.equals(status, that.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(selectionId, betId, oddsId, stake);
+        return Objects.hash(selectionId, betId, eventType, oddsId, stake, status);
     }
 }

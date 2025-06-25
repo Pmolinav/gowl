@@ -1,10 +1,8 @@
 package com.pmolinav.matchdatasync.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.matchdatasync.repositories.EventRepository;
-import com.pmolinav.matchdatasync.repositories.ExternalCategoryMappingRepository;
-import com.pmolinav.matchdatasync.repositories.MatchRepository;
-import com.pmolinav.matchdatasync.repositories.OddsRepository;
+import com.pmolinav.matchdatasync.repositories.*;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
@@ -12,7 +10,6 @@ import com.pmolinav.predictionslib.model.Odds;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -20,7 +17,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.testcontainers.containers.PostgreSQLContainer;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -54,6 +50,10 @@ public abstract class AbstractContainerBaseTest {
     @Autowired
     protected EventRepository eventRepository;
     @Autowired
+    protected PlayerBetRepository playerBetRepository;
+    @Autowired
+    protected PlayerBetSelectionRepository playerBetSelectionRepository;
+    @Autowired
     protected ExternalCategoryMappingRepository mappingRepository;
     @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
@@ -79,6 +79,8 @@ public abstract class AbstractContainerBaseTest {
     @BeforeEach
     public void givenEmptyTablesBeforeTests() {
         try {
+            playerBetSelectionRepository.deleteAll();
+            playerBetRepository.deleteAll();
             oddsRepository.deleteAll();
             eventRepository.deleteAll();
             matchRepository.deleteAll();
@@ -106,8 +108,8 @@ public abstract class AbstractContainerBaseTest {
         Match match = givenSomePreviouslyStoredMatchWithId();
 
         Event event = new Event();
+        event.setEventType(EventType.H2H.getName());
         event.setMatchId(match.getMatchId());
-        event.setName("Goals");
         event.setDescription("Number of goals in the match");
 
         return eventRepository.save(event);
@@ -115,8 +117,8 @@ public abstract class AbstractContainerBaseTest {
 
     protected Event givenSomePreviouslyStoredEventWithMatchId(long matchId) {
         Event event = new Event();
+        event.setEventType(EventType.H2H.getName());
         event.setMatchId(matchId);
-        event.setName("Goals");
         event.setDescription("Number of goals in the match");
 
         return eventRepository.save(event);
@@ -126,7 +128,7 @@ public abstract class AbstractContainerBaseTest {
         Event event = givenSomePreviouslyStoredEventWithId();
 
         Odds odds = new Odds();
-        odds.setEventId(event.getEventId());
+        odds.setEventType(event.getEventType());
         odds.setLabel("Over 2.5");
         odds.setValue(BigDecimal.valueOf(2.10));
         odds.setActive(true);
@@ -136,10 +138,10 @@ public abstract class AbstractContainerBaseTest {
 
     protected String readJsonFromResource(String relativePath) {
         try {
-            // Partimos desde el directorio actual del test: src/test/java (por defecto)
+            // From the current test directory: src/test/java (as default).
             Path basePath = Paths.get("src/test/java")
                     .resolve(Paths.get(this.getClass()
-                            .getPackageName().replace(".", "/"))); // carpeta donde está el test
+                            .getPackageName().replace(".", "/"))); // Folder where the test is.
 
             Path fullPath = basePath.resolve(relativePath);
             return Files.readString(fullPath, StandardCharsets.UTF_8);

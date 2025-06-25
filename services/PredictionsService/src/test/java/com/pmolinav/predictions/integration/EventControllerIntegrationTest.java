@@ -2,6 +2,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.predictionslib.dto.EventDTO;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
 import org.junit.jupiter.api.Test;
@@ -33,7 +34,6 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
     @Test
     void findAllEventsHappyPath() throws Exception {
         givenSomePreviouslyStoredEventWithId();
-        givenSomePreviouslyStoredEventWithId();
 
         MvcResult result = mockMvc.perform(get("/events"))
                 .andExpect(status().isOk())
@@ -43,20 +43,20 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
                 new TypeReference<List<EventDTO>>() {
                 });
 
-        assertEquals(2, eventResponseList.size());
+        assertEquals(1, eventResponseList.size());
     }
 
     @Test
-    void findEventByIdNotFound() throws Exception {
+    void findEventByEventTypeNotFound() throws Exception {
         mockMvc.perform(get("/events/999999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void findEventByIdHappyPath() throws Exception {
+    void findEventByEventTypeHappyPath() throws Exception {
         Event storedEvent = givenSomePreviouslyStoredEventWithId();
 
-        MvcResult result = mockMvc.perform(get("/events/" + storedEvent.getEventId()))
+        MvcResult result = mockMvc.perform(get("/events/" + storedEvent.getEventType()))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -65,7 +65,7 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
                 });
 
         assertNotNull(eventResponse);
-        assertEquals(storedEvent.getName(), eventResponse.getName());
+        assertEquals(storedEvent.getEventType(), eventResponse.getEventType());
     }
 
     @Test
@@ -89,7 +89,7 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
 
         assertNotNull(eventResponse);
         assertEquals(1, eventResponse.size());
-        assertEquals(storedEvent.getName(), eventResponse.getFirst().getName());
+        assertEquals(storedEvent.getEventType(), eventResponse.getFirst().getEventType());
     }
 
     @Test
@@ -97,8 +97,8 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
         Match match = givenSomePreviouslyStoredMatchWithId();
 
         EventDTO requestDto = new EventDTO();
+        requestDto.setEventType(EventType.H2H.getName());
         requestDto.setMatchId(match.getMatchId());
-        requestDto.setName("New Event");
         requestDto.setDescription("Event Description");
 
         MvcResult result = mockMvc.perform(post("/events")
@@ -108,37 +108,24 @@ class EventControllerIntegrationTest extends AbstractContainerBaseTest {
                 .andReturn();
 
         String responseBody = result.getResponse().getContentAsString();
-        Long createdEventId = Long.parseLong(responseBody);
 
-        assertTrue(eventRepository.existsById(createdEventId));
+        assertTrue(eventRepository.existsById(responseBody));
     }
 
     @Test
-    void createEventServerError() throws Exception {
-        EventDTO requestDto = new EventDTO();
-        requestDto.setMatchId(999999L);
-        requestDto.setName("Invalid Event");
-
-        mockMvc.perform(post("/events")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(requestDto)))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void deleteEventByIdNotFound() throws Exception {
+    void deleteEventByEventTypeNotFound() throws Exception {
         mockMvc.perform(delete("/events/999999"))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void deleteEventByIdHappyPath() throws Exception {
+    void deleteEventByEventTypeHappyPath() throws Exception {
         Event event = givenSomePreviouslyStoredEventWithId();
 
-        mockMvc.perform(delete("/events/" + event.getEventId()))
+        mockMvc.perform(delete("/events/" + event.getEventType()))
                 .andExpect(status().isOk());
 
-        assertFalse(eventRepository.existsById(event.getEventId()));
+        assertFalse(eventRepository.existsById(event.getEventType()));
     }
 
 }

@@ -2,6 +2,7 @@ package com.pmolinav.prediction.units;
 
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -48,34 +49,34 @@ class OddsControllerTest extends BaseUnitTest {
 
     /* FIND ODDS BY EVENT ID */
     @Test
-    void findOddByEventIdHappyPath() {
-        whenFindOddByEventIdInServiceReturnedValidOdd();
-        andFindOddByEventIdIsCalledInController();
-        thenVerifyFindOddByEventIdHasBeenCalledInService();
+    void findOddByEventTypeHappyPath() {
+        whenFindOddByEventTypeInServiceReturnedValidOdd();
+        andFindOddByEventTypeIsCalledInController();
+        thenVerifyFindOddByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
         thenReceivedResponseListIs(expectedOdds);
     }
 
     @Test
-    void findOddByEventIdNotFound() {
-        whenFindOddByEventIdInServiceThrowsNotFoundException();
-        andFindOddByEventIdIsCalledInController();
-        thenVerifyFindOddByEventIdHasBeenCalledInService();
+    void findOddByEventTypeNotFound() {
+        whenFindOddByEventTypeInServiceThrowsNotFoundException();
+        andFindOddByEventTypeIsCalledInController();
+        thenVerifyFindOddByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
-    void findOddByEventIdServerError() {
-        whenFindOddByEventIdInServiceThrowsServerException();
-        andFindOddByEventIdIsCalledInController();
-        thenVerifyFindOddByEventIdHasBeenCalledInService();
+    void findOddByEventTypeServerError() {
+        whenFindOddByEventTypeInServiceThrowsServerException();
+        andFindOddByEventTypeIsCalledInController();
+        thenVerifyFindOddByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
-        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
         when(oddsServiceMock.findById(1L)).thenReturn(oddsDTO);
     }
 
@@ -87,19 +88,19 @@ class OddsControllerTest extends BaseUnitTest {
         when(oddsServiceMock.findById(1L)).thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
-    private void whenFindOddByEventIdInServiceReturnedValidOdd() {
+    private void whenFindOddByEventTypeInServiceReturnedValidOdd() {
         expectedOdds = List.of(
-                new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true)
+                new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true)
         );
-        when(oddsServiceMock.findByEventId(1L)).thenReturn(expectedOdds);
+        when(oddsServiceMock.findByEventType(EventType.H2H.getName())).thenReturn(expectedOdds);
     }
 
-    private void whenFindOddByEventIdInServiceThrowsNotFoundException() {
-        when(oddsServiceMock.findByEventId(1L)).thenThrow(new NotFoundException("Odd not found"));
+    private void whenFindOddByEventTypeInServiceThrowsNotFoundException() {
+        when(oddsServiceMock.findByEventType(EventType.H2H.getName())).thenThrow(new NotFoundException("Odd not found"));
     }
 
-    private void whenFindOddByEventIdInServiceThrowsServerException() {
-        when(oddsServiceMock.findByEventId(1L)).thenThrow(new CustomStatusException("Internal Server Error", 500));
+    private void whenFindOddByEventTypeInServiceThrowsServerException() {
+        when(oddsServiceMock.findByEventType(EventType.H2H.getName())).thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
 
@@ -109,8 +110,8 @@ class OddsControllerTest extends BaseUnitTest {
         result = oddsController.findOddsById(requestUid, 1L);
     }
 
-    private void andFindOddByEventIdIsCalledInController() {
-        result = oddsController.findOddsByEventId(requestUid, 1L);
+    private void andFindOddByEventTypeIsCalledInController() {
+        result = oddsController.findOddsByEventType(requestUid, EventType.H2H.getName());
     }
 
     // --- VERIFY SERVICE CALLS ---
@@ -119,8 +120,8 @@ class OddsControllerTest extends BaseUnitTest {
         verify(oddsServiceMock, times(1)).findById(1L);
     }
 
-    private void thenVerifyFindOddByEventIdHasBeenCalledInService() {
-        verify(oddsServiceMock, times(1)).findByEventId(1L);
+    private void thenVerifyFindOddByEventTypeHasBeenCalledInService() {
+        verify(oddsServiceMock, times(1)).findByEventType(EventType.H2H.getName());
     }
 
     // --- ASSERTIONS ---

@@ -5,10 +5,12 @@ import com.pmolinav.matchdatasync.dto.ExternalBookmakerDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMarketDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
 import com.pmolinav.matchdatasync.dto.ExternalOutcomeDTO;
+import com.pmolinav.matchdatasync.exceptions.NotFoundException;
 import com.pmolinav.matchdatasync.services.EventService;
 import com.pmolinav.matchdatasync.services.MatchDataProcessor;
 import com.pmolinav.matchdatasync.services.MatchService;
 import com.pmolinav.matchdatasync.services.OddsService;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.model.Event;
 import com.pmolinav.predictionslib.model.Match;
@@ -94,8 +96,11 @@ class MatchDataProcessorTest {
     }
 
     private void andEventServiceReturnsCreatedEvent() {
-        Event event = new Event(1L, 2L, "h2h",
-                "https://www.example.com", null, null);
+        Event event = new Event(EventType.H2H.getName(), 2L,
+                EventType.H2H.getDescription(), null, null);
+
+        when(this.eventService.cachedFindEventByType(any()))
+                .thenThrow(new NotFoundException("Not found"));
 
         when(this.eventService.createEvent(any()))
                 .thenReturn(event);
@@ -103,11 +108,11 @@ class MatchDataProcessorTest {
 
     private void andOddsServiceReturnsCreatedEOdds() {
         List<Odds> odds = List.of(
-                new Odds(1L, 2L, "Valencia", BigDecimal.valueOf(3.20),
+                new Odds(1L, EventType.H2H.getName(), "Valencia", BigDecimal.valueOf(3.20),
                         true, null, null),
-                new Odds(2L, 2L, "Barcelona", BigDecimal.valueOf(1.80),
+                new Odds(2L, EventType.H2H.getName(), "Barcelona", BigDecimal.valueOf(1.80),
                         true, null, null),
-                new Odds(3L, 2L, "Draw", BigDecimal.valueOf(2.10),
+                new Odds(3L, EventType.H2H.getName(), "Draw", BigDecimal.valueOf(2.10),
                         true, null, null)
         );
 

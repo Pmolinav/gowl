@@ -8,7 +8,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "odds", indexes = {
-        @Index(name = "idx_odds_event_id", columnList = "event_id")
+        @Index(name = "idx_odds_event_type", columnList = "event_type")
 })
 @Getter
 @Setter
@@ -22,8 +22,8 @@ public class Odds {
     @Column(name = "odds_id")
     private Long oddsId;
 
-    @Column(name = "event_id", nullable = false)
-    private Long eventId;
+    @Column(name = "event_type", nullable = false)
+    private String eventType;
 
     @Column(name = "label", nullable = false, length = 50)
     private String label;
@@ -43,13 +43,14 @@ public class Odds {
     @Column(name = "modification_date")
     private Long modificationDate;
 
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "event_id", nullable = false, insertable = false, updatable = false)
+    @JoinColumn(name = "event_type", nullable = false, insertable = false, updatable = false)
     private Event event;
 
-    public Odds(Long oddsId, Long eventId, String label, BigDecimal value, Boolean active, Long creationDate, Long modificationDate) {
+    public Odds(Long oddsId, String eventType, String label, BigDecimal value, Boolean active, Long creationDate, Long modificationDate) {
         this.oddsId = oddsId;
-        this.eventId = eventId;
+        this.eventType = eventType;
         this.label = label;
         this.value = value;
         this.active = active;
@@ -57,9 +58,9 @@ public class Odds {
         this.modificationDate = modificationDate;
     }
 
-    public Odds(Long oddsId, Long eventId, String label, BigDecimal value, BigDecimal point, Boolean active, Long creationDate, Long modificationDate) {
+    public Odds(Long oddsId, String eventType, String label, BigDecimal value, BigDecimal point, Boolean active, Long creationDate, Long modificationDate) {
         this.oddsId = oddsId;
-        this.eventId = eventId;
+        this.eventType = eventType;
         this.label = label;
         this.value = value;
         this.point = point;
@@ -74,7 +75,7 @@ public class Odds {
         if (o == null || getClass() != o.getClass()) return false;
         Odds odds = (Odds) o;
         return Objects.equals(oddsId, odds.oddsId)
-                && Objects.equals(eventId, odds.eventId)
+                && Objects.equals(eventType, odds.eventType)
                 && Objects.equals(label, odds.label)
                 && Objects.equals(value, odds.value)
                 && Objects.equals(point, odds.point)
@@ -83,7 +84,7 @@ public class Odds {
 
     @Override
     public int hashCode() {
-        return Objects.hash(oddsId, eventId, label, value, point, active);
+        return Objects.hash(oddsId, eventType, label, value, point, active);
     }
 }
 

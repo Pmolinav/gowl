@@ -2,6 +2,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import org.junit.jupiter.api.Test;
@@ -65,7 +66,7 @@ class PlayerBetBOControllerIntegrationTest extends AbstractBaseTest {
         andCreatePlayerBetThrowsNonRetryableException();
 
         PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
-                List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
+                List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -79,7 +80,7 @@ class PlayerBetBOControllerIntegrationTest extends AbstractBaseTest {
         andCreatePlayerBetReturnedValidId();
 
         PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
-                List.of(new PlayerBetSelectionDTO(3L, BigDecimal.ONE)));
+                List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)

@@ -52,16 +52,16 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public EventDTO findEventById(Long id) {
+    public EventDTO findEventByEventType(String eventType) {
         try {
-            Event event = eventRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Event not found with id: " + id));
+            Event event = eventRepository.findById(eventType)
+                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + eventType));
             return eventMapper.eventEntityToDto(event);
         } catch (NotFoundException e) {
-            logger.error("Event not found: {}", id);
+            logger.error("Event not found: {}", eventType);
             throw e;
         } catch (Exception e) {
-            logger.error("Error retrieving event with id {}", id, e);
+            logger.error("Error retrieving event with event type {}", eventType, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
@@ -94,35 +94,34 @@ public class EventService {
     }
 
     @Transactional
-    public void updateEvent(Long eventId, EventDTO eventDTO) {
+    public void updateEvent(String eventType, EventDTO eventDTO) {
         try {
-            Event existing = eventRepository.findById(eventId)
-                    .orElseThrow(() -> new NotFoundException("Event with id " + eventId + " not found."));
+            Event existing = eventRepository.findById(eventType)
+                    .orElseThrow(() -> new NotFoundException("Event with type " + eventType + " not found."));
 
             Event updated = eventMapper.eventDtoToEntity(eventDTO);
-            updated.setEventId(existing.getEventId()); // ensure ID is preserved
 
             eventRepository.save(updated);
         } catch (NotFoundException e) {
-            logger.error("Event not found with id: {}", eventId);
+            logger.error("Event not found with type: {}", eventType);
             throw e;
         } catch (Exception e) {
-            logger.error("Error while updating event with id {}", eventId, e);
+            logger.error("Error while updating event with type {}", eventType, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @Transactional
-    public void deleteEventById(Long id) {
+    public void deleteEventByEventType(String eventType) {
         try {
-            Event event = eventRepository.findById(id)
-                    .orElseThrow(() -> new NotFoundException("Event not found with id: " + id));
+            Event event = eventRepository.findById(eventType)
+                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + eventType));
             eventRepository.delete(event);
         } catch (NotFoundException e) {
-            logger.error("Event not found with id: {}", id);
+            logger.error("Event not found with event type: {}", eventType);
             throw e;
         } catch (Exception e) {
-            logger.error("Error deleting event by id {}", id, e);
+            logger.error("Error deleting event by event type {}", eventType, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
@@ -142,18 +141,18 @@ public class EventService {
     }
 
 //    @Async
-//    public void storeInKafka(ChangeType changeType, Long eventId, Event event) {
+//    public void storeInKafka(ChangeType changeType, String eventType, Event event) {
 //        try {
 //            messageProducer.sendMessage(this.KAFKA_TOPIC, new History(
 //                    new Date(),
 //                    changeType,
 //                    "Event",
-//                    String.valueOf(eventId),
+//                    eventType,
 //                    event == null ? null : new ObjectMapper().writeValueAsString(event), // TODO: USE JSON PATCH.
 //                    "Admin" // TODO: createEvent is not implemented yet.
 //            ));
 //        } catch (Exception e) {
-//            logger.warn("Kafka operation {} with name {} and event {} need to be reviewed", changeType, eventId, event);
+//            logger.warn("Kafka operation {} with name {} and event {} need to be reviewed", changeType, eventType, event);
 //        }
 //    }
 }

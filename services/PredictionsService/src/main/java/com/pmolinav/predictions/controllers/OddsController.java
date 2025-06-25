@@ -49,10 +49,10 @@ public class OddsController {
         }
     }
 
-    @GetMapping("/events/{eventId}")
-    public ResponseEntity<List<OddsDTO>> findOddsByEventId(@PathVariable Long eventId) {
+    @GetMapping("/events/{eventType}")
+    public ResponseEntity<List<OddsDTO>> findOddsByEventType(@PathVariable String eventType) {
         try {
-            List<OddsDTO> oddsList = oddsService.findOddsByEventId(eventId);
+            List<OddsDTO> oddsList = oddsService.findOddsByEventType(eventType);
             return ResponseEntity.ok(oddsList);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

@@ -10,7 +10,8 @@ import java.util.Objects;
         name = "match_day",
         indexes = {
                 @Index(name = "idx_matchday_category", columnList = "category_id"),
-                @Index(name = "idx_matchday_startdate_synced", columnList = "start_date, synced")
+                @Index(name = "idx_matchday_startdate_synced", columnList = "start_date, synced"),
+                @Index(name = "idx_match_day_enddate_results_checked", columnList = "end_date, results_checked")
         }
 )
 @Getter
@@ -42,17 +43,21 @@ public class MatchDay {
     @Column(name = "synced", nullable = false)
     private boolean synced = false;
 
+    @Column(name = "results_checked", nullable = false)
+    private boolean resultsChecked = false;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", insertable = false, updatable = false)
     private LeagueCategory category;
 
-    public MatchDay(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate, boolean synced) {
+    public MatchDay(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate, boolean synced, boolean resultsChecked) {
         this.categoryId = categoryId;
         this.season = season;
         this.matchDayNumber = matchDayNumber;
         this.startDate = startDate;
         this.endDate = endDate;
         this.synced = synced;
+        this.resultsChecked = resultsChecked;
     }
 
     public MatchDay(String categoryId, Integer season, Integer matchDayNumber, Long startDate, Long endDate) {
@@ -73,11 +78,12 @@ public class MatchDay {
                 && Objects.equals(matchDayNumber, matchDay.matchDayNumber)
                 && Objects.equals(startDate, matchDay.startDate)
                 && Objects.equals(endDate, matchDay.endDate)
-                && Objects.equals(synced, matchDay.synced);
+                && Objects.equals(synced, matchDay.synced)
+                && Objects.equals(resultsChecked, matchDay.resultsChecked);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(categoryId, season, matchDayNumber, startDate, endDate, synced);
+        return Objects.hash(categoryId, season, matchDayNumber, startDate, endDate, synced, resultsChecked);
     }
 }

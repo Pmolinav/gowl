@@ -2,6 +2,7 @@ package com.pmolinav.predictions.units;
 
 import com.pmolinav.predictions.exceptions.CustomStatusException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
@@ -159,13 +160,13 @@ class OddsBOControllerTest extends BaseUnitTest {
     // --- SETUP MOCK RETURNS ---
 
     private void givenValidOddsDTOForRequest() {
-        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
     }
 
     private void whenFindAllOddsInServiceReturnedValidOdds() {
         expectedOdds = List.of(
-                new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true),
-                new OddsDTO(1L, "LABEL2", BigDecimal.valueOf(3.5), true)
+                new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true),
+                new OddsDTO(EventType.H2H.getName(), "LABEL2", BigDecimal.valueOf(3.5), true)
         );
         when(oddsBOServiceMock.findAll()).thenReturn(expectedOdds);
     }
@@ -179,7 +180,7 @@ class OddsBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
-        oddsDTO = new OddsDTO(1L, "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
         when(oddsBOServiceMock.findById(1L)).thenReturn(oddsDTO);
     }
 

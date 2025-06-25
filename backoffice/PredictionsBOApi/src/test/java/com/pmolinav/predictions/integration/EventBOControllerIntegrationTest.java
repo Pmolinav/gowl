@@ -3,6 +3,7 @@ package com.pmolinav.predictions.integration;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictionslib.dto.EventDTO;
+import com.pmolinav.predictionslib.dto.EventType;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -164,6 +165,6 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private EventDTO buildEventDTO() {
-        return new EventDTO(2L, "Event 1", "Event description");
+        return new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
     }
 }

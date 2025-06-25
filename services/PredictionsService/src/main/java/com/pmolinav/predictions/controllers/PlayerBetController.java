@@ -5,14 +5,12 @@ import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.services.PlayerBetService;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
-import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.PlayerBet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -80,10 +78,7 @@ public class PlayerBetController {
         try {
             if (dto.getTotalStake() == null) {
                 if (dto.getSelections() != null && !dto.getSelections().isEmpty()) {
-                    BigDecimal totalStake = dto.getSelections().stream()
-                            .map(PlayerBetSelectionDTO::getStake)
-                            .reduce(BigDecimal.ONE, BigDecimal::multiply);
-                    dto.setTotalStake(totalStake);
+                    dto.setCalculatedStake();
                 } else {
                     return new ResponseEntity<>("Selections cannot be null or empty", HttpStatus.BAD_REQUEST);
                 }
