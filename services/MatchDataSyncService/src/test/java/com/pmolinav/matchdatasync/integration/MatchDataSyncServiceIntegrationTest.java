@@ -26,8 +26,11 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(properties = {
         "external.api.url=http://localhost:9561" // override base url to WireMock
@@ -153,6 +156,13 @@ class MatchDataSyncServiceIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void scheduledPlayerBetResultCheckTest() {
+        // Invalidate all caches previously.
+        try {
+            mockMvc.perform(delete("/caches/events"))
+                    .andExpect(status().isOk());
+        } catch (Exception e) {
+            fail();
+        }
         // 1. Execute the scheduled process to store real matches, events and odds.
         scheduledMatchDaySyncWithNoStoredMatchesTest();
 
@@ -208,7 +218,7 @@ class MatchDataSyncServiceIntegrationTest extends AbstractContainerBaseTest {
                 .toList().size());
     }
 
-    //TODO: REVISAR POR QUË FALLA AL TIRAR TODOS
+    //TODO: REVISAR POR QUE FALLA AL TIRAR TODOS
     private void scheduledMatchDaySyncWithNoStoredMatchesTest() {
         // 1. Save ExternalCategoryMapping for caching.
         ExternalCategoryMapping mapping = new ExternalCategoryMapping(categoryId, "soccer_spain_la_liga");
