@@ -299,6 +299,7 @@ public class PredictionsDatabaseConnector {
                         rs.getLong("bet_id"),
                         rs.getString("username"),
                         rs.getLong("match_id"),
+                        rs.getLong("league_id"),
                         rs.getBigDecimal("total_stake"),
                         rs.getLong("creation_date")
                 );

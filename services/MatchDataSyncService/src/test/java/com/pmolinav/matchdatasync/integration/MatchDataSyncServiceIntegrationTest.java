@@ -270,23 +270,23 @@ class MatchDataSyncServiceIntegrationTest extends AbstractContainerBaseTest {
 
         // Two player bet for the first match found.
         // WON
-        PlayerBet bet1 = new PlayerBet(null, "someUser", matches.getFirst().getMatchId(),
+        PlayerBet bet1 = new PlayerBet(null, "someUser", matches.getFirst().getMatchId(), 1L,
                 BigDecimal.valueOf(2.20), PlayerBetStatus.SUBMITTED, 12345L);
         bet1 = playerBetRepository.save(bet1);
 
         // LOST
-        PlayerBet bet2 = new PlayerBet(null, "otherUser", matches.getFirst().getMatchId(),
+        PlayerBet bet2 = new PlayerBet(null, "otherUser", matches.getFirst().getMatchId(), 1L,
                 BigDecimal.valueOf(5.20), PlayerBetStatus.SUBMITTED, 12345L);
         bet2 = playerBetRepository.save(bet2);
 
         // Two players bet for the second match found.
         // WON
-        PlayerBet bet3 = new PlayerBet(null, "someUser", matches.getLast().getMatchId(),
+        PlayerBet bet3 = new PlayerBet(null, "someUser", matches.getLast().getMatchId(), 1L,
                 BigDecimal.valueOf(3.30), PlayerBetStatus.SUBMITTED, 12345L);
         bet3 = playerBetRepository.save(bet3);
 
         // LOST
-        PlayerBet bet4 = new PlayerBet(null, "otherUser", matches.getLast().getMatchId(),
+        PlayerBet bet4 = new PlayerBet(null, "otherUser", matches.getLast().getMatchId(), 1L,
                 BigDecimal.valueOf(5.20), PlayerBetStatus.SUBMITTED, 12345L);
         bet4 = playerBetRepository.save(bet4);
 

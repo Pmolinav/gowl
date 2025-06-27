@@ -52,6 +52,7 @@ CREATE TABLE player_bet (
     bet_id BIGSERIAL PRIMARY KEY,
     username VARCHAR(100) NOT NULL,
     match_id BIGINT NOT NULL,
+    league_id BIGINT NOT NULL,
     total_stake DECIMAL(10,2) NOT NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'PENDING',
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,

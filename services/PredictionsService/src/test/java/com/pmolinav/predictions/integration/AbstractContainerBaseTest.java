@@ -134,6 +134,7 @@ public abstract class AbstractContainerBaseTest {
         PlayerBet bet = new PlayerBet();
         bet.setUsername(username);
         bet.setMatchId(match.getMatchId());
+        bet.setLeagueId(1L);
         bet.setTotalStake(BigDecimal.valueOf(100.00));
 
         return playerBetRepository.save(bet);

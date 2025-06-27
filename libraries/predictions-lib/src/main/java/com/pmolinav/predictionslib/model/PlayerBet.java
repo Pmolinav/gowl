@@ -32,6 +32,9 @@ public class PlayerBet {
     @Column(name = "match_id", nullable = false)
     private Long matchId;
 
+    @Column(name = "league_id", nullable = false)
+    private Long leagueId;
+
     @Column(name = "total_stake", nullable = false, precision = 10, scale = 2)
     private BigDecimal totalStake;
 
@@ -50,19 +53,21 @@ public class PlayerBet {
     @OneToMany(mappedBy = "playerBet", fetch = FetchType.LAZY)
     private List<PlayerBetSelection> selections;
 
-    public PlayerBet(Long betId, String username, Long matchId, BigDecimal totalStake, PlayerBetStatus status, Long creationDate) {
+    public PlayerBet(Long betId, String username, Long matchId, Long leagueId, BigDecimal totalStake, PlayerBetStatus status, Long creationDate) {
         this.betId = betId;
         this.username = username;
         this.matchId = matchId;
+        this.leagueId = leagueId;
         this.totalStake = totalStake;
         this.status = status;
         this.creationDate = creationDate;
     }
 
-    public PlayerBet(Long betId, String username, Long matchId, BigDecimal totalStake, Long creationDate) {
+    public PlayerBet(Long betId, String username, Long matchId, Long leagueId, BigDecimal totalStake, Long creationDate) {
         this.betId = betId;
         this.username = username;
         this.matchId = matchId;
+        this.leagueId = leagueId;
         this.totalStake = totalStake;
         this.creationDate = creationDate;
     }
@@ -89,11 +94,12 @@ public class PlayerBet {
         return Objects.equals(betId, playerBet.betId)
                 && Objects.equals(username, playerBet.username)
                 && Objects.equals(matchId, playerBet.matchId)
+                && Objects.equals(leagueId, playerBet.leagueId)
                 && Objects.equals(totalStake, playerBet.totalStake);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(betId, username, matchId, totalStake);
+        return Objects.hash(betId, username, matchId, leagueId, totalStake);
     }
 }

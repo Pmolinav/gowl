@@ -25,6 +25,9 @@ public class PlayerBetDTO {
     @NotNull(message = "Match ID must not be null.")
     private Long matchId;
 
+    @NotNull(message = "League ID must not be null.")
+    private Long leagueId;
+
     private BigDecimal totalStake;
 
     private PlayerBetStatus status = PlayerBetStatus.PENDING;
@@ -32,9 +35,10 @@ public class PlayerBetDTO {
     @NotNull(message = "Selections must not be null.")
     private List<PlayerBetSelectionDTO> selections;
 
-    public PlayerBetDTO(String username, Long matchId, BigDecimal totalStake, List<PlayerBetSelectionDTO> selections) {
+    public PlayerBetDTO(String username, Long matchId, Long leagueId, BigDecimal totalStake, List<PlayerBetSelectionDTO> selections) {
         this.username = username;
         this.matchId = matchId;
+        this.leagueId = leagueId;
         this.totalStake = totalStake;
         this.selections = selections;
     }

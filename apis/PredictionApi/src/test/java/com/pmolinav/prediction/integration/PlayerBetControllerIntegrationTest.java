@@ -115,7 +115,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetInternalServerError() throws Exception {
         andCreatePlayerBetThrowsNonRetryableException();
 
-        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
+        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN,
                 List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
@@ -129,7 +129,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     void createPlayerBetHappyPath() throws Exception {
         andCreatePlayerBetReturnedValidId();
 
-        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN,
+        PlayerBetDTO requestDto = new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN,
                 List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets?requestUid=" + requestUid)
@@ -167,7 +167,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindPlayerBetByIdReturnedPlayerBet() {
         this.expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
         when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
     }
@@ -178,7 +178,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindPlayerBetsByMatchIdReturnedPlayerBets() {
         this.expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
         when(this.playerBetClient.findByMatchId(anyLong())).thenReturn(expectedPlayerBets);
     }
@@ -189,7 +189,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindPlayerBetsByUsernameReturnedPlayerBets() {
         this.expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
         when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBets);
     }

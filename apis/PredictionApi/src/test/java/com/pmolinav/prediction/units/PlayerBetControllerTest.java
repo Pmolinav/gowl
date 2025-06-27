@@ -145,11 +145,11 @@ class PlayerBetControllerTest extends BaseUnitTest {
     // --- SETUP MOCKS ---
 
     private void givenValidPlayerBetDTO() {
-        playerBetDTO = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null);
+        playerBetDTO = new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null);
     }
 
     private void whenFindPlayerBetByIdReturnsValidDTO() {
-        playerBetDTO = new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null);
+        playerBetDTO = new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null);
         when(playerBetServiceMock.findById(1L)).thenReturn(playerBetDTO);
     }
 
@@ -163,7 +163,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private void whenFindPlayersBetsByMatchIdReturnsValidDTO() {
         expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
         when(playerBetServiceMock.findByMatchId(2L)).thenReturn(expectedPlayerBets);
     }
@@ -178,7 +178,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private void whenFindPlayersBetsByUsernameReturnsValidDTO() {
         expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, BigDecimal.TEN, null)
+                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
         when(playerBetServiceMock.findByUsername("someUser")).thenReturn(expectedPlayerBets);
     }

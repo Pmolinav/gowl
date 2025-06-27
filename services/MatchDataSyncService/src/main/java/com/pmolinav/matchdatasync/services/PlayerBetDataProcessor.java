@@ -1,6 +1,9 @@
 package com.pmolinav.matchdatasync.services;
 
+import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.matchdatasync.clients.LeaguePlayerPointsClient;
+import com.pmolinav.matchdatasync.clients.LeaguePlayersClient;
 import com.pmolinav.matchdatasync.dto.ExternalMatchScoreDTO;
 import com.pmolinav.matchdatasync.dto.ExternalScoreDTO;
 import com.pmolinav.predictionslib.dto.MatchStatus;
@@ -12,6 +15,7 @@ import com.pmolinav.predictionslib.model.PlayerBetSelection;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -27,29 +31,31 @@ public class PlayerBetDataProcessor {
     private static final Logger logger = LoggerFactory.getLogger(PlayerBetDataProcessor.class);
 
     private final MatchService matchService;
-    private final EventService eventService;
     private final OddsService oddsService;
     private final PlayerBetService playerBetService;
     private final PlayerBetSelectionService playerBetSelectionService;
+    private final LeaguePlayersClient leaguePlayersClient;
+    private final LeaguePlayerPointsClient leaguePlayerPointsClient;
 
     public PlayerBetDataProcessor(MatchService matchService,
-                                  EventService eventService,
                                   OddsService oddsService,
                                   PlayerBetService playerBetService,
-                                  PlayerBetSelectionService playerBetSelectionService) {
+                                  PlayerBetSelectionService playerBetSelectionService,
+                                  LeaguePlayersClient leaguePlayersClient,
+                                  LeaguePlayerPointsClient leaguePlayerPointsClient) {
         this.matchService = matchService;
-        this.eventService = eventService;
         this.oddsService = oddsService;
         this.playerBetService = playerBetService;
         this.playerBetSelectionService = playerBetSelectionService;
+        this.leaguePlayersClient = leaguePlayersClient;
+        this.leaguePlayerPointsClient = leaguePlayerPointsClient;
     }
 
-    private static final int PAGE_SIZE = 500;
+    private static final int PAGE_SIZE = 300;
 
     public boolean processResults(MatchDayDTO matchDayDTO, List<ExternalMatchScoreDTO> results) {
         boolean allProcessed = true;
 
-        // Fetch matches from internal DB for this match day.
         List<Match> activeMatches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(
                 matchDayDTO.getCategoryId(),
                 matchDayDTO.getSeason(),
@@ -61,17 +67,21 @@ public class PlayerBetDataProcessor {
             return false;
         }
 
-        // Only ACTIVE matches can be resolved.
         activeMatches = activeMatches.stream()
                 .filter(match -> match.getStatus().equals(MatchStatus.ACTIVE))
                 .toList();
 
-        // Map results from external by externalId.
         Map<String, ExternalMatchScoreDTO> resultMap = results.stream()
                 .collect(Collectors.toMap(ExternalMatchScoreDTO::getId, Function.identity()));
 
-        // Process each active match.
         for (Match match : activeMatches) {
+            ExternalMatchScoreDTO externalResult = resultMap.get(match.getExternalId());
+            if (externalResult == null || !externalResult.isCompleted()) {
+                logger.warn("No external result found for match ID: {}", match.getExternalId());
+                allProcessed = false;
+                continue;
+            }
+
             int page = 0;
             boolean hasMore = true;
 
@@ -88,13 +98,6 @@ public class PlayerBetDataProcessor {
 
                 for (PlayerBet bet : pendingBetsPage.getContent()) {
                     try {
-                        ExternalMatchScoreDTO externalResult = resultMap.get(match.getExternalId());
-                        if (externalResult == null || !externalResult.isCompleted()) {
-                            logger.warn("No external result found for match ID: {}", match.getExternalId());
-                            allProcessed = false;
-                            continue;
-                        }
-
                         boolean allSelectionsCorrect = true;
 
                         for (PlayerBetSelection selection : bet.getSelections()) {
@@ -111,30 +114,58 @@ public class PlayerBetDataProcessor {
                         bet.setStatus(allSelectionsCorrect ? PlayerBetStatus.WON : PlayerBetStatus.LOST);
                         updatedBets.add(bet);
 
+                        // Async calls used to store player points.
+                        processPlayerPointsAsync(
+                                matchDayDTO.getCategoryId(),
+                                matchDayDTO.getSeason(),
+                                matchDayDTO.getMatchDayNumber(),
+                                bet.getLeagueId(),
+                                bet.getUsername(),
+                                bet.getTotalStake()
+                        );
+
                     } catch (Exception e) {
                         logger.error("Unexpected error occurred while processing PlayerBet with ID: {}", bet.getBetId(), e);
                     }
                 }
 
-                // Save processed bets and selections in batch.
-                if (!updatedBets.isEmpty()) {
-                    playerBetService.saveAll(updatedBets);
+                // Save with retry handling.
+                try {
+                    if (!updatedBets.isEmpty()) {
+                        playerBetService.saveAll(updatedBets);
+                    }
+                } catch (Exception e) {
+                    logger.error("FATAL_ERROR_TO_RETRY: PLayerBet list: {}. Manual retry is required.", updatedBets, e);
+                    allProcessed = false;
                 }
-                if (!updatedSelections.isEmpty()) {
-                    playerBetSelectionService.saveAll(updatedSelections);
+
+                // Save with retry handling.
+                try {
+                    if (!updatedSelections.isEmpty()) {
+                        playerBetSelectionService.saveAll(updatedSelections);
+                    }
+                } catch (Exception e) {
+                    logger.error("FATAL_ERROR_TO_RETRY: PLayerBetSelection list: {}. Manual retry is required.", updatedSelections, e);
+                    allProcessed = false;
                 }
 
                 hasMore = pendingBetsPage.hasNext();
                 page++;
             }
 
-            match.setStatus(MatchStatus.RESOLVED);
-            matchService.updateMatch(match);
+            // Update match with retry handling.
+            try {
+                match.setStatus(MatchStatus.RESOLVED);
+                matchService.updateMatch(match);
+            } catch (Exception e) {
+                logger.error("FATAL_ERROR_TO_RETRY: Match: {}. Manual retry is required.", match, e);
+                allProcessed = false;
+            }
         }
 
-        // TODO: POINTS BY STAKE!!
         return allProcessed;
     }
+
 
     public boolean isPredictionCorrect(PlayerBetSelection selection, ExternalMatchScoreDTO result) {
         Odds odds = oddsService.findOddsById(selection.getOddsId()); // Non-cacheable
@@ -216,4 +247,23 @@ public class PlayerBetDataProcessor {
         return teamScore.compareTo(opponentScore) > 0;
     }
 
+    @Async
+    public void processPlayerPointsAsync(String categoryId, Integer season, Integer number, Long leagueId, String username, BigDecimal stake) {
+        // TODO: Points management OK?
+        int points = stake.multiply(BigDecimal.valueOf(100)).intValue();
+
+        LeaguePlayerPointsDTO pointsDTO = new LeaguePlayerPointsDTO(categoryId, season, number, leagueId, username, points);
+        try {
+            leaguePlayerPointsClient.createLeaguePlayersPoints(pointsDTO);
+        } catch (Exception e) {
+            logger.error("FATAL_ERROR_TO_RETRY: LeaguePlayerPoints: {}. Manual retry is required.", pointsDTO, e);
+        }
+
+        try {
+            leaguePlayersClient.addPointsToLeaguePlayer(leagueId, username, points);
+        } catch (Exception e) {
+            logger.error("FATAL_ERROR_TO_RETRY: Add {} points to LeaguePlayer with leagueId {} and username {}. " +
+                    "Manual retry is required.", points, leagueId, username, e);
+        }
+    }
 }

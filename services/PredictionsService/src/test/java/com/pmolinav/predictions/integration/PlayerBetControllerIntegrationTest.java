@@ -73,10 +73,10 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
     void createPlayerBetHappyPath() throws Exception {
         Odds odds = givenSomePreviouslyStoredOddsWithId();
 
-        PlayerBetDTO request = new PlayerBetDTO();
-        request.setMatchId(lastMatch.getMatchId());
-        request.setUsername("newUser");
-        request.setSelections(List.of(new PlayerBetSelectionDTO(lastEvent.getEventType(), odds.getOddsId(), BigDecimal.ONE)));
+        PlayerBetDTO request = new PlayerBetDTO("newUser",
+                lastMatch.getMatchId(), 1L, BigDecimal.TEN, null);
+        request.setSelections(List.of(
+                new PlayerBetSelectionDTO(lastEvent.getEventType(), odds.getOddsId(), BigDecimal.ONE)));
 
         MvcResult result = mockMvc.perform(post("/player-bets")
                         .contentType(MediaType.APPLICATION_JSON)
