@@ -75,6 +75,11 @@ call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for Le
 echo [[32mLeaguesService OK[0m]
 del build.log
 
+cd /d "%BASE_DIR%..\..\services\MatchDataSyncService"
+call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for MatchDataSyncService. See build.log && exit /b 1)
+echo [[32mMatchDataSyncService OK[0m]
+del build.log
+
 cd /d "%BASE_DIR%..\..\services\PredictionsService"
 call mvn clean install -DskipTests > build.log 2>&1 || (echo Build failed for PredictionsService. See build.log && exit /b 1)
 echo [[32mPredictionsService OK[0m]

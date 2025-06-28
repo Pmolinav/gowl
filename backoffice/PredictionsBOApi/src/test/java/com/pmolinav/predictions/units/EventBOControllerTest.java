@@ -52,27 +52,27 @@ class EventBOControllerTest extends BaseUnitTest {
 
     /* FIND EVENT BY ID */
     @Test
-    void findEventByIdHappyPath() {
+    void findEventByEventTypeHappyPath() {
         whenFindEventByIdInServiceReturnedValidEvent();
-        andFindEventByIdIsCalledInController();
-        thenVerifyFindEventByIdHasBeenCalledInService();
+        andFindEventByEventTypeIsCalledInController();
+        thenVerifyFindEventByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
         thenReceivedResponseIs(eventDTO);
     }
 
     @Test
-    void findEventByIdNotFound() {
-        whenFindEventByIdInServiceThrowsNotFoundException();
-        andFindEventByIdIsCalledInController();
-        thenVerifyFindEventByIdHasBeenCalledInService();
+    void findEventByEventTypeNotFound() {
+        whenFindEventByEventTypeInServiceThrowsNotFoundException();
+        andFindEventByEventTypeIsCalledInController();
+        thenVerifyFindEventByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
     }
 
     @Test
-    void findEventByIdServerError() {
-        whenFindEventByIdInServiceThrowsServerException();
-        andFindEventByIdIsCalledInController();
-        thenVerifyFindEventByIdHasBeenCalledInService();
+    void findEventByEventTypeServerError() {
+        whenFindEventByEventTypeInServiceThrowsServerException();
+        andFindEventByEventTypeIsCalledInController();
+        thenVerifyFindEventByEventTypeHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
@@ -183,15 +183,15 @@ class EventBOControllerTest extends BaseUnitTest {
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
         eventDTO = new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
-        when(eventBOServiceMock.findEventById(1L)).thenReturn(eventDTO);
+        when(eventBOServiceMock.findEventByType(EventType.H2H.getName())).thenReturn(eventDTO);
     }
 
-    private void whenFindEventByIdInServiceThrowsNotFoundException() {
-        when(eventBOServiceMock.findEventById(1L)).thenThrow(new NotFoundException("Event not found"));
+    private void whenFindEventByEventTypeInServiceThrowsNotFoundException() {
+        when(eventBOServiceMock.findEventByType(EventType.H2H.getName())).thenThrow(new NotFoundException("Event not found"));
     }
 
-    private void whenFindEventByIdInServiceThrowsServerException() {
-        when(eventBOServiceMock.findEventById(1L)).thenThrow(new InternalServerErrorException("Server error"));
+    private void whenFindEventByEventTypeInServiceThrowsServerException() {
+        when(eventBOServiceMock.findEventByType(EventType.H2H.getName())).thenThrow(new InternalServerErrorException("Server error"));
     }
 
     private void whenCreateEventInServiceReturnedValidId() {
@@ -204,27 +204,27 @@ class EventBOControllerTest extends BaseUnitTest {
     }
 
     private void whenUpdateEventInServiceDoesNothing() {
-        doNothing().when(eventBOServiceMock).updateEvent(eq(1L), any(EventDTO.class));
+        doNothing().when(eventBOServiceMock).updateEvent(eq(EventType.H2H.getName()), any(EventDTO.class));
     }
 
     private void whenUpdateEventInServiceThrowsNotFoundException() {
-        doThrow(new NotFoundException("Event not found")).when(eventBOServiceMock).updateEvent(eq(1L), any(EventDTO.class));
+        doThrow(new NotFoundException("Event not found")).when(eventBOServiceMock).updateEvent(eq(EventType.H2H.getName()), any(EventDTO.class));
     }
 
     private void whenUpdateEventInServiceThrowsServerException() {
-        doThrow(new InternalServerErrorException("Server error")).when(eventBOServiceMock).updateEvent(eq(1L), any(EventDTO.class));
+        doThrow(new InternalServerErrorException("Server error")).when(eventBOServiceMock).updateEvent(eq(EventType.H2H.getName()), any(EventDTO.class));
     }
 
     private void whenDeleteEventInServiceDoesNothing() {
-        doNothing().when(eventBOServiceMock).deleteEvent(1L);
+        doNothing().when(eventBOServiceMock).deleteEvent(EventType.H2H.getName());
     }
 
     private void whenDeleteEventInServiceThrowsNotFoundException() {
-        doThrow(new NotFoundException("Event not found")).when(eventBOServiceMock).deleteEvent(1L);
+        doThrow(new NotFoundException("Event not found")).when(eventBOServiceMock).deleteEvent(EventType.H2H.getName());
     }
 
     private void whenDeleteEventInServiceThrowsServerException() {
-        doThrow(new InternalServerErrorException("Server error")).when(eventBOServiceMock).deleteEvent(1L);
+        doThrow(new InternalServerErrorException("Server error")).when(eventBOServiceMock).deleteEvent(EventType.H2H.getName());
     }
 
     // --- CALL CONTROLLER METHODS ---
@@ -233,8 +233,8 @@ class EventBOControllerTest extends BaseUnitTest {
         result = eventBOController.findAllEvents(requestUid);
     }
 
-    private void andFindEventByIdIsCalledInController() {
-        result = eventBOController.findEventById(requestUid, 1L);
+    private void andFindEventByEventTypeIsCalledInController() {
+        result = eventBOController.findEventByEventType(requestUid, EventType.H2H.getName());
     }
 
     private void andCreateEventIsCalledInController() {
@@ -255,7 +255,7 @@ class EventBOControllerTest extends BaseUnitTest {
     private void andUpdateEventIsCalledInController() {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
-        result = eventBOController.updateEvent(requestUid, 1L, eventDTO, bindingResult);
+        result = eventBOController.updateEvent(requestUid, EventType.H2H.getName(), eventDTO, bindingResult);
     }
 
     private void andUpdateEventIsCalledInControllerWithBindingResultErrors() {
@@ -264,11 +264,11 @@ class EventBOControllerTest extends BaseUnitTest {
         when(bindingResult.getFieldErrors()).thenReturn(List.of(
                 new FieldError("eventDTO", "name", "Name is mandatory")
         ));
-        result = eventBOController.updateEvent(requestUid, 1L, eventDTO, bindingResult);
+        result = eventBOController.updateEvent(requestUid, EventType.H2H.getName(), eventDTO, bindingResult);
     }
 
     private void andDeleteEventIsCalledInController() {
-        result = eventBOController.deleteEvent(requestUid, 1L);
+        result = eventBOController.deleteEvent(requestUid, EventType.H2H.getName());
     }
 
     // --- VERIFY SERVICE METHOD CALLS ---
@@ -277,8 +277,8 @@ class EventBOControllerTest extends BaseUnitTest {
         verify(eventBOServiceMock, times(1)).findAllEvents();
     }
 
-    private void thenVerifyFindEventByIdHasBeenCalledInService() {
-        verify(eventBOServiceMock, times(1)).findEventById(anyLong());
+    private void thenVerifyFindEventByEventTypeHasBeenCalledInService() {
+        verify(eventBOServiceMock, times(1)).findEventByType(anyString());
     }
 
     private void thenVerifyCreateEventHasBeenCalledInService() {
@@ -286,11 +286,11 @@ class EventBOControllerTest extends BaseUnitTest {
     }
 
     private void thenVerifyUpdateEventHasBeenCalledInService() {
-        verify(eventBOServiceMock, times(1)).updateEvent(anyLong(), any(EventDTO.class));
+        verify(eventBOServiceMock, times(1)).updateEvent(anyString(), any(EventDTO.class));
     }
 
     private void thenVerifyDeleteEventHasBeenCalledInService() {
-        verify(eventBOServiceMock, times(1)).deleteEvent(anyLong());
+        verify(eventBOServiceMock, times(1)).deleteEvent(anyString());
     }
 
     // --- ASSERTIONS ---

@@ -82,53 +82,53 @@ class CachesControllerIntegrationTest extends AbstractContainerBaseTest {
     @Test
     void testEventCacheLifecycleCompleteControllerTest() throws Exception {
         // 1. Store event directly in the database.
-        String eventType = givenEventPreviouslyStored();
+        String type = givenEventPreviouslyStored();
 
         // 2. GET with `onlyCache=true` → Not found (not present in cache yet).
-        mockMvc.perform(get("/caches/events/" + eventType)
+        mockMvc.perform(get("/caches/events/" + type)
                         .param("onlyCache", "true"))
                 .andExpect(status().isNotFound());
 
         // 3. GET without onlyCache → Found, and the value is cached.
-        mockMvc.perform(get("/caches/events/" + eventType))
+        mockMvc.perform(get("/caches/events/" + type))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.eventType").value(eventType));
+                .andExpect(jsonPath("$.eventType").value(type));
 
         // 4. GET from cache again → Value is found.
-        mockMvc.perform(get("/caches/events/" + eventType)
+        mockMvc.perform(get("/caches/events/" + type)
                         .param("onlyCache", "true"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.eventType").value(eventType));
+                .andExpect(jsonPath("$.eventType").value(type));
 
         // 5. DELETE Invalidate cache by eventType.
         mockMvc.perform(delete("/caches/events")
-                        .param("eventType", String.valueOf(eventType)))
+                        .param("eventType", String.valueOf(type)))
                 .andExpect(status().isOk());
 
         // 6. GET again from cache → Not found. It was removed.
-        mockMvc.perform(get("/caches/events/" + eventType)
+        mockMvc.perform(get("/caches/events/" + type)
                         .param("onlyCache", "true"))
                 .andExpect(status().isNotFound());
 
         // 7. GET from cache or repository → Found (from repository) and value is cached again.
-        mockMvc.perform(get("/caches/events/" + eventType))
+        mockMvc.perform(get("/caches/events/" + type))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.eventType").value(eventType));
+                .andExpect(jsonPath("$.eventType").value(type));
 
         // 8. DELETE to test endpoint to invalidate all.
         mockMvc.perform(delete("/caches/events"))
                 .andExpect(status().isOk());
 
         // 9. GET only from cache again → Not present, due to all data were removed.
-        mockMvc.perform(get("/caches/events/" + eventType)
+        mockMvc.perform(get("/caches/events/" + type)
                         .param("onlyCache", "true"))
                 .andExpect(status().isNotFound());
 
         // 10. GET from all sources again → Found in repo and cached again.
-        mockMvc.perform(get("/caches/events/" + eventType))
+        mockMvc.perform(get("/caches/events/" + type))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.eventType").value(eventType));
+                .andExpect(jsonPath("$.eventType").value(type));
     }
 
     private String givenEventPreviouslyStored() {

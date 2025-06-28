@@ -12,8 +12,8 @@ public interface EventClient {
     @GetMapping
     List<EventDTO> findAll();
 
-    @GetMapping("/{id}")
-    EventDTO findById(@PathVariable("id") Long id);
+    @GetMapping("/{type}")
+    EventDTO findByType(@PathVariable("type") String type);
 
     @GetMapping("/match/{matchId}")
     List<EventDTO> findEventsByMatchId(@PathVariable("matchId") Long matchId);
@@ -21,9 +21,9 @@ public interface EventClient {
     @PostMapping
     Long create(@RequestBody EventDTO eventDTO);
 
-    @PutMapping("/{id}")
-    void update(@PathVariable("id") Long id, @RequestBody EventDTO eventDTO);
+    @PutMapping("/{type}")
+    void update(@PathVariable("type") String type, @RequestBody EventDTO eventDTO);
 
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable("id") Long id);
+    @DeleteMapping("/{type}")
+    void delete(@PathVariable("type") String type);
 }

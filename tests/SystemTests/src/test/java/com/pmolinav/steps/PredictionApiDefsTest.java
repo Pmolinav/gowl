@@ -61,6 +61,7 @@ public class PredictionApiDefsTest extends BaseSystemTest {
 
         PlayerBetDTO playerBetDto = new PlayerBetDTO();
         playerBetDto.setMatchId(Long.parseLong(row.get("match_id")));
+        playerBetDto.setLeagueId(Long.parseLong(row.get("league_id")));
         playerBetDto.setUsername(row.get("username"));
 
         List<PlayerBetSelectionDTO> selections = new ArrayList<>();
@@ -71,10 +72,11 @@ public class PredictionApiDefsTest extends BaseSystemTest {
                 String[] selectionParts = selectionsRaw.split(";");
                 for (String selectionStr : selectionParts) {
                     String[] fields = selectionStr.trim().split(",");
-                    if (fields.length == 2) {
+                    if (fields.length == 3) {
                         PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
                         selection.setOddsId(Long.parseLong(fields[0].trim()));
-                        selection.setStake(new BigDecimal(fields[1].trim()));
+                        selection.setEventType(fields[1].trim());
+                        selection.setStake(new BigDecimal(fields[2].trim()));
                         selections.add(selection);
                     } else {
                         fail("Invalid selection format: " + selectionStr);

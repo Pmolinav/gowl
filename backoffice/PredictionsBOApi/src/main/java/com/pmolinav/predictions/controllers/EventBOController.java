@@ -43,12 +43,12 @@ public class EventBOController {
         }
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{type}")
     @Operation(summary = "Get a specific event by ID", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<EventDTO> findEventById(@RequestParam String requestUid,
-                                                 @PathVariable Long id) {
+    public ResponseEntity<EventDTO> findEventByEventType(@RequestParam String requestUid,
+                                                         @PathVariable String type) {
         try {
-            EventDTO event = eventBOService.findEventById(id);
+            EventDTO event = eventBOService.findEventByType(type);
             return ResponseEntity.ok(event);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -87,10 +87,10 @@ public class EventBOController {
         }
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{type}")
     @Operation(summary = "Update an event by ID", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> updateEvent(@RequestParam String requestUid,
-                                         @PathVariable Long id,
+                                         @PathVariable String type,
                                          @Valid @RequestBody EventDTO eventDTO,
                                          BindingResult result) {
         if (result.hasErrors()) {
@@ -98,7 +98,7 @@ public class EventBOController {
         }
 
         try {
-            eventBOService.updateEvent(id, eventDTO);
+            eventBOService.updateEvent(type, eventDTO);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -107,12 +107,12 @@ public class EventBOController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{type}")
     @Operation(summary = "Delete an event by ID", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> deleteEvent(@RequestParam String requestUid,
-                                         @PathVariable Long id) {
+                                         @PathVariable String type) {
         try {
-            eventBOService.deleteEvent(id);
+            eventBOService.deleteEvent(type);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

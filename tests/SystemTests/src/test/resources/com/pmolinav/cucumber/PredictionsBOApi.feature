@@ -18,15 +18,15 @@ Feature: PredictionsBOApi
       | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
       | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
     Given the following events have been stored previously
-      | event_type  | match_id | description       | creation_date | modification_date |
-      | Goal        | 101      | Goal scored event | 1624000000    | 1624005000        |
-      | Yellow Card | 101      | Yellow card event | 1624001000    | 1624006000        |
-      | Red Card    | 102      | Red card event    | 1624002000    | 1624007000        |
+      | event_type | match_id | description        | creation_date | modification_date |
+      | h2h        | 101      | Head to Head event | 1624000000    | 1624005000        |
+      | totals     | 101      | Total Goals event  | 1624001000    | 1624006000        |
+      | spreads    | 102      | Handicap event     | 1624002000    | 1624007000        |
     Given the following odds have been stored previously
-      | odds_id | event_type  | label    | value | active | creation_date | modification_date |
-      | 301     | Goal        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | Goal        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | Yellow Card | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | odds_id | event_type | label    | value | active | creation_date | modification_date |
+      | 301     | h2h        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
+      | 302     | h2h        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
+      | 303     | totals     | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
 
    # MATCHES
   Scenario: Try to create a new match by a non-admin player with error
@@ -105,8 +105,8 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | First goal  |
     Then received status code is 403
 
   Scenario: Create a new event bad request
@@ -117,58 +117,58 @@ Feature: PredictionsBOApi
 
   Scenario: Create a new event successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | First goal  |
     Then received status code is 201
-    Then an event with name Result has been stored successfully
+    Then an event with type Result has been stored successfully
 
   Scenario: Get all events successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | Result      |
     Then received status code is 201
     When try to get all events
     Then received status code is 200
-    Then a list of events with names Goal,Yellow Card,Red Card,Result are returned in response
+    Then a list of events with names h2h,totals,spreads,Result are returned in response
 
   Scenario: Get event by eventType successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | Result      |
     Then received status code is 201
-    Then an event with name Result has been stored successfully
+    Then an event with type Result has been stored successfully
     When try to get an event by eventType
     Then received status code is 200
-    Then an event with name Result has been returned in response
+    Then an event with type Result has been returned in response
 
   Scenario: Get events by matchId successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | name   | timestamp  | description |
+      | 101      | Result     | Result | 1624125650 | First goal  |
     Then received status code is 201
-    Then an event with name Result has been stored successfully
+    Then an event with type Result has been stored successfully
     When try to get events by matchId
     Then received status code is 200
-    Then a list of events with names Goal,Yellow Card,Result are returned in response
+    Then a list of events with names h2h,totals,Result are returned in response
 
   Scenario: Update an event successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | Result      |
     Then received status code is 201
-    Then an event with name Result has been stored successfully
+    Then an event with type Result has been stored successfully
     Given try to update an event with data
-      | match_id | name        | timestamp  | description         |
+      | match_id | event_type  | timestamp  | description         |
       | 101      | Score First | 1624125655 | Team to Score First |
     Then received status code is 200
-    Then an event with name Score First has been stored successfully
+    Then an event with type Score First has been stored successfully
 
   Scenario: Delete event by eventType successfully
     Given try to create a new event with data
-      | match_id | name   | timestamp  | description |
-      | 101      | Result | 1624125650 | First goal  |
+      | match_id | event_type | timestamp  | description |
+      | 101      | Result     | 1624125650 | Result      |
     Then received status code is 201
-    Then an event with name Result has been stored successfully
+    Then an event with type Result has been stored successfully
     When try to delete an event by eventType
     Then received status code is 200
 
@@ -190,14 +190,14 @@ Feature: PredictionsBOApi
   Scenario: Create new odds successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
 
   Scenario: Get all odds successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     When try to get all odds
     Then received status code is 200
@@ -206,17 +206,18 @@ Feature: PredictionsBOApi
   Scenario: Get odds by oddsId successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by oddsId
     Then received status code is 200
     Then odds with label Under 1.5 are returned in response
 
+    # TODO: ERROR! REVIEW!
   Scenario: Get odds by eventType successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by eventType
@@ -226,19 +227,19 @@ Feature: PredictionsBOApi
   Scenario: Update odds successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     Given try to update odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 3.5 | 2.10  | 0.40        |
+      | h2h        | Under 3.5 | 2.10  | 0.40        |
     Then received status code is 200
     Then odds with label Under 3.5 have been stored successfully
 
   Scenario: Delete odds by oddsId successfully
     Given try to create new odds with data
       | event_type | label     | value | probability |
-      | Goal       | Under 1.5 | 1.50  | 0.60        |
+      | h2h        | Under 1.5 | 1.50  | 0.60        |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to delete odds by oddsId
@@ -249,31 +250,31 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 403
 
   Scenario: Create new player bet bad request
     Given try to create new player bet with data
-      | match_id | selections         |
-      | 101      | 301,5.00;303,10.00 |
+      | match_id | league_id | selections                    |
+      | 101      | 123       | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 400
 
   Scenario: Create new player bet successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
 
   Scenario: Get all player bets successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Given try to create new player bet with data
-      | match_id | username  | selections         |
-      | 101      | otherUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username  | selections                    |
+      | 101      | 123       | otherUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username otherUser has been stored successfully
     When try to get all player bets
@@ -282,8 +283,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get player bet by playerBetId successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
     When try to get a player bet by playerBetId
@@ -292,13 +293,13 @@ Feature: PredictionsBOApi
 
   Scenario: Get player bets by matchId successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
     Given try to create new player bet with data
-      | match_id | username  | selections         |
-      | 101      | otherUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username  | selections                    |
+      | 101      | 123       | otherUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username otherUser has been stored successfully
     When try to get player bets by matchId
@@ -307,13 +308,13 @@ Feature: PredictionsBOApi
 
   Scenario: Get player bets by username successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
     Given try to create new player bet with data
-      | match_id | username | selections |
-      | 102      | someUser | 301,6.00   |
+      | match_id | league_id | username | selections   |
+      | 102      | 123       | someUser | 301,h2h,6.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
     When try to get player bets by username
@@ -322,8 +323,8 @@ Feature: PredictionsBOApi
 
   Scenario: Delete player bet by playerBetId successfully
     Given try to create new player bet with data
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,totals,10.00 |
     Then received status code is 201
     Then a player bet for username someUser has been stored successfully
     When try to delete a player bet by playerBetId

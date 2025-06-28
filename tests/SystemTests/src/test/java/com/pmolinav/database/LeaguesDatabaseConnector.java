@@ -286,16 +286,18 @@ public class LeaguesDatabaseConnector {
 
     public void insertMatchDays(List<MatchDay> matchDays) throws SQLException {
         String query = "INSERT INTO match_day " +
-                "(category_id, season, match_day_number, start_date, end_date) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "(category_id, season, match_day_number, synced, results_checked, start_date, end_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         for (MatchDay matchDay : matchDays) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, matchDay.getCategoryId());
                 preparedStatement.setInt(2, matchDay.getSeason());
                 preparedStatement.setInt(3, matchDay.getMatchDayNumber());
-                preparedStatement.setLong(4, matchDay.getStartDate());
-                preparedStatement.setLong(5, matchDay.getEndDate());
+                preparedStatement.setBoolean(4, matchDay.isSynced());
+                preparedStatement.setBoolean(5, matchDay.isResultsChecked());
+                preparedStatement.setLong(6, matchDay.getStartDate());
+                preparedStatement.setLong(7, matchDay.getEndDate());
 
                 preparedStatement.executeUpdate();
             } catch (SQLException e) {

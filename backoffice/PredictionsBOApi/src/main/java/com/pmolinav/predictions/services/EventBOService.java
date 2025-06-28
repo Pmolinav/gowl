@@ -39,16 +39,16 @@ public class EventBOService {
         }
     }
 
-    public EventDTO findEventById(Long id) {
+    public EventDTO findEventByType(String type) {
         try {
-            return eventClient.findById(id);
+            return eventClient.findByType(type);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("Event with id {} not found.", id, e);
-                throw new NotFoundException("Event " + id + " not found");
+                logger.warn("Event with type {} not found.", type, e);
+                throw new NotFoundException("Event " + type + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);
@@ -85,16 +85,16 @@ public class EventBOService {
         }
     }
 
-    public void updateEvent(Long id, EventDTO eventDTO) {
+    public void updateEvent(String type, EventDTO eventDTO) {
         try {
-            eventClient.update(id, eventDTO);
+            eventClient.update(type, eventDTO);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling update with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("Event with id {} not found during update.", id, e);
-                throw new NotFoundException("Event " + id + " not found");
+                logger.warn("Event with type {} not found during update.", type, e);
+                throw new NotFoundException("Event " + type + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling update.", e);
@@ -102,16 +102,16 @@ public class EventBOService {
         }
     }
 
-    public void deleteEvent(Long id) {
+    public void deleteEvent(String type) {
         try {
-            eventClient.delete(id);
+            eventClient.delete(type);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("Event with id {} not found.", id, e);
-                throw new NotFoundException("Event " + id + " not found");
+                logger.warn("Event with type {} not found.", type, e);
+                throw new NotFoundException("Event " + type + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);

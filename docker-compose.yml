@@ -143,6 +143,22 @@ services:
       - spring
     restart: always
 
+  matchdatasyncservice:
+    container_name: matchdatasyncservice
+    image: pablo7molina/matchdatasyncservice:latest
+    ports:
+      - "8010:8010"
+      - "5010:5010" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/MatchDataSyncService/.env_testing
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5010
+    networks:
+      - spring
+    restart: always
+
   predictionsservice:
     container_name: predictionsservice
     image: pablo7molina/predictionsservice:latest
@@ -171,6 +187,18 @@ services:
     env_file: services/UsersService/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
+    networks:
+      - spring
+    restart: always
+
+  ## UTILS
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8888:8080" # Exposes WireMock on port 8888
+    volumes:
+      - ./wiremock:/home/wiremock
     networks:
       - spring
     restart: always

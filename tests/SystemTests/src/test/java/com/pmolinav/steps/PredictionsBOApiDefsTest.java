@@ -345,6 +345,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
         PlayerBetDTO playerBetDto = new PlayerBetDTO();
         playerBetDto.setMatchId(Long.parseLong(row.get("match_id")));
+        playerBetDto.setLeagueId(Long.parseLong(row.get("league_id")));
         playerBetDto.setUsername(row.get("username"));
 
         List<PlayerBetSelectionDTO> selections = new ArrayList<>();
@@ -355,10 +356,11 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                 String[] selectionParts = selectionsRaw.split(";");
                 for (String selectionStr : selectionParts) {
                     String[] fields = selectionStr.trim().split(",");
-                    if (fields.length == 2) {
+                    if (fields.length == 3) {
                         PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
                         selection.setOddsId(Long.parseLong(fields[0].trim()));
-                        selection.setStake(new BigDecimal(fields[1].trim()));
+                        selection.setEventType(fields[1].trim());
+                        selection.setStake(new BigDecimal(fields[2].trim()));
                         selections.add(selection);
                     } else {
                         fail("Invalid selection format: " + selectionStr);
@@ -460,10 +462,10 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-    @Then("an event with name (.*) has been stored successfully$")
-    public void anEventByNameHasBeenStored(String name) {
+    @Then("an event with type (.*) has been stored successfully$")
+    public void anEventByTypeHasBeenStored(String name) {
         try {
-            List<Event> events = predictionsDbConnector.getEventsByName(name);
+            List<Event> events = predictionsDbConnector.getEventsByType(name);
             lastEvent = events.getFirst();
             assertNotNull(lastEvent);
         } catch (SQLException e) {
@@ -536,8 +538,8 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         }
     }
 
-    @Then("an event with name (.+) has been returned in response$")
-    public void eventWithNameHasBeenStoredSuccessfully(String name) throws JsonProcessingException {
+    @Then("an event with type (.+) has been returned in response$")
+    public void eventWithTypeHasBeenStoredSuccessfully(String name) throws JsonProcessingException {
         Event obtainedEvent = objectMapper.readValue(latestResponse.getBody(), Event.class);
         assertNotNull(obtainedEvent);
         assertEquals(name, obtainedEvent.getEventType());

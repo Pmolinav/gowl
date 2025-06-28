@@ -81,11 +81,11 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindEventByIdReturnsEvent() {
         this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findById(anyLong())).thenReturn(expectedEvents.getFirst());
+        when(this.eventClient.findByEventType(anyString())).thenReturn(expectedEvents.getFirst());
     }
 
     private void andFindEventByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.eventClient).findByEventType(anyString());
     }
 
     private void andFindEventsByMatchIdReturnsEvent() {

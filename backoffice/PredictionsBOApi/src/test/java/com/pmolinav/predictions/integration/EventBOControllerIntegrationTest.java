@@ -60,8 +60,8 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findEventByIdInternalServerError() throws Exception {
-        andFindEventByIdThrowsNonRetryableException();
+    void findEventByEventTypeInternalServerError() throws Exception {
+        andFindEventByEventTypeThrowsNonRetryableException();
 
         mockMvc.perform(get("/events/1?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken))
@@ -69,7 +69,7 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void findEventByIdHappyPath() throws Exception {
+    void findEventByEventTypeHappyPath() throws Exception {
         andFindEventByIdReturnsEvent();
 
         MvcResult result = mockMvc.perform(get("/events/1?requestUid=" + requestUid)
@@ -141,11 +141,11 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindEventByIdReturnsEvent() {
         this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findById(anyLong())).thenReturn(expectedEvents.getFirst());
+        when(this.eventClient.findByType(anyString())).thenReturn(expectedEvents.getFirst());
     }
 
-    private void andFindEventByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findById(anyLong());
+    private void andFindEventByEventTypeThrowsNonRetryableException() {
+        doThrow(new RuntimeException("someException")).when(this.eventClient).findByType(anyString());
     }
 
     private void andCreateEventReturnsValidId() {
@@ -157,11 +157,11 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andDeleteEventReturnsOk() {
-        doNothing().when(this.eventClient).delete(anyLong());
+        doNothing().when(this.eventClient).delete(anyString());
     }
 
     private void andDeleteEventThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).delete(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.eventClient).delete(anyString());
     }
 
     private EventDTO buildEventDTO() {

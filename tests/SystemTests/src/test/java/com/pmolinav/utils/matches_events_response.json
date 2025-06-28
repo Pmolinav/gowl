@@ -1,0 +1,6536 @@
+[
+  {
+    "id": "db972686fa86742ada143c23cb07dfbf",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "home_team": "Chicago Fire",
+    "away_team": "Charlotte FC",
+    "bookmakers": [
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267230897-chicago-fire-charlotte",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.08,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.19,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.27,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 1.61,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.17,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.72,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.04,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.16,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690825",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.1,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690825",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.9,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.11,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.19,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.81,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 1.68,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.15,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.15,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.72,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199936/chicago-fire-vs-charlotte-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.9,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 1.96,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245030340",
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.15,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.26,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.25,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.2,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-dd7Y4EAde06P0OFiIpcdSg&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.95,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.18,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.18,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.68,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/chicago-fire-charlotte-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.95,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.18,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.18,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.68,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.05,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.15,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.3,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.61,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.05,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.15,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.3,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.61,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046298",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.3,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.04,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.72,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.13,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/chicago-fire-charlotte-fc-3251792_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.9,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.62,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/charlotte-fc-vs-chicago-fire/1611040469/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.04,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.17,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.99,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 1.96,
+                "point": 0.25,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 1.93,
+                "point": -0.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.96,
+                "point": 3.25,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.91,
+                "point": 3.25,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/Chicago-Fire-v-Charlotte-FC/2672910",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 2.95,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.1,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/chicago-fire-vs-charlotte-fc-e-5994062/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.15,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088549/chicago-fire-vs-charlotte-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.15,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.44,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.62,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739055",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.14,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.14,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 1.98,
+                "point": 0.25,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 1.85,
+                "point": -0.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.94,
+                "point": 3.25,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.88,
+                "point": 3.25,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30466004889100061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.15,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.26,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 3.25,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 2.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.2,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Charlotte FC",
+                "price": 1.96,
+                "point": 0.25,
+                "link": null
+              },
+              {
+                "name": "Chicago Fire",
+                "price": 1.98,
+                "point": -0.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.28,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.75,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "e9084e92a9ad2b78f4fe4cca6999b607",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "home_team": "FC Dallas",
+    "away_team": "San Diego FC",
+    "bookmakers": [
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267231182-dallas-san-diego",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.32,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.07,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.89,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 2.46,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 1.53,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.34,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.63,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.28,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.04,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.84,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245031085",
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.4,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.14,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.5,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.2,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690827",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.1,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690827",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.24,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.07,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.88,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 1.77,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.02,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.3,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.56,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199937/dallas-fc-vs-san-diego-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 1.93,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-hLLMsLHup0KvcUvih5duyA&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.25,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.02,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.32,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.58,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/fc-dallas-san-diego-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.25,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.02,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.32,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.58,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.15,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.53,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.48,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.15,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.53,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.48,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046301",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.6,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.03,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.91,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.9,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/fc-dallas-san-diego-fc-3251794_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 1.97,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/san-diego-fc-vs-fc-dallas/1611040467/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.33,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 1.83,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.06,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.86,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.01,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/FC-Dallas-v-San-Diego-FC/2672909",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.2,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/fc-dallas-vs-san-diego-fc-e-5994053/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.2,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088544/fc-dallas-vs-san-diego-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.2,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.05,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.55,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.4,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739056",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.36,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.06,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.97,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 1.79,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.06,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.87,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.95,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30465997224100061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.4,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.14,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 3.5,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 2.2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.2,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "FC Dallas",
+                "price": 2.06,
+                "point": 0.25,
+                "link": null
+              },
+              {
+                "name": "San Diego FC",
+                "price": 1.85,
+                "point": -0.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.44,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.66,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "0a83cac5b4e37ae45b3dba236e3c5bf6",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "home_team": "Houston Dynamo",
+    "away_team": "St. Louis City SC",
+    "bookmakers": [
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267231181-houston-dynamo-st-louis-city",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.86,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.93,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.99,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.4,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 2.89,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.4,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.6,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.84,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.88,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.94,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690829",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.7,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690829",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.76,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.55,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199939/houston-vs-saint-louis-sc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.6,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.65,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.86,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.85,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.05,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.77,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 2.02,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.36,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.57,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245030921",
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.9,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.93,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 4.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.4,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-YS04Aj780ECWlj0Vrm94Cw&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.38,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.55,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/houston-dynamo-st-louis-city-sc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.38,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.55,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.81,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.9,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.51,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.5,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.81,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.9,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.51,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.5,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046299",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.83,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.99,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.82,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/houston-dynamo-saint-louis-city-sc-3251795_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.75,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.6,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.68,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/st-louis-city-sc-vs-houston-dynamo/1611001901/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.94,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.05,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.86,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 2.04,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.93,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.94,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/Houston-Dynamo-v-St-Louis-City-SC/2672908",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.8,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.75,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/houston-dynamo-vs-st-louis-city-e-5994064/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.83,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.75,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088547/houston-dynamo-vs-st-louis-city",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.83,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.75,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.57,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.3,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739053",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.88,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 3.93,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.02,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.88,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 1.94,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.83,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30466036835000061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.91,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.93,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 4.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Houston Dynamo",
+                "price": 1.87,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "St. Louis City SC",
+                "price": 2.04,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.63,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.52,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "a485f81fdfa3ed7e64e56e3a52021de3",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "home_team": "Sporting Kansas City",
+    "away_team": "Real Salt Lake",
+    "bookmakers": [
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.68,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.48,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.58,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267232031-sporting-kansas-city-real-salt-lake",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.72,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.51,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.62,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 1.99,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 1.85,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.64,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.32,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690831",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.65,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.4,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690831",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.55,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.35,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.35,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.75,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.45,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.58,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 1.56,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.39,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.6,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.3,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199938/kansas-city-vs-salt-lake",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.55,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.25,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.35,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245032262",
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.9,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.56,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.94,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.58,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-PzMTL2QSBEC4QrlEFRaecA&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.72,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.42,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.58,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.32,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/sporting-kansas-city-real-salt-lake",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.72,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.42,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.58,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.32,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.8,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.35,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.61,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.28,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.8,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.35,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.61,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.28,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046300",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.85,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.35,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.65,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.03,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.8,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/sporting-kansas-city-real-salt-lake-3251793_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.65,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.26,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.35,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/real-salt-lake-vs-sporting-kansas-city/1611040468/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.73,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.52,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.63,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.03,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 1.86,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.01,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.87,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/sporting-kansas-city-vs-real-salt-lake-e-5994071/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.62,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.45,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088552/sporting-kansas-city-vs-real-salt-lake",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.62,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.45,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.62,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.25,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/Sporting-Kansas-City-v-Real-Salt-Lake/2672907",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.65,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.45,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739042",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.85,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.42,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.68,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.05,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 1.8,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.91,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.91,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30466130304800061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.9,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.56,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.94,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 2.6,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Real Salt Lake",
+                "price": 2.06,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Sporting Kansas City",
+                "price": 1.87,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.65,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.46,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "7a190de29ce5f800b82c2972353c4ae9",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T02:30:00Z",
+    "home_team": "Seattle Sounders FC",
+    "away_team": "Austin FC",
+    "bookmakers": [
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.9,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.69,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267141887-seattle-sounders-austin",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.96,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.71,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 1.37,
+                "point": 1.5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 2.81,
+                "point": -1.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.93,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.91,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690837",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.7,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690837",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.4,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.64,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/austin-fc-vs-seattle-sounders/1611040476/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5.07,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.69,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.92,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 1.98,
+                "point": 0.75,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.91,
+                "point": -0.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.95,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.92,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-C68j3jBH3E6j9_2VvgwhjQ&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.9,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.85,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.9,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/seattle-sounders-austin-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.9,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.85,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.9,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.94,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.71,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 2.2,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.94,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.83,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199942/seattle-vs-austin-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.6,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245020317",
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5.4,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.76,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5.6,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.78,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.93,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.83,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.93,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.83,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046567",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.85,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.89,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.92,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/seattle-sounders-austin-fc-3251861_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.62,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.55,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/Seattle-Sounders-v-Austin-FC/2672911",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.85,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/seattle-sounders-vs-austin-fc-e-5994074/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.6,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088551/seattle-sounders-vs-austin-fc",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.6,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.6,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.91,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.83,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739041",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 4.93,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.74,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.88,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 1.91,
+                "point": 0.75,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.91,
+                "point": -0.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.91,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.91,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30460369684600061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5.4,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.76,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.95,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 5.6,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.77,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Austin FC",
+                "price": 1.96,
+                "point": 0.75,
+                "link": null
+              },
+              {
+                "name": "Seattle Sounders FC",
+                "price": 1.94,
+                "point": -0.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.97,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "70a7b0d9e4e68cbdee1ceb3344393f41",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T02:30:00Z",
+    "home_team": "San Jose Earthquakes",
+    "away_team": "LA Galaxy",
+    "bookmakers": [
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.65,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.62,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267232024-san-jose-earthquakes-los-angeles-galaxy",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.75,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.63,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.55,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 1.49,
+                "point": 1.5,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 2.41,
+                "point": -1.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.84,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690835",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.66,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690835",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.62,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.54,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.64,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.47,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 2.25,
+                "point": 0.5,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.65,
+                "point": -0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.85,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.94,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3199941/san-jose-vs-la-galaxy",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.58,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245032442",
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.7,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.72,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.9,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.75,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.7,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-bwv6B4KjTUmZS30Zd_yHEQ&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.4,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.65,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.82,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.95,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/san-jose-earthquakes-los-angeles-galaxy",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.4,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.65,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.82,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.95,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.71,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.89,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.88,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.1,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.71,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.25,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.89,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.88,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4046566",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.65,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.68,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.15,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.83,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.98,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/los-angeles-galaxy-vs-san-jose-earthquakes/1611001910/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.38,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.69,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.48,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 2.03,
+                "point": 0.75,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.87,
+                "point": -0.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.86,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.01,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/san-jose-earthquakes-vs-la-galaxy-e-5994068/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.33,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.67,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.33,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088554/san-jose-earthquakes-vs-la-galaxy",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.33,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.67,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.33,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.3,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 3.25,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/San-Jose-Earthquakes-v-Los-Angeles-Galaxy/2672912",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.2,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739051",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.48,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.7,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.45,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 2,
+                "point": 0.75,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.83,
+                "point": -0.75,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.83,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30466114228900061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.7,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.6,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 4.9,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 1.75,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "LA Galaxy",
+                "price": 1.82,
+                "point": 1,
+                "link": null
+              },
+              {
+                "name": "San Jose Earthquakes",
+                "price": 2.1,
+                "point": -1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.93,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.04,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "d760190aba16891c93ab0bf0fdc48b3e",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T22:00:00Z",
+    "home_team": "Columbus Crew SC",
+    "away_team": "Philadelphia Union",
+    "bookmakers": [
+      {
+        "key": "marathonbet",
+        "title": "Marathon Bet",
+        "last_update": "2025-06-28T10:46:31Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:31Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.78,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "onexbet",
+        "title": "1xBet",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://1xbet.com/en/line/football/828065-usa-mls/267232026-columbus-crew-philadelphia-union",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.87,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.83,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.05,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.38,
+                "point": 0,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 2.72,
+                "point": 0,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.38,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.61,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_de",
+        "title": "Winamax (DE)",
+        "last_update": "2025-06-28T10:46:23Z",
+        "link": "https://www.winamax.de/en/sports-betting/match/56690839",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:23Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.8,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.65,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "winamax_fr",
+        "title": "Winamax (FR)",
+        "last_update": "2025-06-28T10:46:27Z",
+        "link": "https://www.winamax.fr/en/sports-betting/match/56690839",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:27Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.76,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "gtbets",
+        "title": "GTbets",
+        "last_update": "2025-06-28T10:46:10Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.83,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.94,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.82,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.84,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 1.93,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:10Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.34,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.58,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "nordicbet",
+        "title": "Nordic Bet",
+        "last_update": "2025-06-28T10:46:17Z",
+        "link": "https://www.nordicbet.com/en/sportsbook/football/usa/usa-mls/columbus-crew-philadelphia-union",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.9,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:17Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.32,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.58,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betsson",
+        "title": "Betsson",
+        "last_update": "2025-06-28T10:46:34Z",
+        "link": "https://www.betsson.com/en/sportsbook/football/usa/usa-mls?tab=liveAndUpcoming&eventId=f-BqWNkMVWdki6kbOFY8m51w&eti=0&fs=true",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.9,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.95,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:34Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.32,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.58,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_it",
+        "title": "Unibet (IT)",
+        "last_update": "2025-06-28T10:46:26Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.9,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:26Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.55,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.4,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_nl",
+        "title": "Unibet (NL)",
+        "last_update": "2025-06-28T10:46:53Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.82,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.9,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.9,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:53Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.55,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.4,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "parionssport_fr",
+        "title": "Parions Sport (FR)",
+        "last_update": "2025-06-28T10:46:30Z",
+        "link": "https://www.enligne.parionssport.fdj.fr/paris-football/etats-unis/mls/3200170/columbus-crew-vs-philadelphia",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:30Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.72,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betfair_ex_eu",
+        "title": "Betfair",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": "https://www.betfair.com/exchange/plus/football/market/1.245032172",
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.91,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.93,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.5,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.2,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "coolbet",
+        "title": "Coolbet",
+        "last_update": "2025-06-28T10:47:05Z",
+        "link": "https://www.coolbet.com/en/sports/match/4049350",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.78,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.65,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.65,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:05Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.89,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.92,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "unibet_fr",
+        "title": "Unibet (FR)",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.unibet.fr/sport/football/event/columbus-crew-philadelphia-union-3252309_1.html",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.73,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.62,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.48,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "pinnacle",
+        "title": "Pinnacle",
+        "last_update": "2025-06-28T10:46:12Z",
+        "link": "https://www.pinnacle.com/en/soccer/usa-major-league-soccer/philadelphia-union-vs-columbus-crew/1611057185/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.17,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.67,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.87,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 2.01,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:12Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.89,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.96,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "everygame",
+        "title": "Everygame",
+        "last_update": "2025-06-28T10:46:29Z",
+        "link": "https://sports.everygame.eu/en/Bets/Soccer/US-MLS/Columbus-Crew-v-Philadelphia-Union/2672913",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:29Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.83,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.9,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.65,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "sport888",
+        "title": "888sport",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://www.888sport.com/football/united-states/us-major-league-soccer/columbus-crew-vs-philadelphia-union-e-5994072/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.7,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "williamhill",
+        "title": "William Hill",
+        "last_update": "2025-06-28T10:47:06Z",
+        "link": "https://sports.williamhill.com/betting/en-gb/football/OB_EV36088553/columbus-crew-vs-philadelphia-union",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 3.7,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.8,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:06Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.55,
+                "point": 2.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.3,
+                "point": 2.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betonlineag",
+        "title": "BetOnline.ag",
+        "last_update": "2025-06-28T10:46:33Z",
+        "link": "https://sports.betonline.ag/sportsbook/soccer/mls/game/490739052",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 1.98,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:46:33Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.81,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.03,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "betanysports",
+        "title": "BetAnySports",
+        "last_update": "2025-06-28T10:47:09Z",
+        "link": null,
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.2,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 3.7,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.85,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 1.98,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:09Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 1.81,
+                "point": 3,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 2.03,
+                "point": 3,
+                "link": null
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "key": "matchbook",
+        "title": "Matchbook",
+        "last_update": "2025-06-28T10:47:04Z",
+        "link": "https://www.matchbook.com/events/soccer/united-states-of-america/us-major-league-soccer/30466118361900061/",
+        "markets": [
+          {
+            "key": "h2h",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.91,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.3,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "h2h_lay",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.93,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 4.4,
+                "link": null
+              },
+              {
+                "name": "Draw",
+                "price": 4.1,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "spreads",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Columbus Crew SC",
+                "price": 1.89,
+                "point": -0.5,
+                "link": null
+              },
+              {
+                "name": "Philadelphia Union",
+                "price": 2.02,
+                "point": 0.5,
+                "link": null
+              }
+            ]
+          },
+          {
+            "key": "totals",
+            "last_update": "2025-06-28T10:47:04Z",
+            "link": null,
+            "outcomes": [
+              {
+                "name": "Over",
+                "price": 2.46,
+                "point": 3.5,
+                "link": null
+              },
+              {
+                "name": "Under",
+                "price": 1.61,
+                "point": 3.5,
+                "link": null
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+]

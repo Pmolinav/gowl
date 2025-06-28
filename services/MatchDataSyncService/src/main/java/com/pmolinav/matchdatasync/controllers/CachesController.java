@@ -43,22 +43,22 @@ public class CachesController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/events/{eventType}")
-    public ResponseEntity<?> getEventCache(@PathVariable String eventType,
+    @GetMapping("/events/{type}")
+    public ResponseEntity<?> getEventCache(@PathVariable String type,
                                            @RequestParam(required = false) Boolean onlyCache) {
         Event event;
         if (Boolean.TRUE.equals(onlyCache)) {
-            event = eventService.getCachedOnly(eventType);
+            event = eventService.getCachedOnly(type);
         } else {
-            event = eventService.cachedFindEventByType(eventType);
+            event = eventService.cachedFindEventByType(type);
         }
         return event != null ? ResponseEntity.ok(event) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/events")
-    public ResponseEntity<Void> invalidateEventCache(@RequestParam(required = false) String eventType) {
-        if (eventType != null && !eventType.isBlank()) {
-            eventService.evictEventCache(eventType);
+    public ResponseEntity<Void> invalidateEventCache(@RequestParam(required = false) String type) {
+        if (type != null && !type.isBlank()) {
+            eventService.evictEventCache(type);
         } else {
             eventService.clearAllEventCache();
         }

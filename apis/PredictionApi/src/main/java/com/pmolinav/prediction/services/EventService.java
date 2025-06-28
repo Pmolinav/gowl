@@ -39,16 +39,16 @@ public class EventService {
         }
     }
 
-    public EventDTO findEventById(Long id) {
+    public EventDTO findEventByEventType(String type) {
         try {
-            return eventClient.findById(id);
+            return eventClient.findByEventType(type);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {
-                logger.warn("Event with id {} not found.", id, e);
-                throw new NotFoundException("Event " + id + " not found");
+                logger.warn("Event with type {} not found.", type, e);
+                throw new NotFoundException("Event " + type + " not found");
             }
         } catch (Exception e) {
             logger.error("Unexpected exception occurred while calling service.", e);

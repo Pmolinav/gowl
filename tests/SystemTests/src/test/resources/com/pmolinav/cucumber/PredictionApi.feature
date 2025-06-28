@@ -16,15 +16,15 @@ Feature: PredictionApi
       | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
       | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
     Given the following events have been stored previously
-      | event_type  | match_id | description       | creation_date | modification_date |
-      | Goal        | 101      | Goal scored event | 1624000000    | 1624005000        |
-      | Yellow Card | 101      | Yellow card event | 1624001000    | 1624006000        |
-      | Red Card    | 102      | Red card event    | 1624002000    | 1624007000        |
+      | event_type | match_id | description        | creation_date | modification_date |
+      | h2h        | 101      | Head to Head event | 1624000000    | 1624005000        |
+      | Totals     | 101      | Total goals event  | 1624001000    | 1624006000        |
+      | spreads    | 102      | Handicap event     | 1624002000    | 1624007000        |
     Given the following odds have been stored previously
-      | odds_id | event_type  | label    | value | active | creation_date | modification_date |
-      | 301     | Goal        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | Goal        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | Yellow Card | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | odds_id | event_type | label    | value | active | creation_date | modification_date |
+      | 301     | h2h        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
+      | 302     | h2h        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
+      | 303     | Totals     | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
 
@@ -52,16 +52,16 @@ Feature: PredictionApi
 
    # EVENTS
   Scenario: Get event by eventType successfully
-    Then an event with name Goal has been stored successfully
+    Then an event with type h2h has been stored successfully
     When try to get an event by eventType with public endpoint
     Then received status code is 200
-    Then an event with name Goal has been returned in response
+    Then an event with type h2h has been returned in response
 
   Scenario: Get events by matchId successfully
-    Then an event with name Goal has been stored successfully
+    Then an event with type h2h has been stored successfully
     When try to get events by matchId with public endpoint
     Then received status code is 200
-    Then a list of events with names Goal,Yellow Card,Goal are returned in response
+    Then a list of events with names h2h,Totals,h2h are returned in response
 
     # ODDS
   Scenario: Get odds by oddsId successfully
@@ -79,21 +79,21 @@ Feature: PredictionApi
   # PLAYER BETS
   Scenario: Create new player bet for other user with error
     Given try to create new player bet with data with public endpoint
-      | match_id | username | selections         |
-      | 101      | someUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username | selections                    |
+      | 101      | 123       | someUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 403
 
   Scenario: Create new player bet successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
 
   Scenario: Get player bet by playerBetId successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     When try to get a player bet by playerBetId with public endpoint
@@ -102,13 +102,13 @@ Feature: PredictionApi
 
   Scenario: Get player bets by matchId successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,7.00;303,12.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,7.00;303,Totals,12.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     When try to get player bets by matchId with public endpoint
@@ -117,13 +117,13 @@ Feature: PredictionApi
 
   Scenario: Get player bets by username successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,7.00;303,12.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,7.00;303,Totals,12.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     When try to get player bets by username with public endpoint
@@ -132,8 +132,8 @@ Feature: PredictionApi
 
   Scenario: Delete player bet by playerBetId successfully
     Given try to create new player bet with data with public endpoint
-      | match_id | username   | selections         |
-      | 101      | normalUser | 301,5.00;303,10.00 |
+      | match_id | league_id | username   | selections                    |
+      | 101      | 123       | normalUser | 301,h2h,5.00;303,Totals,10.00 |
     Then received status code is 201
     Then a player bet for username normalUser has been stored successfully
     When try to delete a player bet by playerBetId with public endpoint

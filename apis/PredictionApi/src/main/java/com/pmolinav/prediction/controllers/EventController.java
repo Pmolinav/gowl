@@ -25,12 +25,12 @@ public class EventController {
     @Autowired
     private EventService eventService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{type}")
     @Operation(summary = "Get a specific event by ID", description = "Bearer token is required to authorize users.")
     public ResponseEntity<EventDTO> findEventById(@RequestParam String requestUid,
-                                                  @PathVariable Long id) {
+                                                  @PathVariable String type) {
         try {
-            EventDTO event = eventService.findEventById(id);
+            EventDTO event = eventService.findEventByEventType(type);
             return ResponseEntity.ok(event);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

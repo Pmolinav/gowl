@@ -1,5 +1,6 @@
 package com.pmolinav.steps;
 
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.PredictionsDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
@@ -28,6 +29,9 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             usersDbConnector = new UsersDatabaseConnector();
             leaguesDbConnector = new LeaguesDatabaseConnector();
             predictionsDbConnector = new PredictionsDatabaseConnector();
+
+            wireMock = new WireMock(WIREMOCK_HOST, WIREMOCK_PORT);
+            wireMock.resetMappings();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();

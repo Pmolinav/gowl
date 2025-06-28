@@ -52,16 +52,16 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    public EventDTO findEventByEventType(String eventType) {
+    public EventDTO findEventByEventType(String type) {
         try {
-            Event event = eventRepository.findById(eventType)
-                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + eventType));
+            Event event = eventRepository.findById(type)
+                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + type));
             return eventMapper.eventEntityToDto(event);
         } catch (NotFoundException e) {
-            logger.error("Event not found: {}", eventType);
+            logger.error("Event not found: {}", type);
             throw e;
         } catch (Exception e) {
-            logger.error("Error retrieving event with event type {}", eventType, e);
+            logger.error("Error retrieving event with event type {}", type, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
@@ -94,34 +94,34 @@ public class EventService {
     }
 
     @Transactional
-    public void updateEvent(String eventType, EventDTO eventDTO) {
+    public void updateEvent(String type, EventDTO eventDTO) {
         try {
-            Event existing = eventRepository.findById(eventType)
-                    .orElseThrow(() -> new NotFoundException("Event with type " + eventType + " not found."));
+            Event existing = eventRepository.findById(type)
+                    .orElseThrow(() -> new NotFoundException("Event with type " + type + " not found."));
 
             Event updated = eventMapper.eventDtoToEntity(eventDTO);
 
             eventRepository.save(updated);
         } catch (NotFoundException e) {
-            logger.error("Event not found with type: {}", eventType);
+            logger.error("Event not found with type: {}", type);
             throw e;
         } catch (Exception e) {
-            logger.error("Error while updating event with type {}", eventType, e);
+            logger.error("Error while updating event with type {}", type, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
 
     @Transactional
-    public void deleteEventByEventType(String eventType) {
+    public void deleteEventByEventType(String type) {
         try {
-            Event event = eventRepository.findById(eventType)
-                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + eventType));
+            Event event = eventRepository.findById(type)
+                    .orElseThrow(() -> new NotFoundException("Event not found with event type: " + type));
             eventRepository.delete(event);
         } catch (NotFoundException e) {
-            logger.error("Event not found with event type: {}", eventType);
+            logger.error("Event not found with event type: {}", type);
             throw e;
         } catch (Exception e) {
-            logger.error("Error deleting event by event type {}", eventType, e);
+            logger.error("Error deleting event by event type {}", type, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

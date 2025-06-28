@@ -76,15 +76,15 @@ class EventControllerTest extends BaseUnitTest {
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
         eventDTO = new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
-        when(eventServiceMock.findEventById(1L)).thenReturn(eventDTO);
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenReturn(eventDTO);
     }
 
     private void whenFindEventByIdInServiceThrowsNotFoundException() {
-        when(eventServiceMock.findEventById(1L)).thenThrow(new NotFoundException("Event not found"));
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenThrow(new NotFoundException("Event not found"));
     }
 
     private void whenFindEventByIdInServiceThrowsServerException() {
-        when(eventServiceMock.findEventById(1L)).thenThrow(new InternalServerErrorException("Server error"));
+        when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenThrow(new InternalServerErrorException("Server error"));
     }
 
     private void whenFindEventByMatchIdInServiceReturnedValidEvent() {
@@ -105,7 +105,7 @@ class EventControllerTest extends BaseUnitTest {
     // --- CALL CONTROLLER METHODS ---
 
     private void andFindEventByIdIsCalledInController() {
-        result = eventController.findEventById(requestUid, 1L);
+        result = eventController.findEventById(requestUid, EventType.H2H.getName());
     }
 
     private void andFindEventByMatchIdIsCalledInController() {
@@ -115,7 +115,7 @@ class EventControllerTest extends BaseUnitTest {
     // --- VERIFY SERVICE METHOD CALLS ---
 
     private void thenVerifyFindEventByIdHasBeenCalledInService() {
-        verify(eventServiceMock, times(1)).findEventById(anyLong());
+        verify(eventServiceMock, times(1)).findEventByEventType(anyString());
     }
 
     private void thenVerifyFindEventByMatchIdHasBeenCalledInService() {

@@ -62,6 +62,8 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                         matchDay.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));
                         matchDay.setStartDate(Long.parseLong(row.get("start_date")));
                         matchDay.setEndDate(Long.parseLong(row.get("end_date")));
+                        matchDay.setSynced(Boolean.parseBoolean(row.get("synced")));
+                        matchDay.setResultsChecked(Boolean.parseBoolean(row.get("results_checked")));
                         return matchDay;
                     })
                     .collect(Collectors.toList());
@@ -283,7 +285,7 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                     lastLeague.getLeagueId(),
                     row.get("username"),
                     row.get("total_points") != null ? Integer.parseInt(row.get("total_points")) : null,
-                    row.get("status")!= null ? PlayerStatus.valueOf(row.get("status")) : null
+                    row.get("status") != null ? PlayerStatus.valueOf(row.get("status")) : null
             ));
         }
 

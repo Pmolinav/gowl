@@ -131,8 +131,8 @@ public class PredictionsDatabaseConnector {
 
     public void insertEvents(List<Event> events) throws SQLException {
         String query = "INSERT INTO event " +
-                "(event_type, match_id, name, description, creation_date, modification_date) " +
-                "VALUES (?, ?, ?, ?, ?, ?)";
+                "(event_type, match_id, description, creation_date, modification_date) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
         for (Event event : events) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -159,12 +159,12 @@ public class PredictionsDatabaseConnector {
         }
     }
 
-    public List<Event> getEventsByName(String name) throws SQLException {
-        String query = "SELECT * FROM event WHERE name = ?";
+    public List<Event> getEventsByType(String type) throws SQLException {
+        String query = "SELECT * FROM event WHERE event_type = ?";
         List<Event> events = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, name);
+            statement.setString(1, type);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 Event event = new Event(

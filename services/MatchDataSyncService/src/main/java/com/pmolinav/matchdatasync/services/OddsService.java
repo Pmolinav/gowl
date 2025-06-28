@@ -46,17 +46,17 @@ public class OddsService {
     }
 
     @Transactional(readOnly = true)
-    public List<Odds> findOddsByEventType(String eventType) {
+    public List<Odds> findOddsByEventType(String type) {
         List<Odds> oddsList;
         try {
-            oddsList = oddsRepository.findByEventType(eventType);
+            oddsList = oddsRepository.findByEventType(type);
             if (CollectionUtils.isEmpty(oddsList)) {
-                logger.warn("No odds found for eventType {}", eventType);
+                logger.warn("No odds found for eventType {}", type);
                 throw new NotFoundException("No odds found for provided eventType.");
             }
             return oddsList;
         } catch (Exception e) {
-            logger.error("Error while retrieving odds by eventType {}", eventType, e);
+            logger.error("Error while retrieving odds by eventType {}", type, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

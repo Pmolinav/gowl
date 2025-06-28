@@ -1,6 +1,8 @@
 package com.pmolinav.steps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
 import com.pmolinav.database.LeaguesDatabaseConnector;
@@ -54,6 +56,10 @@ public class BaseSystemTest {
     protected static Odds lastOdds;
     protected static PlayerBet lastPlayerBet;
     protected static PlayerBetSelection lastPlayerBetSelection;
+
+    protected static final String WIREMOCK_HOST = "localhost";
+    protected static final int WIREMOCK_PORT = 8888;
+    protected static WireMock wireMock;
 
     protected void executeGet(String url) {
         executeGet(url, null);

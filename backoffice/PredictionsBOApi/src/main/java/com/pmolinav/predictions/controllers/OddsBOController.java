@@ -52,11 +52,11 @@ public class OddsBOController {
         }
     }
 
-    @GetMapping("/events/{eventType}")
+    @GetMapping("/events/{type}")
     @Operation(summary = "Retrieve odds by event ID", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<OddsDTO>> findOddsByEventType(@RequestParam String requestUid, @PathVariable String eventType) {
+    public ResponseEntity<List<OddsDTO>> findOddsByEventType(@RequestParam String requestUid, @PathVariable String type) {
         try {
-            return ResponseEntity.ok(oddsBOService.findByEventType(eventType));
+            return ResponseEntity.ok(oddsBOService.findByEventType(type));
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
         }

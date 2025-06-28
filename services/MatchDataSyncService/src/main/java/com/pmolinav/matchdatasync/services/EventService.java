@@ -38,16 +38,16 @@ public class EventService {
     }
 
     @Transactional(readOnly = true)
-    @Cacheable(value = "eventKeyCache", key = "#eventType")
-    public Event cachedFindEventByType(String eventType) {
+    @Cacheable(value = "eventKeyCache", key = "#type")
+    public Event cachedFindEventByType(String type) {
         try {
-            return eventRepository.findById(eventType)
-                    .orElseThrow(() -> new NotFoundException("Event not found with eventType: " + eventType));
+            return eventRepository.findById(type)
+                    .orElseThrow(() -> new NotFoundException("Event not found with type: " + type));
         } catch (NotFoundException e) {
-            logger.error("Event not found: {}", eventType);
+            logger.error("Event not found: {}", type);
             throw e;
         } catch (Exception e) {
-            logger.error("Error retrieving event with eventType {}", eventType, e);
+            logger.error("Error retrieving event with type {}", type, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }
@@ -68,20 +68,20 @@ public class EventService {
     }
 
     // Returns valid value if exists in cache or null if not.
-    public Event getCachedOnly(String eventType) {
+    public Event getCachedOnly(String type) {
         Cache cache = cacheManager.getCache("eventKeyCache");
         if (cache == null) return null;
 
-        Cache.ValueWrapper valueWrapper = cache.get(eventType);
+        Cache.ValueWrapper valueWrapper = cache.get(type);
         if (valueWrapper == null) return null;
 
         return (Event) valueWrapper.get();
     }
 
-    @CacheEvict(value = "eventKeyCache", key = "#eventType")
-    public void evictEventCache(String eventType) {
-        // No operation. Manual invalidation by eventType.
-        logger.debug("Events cache (eventKeyCache) was invalidated by eventType {}.", eventType);
+    @CacheEvict(value = "eventKeyCache", key = "#type")
+    public void evictEventCache(String type) {
+        // No operation. Manual invalidation by type.
+        logger.debug("Events cache (eventKeyCache) was invalidated by type {}.", type);
     }
 
     @CacheEvict(value = "eventKeyCache", allEntries = true)

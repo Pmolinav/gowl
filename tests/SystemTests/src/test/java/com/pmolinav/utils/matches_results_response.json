@@ -1,0 +1,142 @@
+[
+  {
+    "id": "db972686fa86742ada143c23cb07dfbf",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "completed": true,
+    "home_team": "Chicago Fire",
+    "away_team": "Charlotte FC",
+    "scores": [
+      {
+        "name": "Chicago Fire",
+        "score": "2"
+      },
+      {
+        "name": "Charlotte FC",
+        "score": "1"
+      }
+    ],
+    "last_update": "2025-06-29T02:30:00Z"
+  },
+  {
+    "id": "e9084e92a9ad2b78f4fe4cca6999b607",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "completed": true,
+    "home_team": "FC Dallas",
+    "away_team": "San Diego FC",
+    "scores": [
+      {
+        "name": "FC Dallas",
+        "score": "3"
+      },
+      {
+        "name": "San Diego FC",
+        "score": "3"
+      }
+    ],
+    "last_update": "2025-06-29T03:10:00Z"
+  },
+  {
+    "id": "0a83cac5b4e37ae45b3dba236e3c5bf6",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "completed": true,
+    "home_team": "Houston Dynamo",
+    "away_team": "St. Louis City SC",
+    "scores": [
+      {
+        "name": "Houston Dynamo",
+        "score": "1"
+      },
+      {
+        "name": "St. Louis City SC",
+        "score": "0"
+      }
+    ],
+    "last_update": "2025-06-29T02:45:00Z"
+  },
+  {
+    "id": "a485f81fdfa3ed7e64e56e3a52021de3",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T00:30:00Z",
+    "completed": true,
+    "home_team": "Sporting Kansas City",
+    "away_team": "Real Salt Lake",
+    "scores": [
+      {
+        "name": "Sporting Kansas City",
+        "score": "0"
+      },
+      {
+        "name": "Real Salt Lake",
+        "score": "2"
+      }
+    ],
+    "last_update": "2025-06-29T02:40:00Z"
+  },
+  {
+    "id": "7a190de29ce5f800b82c2972353c4ae9",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T02:30:00Z",
+    "completed": true,
+    "home_team": "Seattle Sounders FC",
+    "away_team": "Austin FC",
+    "scores": [
+      {
+        "name": "Seattle Sounders FC",
+        "score": "1"
+      },
+      {
+        "name": "Austin FC",
+        "score": "1"
+      }
+    ],
+    "last_update": "2025-06-29T04:30:00Z"
+  },
+  {
+    "id": "70a7b0d9e4e68cbdee1ceb3344393f41",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T02:30:00Z",
+    "completed": true,
+    "home_team": "San Jose Earthquakes",
+    "away_team": "LA Galaxy",
+    "scores": [
+      {
+        "name": "San Jose Earthquakes",
+        "score": "2"
+      },
+      {
+        "name": "LA Galaxy",
+        "score": "4"
+      }
+    ],
+    "last_update": "2025-06-29T04:45:00Z"
+  },
+  {
+    "id": "d760190aba16891c93ab0bf0fdc48b3e",
+    "sport_key": "soccer_usa_mls",
+    "sport_title": "MLS",
+    "commence_time": "2025-06-29T22:00:00Z",
+    "completed": true,
+    "home_team": "Columbus Crew SC",
+    "away_team": "Philadelphia Union",
+    "scores": [
+      {
+        "name": "Columbus Crew SC",
+        "score": "1"
+      },
+      {
+        "name": "Philadelphia Union",
+        "score": "0"
+      }
+    ],
+    "last_update": "2025-06-29T23:55:00Z"
+  }
+]

@@ -52,6 +52,11 @@ call docker build -t pablo7molina/leaguesservice .
 call docker push pablo7molina/leaguesservice
 echo [[32mLeaguesService built and pushed OK[0m]
 
+cd /d "%~dp0..\..\services\MatchDataSyncService"
+call docker build -t pablo7molina/matchdatasyncservice .
+call docker push pablo7molina/matchdatasyncservice
+echo [[32mMatchDataSyncService built and pushed OK[0m]
+
 cd /d "%~dp0..\..\services\PredictionsService"
 call docker build -t pablo7molina/predictionsservice .
 call docker push pablo7molina/predictionsservice

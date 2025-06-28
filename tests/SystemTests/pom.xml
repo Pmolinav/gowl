@@ -82,7 +82,13 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
+        <!-- WireMock -->
+        <dependency>
+            <groupId>org.wiremock</groupId>
+            <artifactId>wiremock-jetty12</artifactId>
+            <version>3.13.1</version>
+            <scope>test</scope>
+        </dependency>
         <!-- Postgres -->
         <dependency>
             <groupId>org.postgresql</groupId>
