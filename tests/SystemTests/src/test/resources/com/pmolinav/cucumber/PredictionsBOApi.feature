@@ -177,27 +177,27 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | NewType    | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | NewType    | Under 1.5 | 1.50  | true   |
     Then received status code is 403
 
   Scenario: Create new odds bad request
     Given try to create new odds with data
-      | value | probability |
-      | 1.50  | 0.60        |
+      | value | active |
+      | 1.50  | true   |
     Then received status code is 400
 
   Scenario: Create new odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | h2h        | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
 
   Scenario: Get all odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | h2h        | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     When try to get all odds
     Then received status code is 200
@@ -205,19 +205,18 @@ Feature: PredictionsBOApi
 
   Scenario: Get odds by oddsId successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | h2h        | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by oddsId
     Then received status code is 200
     Then odds with label Under 1.5 are returned in response
 
-    # TODO: ERROR! REVIEW!
   Scenario: Get odds by eventType successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | totals     | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by eventType
@@ -226,20 +225,20 @@ Feature: PredictionsBOApi
 
   Scenario: Update odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | h2h        | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     Given try to update odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 3.5 | 2.10  | 0.40        |
+      | event_type | label     | value | active |
+      | h2h        | Under 3.5 | 2.10  | 0.40   |
     Then received status code is 200
     Then odds with label Under 3.5 have been stored successfully
 
   Scenario: Delete odds by oddsId successfully
     Given try to create new odds with data
-      | event_type | label     | value | probability |
-      | h2h        | Under 1.5 | 1.50  | 0.60        |
+      | event_type | label     | value | active |
+      | h2h        | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to delete odds by oddsId
