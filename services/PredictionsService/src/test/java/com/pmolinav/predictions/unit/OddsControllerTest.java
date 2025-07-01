@@ -53,6 +53,39 @@ class OddsControllerTest extends BaseUnitTest {
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 
+    /* FIND ODDS BY MATCH ID */
+    @Test
+    void findOddsByMatchIdHappyPath() {
+        List<OddsDTO> dtoList = List.of(new OddsDTO());
+        when(oddsServiceMock.findByMatchId(1L)).thenReturn(dtoList);
+
+        result = oddsController.findOddsByMatchId(1L);
+
+        verify(oddsServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(dtoList, result.getBody());
+    }
+
+    @Test
+    void findOddsByMatchIdNotFound() {
+        when(oddsServiceMock.findByMatchId(1L)).thenThrow(new NotFoundException("Not found"));
+
+        result = oddsController.findOddsByMatchId(1L);
+
+        verify(oddsServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void findOddsByMatchIdServerError() {
+        when(oddsServiceMock.findByMatchId(1L)).thenThrow(new InternalServerErrorException("Error"));
+
+        result = oddsController.findOddsByMatchId(1L);
+
+        verify(oddsServiceMock).findByMatchId(1L);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+    }
+
     /* CREATE ODDS */
     @Test
     void createOddsHappyPath() {
@@ -140,6 +173,37 @@ class OddsControllerTest extends BaseUnitTest {
         result = oddsController.deleteOdds(1L);
 
         verify(oddsServiceMock).deleteOdds(1L);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+    }
+
+    /* DELETE ODDS BY MATCH ID */
+    @Test
+    void deleteOddsByMatchIdHappyPath() {
+        doNothing().when(oddsServiceMock).deleteOddsByMatchId(1L);
+
+        result = oddsController.deleteOddsByMatchId(1L);
+
+        verify(oddsServiceMock).deleteOddsByMatchId(1L);
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+    }
+
+    @Test
+    void deleteOddsByMatchIdNotFound() {
+        doThrow(new NotFoundException("Not found")).when(oddsServiceMock).deleteOddsByMatchId(1L);
+
+        result = oddsController.deleteOddsByMatchId(1L);
+
+        verify(oddsServiceMock).deleteOddsByMatchId(1L);
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void deleteOddsByMatchIdServerError() {
+        doThrow(new InternalServerErrorException("Error")).when(oddsServiceMock).deleteOddsByMatchId(1L);
+
+        result = oddsController.deleteOddsByMatchId(1L);
+
+        verify(oddsServiceMock).deleteOddsByMatchId(1L);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 

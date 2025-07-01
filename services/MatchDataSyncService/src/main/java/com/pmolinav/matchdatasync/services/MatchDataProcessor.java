@@ -6,7 +6,6 @@ import com.pmolinav.matchdatasync.dto.ExternalMarketDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
 import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
 import com.pmolinav.matchdatasync.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.dto.OddsDTO;
@@ -114,27 +113,29 @@ public class MatchDataProcessor {
                 logger.info("Bookmaker {} is the best one due to it has {} markets. Complete bookmaker chosen: {}",
                         bestBookmaker.getTitle(), bestBookmaker.getMarkets().size(), bestBookmaker);
 
-                // For each market, create Event and Odds.
+                // For each market, get Event and create Odds.
                 for (ExternalMarketDTO market : bestBookmaker.getMarkets()) {
                     Event event;
                     try {
                         event = eventService.cachedFindEventByType(market.getKey());
                     } catch (NotFoundException nFe) {
-                        EventDTO eventDTO = new EventDTO(
+                        event = new Event(
                                 market.getKey(),
-                                match.getMatchId(),
-                                market.getLink()
+                                market.getLink(),
+                                null,
+                                null
                         );
-                        event = eventService.createEvent(eventDTO);
                     }
 
                     Event finalEvent = event;
                     List<OddsDTO> oddsDTOList = market.getOutcomes().stream()
                             .map(outcome -> new OddsDTO(
                                     finalEvent.getEventType(),
+                                    match.getMatchId(),
                                     outcome.getName(),
                                     outcome.getPrice(),
                                     outcome.getPoint(),
+                                    bestBookmaker.getKey(),
                                     true
                             ))
                             .toList();

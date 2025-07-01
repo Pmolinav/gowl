@@ -18,6 +18,9 @@ public interface OddsClient {
     @GetMapping("/events/{type}")
     List<OddsDTO> findByEventType(@PathVariable("type") String type);
 
+    @GetMapping("/match/{matchId}")
+    List<OddsDTO> findOddsByMatchId(@PathVariable("matchId") Long matchId);
+
     @PostMapping
     Long create(@RequestBody OddsDTO oddsDTO);
 
@@ -26,4 +29,7 @@ public interface OddsClient {
 
     @DeleteMapping("/{id}")
     void delete(@PathVariable("id") Long id);
+
+    @DeleteMapping("/match/{matchId}")
+    void deleteByMatchId(@PathVariable("matchId") Long matchId);
 }

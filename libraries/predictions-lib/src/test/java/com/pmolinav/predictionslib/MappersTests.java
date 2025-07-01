@@ -47,11 +47,9 @@ class MappersTests {
 
     @Test
     void eventDtoToEntityTest() {
-        EventDTO dto = new EventDTO(EventType.H2H.getName(), 2L,
-                EventType.H2H.getDescription());
+        EventDTO dto = new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
 
-        Event expected = new Event(EventType.H2H.getName(), 2L,
-                EventType.H2H.getDescription(), null, null);
+        Event expected = new Event(EventType.H2H.getName(), EventType.H2H.getDescription(), null, null);
 
         Event actual = eventMapper.eventDtoToEntity(dto);
 
@@ -60,10 +58,9 @@ class MappersTests {
 
     @Test
     void eventEntityToDtoTest() {
-        Event entity = new Event(EventType.H2H.getName(), 1L,
-                EventType.H2H.getDescription(), 123L, 456L);
+        Event entity = new Event(EventType.H2H.getName(), EventType.H2H.getDescription(), 123L, 456L);
 
-        EventDTO expected = new EventDTO(EventType.H2H.getName(), 1L, EventType.H2H.getDescription());
+        EventDTO expected = new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
 
         EventDTO actual = eventMapper.eventEntityToDto(entity);
 
@@ -72,11 +69,11 @@ class MappersTests {
 
     @Test
     void oddsDtoToEntityTest() {
-        OddsDTO dto = new OddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
-                BigDecimal.valueOf(1.5), true);
+        OddsDTO dto = new OddsDTO(EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), null, true);
 
-        Odds expected = new Odds(1L, EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
-                BigDecimal.valueOf(1.5), true, null, null);
+        Odds expected = new Odds(1L, EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), null, true, null, null);
 
         Odds actual = oddsMapper.oddsDtoToEntity(dto);
         actual.setOddsId(1L);
@@ -86,11 +83,11 @@ class MappersTests {
 
     @Test
     void oddsEntityToDtoTest() {
-        Odds entity = new Odds(2L, EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
-                BigDecimal.valueOf(2.5), true, 1000L, 2000L);
+        Odds entity = new Odds(2L, EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), "provider", true, 1000L, 2000L);
 
-        OddsDTO expected = new OddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
-                BigDecimal.valueOf(2.5), true);
+        OddsDTO expected = new OddsDTO(EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), "provider", true);
 
         OddsDTO actual = oddsMapper.oddsEntityToDto(entity);
 

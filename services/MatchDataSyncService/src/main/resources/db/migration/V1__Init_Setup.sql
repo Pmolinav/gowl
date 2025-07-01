@@ -21,31 +21,31 @@ CREATE INDEX idx_category_season_day ON match (category_id, season, match_day_nu
 -- Event table.
 CREATE TABLE event (
     event_type VARCHAR(100) PRIMARY KEY,
-    match_id BIGINT NOT NULL,
     description VARCHAR(255),
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
-    modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
-    CONSTRAINT fk_event_match FOREIGN KEY (match_id)
-        REFERENCES match (match_id) ON DELETE CASCADE
+    modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000
 );
-
-CREATE INDEX idx_event_match_id ON event (match_id);
 
 -- Odds table.
 CREATE TABLE odds (
     odds_id BIGSERIAL PRIMARY KEY,
     event_type VARCHAR(100) NOT NULL,
+    match_id BIGINT NOT NULL,
     label VARCHAR(50) NOT NULL,
     value DECIMAL(6,2) NOT NULL,
     point DECIMAL(6,2),
+    provider VARCHAR(50),
     active BOOLEAN DEFAULT TRUE,
     creation_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
     modification_date BIGINT DEFAULT EXTRACT(EPOCH FROM NOW()) * 1000,
     CONSTRAINT fk_odds_event FOREIGN KEY (event_type)
-        REFERENCES event (event_type) ON DELETE CASCADE
+        REFERENCES event (event_type) ON DELETE CASCADE,
+    CONSTRAINT fk_event_match FOREIGN KEY (match_id)
+        REFERENCES match (match_id) ON DELETE CASCADE
 );
 
 CREATE INDEX idx_odds_event_type ON odds (event_type);
+CREATE INDEX idx_odds_match_id ON odds (match_id);
 
 -- Player bet table.
 CREATE TABLE player_bet (

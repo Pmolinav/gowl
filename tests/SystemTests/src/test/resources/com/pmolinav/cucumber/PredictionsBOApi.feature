@@ -18,15 +18,15 @@ Feature: PredictionsBOApi
       | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
       | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
     Given the following events have been stored previously
-      | event_type | match_id | description        | creation_date | modification_date |
-      | h2h        | 101      | Head to Head event | 1624000000    | 1624005000        |
-      | totals     | 101      | Total Goals event  | 1624001000    | 1624006000        |
-      | spreads    | 102      | Handicap event     | 1624002000    | 1624007000        |
+      | event_type | description        | creation_date | modification_date |
+      | h2h        | Head to Head event | 1624000000    | 1624005000        |
+      | totals     | Total Goals event  | 1624001000    | 1624006000        |
+      | spreads    | Handicap event     | 1624002000    | 1624007000        |
     Given the following odds have been stored previously
-      | odds_id | event_type | label    | value | active | creation_date | modification_date |
-      | 301     | h2h        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | h2h        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | totals     | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | odds_id | event_type | match_id | label    | value | active | creation_date | modification_date |
+      | 301     | h2h        | 101      | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
+      | 302     | h2h        | 101      | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
+      | 303     | totals     | 101      | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
 
    # MATCHES
   Scenario: Try to create a new match by a non-admin player with error
@@ -141,16 +141,6 @@ Feature: PredictionsBOApi
     Then received status code is 200
     Then an event with type Result has been returned in response
 
-  Scenario: Get events by matchId successfully
-    Given try to create a new event with data
-      | match_id | event_type | name   | timestamp  | description |
-      | 101      | Result     | Result | 1624125650 | First goal  |
-    Then received status code is 201
-    Then an event with type Result has been stored successfully
-    When try to get events by matchId
-    Then received status code is 200
-    Then a list of events with names h2h,totals,Result are returned in response
-
   Scenario: Update an event successfully
     Given try to create a new event with data
       | match_id | event_type | timestamp  | description |
@@ -177,27 +167,27 @@ Feature: PredictionsBOApi
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | NewType    | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | NewType    | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 403
 
   Scenario: Create new odds bad request
     Given try to create new odds with data
-      | value | active |
-      | 1.50  | true   |
+      | match_id | value | active |
+      | 101      | 1.50  | true   |
     Then received status code is 400
 
   Scenario: Create new odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
 
   Scenario: Get all odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     When try to get all odds
     Then received status code is 200
@@ -205,8 +195,8 @@ Feature: PredictionsBOApi
 
   Scenario: Get odds by oddsId successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by oddsId
@@ -215,30 +205,40 @@ Feature: PredictionsBOApi
 
   Scenario: Get odds by eventType successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | totals     | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | totals     | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to get odds by eventType
     Then received status code is 200
     Then a list of odds with labels Over 2.5,Under 1.5 are returned in response
 
+  Scenario: Get odds by matchId successfully
+    Given try to create new odds with data
+      | event_type | match_id | label     | value | active |
+      | totals     | 101      | Under 1.5 | 1.50  | true   |
+    Then received status code is 201
+    Then odds with label Under 1.5 have been stored successfully
+    When try to get odds by matchId
+    Then received status code is 200
+    Then a list of odds with labels Over 2.5,Under 1.5 are returned in response
+
   Scenario: Update odds successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     Given try to update odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 3.5 | 2.10  | 0.40   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 3.5 | 2.10  | 0.40   |
     Then received status code is 200
     Then odds with label Under 3.5 have been stored successfully
 
   Scenario: Delete odds by oddsId successfully
     Given try to create new odds with data
-      | event_type | label     | value | active |
-      | h2h        | Under 1.5 | 1.50  | true   |
+      | event_type | match_id | label     | value | active |
+      | h2h        | 101      | Under 1.5 | 1.50  | true   |
     Then received status code is 201
     Then odds with label Under 1.5 have been stored successfully
     When try to delete odds by oddsId

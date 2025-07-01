@@ -39,11 +39,6 @@ public class PredictionApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/events/" + lastEvent.getEventType());
     }
 
-    @When("^try to get events by matchId with public endpoint$")
-    public void tryToGetEventByMatchIdPublicEndpoint() {
-        executeGet(localURL + "/events/match/" + lastEvent.getMatchId());
-    }
-
     @When("^try to get odds by oddsId with public endpoint$")
     public void tryToGetOddsByOddsIdPublicEndpoint() {
         executeGet(localURL + "/odds/" + lastOdds.getOddsId());
@@ -54,6 +49,11 @@ public class PredictionApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/odds/events/" + lastOdds.getEventType());
     }
 
+    @When("^try to get odds by matchId with public endpoint$")
+    public void tryToGetOddsByMatchIdPublicEndpoint() {
+        executeGet(localURL + "/odds/match/" + lastOdds.getMatchId());
+    }
+
     @When("^try to create new player bet with data with public endpoint$")
     public void tryToCreateNewPlayerBetPublicEndpoint(DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
@@ -61,7 +61,48 @@ public class PredictionApiDefsTest extends BaseSystemTest {
 
         PlayerBetDTO playerBetDto = new PlayerBetDTO();
         playerBetDto.setMatchId(Long.parseLong(row.get("match_id")));
-        playerBetDto.setLeagueId(Long.parseLong(row.get("league_id")));
+        playerBetDto.setLeagueId(row.get("league_id") == null ? lastLeague.getLeagueId() : Long.parseLong(row.get("league_id")));
+        playerBetDto.setUsername(row.get("username"));
+
+        List<PlayerBetSelectionDTO> selections = new ArrayList<>();
+
+        if (row.containsKey("selections")) {
+            String selectionsRaw = row.get("selections").trim();
+            if (!selectionsRaw.isEmpty()) {
+                String[] selectionParts = selectionsRaw.split(";");
+                for (String selectionStr : selectionParts) {
+                    String[] fields = selectionStr.trim().split(",");
+                    if (fields.length == 3) {
+                        PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
+                        selection.setOddsId(Long.parseLong(fields[0].trim()));
+                        selection.setEventType(fields[1].trim());
+                        selection.setStake(new BigDecimal(fields[2].trim()));
+                        selections.add(selection);
+                    } else {
+                        fail("Invalid selection format: " + selectionStr);
+                    }
+                }
+            }
+        }
+
+        playerBetDto.setSelections(selections);
+
+        try {
+            executePost(localURL + "/player-bets", objectMapper.writeValueAsString(playerBetDto));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^try to create new player bet with last data with public endpoint$")
+    public void tryToCreateNewPlayerBetForLastLeagueAndOddsPublicEndpoint(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        Map<String, String> row = rows.getFirst();
+
+        PlayerBetDTO playerBetDto = new PlayerBetDTO();
+        playerBetDto.setMatchId(Long.parseLong(row.get("match_id")));
+        playerBetDto.setLeagueId(row.get("league_id") == null ? lastLeague.getLeagueId() : Long.parseLong(row.get("league_id")));
         playerBetDto.setUsername(row.get("username"));
 
         List<PlayerBetSelectionDTO> selections = new ArrayList<>();

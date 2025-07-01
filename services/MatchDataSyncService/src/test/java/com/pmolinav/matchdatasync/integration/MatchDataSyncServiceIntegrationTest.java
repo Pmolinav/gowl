@@ -10,10 +10,7 @@ import com.pmolinav.predictionslib.dto.EventType;
 import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.dto.PlayerBetStatus;
 import com.pmolinav.predictionslib.model.*;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -58,6 +55,23 @@ class MatchDataSyncServiceIntegrationTest extends AbstractContainerBaseTest {
     void setupWireMock() {
         wireMockServer = new WireMockServer(9561);
         wireMockServer.start();
+    }
+
+    @BeforeEach
+    void beforeEach() {
+        eventsPreviouslyStored();
+    }
+
+    private void eventsPreviouslyStored() {
+        Event h2h = new Event(EventType.H2H.getName(), EventType.H2H.getDescription(),
+                12345L, 12345L);
+        eventRepository.save(h2h);
+        Event totals = new Event(EventType.TOTALS.getName(), EventType.TOTALS.getDescription(),
+                12345L, 12345L);
+        eventRepository.save(totals);
+        Event spreads = new Event(EventType.SPREADS.getName(), EventType.SPREADS.getDescription(),
+                12345L, 12345L);
+        eventRepository.save(spreads);
     }
 
     @AfterAll

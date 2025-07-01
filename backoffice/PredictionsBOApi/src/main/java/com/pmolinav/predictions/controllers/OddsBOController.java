@@ -62,6 +62,19 @@ public class OddsBOController {
         }
     }
 
+    @GetMapping("/match/{matchId}")
+    @Operation(summary = "Get odds by match ID", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<List<OddsDTO>> findOddsByMatchId(@PathVariable Long matchId) {
+        try {
+            List<OddsDTO> odds = oddsBOService.findOddsByMatchId(matchId);
+            return ResponseEntity.ok(odds);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
     @PostMapping
     @Operation(summary = "Create new odds", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createOdds(@RequestParam String requestUid,
@@ -102,6 +115,19 @@ public class OddsBOController {
     public ResponseEntity<?> deleteOdds(@RequestParam String requestUid, @PathVariable Long id) {
         try {
             oddsBOService.delete(id);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
+    @DeleteMapping("/match/{matchId}")
+    @Operation(summary = "Delete odds by match ID", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<?> deleteOddsByMatchId(@RequestParam String requestUid, @PathVariable Long matchId) {
+        try {
+            oddsBOService.deleteByMatchId(matchId);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

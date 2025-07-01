@@ -46,4 +46,18 @@ public class OddsController {
             return new ResponseEntity<>(e.getStatusCode());
         }
     }
+
+    @GetMapping("/match/{matchId}")
+    @Operation(summary = "Get odds by match ID", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<List<OddsDTO>> findOddsByMatchId(@RequestParam String requestUid,
+                                                           @PathVariable Long matchId) {
+        try {
+            List<OddsDTO> events = oddsService.findOddsByMatchId(matchId);
+            return ResponseEntity.ok(events);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
 }

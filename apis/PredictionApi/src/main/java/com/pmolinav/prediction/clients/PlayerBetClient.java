@@ -9,9 +9,6 @@ import java.util.List;
 @FeignClient(name = "PlayerBetClient", url = "http://predictionsservice:8007", path = "/player-bets")
 public interface PlayerBetClient {
 
-    @GetMapping
-    List<PlayerBetDTO> findAll();
-
     @GetMapping("/{id}")
     PlayerBetDTO findById(@PathVariable("id") Long id);
 

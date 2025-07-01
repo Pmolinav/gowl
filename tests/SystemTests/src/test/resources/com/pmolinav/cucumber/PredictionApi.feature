@@ -16,15 +16,15 @@ Feature: PredictionApi
       | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
       | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
     Given the following events have been stored previously
-      | event_type | match_id | description        | creation_date | modification_date |
-      | h2h        | 101      | Head to Head event | 1624000000    | 1624005000        |
-      | Totals     | 101      | Total goals event  | 1624001000    | 1624006000        |
-      | spreads    | 102      | Handicap event     | 1624002000    | 1624007000        |
+      | event_type | description        | creation_date | modification_date |
+      | h2h        | Head to Head event | 1624000000    | 1624005000        |
+      | Totals     | Total goals event  | 1624001000    | 1624006000        |
+      | spreads    | Handicap event     | 1624002000    | 1624007000        |
     Given the following odds have been stored previously
-      | odds_id | event_type | label    | value | active | creation_date | modification_date |
-      | 301     | h2h        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | h2h        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | Totals     | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | odds_id | match_id | event_type | label    | value | active | creation_date | modification_date |
+      | 301     | 101      | h2h        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
+      | 302     | 101      | h2h        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
+      | 303     | 102      | Totals     | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
 
@@ -57,12 +57,6 @@ Feature: PredictionApi
     Then received status code is 200
     Then an event with type h2h has been returned in response
 
-  Scenario: Get events by matchId successfully
-    Then an event with type h2h has been stored successfully
-    When try to get events by matchId with public endpoint
-    Then received status code is 200
-    Then a list of events with names h2h,Totals,h2h are returned in response
-
     # ODDS
   Scenario: Get odds by oddsId successfully
     Then odds with label Over 2.5 have been stored successfully
@@ -73,6 +67,12 @@ Feature: PredictionApi
   Scenario: Get odds by eventType successfully
     Then odds with label Home Win have been stored successfully
     When try to get odds by eventType with public endpoint
+    Then received status code is 200
+    Then a list of odds with labels Home Win,Away Win are returned in response
+
+  Scenario: Get odds by matchId successfully
+    Then odds with label Home Win have been stored successfully
+    When try to get odds by matchId with public endpoint
     Then received status code is 200
     Then a list of odds with labels Home Win,Away Win are returned in response
 

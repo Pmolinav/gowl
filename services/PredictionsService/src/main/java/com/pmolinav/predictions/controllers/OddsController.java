@@ -61,6 +61,18 @@ public class OddsController {
         }
     }
 
+    @GetMapping("/match/{matchId}")
+    public ResponseEntity<List<OddsDTO>> findOddsByMatchId(@PathVariable Long matchId) {
+        try {
+            List<OddsDTO> oddsList = oddsService.findByMatchId(matchId);
+            return ResponseEntity.ok(oddsList);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Long> createOdds(@RequestBody OddsDTO oddsDTO) {
         try {
@@ -87,6 +99,17 @@ public class OddsController {
     public ResponseEntity<Void> deleteOdds(@PathVariable Long id) {
         try {
             oddsService.deleteOdds(id);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+    @DeleteMapping("/match/{matchId}")
+    public ResponseEntity<Void> deleteOddsByMatchId(@PathVariable Long matchId) {
+        try {
+            oddsService.deleteOddsByMatchId(matchId);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

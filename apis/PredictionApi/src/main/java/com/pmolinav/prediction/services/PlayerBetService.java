@@ -1,6 +1,7 @@
 package com.pmolinav.prediction.services;
 
 import com.pmolinav.prediction.clients.PlayerBetClient;
+import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.InternalServerErrorException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
@@ -20,21 +21,17 @@ public class PlayerBetService {
     @Autowired
     private PlayerBetClient playerBetClient;
 
-    public List<PlayerBetDTO> findAll() {
-        try {
-            return playerBetClient.findAll();
-        } catch (Exception e) {
-            logger.error("Unexpected error while fetching all player bets", e);
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
     public PlayerBetDTO findById(Long id) {
         try {
             return playerBetClient.findById(id);
-        } catch (FeignException.NotFound e) {
-            logger.warn("PlayerBet with id {} not found", id);
-            throw new NotFoundException("PlayerBet with id " + id + " not found");
+        } catch (FeignException e) {
+            if (e.status() != 404) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("PlayerBet with id {} not found.", id, e);
+                throw new NotFoundException("PlayerBet with id " + id + " not found");
+            }
         } catch (Exception e) {
             logger.error("Unexpected error while fetching player bet by id", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -44,6 +41,14 @@ public class PlayerBetService {
     public List<PlayerBetDTO> findByMatchId(Long matchId) {
         try {
             return playerBetClient.findByMatchId(matchId);
+        } catch (FeignException e) {
+            if (e.status() != 404) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("PlayerBet by match id {} not found.", matchId, e);
+                throw new NotFoundException("PlayerBet by match id " + matchId + " not found");
+            }
         } catch (Exception e) {
             logger.error("Unexpected error while fetching player bets by matchId", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -53,6 +58,14 @@ public class PlayerBetService {
     public List<PlayerBetDTO> findByUsername(String username) {
         try {
             return playerBetClient.findByUsername(username);
+        } catch (FeignException e) {
+            if (e.status() != 404) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("PlayerBet by username {} not found.", username, e);
+                throw new NotFoundException("PlayerBet by username " + username + " not found");
+            }
         } catch (Exception e) {
             logger.error("Unexpected error while fetching player bets by username", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -71,9 +84,14 @@ public class PlayerBetService {
     public void delete(Long id) {
         try {
             playerBetClient.delete(id);
-        } catch (FeignException.NotFound e) {
-            logger.warn("PlayerBet with id {} not found for delete", id);
-            throw new NotFoundException("PlayerBet with id " + id + " not found");
+        } catch (FeignException e) {
+            if (e.status() != 404) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("PlayerBet with id {} not found.", id, e);
+                throw new NotFoundException("PlayerBet with id " + id + " not found");
+            }
         } catch (Exception e) {
             logger.error("Error while deleting player bet", e);
             throw new InternalServerErrorException(e.getMessage());

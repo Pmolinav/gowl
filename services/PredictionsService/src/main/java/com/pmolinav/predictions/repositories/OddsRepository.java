@@ -8,6 +8,8 @@ import java.util.List;
 public interface OddsRepository extends JpaRepository<Odds, Long> {
 
     List<Odds> findByEventType(String eventType);
+
+    List<Odds> findByMatchId(Long matchId);
 }
 
 

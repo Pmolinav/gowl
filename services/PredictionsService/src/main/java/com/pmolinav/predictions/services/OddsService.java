@@ -83,6 +83,22 @@ public class OddsService {
         return oddsList.stream().map(oddsMapper::oddsEntityToDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
+    public List<OddsDTO> findByMatchId(Long matchId) {
+        List<Odds> oddsList;
+        try {
+            oddsList = oddsRepository.findByMatchId(matchId);
+        } catch (Exception e) {
+            logger.error("Error retrieving events by matchId {}", matchId, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+        if (CollectionUtils.isEmpty(oddsList)) {
+            logger.warn("No events found by matchId {}", matchId);
+            throw new NotFoundException("Events not found for matchId " + matchId);
+        }
+        return oddsList.stream().map(oddsMapper::oddsEntityToDto).toList();
+    }
+
     @Transactional
     public Odds createOdds(OddsDTO oddsDTO) {
         try {
@@ -122,6 +138,20 @@ public class OddsService {
             throw e;
         } catch (Exception e) {
             logger.error("Error while deleting odds with id {}", oddsId, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public void deleteOddsByMatchId(Long matchId) {
+        try {
+            List<Odds> odds = oddsRepository.findByMatchId(matchId);
+            if (CollectionUtils.isEmpty(odds)) {
+                throw new NotFoundException("No odds found for matchId: " + matchId);
+            }
+            oddsRepository.deleteAll(odds);
+        } catch (Exception e) {
+            logger.error("Error deleting odds by matchId {}", matchId, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

@@ -49,18 +49,6 @@ public class EventController {
         }
     }
 
-    @GetMapping("/match/{matchId}")
-    public ResponseEntity<List<EventDTO>> findEventsByMatchId(@PathVariable Long matchId) {
-        try {
-            List<EventDTO> events = eventService.findByMatchId(matchId);
-            return ResponseEntity.ok(events);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (InternalServerErrorException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
-
     @PostMapping
     public ResponseEntity<String> createEvent(@RequestBody EventDTO eventDTO) {
         try {
@@ -95,15 +83,4 @@ public class EventController {
         }
     }
 
-    @DeleteMapping("/match/{matchId}")
-    public ResponseEntity<Void> deleteEventsByMatchId(@PathVariable Long matchId) {
-        try {
-            eventService.deleteEventsByMatchId(matchId);
-            return ResponseEntity.ok().build();
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (InternalServerErrorException e) {
-            return ResponseEntity.internalServerError().build();
-        }
-    }
 }

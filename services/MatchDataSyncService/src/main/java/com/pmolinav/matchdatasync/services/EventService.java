@@ -16,9 +16,6 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 @EnableAsync
 @Service
@@ -48,21 +45,6 @@ public class EventService {
             throw e;
         } catch (Exception e) {
             logger.error("Error retrieving event with type {}", type, e);
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
-    @Transactional(readOnly = true)
-    public List<Event> findByMatchId(Long matchId) {
-        try {
-            List<Event> events = eventRepository.findByMatchId(matchId);
-            if (CollectionUtils.isEmpty(events)) {
-                logger.warn("No events found by matchId {}", matchId);
-                throw new NotFoundException("Events not found for matchId " + matchId);
-            }
-            return events;
-        } catch (Exception e) {
-            logger.error("Error retrieving events by matchId {}", matchId, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

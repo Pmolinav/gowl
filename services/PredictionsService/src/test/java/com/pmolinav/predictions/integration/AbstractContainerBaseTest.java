@@ -95,20 +95,7 @@ public abstract class AbstractContainerBaseTest {
     }
 
     protected Event givenSomePreviouslyStoredEventWithId() {
-        Match match = givenSomePreviouslyStoredMatchWithId();
-
         Event event = new Event();
-        event.setMatchId(match.getMatchId());
-        event.setEventType(EventType.H2H.getName());
-        event.setDescription("Number of goals in the match");
-
-        lastEvent = eventRepository.save(event);
-        return lastEvent;
-    }
-
-    protected Event givenSomePreviouslyStoredEventWithMatchId(long matchId) {
-        Event event = new Event();
-        event.setMatchId(matchId);
         event.setEventType(EventType.H2H.getName());
         event.setDescription("Number of goals in the match");
 
@@ -121,6 +108,7 @@ public abstract class AbstractContainerBaseTest {
 
         Odds odds = new Odds();
         odds.setEventType(event.getEventType());
+        odds.setMatchId(lastMatch.getMatchId());
         odds.setLabel("Over 2.5");
         odds.setValue(BigDecimal.valueOf(2.10));
         odds.setActive(true);

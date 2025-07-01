@@ -10,25 +10,129 @@ Feature: MatchDataSyncService
       | username   | password       | name        | email            | roles      | creation_date | modification_date |
       | someUser   | somePassword   | someName    | some@email.com   | ROLE_ADMIN | 123456        | 123456            |
       | normalUser | normalPassword | Normal Name | normal@email.com | ROLE_USER  | 123456        | 123456            |
-    Given the following matches have been stored previously
-      | match_id | category_id | season | match_day_number | home_team    | away_team  | start_time | status | creation_date | modification_date |
-      | 101      | PREMIER     | 2025   | 1                | Team Alpha   | Team Beta  | 1624005000 | ACTIVE | 1624000000    | 1624005000        |
-      | 102      | PREMIER     | 2025   | 1                | Team Gamma   | Team Delta | 1624006000 | ACTIVE | 1624212000    | 1624001000        |
-      | 103      | PREMIER     | 2025   | 2                | Team Epsilon | Team Zeta  | 1624007000 | ACTIVE | 1624298400    | 1624002000        |
+    Given the following categories have been stored previously
+      | category_id | name       | description                        | sport    | country | icon_url             | is_active | creation_date | modification_date |
+      | MLS         | MLS League | North American 1st Division League | FOOTBALL | EU      | http://example.com/1 | true      | 123456        | 123456            |
+    Given the following match days have been stored previously
+      | category_id | season | match_day_number | synced | results_checked |
+      | MLS         | 2025   | 1                | false  | false           |
+    Given the following categories mappings have been stored previously
+      | category_id | external_sport_key |
+      | MLS         | soccer_usa_mls     |
     Given the following events have been stored previously
-      | event_type  | match_id | description       | creation_date | modification_date |
-      | Goal        | 101      | Goal scored event | 1624000000    | 1624005000        |
-      | Yellow Card | 101      | Yellow card event | 1624001000    | 1624006000        |
-      | Red Card    | 102      | Red card event    | 1624002000    | 1624007000        |
-    Given the following odds have been stored previously
-      | odds_id | event_type  | label    | value | active | creation_date | modification_date |
-      | 301     | Goal        | Home Win | 1.5   | true   | 1624000000    | 1624005000        |
-      | 302     | Goal        | Away Win | 2.5   | true   | 1624001000    | 1624006000        |
-      | 303     | Yellow Card | Over 2.5 | 1.8   | true   | 1624002000    | 1624007000        |
+      | event_type | description            | creation_date | modification_date |
+      | h2h        | Head to Head event     | 1624000000    | 1624005000        |
+      | h2h_lay    | Head to Head Lay event | 1624000000    | 1624005000        |
+      | totals     | Total Goals event      | 1624001000    | 1624006000        |
+      | spreads    | Handicap event         | 1624002000    | 1624007000        |
     When an user with username normalUser and password normalPassword tries to log in
     Then received status code is 200
 
-   # SYNCHRONIZE
-  Scenario: Synchronize matches from external API
-    Given mock odds response from external API
-    Then wait 130 seconds
+   # SYNCHRONIZE MATCHES
+  Scenario: Synchronize matches and results from external API
+    # 1. An user registers and creates a league for previously created category.
+    Given try to create a new league with public endpoint with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players      |
+      | Friendly League | A League for Friends | MLS         | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username normalUser has been associated to last league successfully
+    # 2. Other user registers too and joins to the league.
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
+    Given try to create several league players with public endpoint with data
+      | username | total_points | status |
+      | someUser | 10           | ACTIVE |
+    Then received status code is 201
+    Then a player with username someUser has been associated to last league successfully
+    # 3. Mock response from External API to get matches and odds call.
+    Given mock odds response from external API for external category mapping soccer_usa_mls
+    # 4. Wait for the scheduled method to be executed.
+    Then wait for 100 seconds
+    # 5. Assert that the expected matches, events and odds are created successfully from JSON response.
+    Then a match with categoryId MLS with home team Chicago Fire and away team Charlotte FC has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label Charlotte FC and point null have been stored successfully for the last event type
+    Then odds with label Chicago Fire and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 3.5 have been stored successfully for the last event type
+    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label Charlotte FC and point 0.25 have been stored successfully for the last event type
+    Then odds with label Chicago Fire and point -0.25 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team FC Dallas and away team San Diego FC has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label San Diego FC and point null have been stored successfully for the last event type
+    Then odds with label FC Dallas and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 3.5 have been stored successfully for the last event type
+    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label San Diego FC and point -0.25 have been stored successfully for the last event type
+    Then odds with label FC Dallas and point 0.25 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team Houston Dynamo and away team St. Louis City SC has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label St. Louis City SC and point null have been stored successfully for the last event type
+    Then odds with label Houston Dynamo and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 3.5 have been stored successfully for the last event type
+    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label Houston Dynamo and point -0.5 have been stored successfully for the last event type
+    Then odds with label St. Louis City SC and point 0.5 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team Sporting Kansas City and away team Real Salt Lake has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label Real Salt Lake and point null have been stored successfully for the last event type
+    Then odds with label Sporting Kansas City and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 2.5 have been stored successfully for the last event type
+    Then odds with label Under and point 2.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label Sporting Kansas City and point 0 have been stored successfully for the last event type
+    Then odds with label Real Salt Lake and point 0 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team Seattle Sounders FC and away team Austin FC has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label Austin FC and point null have been stored successfully for the last event type
+    Then odds with label Seattle Sounders FC and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 2.5 have been stored successfully for the last event type
+    Then odds with label Under and point 2.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label Seattle Sounders FC and point -0.75 have been stored successfully for the last event type
+    Then odds with label Austin FC and point 0.75 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team San Jose Earthquakes and away team LA Galaxy has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label LA Galaxy and point null have been stored successfully for the last event type
+    Then odds with label San Jose Earthquakes and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 3.5 have been stored successfully for the last event type
+    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label San Jose Earthquakes and point -1 have been stored successfully for the last event type
+    Then odds with label LA Galaxy and point 1 have been stored successfully for the last event type
+    Then a match with categoryId MLS with home team Columbus Crew SC and away team Philadelphia Union has been stored successfully
+    Then an event with type h2h has been stored successfully
+    Then odds with label Philadelphia Union and point null have been stored successfully for the last event type
+    Then odds with label Columbus Crew SC and point null have been stored successfully for the last event type
+    Then odds with label Draw and point null have been stored successfully for the last event type
+    Then an event with type totals has been stored successfully
+    Then odds with label Over and point 3.5 have been stored successfully for the last event type
+    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then an event with type spreads has been stored successfully
+    Then odds with label Columbus Crew SC and point -0.5 have been stored successfully for the last event type
+    Then odds with label Philadelphia Union and point 0.5 have been stored successfully for the last event type
+    # 6. Both players bet for several matches.
+#    When an user with username normalUser and password normalPassword tries to log in
+#    Then received status code is 200
+#    Given try to create new player bet with last data with public endpoint
+#      | match_id | username   | selections                    |
+#      | 101      | normalUser | 301,h2h,5.00;303,Totals,10.00 |
+#    Then received status code is 201
+#    Then a player bet for username normalUser has been stored successfully
+

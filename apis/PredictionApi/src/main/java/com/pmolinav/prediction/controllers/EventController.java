@@ -39,17 +39,4 @@ public class EventController {
         }
     }
 
-    @GetMapping("/match/{matchId}")
-    @Operation(summary = "Get events by match ID", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<EventDTO>> findEventsByMatchId(@RequestParam String requestUid,
-                                                              @PathVariable Long matchId) {
-        try {
-            List<EventDTO> events = eventService.findEventsByMatchId(matchId);
-            return ResponseEntity.ok(events);
-        } catch (NotFoundException e) {
-            return ResponseEntity.notFound().build();
-        } catch (CustomStatusException e) {
-            return new ResponseEntity<>(e.getStatusCode());
-        }
-    }
 }

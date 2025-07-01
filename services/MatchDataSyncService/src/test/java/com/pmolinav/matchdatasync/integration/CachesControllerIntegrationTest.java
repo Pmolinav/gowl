@@ -138,8 +138,8 @@ class CachesControllerIntegrationTest extends AbstractContainerBaseTest {
 
         Match savedMatch = matchRepository.save(match);
 
-        Event event = new Event(EventType.H2H.getName(), savedMatch.getMatchId(),
-                EventType.H2H.getDescription(), 1234567L, 1234567L);
+        Event event = new Event(EventType.H2H.getName(), EventType.H2H.getDescription(),
+                1234567L, 1234567L);
 
         Event saved = eventRepository.save(event);
         return saved.getEventType();

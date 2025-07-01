@@ -6,7 +6,6 @@ import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.InternalServerErrorException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import feign.FeignException;
-import feign.RetryableException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ public class HealthService {
         try {
             healthClient.health();
         } catch (FeignException e) {
-            if (e instanceof RetryableException) {
+            if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
                 throw new CustomStatusException(e.getMessage(), e.status());
             } else {

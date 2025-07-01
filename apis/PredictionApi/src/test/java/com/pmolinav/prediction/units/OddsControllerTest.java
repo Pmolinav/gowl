@@ -21,7 +21,7 @@ class OddsControllerTest extends BaseUnitTest {
     private List<OddsDTO> expectedOdds;
     private ResponseEntity<?> result;
 
-    /* FIND ODD BY ID */
+    /* FIND ODDS BY ID */
     @Test
     void findOddByIdHappyPath() {
         whenFindOddByIdInServiceReturnedValidOdd();
@@ -47,7 +47,7 @@ class OddsControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /* FIND ODDS BY EVENT ID */
+    /* FIND ODDS BY EVENT TYPE */
     @Test
     void findOddByEventTypeHappyPath() {
         whenFindOddByEventTypeInServiceReturnedValidOdd();
@@ -73,10 +73,36 @@ class OddsControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* FIND ODDS BY EVENT TYPE */
+    @Test
+    void findOddByMatchIdHappyPath() {
+        whenFindOddByMatchIdInServiceReturnedValidOdd();
+        andFindOddByMatchIdIsCalledInController();
+        thenVerifyFindOddByMatchIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseListIs(expectedOdds);
+    }
+
+    @Test
+    void findOddByMatchIdNotFound() {
+        whenFindOddByMatchIdInServiceThrowsNotFoundException();
+        andFindOddByMatchIdIsCalledInController();
+        thenVerifyFindOddByMatchIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void findOddByMatchIdServerError() {
+        whenFindOddByMatchIdInServiceThrowsServerException();
+        andFindOddByMatchIdIsCalledInController();
+        thenVerifyFindOddByMatchIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindOddByIdInServiceReturnedValidOdd() {
-        oddsDTO = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
+        oddsDTO = new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true);
         when(oddsServiceMock.findById(1L)).thenReturn(oddsDTO);
     }
 
@@ -90,7 +116,7 @@ class OddsControllerTest extends BaseUnitTest {
 
     private void whenFindOddByEventTypeInServiceReturnedValidOdd() {
         expectedOdds = List.of(
-                new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true)
+                new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true)
         );
         when(oddsServiceMock.findByEventType(EventType.H2H.getName())).thenReturn(expectedOdds);
     }
@@ -103,6 +129,20 @@ class OddsControllerTest extends BaseUnitTest {
         when(oddsServiceMock.findByEventType(EventType.H2H.getName())).thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
+    private void whenFindOddByMatchIdInServiceReturnedValidOdd() {
+        expectedOdds = List.of(
+                new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true)
+        );
+        when(oddsServiceMock.findOddsByMatchId(1L)).thenReturn(expectedOdds);
+    }
+
+    private void whenFindOddByMatchIdInServiceThrowsNotFoundException() {
+        when(oddsServiceMock.findOddsByMatchId(1L)).thenThrow(new NotFoundException("Odd not found"));
+    }
+
+    private void whenFindOddByMatchIdInServiceThrowsServerException() {
+        when(oddsServiceMock.findOddsByMatchId(1L)).thenThrow(new CustomStatusException("Internal Server Error", 500));
+    }
 
     // --- CALL CONTROLLER METHODS ---
 
@@ -114,6 +154,10 @@ class OddsControllerTest extends BaseUnitTest {
         result = oddsController.findOddsByEventType(requestUid, EventType.H2H.getName());
     }
 
+    private void andFindOddByMatchIdIsCalledInController() {
+        result = oddsController.findOddsByMatchId(requestUid, 1L);
+    }
+
     // --- VERIFY SERVICE CALLS ---
 
     private void thenVerifyFindOddByIdHasBeenCalledInService() {
@@ -122,6 +166,10 @@ class OddsControllerTest extends BaseUnitTest {
 
     private void thenVerifyFindOddByEventTypeHasBeenCalledInService() {
         verify(oddsServiceMock, times(1)).findByEventType(EventType.H2H.getName());
+    }
+
+    private void thenVerifyFindOddByMatchIdHasBeenCalledInService() {
+        verify(oddsServiceMock, times(1)).findOddsByMatchId(1L);
     }
 
     // --- ASSERTIONS ---

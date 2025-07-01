@@ -66,22 +66,6 @@ public class EventService {
         }
     }
 
-    @Transactional(readOnly = true)
-    public List<EventDTO> findByMatchId(Long matchId) {
-        List<Event> events;
-        try {
-            events = eventRepository.findByMatchId(matchId);
-        } catch (Exception e) {
-            logger.error("Error retrieving events by matchId {}", matchId, e);
-            throw new InternalServerErrorException(e.getMessage());
-        }
-        if (CollectionUtils.isEmpty(events)) {
-            logger.warn("No events found by matchId {}", matchId);
-            throw new NotFoundException("Events not found for matchId " + matchId);
-        }
-        return events.stream().map(eventMapper::eventEntityToDto).toList();
-    }
-
     @Transactional
     public Event createEvent(EventDTO eventDTO) {
         try {
@@ -122,20 +106,6 @@ public class EventService {
             throw e;
         } catch (Exception e) {
             logger.error("Error deleting event by event type {}", type, e);
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
-    @Transactional
-    public void deleteEventsByMatchId(Long matchId) {
-        try {
-            List<Event> events = eventRepository.findByMatchId(matchId);
-            if (CollectionUtils.isEmpty(events)) {
-                throw new NotFoundException("No events found for matchId: " + matchId);
-            }
-            eventRepository.deleteAll(events);
-        } catch (Exception e) {
-            logger.error("Error deleting events by matchId {}", matchId, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

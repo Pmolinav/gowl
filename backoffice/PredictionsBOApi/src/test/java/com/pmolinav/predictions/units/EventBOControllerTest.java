@@ -160,15 +160,14 @@ class EventBOControllerTest extends BaseUnitTest {
 
     private void givenValidEventDTOForRequest() {
         eventDTO = new EventDTO();
-        eventDTO.setMatchId(2L);
         eventDTO.setEventType(EventType.H2H.getName());
         // set other properties as needed
     }
 
     private void whenFindAllEventsInServiceReturnedValidEvents() {
         expectedEvents = List.of(
-                new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription()),
-                new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription())
+                new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription()),
+                new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription())
         );
         when(eventBOServiceMock.findAllEvents()).thenReturn(expectedEvents);
     }
@@ -182,7 +181,7 @@ class EventBOControllerTest extends BaseUnitTest {
     }
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
-        eventDTO = new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
+        eventDTO = new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
         when(eventBOServiceMock.findEventByType(EventType.H2H.getName())).thenReturn(eventDTO);
     }
 

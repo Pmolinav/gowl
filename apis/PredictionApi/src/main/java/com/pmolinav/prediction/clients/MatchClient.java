@@ -2,15 +2,13 @@ package com.pmolinav.prediction.clients;
 
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @FeignClient(name = "MatchClient", url = "http://predictionsservice:8007", path = "/matches")
 public interface MatchClient {
-
-    @GetMapping
-    List<MatchDTO> findAll();
 
     @GetMapping("/{id}")
     MatchDTO findById(@PathVariable("id") Long id);
@@ -21,12 +19,4 @@ public interface MatchClient {
             @PathVariable Integer season,
             @PathVariable Integer number);
 
-    @PostMapping
-    Long create(@RequestBody MatchDTO matchDTO);
-
-    @PutMapping("/{id}")
-    void update(@PathVariable("id") Long id, @RequestBody MatchDTO matchDTO);
-
-    @DeleteMapping("/{id}")
-    void delete(@PathVariable("id") Long id);
 }

@@ -11,9 +11,7 @@ import io.cucumber.java.en.When;
 
 import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
@@ -60,7 +58,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                     .map(row -> {
                         Event event = new Event();
                         event.setEventType(row.get("event_type"));
-                        event.setMatchId(Long.parseLong(row.get("match_id")));
                         event.setDescription(row.get("description"));
                         event.setCreationDate(row.get("creation_date") != null ?
                                 Long.parseLong(row.get("creation_date")) : null);
@@ -85,6 +82,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
                     .map(row -> {
                         Odds odds = new Odds();
                         odds.setOddsId(Long.parseLong(row.get("odds_id")));
+                        odds.setMatchId(Long.parseLong(row.get("match_id")));
                         odds.setEventType(row.get("event_type"));
                         odds.setLabel(row.get("label"));
                         odds.setValue(new BigDecimal(row.get("value")));
@@ -229,7 +227,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         Map<String, String> row = rows.getFirst();
         EventDTO eventDto = new EventDTO();
         eventDto.setEventType(row.get("event_type"));
-        eventDto.setMatchId(Long.parseLong(row.get("match_id")));
         eventDto.setDescription(row.get("description"));
 
         try {
@@ -247,7 +244,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         Map<String, String> row = rows.getFirst();
         EventDTO eventDto = new EventDTO();
         eventDto.setEventType(row.get("event_type"));
-        eventDto.setMatchId(Long.parseLong(row.get("match_id")));
         eventDto.setDescription(row.get("description"));
 
         try {
@@ -269,11 +265,6 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/events/" + lastEvent.getEventType());
     }
 
-    @When("^try to get events by matchId$")
-    public void tryToGetEventByMatchId() {
-        executeGet(localURL + "/events/match/" + lastEvent.getMatchId());
-    }
-
     @When("^try to delete an event by eventType$")
     public void tryToDeleteEventByEventType() {
         executeDelete(localURL + "/events/" + lastEvent.getEventType());
@@ -286,8 +277,10 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         Map<String, String> row = rows.getFirst();
         OddsDTO oddsDto = new OddsDTO();
         oddsDto.setEventType(row.get("event_type"));
+        oddsDto.setMatchId(Long.parseLong(row.get("match_id")));
         oddsDto.setLabel(row.get("label"));
         oddsDto.setValue(new BigDecimal(row.get("value")));
+        oddsDto.setProvider(row.get("provider"));
         oddsDto.setActive(Boolean.parseBoolean(row.get("active")));
 
         try {
@@ -305,8 +298,10 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         Map<String, String> row = rows.getFirst();
         OddsDTO oddsDto = new OddsDTO();
         oddsDto.setEventType(row.get("event_type"));
+        oddsDto.setMatchId(Long.parseLong(row.get("match_id")));
         oddsDto.setLabel(row.get("label"));
         oddsDto.setValue(new BigDecimal(row.get("value")));
+        oddsDto.setProvider(row.get("provider"));
         oddsDto.setActive(Boolean.parseBoolean(row.get("active")));
 
         try {
@@ -326,6 +321,11 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     @When("^try to get odds by oddsId$")
     public void tryToGetOddsByOddsId() {
         executeGet(localURL + "/odds/" + lastOdds.getOddsId());
+    }
+
+    @When("^try to get odds by matchId$")
+    public void tryToGetOddsByMatchId() {
+        executeGet(localURL + "/odds/match/" + lastOdds.getMatchId());
     }
 
     @When("^try to get odds by eventType$")
@@ -449,6 +449,21 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         }
     }
 
+    @Then("a match with categoryId (\\w+) with home team (.*) and away team (.*) has been stored successfully$")
+    public void aMatchByCategoryIdAndHomeAndAwayTeamHasBeenStored(String categoryId, String homeTeam, String awayTeam) {
+        try {
+            List<Match> matches = predictionsDbConnector.getMatchesByCategoryId(categoryId);
+            Optional<Match> optionalMatch = matches.stream().filter(match -> match.getHomeTeam().equals(homeTeam)
+                    && match.getAwayTeam().equals(awayTeam)).findFirst();
+            assertTrue(optionalMatch.isPresent());
+            lastMatch = optionalMatch.get();
+            assertNotNull(lastMatch);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
     @Then("last stored match home team is (.*) and away team is (.*)$")
     public void aMatchWithHomeAndAwayTeamHasBeenStored(String homeTeam, String awayTeam) {
         try {
@@ -475,10 +490,28 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     }
 
     @Then("odds with label (.*) have been stored successfully$")
-    public void oddsByLabelHaveBeenStored(String label) {
+    public void oddsByLabelAndLastEventTypeHaveBeenStored(String label) {
         try {
             List<Odds> oddsList = predictionsDbConnector.getOddsByLabel(label);
             lastOdds = oddsList.getFirst();
+            assertNotNull(lastOdds);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Then("odds with label (.*) and point (.*) have been stored successfully for the last event type$")
+    public void oddsByLabelHaveBeenStored(String label, String pointAsString) {
+        try {
+            BigDecimal point = "null".equals(pointAsString) ? null : new BigDecimal(pointAsString);
+            Double pointAsDouble = point != null ? point.doubleValue() : null;
+            List<Odds> oddsList = predictionsDbConnector.getOddsByLabel(label);
+            Optional<Odds> optionalOdds = oddsList.stream()
+                    .filter(odds -> odds.getEventType().equals(lastEvent.getEventType())
+                            && Objects.equals(odds.getPoint() == null ? null : odds.getPoint().doubleValue(), pointAsDouble)).findFirst();
+            assertTrue(optionalOdds.isPresent());
+            lastOdds = optionalOdds.get();
             assertNotNull(lastOdds);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -60,8 +60,18 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                         matchDay.setCategoryId(row.get("category_id"));
                         matchDay.setSeason(Integer.parseInt(row.get("season")));
                         matchDay.setMatchDayNumber(Integer.parseInt(row.get("match_day_number")));
-                        matchDay.setStartDate(Long.parseLong(row.get("start_date")));
-                        matchDay.setEndDate(Long.parseLong(row.get("end_date")));
+                        // If null, now + 1 day as default.
+                        if (row.get("start_date") == null) {
+                            matchDay.setStartDate(System.currentTimeMillis() + 86400000L);
+                        } else {
+                            matchDay.setStartDate(Long.parseLong(row.get("start_date")));
+                        }
+                        // If null, now + 2 days as default.
+                        if (row.get("end_date") == null) {
+                            matchDay.setEndDate(System.currentTimeMillis() + 172800000L);
+                        } else {
+                            matchDay.setEndDate(Long.parseLong(row.get("end_date")));
+                        }
                         matchDay.setSynced(Boolean.parseBoolean(row.get("synced")));
                         matchDay.setResultsChecked(Boolean.parseBoolean(row.get("results_checked")));
                         return matchDay;

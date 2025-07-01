@@ -1,6 +1,5 @@
 package com.pmolinav.prediction.integration;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.predictionslib.dto.EventType;
@@ -54,31 +53,6 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
         assertEquals(expectedEvents.getFirst(), response);
     }
 
-    @Test
-    void findEventsByMatchIdInternalServerError() throws Exception {
-        andFindEventsByMatchIdThrowsNonRetryableException();
-
-        mockMvc.perform(get("/events/match/1?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isInternalServerError());
-    }
-
-    @Test
-    void findEventsByMatchIdHappyPath() throws Exception {
-        andFindEventsByMatchIdReturnsEvent();
-
-        MvcResult result = mockMvc.perform(get("/events/match/1?requestUid=" + requestUid)
-                        .header(HttpHeaders.AUTHORIZATION, authToken))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        List<EventDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<EventDTO>>() {
-                });
-
-        assertEquals(expectedEvents, responseList);
-    }
-
     private void andFindEventByIdReturnsEvent() {
         this.expectedEvents = List.of(buildEventDTO());
         when(this.eventClient.findByEventType(anyString())).thenReturn(expectedEvents.getFirst());
@@ -88,16 +62,7 @@ class EventControllerIntegrationTest extends AbstractBaseTest {
         doThrow(new RuntimeException("someException")).when(this.eventClient).findByEventType(anyString());
     }
 
-    private void andFindEventsByMatchIdReturnsEvent() {
-        this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findEventsByMatchId(anyLong())).thenReturn(expectedEvents);
-    }
-
-    private void andFindEventsByMatchIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findEventsByMatchId(anyLong());
-    }
-
     private EventDTO buildEventDTO() {
-        return new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
+        return new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
     }
 }

@@ -56,23 +56,6 @@ public class EventBOService {
         }
     }
 
-    public List<EventDTO> findEventsByMatchId(Long matchId) {
-        try {
-            return eventClient.findEventsByMatchId(matchId);
-        } catch (FeignException e) {
-            if (e instanceof RetryableException) {
-                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
-                throw new CustomStatusException(e.getMessage(), e.status());
-            } else {
-                logger.warn("Events with match id {} not found.", matchId, e);
-                throw new NotFoundException("Events by matchId " + matchId + " not found");
-            }
-        } catch (Exception e) {
-            logger.error("Unexpected exception occurred while calling service.", e);
-            throw new InternalServerErrorException(e.getMessage());
-        }
-    }
-
     public Long createEvent(EventDTO eventDTO) {
         try {
             return eventClient.create(eventDTO);

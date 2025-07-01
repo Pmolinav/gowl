@@ -19,6 +19,9 @@ public class OddsDTO {
     @NotNull(message = "Event type must not be null.")
     private String eventType;
 
+    @NotNull(message = "Match ID must not be null.")
+    private Long matchId;
+
     @NotBlank(message = "Label is mandatory.")
     @Size(max = 50, message = "Label must be at most 50 characters.")
     private String label;
@@ -29,12 +32,17 @@ public class OddsDTO {
 
     private BigDecimal point;
 
+    @Size(max = 50, message = "Provider must be at most 50 characters.")
+    private String provider;
+
     private Boolean active = true;
 
-    public OddsDTO(String eventType, String label, BigDecimal value, Boolean active) {
+    public OddsDTO(String eventType, Long matchId, String label, BigDecimal value, String provider, Boolean active) {
         this.eventType = eventType;
+        this.matchId = matchId;
         this.label = label;
         this.value = value;
+        this.provider = provider;
         this.active = active;
     }
 }

@@ -4,5 +4,6 @@ public enum PlayerBetStatus {
     PENDING,
     SUBMITTED,
     WON,
-    LOST
+    LOST,
+    PUSH
 }

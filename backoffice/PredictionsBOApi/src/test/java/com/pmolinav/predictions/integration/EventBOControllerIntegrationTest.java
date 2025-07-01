@@ -165,6 +165,6 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private EventDTO buildEventDTO() {
-        return new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
+        return new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
     }
 }

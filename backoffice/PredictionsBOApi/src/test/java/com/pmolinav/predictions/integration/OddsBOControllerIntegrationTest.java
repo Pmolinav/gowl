@@ -64,7 +64,7 @@ class OddsBOControllerIntegrationTest extends AbstractBaseTest {
     void createOddsServerError() throws Exception {
         andCreateOddsThrowsNonRetryableException();
 
-        OddsDTO requestDto = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
+        OddsDTO requestDto = new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true);
 
         mockMvc.perform(post("/odds?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -77,7 +77,7 @@ class OddsBOControllerIntegrationTest extends AbstractBaseTest {
     void createOddsHappyPath() throws Exception {
         andCreateOddsReturnedValidId();
 
-        OddsDTO requestDto = new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true);
+        OddsDTO requestDto = new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true);
 
         MvcResult result = mockMvc.perform(post("/odds?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -136,7 +136,7 @@ class OddsBOControllerIntegrationTest extends AbstractBaseTest {
     // ----- Mock setup helpers -----
 
     private void andFindAllOddsReturnedValidOdds() {
-        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true));
+        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true));
         when(this.oddsClient.findAll()).thenReturn(expectedOdds);
     }
 
@@ -153,7 +153,7 @@ class OddsBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindOddsByIdReturnedOdds() {
-        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), "LABEL1", BigDecimal.valueOf(2.0), true));
+        this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true));
         when(this.oddsClient.findById(anyLong())).thenReturn(expectedOdds.getFirst());
     }
 

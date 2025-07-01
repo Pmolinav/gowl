@@ -17,9 +17,6 @@ public class EventDTO {
     @Size(max = 100, message = "Event type must be at most 100 characters.")
     private String eventType;
 
-    @NotNull(message = "Match ID must not be null.")
-    private Long matchId;
-
     @Size(max = 255, message = "Description must be at most 255 characters.")
     private String description;
 

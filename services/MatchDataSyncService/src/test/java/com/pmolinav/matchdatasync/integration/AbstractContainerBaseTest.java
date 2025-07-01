@@ -109,7 +109,6 @@ public abstract class AbstractContainerBaseTest {
 
         Event event = new Event();
         event.setEventType(EventType.H2H.getName());
-        event.setMatchId(match.getMatchId());
         event.setDescription("Number of goals in the match");
 
         return eventRepository.save(event);
@@ -118,7 +117,6 @@ public abstract class AbstractContainerBaseTest {
     protected Event givenSomePreviouslyStoredEventWithMatchId(long matchId) {
         Event event = new Event();
         event.setEventType(EventType.H2H.getName());
-        event.setMatchId(matchId);
         event.setDescription("Number of goals in the match");
 
         return eventRepository.save(event);

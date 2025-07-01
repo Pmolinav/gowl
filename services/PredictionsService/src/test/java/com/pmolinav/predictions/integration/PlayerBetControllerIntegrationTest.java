@@ -71,6 +71,7 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void createPlayerBetHappyPath() throws Exception {
+        givenSomePreviouslyStoredMatchWithId();
         Odds odds = givenSomePreviouslyStoredOddsWithId();
 
         PlayerBetDTO request = new PlayerBetDTO("newUser",

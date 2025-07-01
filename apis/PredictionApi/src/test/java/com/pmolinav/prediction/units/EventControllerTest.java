@@ -46,36 +46,10 @@ class EventControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /* FIND EVENTS BY MATCH ID */
-    @Test
-    void findEventByMatchIdHappyPath() {
-        whenFindEventByMatchIdInServiceReturnedValidEvent();
-        andFindEventByMatchIdIsCalledInController();
-        thenVerifyFindEventByMatchIdHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseListIs(expectedEvents);
-    }
-
-    @Test
-    void findEventByMatchIdNotFound() {
-        whenFindEventByMatchIdInServiceThrowsNotFoundException();
-        andFindEventByMatchIdIsCalledInController();
-        thenVerifyFindEventByMatchIdHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
-    }
-
-    @Test
-    void findEventByMatchIdServerError() {
-        whenFindEventByMatchIdInServiceThrowsServerException();
-        andFindEventByMatchIdIsCalledInController();
-        thenVerifyFindEventByMatchIdHasBeenCalledInService();
-        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     // --- SETUP MOCK RETURNS ---
 
     private void whenFindEventByIdInServiceReturnedValidEvent() {
-        eventDTO = new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription());
+        eventDTO = new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
         when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenReturn(eventDTO);
     }
 
@@ -87,20 +61,6 @@ class EventControllerTest extends BaseUnitTest {
         when(eventServiceMock.findEventByEventType(EventType.H2H.getName())).thenThrow(new InternalServerErrorException("Server error"));
     }
 
-    private void whenFindEventByMatchIdInServiceReturnedValidEvent() {
-        expectedEvents = List.of(
-                new EventDTO(EventType.H2H.getName(), 2L, EventType.H2H.getDescription())
-        );
-        when(eventServiceMock.findEventsByMatchId(1L)).thenReturn(expectedEvents);
-    }
-
-    private void whenFindEventByMatchIdInServiceThrowsNotFoundException() {
-        when(eventServiceMock.findEventsByMatchId(1L)).thenThrow(new NotFoundException("Event not found"));
-    }
-
-    private void whenFindEventByMatchIdInServiceThrowsServerException() {
-        when(eventServiceMock.findEventsByMatchId(1L)).thenThrow(new InternalServerErrorException("Server error"));
-    }
 
     // --- CALL CONTROLLER METHODS ---
 
@@ -108,18 +68,10 @@ class EventControllerTest extends BaseUnitTest {
         result = eventController.findEventById(requestUid, EventType.H2H.getName());
     }
 
-    private void andFindEventByMatchIdIsCalledInController() {
-        result = eventController.findEventsByMatchId(requestUid, 1L);
-    }
-
     // --- VERIFY SERVICE METHOD CALLS ---
 
     private void thenVerifyFindEventByIdHasBeenCalledInService() {
         verify(eventServiceMock, times(1)).findEventByEventType(anyString());
-    }
-
-    private void thenVerifyFindEventByMatchIdHasBeenCalledInService() {
-        verify(eventServiceMock, times(1)).findEventsByMatchId(anyLong());
     }
 
     // --- ASSERTIONS ---

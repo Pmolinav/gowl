@@ -51,11 +51,6 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         }
     }
 
-    @Given("^wait for (\\d+) seconds$")
-    public void givenInvalidAuthToken(int seconds) throws InterruptedException {
-        Thread.sleep(seconds * 1000L);
-    }
-
     @Given("^invalid auth token$")
     public void givenInvalidAuthToken() {
         authToken = "invalidAuthToken";

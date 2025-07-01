@@ -99,19 +99,25 @@ public class PlayerBetDataProcessor {
                 for (PlayerBet bet : pendingBetsPage.getContent()) {
                     try {
                         boolean allSelectionsCorrect = true;
+                        boolean allSelectionsPush = true;
 
                         for (PlayerBetSelection selection : bet.getSelections()) {
-                            boolean correct = isPredictionCorrect(selection, externalResult);
+                            Boolean correct = isPredictionCorrect(selection, externalResult);
 
-                            selection.setStatus(correct ? PlayerBetStatus.WON : PlayerBetStatus.LOST);
+                            selection.setStatus(correct == null ? PlayerBetStatus.PUSH :
+                                    correct ? PlayerBetStatus.WON : PlayerBetStatus.LOST);
                             updatedSelections.add(selection);
 
-                            if (!correct) {
+                            if (correct != null) {
+                                allSelectionsPush = false;
+                            }
+                            if (Boolean.FALSE.equals(correct)) {
                                 allSelectionsCorrect = false;
                             }
                         }
 
-                        bet.setStatus(allSelectionsCorrect ? PlayerBetStatus.WON : PlayerBetStatus.LOST);
+                        bet.setStatus(allSelectionsPush ? PlayerBetStatus.PUSH :
+                                allSelectionsCorrect ? PlayerBetStatus.WON : PlayerBetStatus.LOST);
                         updatedBets.add(bet);
 
                         // Async calls used to store player points.
@@ -167,7 +173,7 @@ public class PlayerBetDataProcessor {
     }
 
 
-    public boolean isPredictionCorrect(PlayerBetSelection selection, ExternalMatchScoreDTO result) {
+    public Boolean isPredictionCorrect(PlayerBetSelection selection, ExternalMatchScoreDTO result) {
         Odds odds = oddsService.findOddsById(selection.getOddsId()); // Non-cacheable
 
         String eventKey = selection.getEventType(); // e.g. "h2h", "totals", "spreads"
@@ -222,7 +228,7 @@ public class PlayerBetDataProcessor {
         throw new IllegalArgumentException("Invalid totals label: " + odds.getLabel());
     }
 
-    private boolean evaluateSpreads(List<ExternalScoreDTO> scores, String label, BigDecimal point) {
+    private Boolean evaluateSpreads(List<ExternalScoreDTO> scores, String label, BigDecimal point) {
         if (scores.size() != 2) {
             throw new IllegalArgumentException("Invalid number of scores in external match result");
         }
@@ -244,7 +250,7 @@ public class PlayerBetDataProcessor {
                 ? Integer.parseInt(team2.getScore())
                 : Integer.parseInt(team1.getScore()));
 
-        return teamScore.compareTo(opponentScore) > 0;
+        return teamScore.compareTo(opponentScore) == 0 ? null : teamScore.compareTo(opponentScore) > 0;
     }
 
     @Async

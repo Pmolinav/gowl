@@ -56,7 +56,7 @@ public class Match {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
-    private List<Event> events;
+    private List<Odds> odds;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)

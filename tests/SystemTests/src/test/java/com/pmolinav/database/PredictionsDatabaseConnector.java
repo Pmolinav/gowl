@@ -131,24 +131,23 @@ public class PredictionsDatabaseConnector {
 
     public void insertEvents(List<Event> events) throws SQLException {
         String query = "INSERT INTO event " +
-                "(event_type, match_id, description, creation_date, modification_date) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "(event_type, description, creation_date, modification_date) " +
+                "VALUES (?, ?, ?, ?)";
 
         for (Event event : events) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setString(1, event.getEventType());
-                preparedStatement.setLong(2, event.getMatchId());
-                preparedStatement.setString(3, event.getDescription());
+                preparedStatement.setString(2, event.getDescription());
 
                 if (event.getCreationDate() != null) {
-                    preparedStatement.setLong(4, event.getCreationDate());
+                    preparedStatement.setLong(3, event.getCreationDate());
                 } else {
-                    preparedStatement.setNull(4, Types.BIGINT);
+                    preparedStatement.setNull(3, Types.BIGINT);
                 }
                 if (event.getModificationDate() != null) {
-                    preparedStatement.setLong(5, event.getModificationDate());
+                    preparedStatement.setLong(4, event.getModificationDate());
                 } else {
-                    preparedStatement.setNull(5, Types.BIGINT);
+                    preparedStatement.setNull(4, Types.BIGINT);
                 }
 
                 preparedStatement.executeUpdate();
@@ -169,7 +168,6 @@ public class PredictionsDatabaseConnector {
             while (rs.next()) {
                 Event event = new Event(
                         rs.getString("event_type"),
-                        rs.getLong("match_id"),
                         rs.getString("description"),
                         rs.getLong("creation_date"),
                         rs.getLong("modification_date")
@@ -195,26 +193,27 @@ public class PredictionsDatabaseConnector {
 
     public void insertOdds(List<Odds> oddsList) throws SQLException {
         String query = "INSERT INTO odds " +
-                "(odds_id, event_type, label, value, active, creation_date, modification_date) " +
-                "VALUES (?, ?, ?, ?, ?, ?, ?)";
+                "(odds_id, match_id, event_type, label, value, active, creation_date, modification_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         for (Odds odds : oddsList) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setLong(1, odds.getOddsId());
-                preparedStatement.setString(2, odds.getEventType());
-                preparedStatement.setString(3, odds.getLabel());
-                preparedStatement.setBigDecimal(4, odds.getValue());
-                preparedStatement.setBoolean(5, odds.getActive());
+                preparedStatement.setLong(2, odds.getMatchId());
+                preparedStatement.setString(3, odds.getEventType());
+                preparedStatement.setString(4, odds.getLabel());
+                preparedStatement.setBigDecimal(5, odds.getValue());
+                preparedStatement.setBoolean(6, odds.getActive());
 
                 if (odds.getCreationDate() != null) {
-                    preparedStatement.setLong(6, odds.getCreationDate());
-                } else {
-                    preparedStatement.setNull(6, Types.BIGINT);
-                }
-                if (odds.getModificationDate() != null) {
-                    preparedStatement.setLong(7, odds.getModificationDate());
+                    preparedStatement.setLong(7, odds.getCreationDate());
                 } else {
                     preparedStatement.setNull(7, Types.BIGINT);
+                }
+                if (odds.getModificationDate() != null) {
+                    preparedStatement.setLong(8, odds.getModificationDate());
+                } else {
+                    preparedStatement.setNull(8, Types.BIGINT);
                 }
 
                 preparedStatement.executeUpdate();
@@ -236,8 +235,11 @@ public class PredictionsDatabaseConnector {
                 Odds odds = new Odds(
                         rs.getLong("odds_id"),
                         rs.getString("event_type"),
+                        rs.getLong("match_id"),
                         rs.getString("label"),
                         rs.getBigDecimal("value"),
+                        rs.getBigDecimal("point"),
+                        rs.getString("provider"),
                         rs.getBoolean("active"),
                         rs.getLong("creation_date"),
                         rs.getLong("modification_date")
@@ -385,9 +387,40 @@ public class PredictionsDatabaseConnector {
             deleteOdds();
             deleteEvents();
             deleteMatches();
+            deleteMappings();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Unexpected error occurred while trying to delete all prediction data.", e);
+        }
+    }
+
+    /*** MAPPINGS  ***/
+
+    public void insertMappings(List<ExternalCategoryMapping> mappings) throws SQLException {
+        String query = "INSERT INTO external_category_mapping " +
+                "(category_id, external_sport_key) " +
+                "VALUES (?, ?)";
+
+        for (ExternalCategoryMapping mapping : mappings) {
+            try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+                preparedStatement.setString(1, mapping.getCategoryId());
+                preparedStatement.setString(2, mapping.getExternalSportKey());
+
+                preparedStatement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new SQLException("Unexpected error occurred while trying to create mapping " + mapping, e);
+            }
+        }
+    }
+
+    public void deleteMappings() throws SQLException {
+        String query = "DELETE FROM external_category_mapping";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete mappings.", e);
         }
     }
 }
