@@ -410,6 +410,18 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
+    @Then("a match day with categoryId (.*), season (\\d+) and number (\\d+) has been stored with results checked successfully$")
+    public void aMatchDayWithResultsCheckedHasBeenStored(String categoryId, int season, int number) {
+        try {
+            lastMatchDay = leaguesDbConnector.getMatchDayByCategoryIdSeasonAndMatchDayNumber(categoryId, season, number);
+            assertNotNull(lastMatchDay);
+            assertTrue(lastMatchDay.isResultsChecked());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
     @Then("a league with name (.*) and status (.*) has been stored successfully$")
     public void aLeagueHasBeenStored(String name, String status) {
         try {

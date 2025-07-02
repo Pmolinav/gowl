@@ -8,6 +8,7 @@ import io.cucumber.java.en.Then;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MatchDataSyncServiceDefsTest extends BaseSystemTest {
 
@@ -47,6 +50,7 @@ public class MatchDataSyncServiceDefsTest extends BaseSystemTest {
                         .withBody(expectedResponse)
                         .withStatus(200)));
     }
+
     @Given("mock results response from external API for external category mapping (\\w+)$")
     public void givenResultsResponseMockedFromExternalApi(String externalCategory) {
         String expectedResponse = readJsonFromResource("utils/matches_results_response.json");
@@ -61,6 +65,21 @@ public class MatchDataSyncServiceDefsTest extends BaseSystemTest {
     @Then("wait for (\\d+) seconds$")
     public void waitSecondsForScheduledProcess(int seconds) throws Exception {
         Thread.sleep(seconds * 1000L);
+    }
+
+    @Then("the total points for user (.*) should be updated$")
+    public void theTotalPointsForUserShouldBeOk(String username) {
+        try {
+            lastLeaguePlayer = leaguesDbConnector.getLeaguePlayerByLeagueIdAndUsername(lastLeague.getLeagueId(), username);
+
+            Map<String, BigDecimal> result = predictionsDbConnector.getTotalWonStakeMultipliedByUser();
+
+            assertTrue(result.containsKey(username), "User " + username + " not found in result map");
+            assertEquals(lastLeaguePlayer.getTotalPoints().intValue(), result.get(username).intValue());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail("Database error occurred");
+        }
     }
 
     protected String readJsonFromResource(String relativePath) {

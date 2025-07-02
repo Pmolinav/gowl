@@ -121,7 +121,7 @@ public class PlayerBetDataProcessor {
                         updatedBets.add(bet);
 
                         // Async calls used to store player points.
-                        if (allSelectionsCorrect) {
+                        if (allSelectionsCorrect && !allSelectionsPush) {
                             processPlayerPointsAsync(
                                     matchDayDTO.getCategoryId(),
                                     matchDayDTO.getSeason(),

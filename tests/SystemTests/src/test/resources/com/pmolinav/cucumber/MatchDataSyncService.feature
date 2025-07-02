@@ -42,7 +42,7 @@ Feature: MatchDataSyncService
     Then received status code is 200
     Given try to create several league players with public endpoint with data
       | username | total_points | status |
-      | someUser | 10           | ACTIVE |
+      | someUser | 0            | ACTIVE |
     Then received status code is 201
     Then a player with username someUser has been associated to last league successfully
     # 3. Mock responses from External API to get matches and results calls.
@@ -295,5 +295,6 @@ Feature: MatchDataSyncService
       | spreads    | LOST   |
       | totals     | WON    |
     # 9. Assert that points are added OK to leaderboard.
-  # TODO.
-
+    Then a match day with categoryId MLS, season 2025 and number 1 has been stored with results checked successfully
+    Then the total points for user normalUser should be updated
+    Then the total points for user someUser should be updated

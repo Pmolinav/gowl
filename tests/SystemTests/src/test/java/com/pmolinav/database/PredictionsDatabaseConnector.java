@@ -4,9 +4,12 @@ import com.pmolinav.predictionslib.dto.MatchStatus;
 import com.pmolinav.predictionslib.dto.PlayerBetStatus;
 import com.pmolinav.predictionslib.model.*;
 
+import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PredictionsDatabaseConnector {
 
@@ -372,6 +375,28 @@ public class PredictionsDatabaseConnector {
 
         return playerBets;
     }
+
+    public Map<String, BigDecimal> getTotalWonStakeMultipliedByUser() throws SQLException {
+        String query = "SELECT username, SUM(total_stake * 100) AS total_won_stake_multiplied " +
+                "FROM player_bet WHERE status = 'WON' GROUP BY username";
+
+        Map<String, BigDecimal> result = new HashMap<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String username = rs.getString("username");
+                BigDecimal total = rs.getBigDecimal("total_won_stake_multiplied");
+                result.put(username, total);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error while retrieving total WON stake multiplied by user.", e);
+        }
+
+        return result;
+    }
+
 
     private List<PlayerBetSelection> getSelectionsByBetId(long betId) throws SQLException {
         String selectionQuery = "SELECT * FROM player_bet_selection WHERE bet_id = ?";
