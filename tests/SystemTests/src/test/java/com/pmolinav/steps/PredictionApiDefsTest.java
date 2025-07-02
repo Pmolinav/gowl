@@ -3,14 +3,15 @@ package com.pmolinav.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
+import com.pmolinav.predictionslib.model.Odds;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.When;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.sql.SQLException;
+import java.util.*;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 public class PredictionApiDefsTest extends BaseSystemTest {
@@ -95,36 +96,38 @@ public class PredictionApiDefsTest extends BaseSystemTest {
         }
     }
 
-    @When("^try to create new player bet with last data with public endpoint$")
-    public void tryToCreateNewPlayerBetForLastLeagueAndOddsPublicEndpoint(DataTable dataTable) {
+    @When("^user (\\w+) tries to create new player bet with data with public endpoint$")
+    public void tryToCreateNewPlayerBetForLastLeagueAndOddsPublicEndpoint(String username, DataTable dataTable) {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
-        Map<String, String> row = rows.getFirst();
 
         PlayerBetDTO playerBetDto = new PlayerBetDTO();
-        playerBetDto.setMatchId(Long.parseLong(row.get("match_id")));
-        playerBetDto.setLeagueId(row.get("league_id") == null ? lastLeague.getLeagueId() : Long.parseLong(row.get("league_id")));
-        playerBetDto.setUsername(row.get("username"));
+        playerBetDto.setMatchId(lastMatch.getMatchId());
+        playerBetDto.setLeagueId(lastLeague.getLeagueId());
+        playerBetDto.setUsername(username);
 
-        List<PlayerBetSelectionDTO> selections = new ArrayList<>();
+        List<PlayerBetSelectionDTO> selections = rows.stream()
+                .map(row -> {
+                    PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
+                    BigDecimal point = "null".equals(row.get("point")) || "N/A".equals(row.get("point"))
+                            ? null : new BigDecimal(row.get("point"));
+                    Double pointAsDouble = point != null ? point.doubleValue() : null;
+                    try {
+                        List<Odds> oddsList = predictionsDbConnector.getOddsByLabel(row.get("label"));
+                        Optional<Odds> optionalOdds = oddsList.stream()
+                                .filter(odds -> odds.getEventType().equals(row.get("event_type"))
+                                        && odds.getMatchId().equals(lastMatch.getMatchId())
+                                        && Objects.equals(odds.getPoint() == null ? null
+                                        : odds.getPoint().doubleValue(), pointAsDouble)).findFirst();
+                        assertTrue(optionalOdds.isPresent());
 
-        if (row.containsKey("selections")) {
-            String selectionsRaw = row.get("selections").trim();
-            if (!selectionsRaw.isEmpty()) {
-                String[] selectionParts = selectionsRaw.split(";");
-                for (String selectionStr : selectionParts) {
-                    String[] fields = selectionStr.trim().split(",");
-                    if (fields.length == 3) {
-                        PlayerBetSelectionDTO selection = new PlayerBetSelectionDTO();
-                        selection.setOddsId(Long.parseLong(fields[0].trim()));
-                        selection.setEventType(fields[1].trim());
-                        selection.setStake(new BigDecimal(fields[2].trim()));
-                        selections.add(selection);
-                    } else {
-                        fail("Invalid selection format: " + selectionStr);
+                        selection.setOddsId(optionalOdds.get().getOddsId());
+                        selection.setEventType(optionalOdds.get().getEventType());
+                        selection.setStake(optionalOdds.get().getValue());
+                    } catch (SQLException e) {
+                        fail();
                     }
-                }
-            }
-        }
+                    return selection;
+                }).toList();
 
         playerBetDto.setSelections(selections);
 

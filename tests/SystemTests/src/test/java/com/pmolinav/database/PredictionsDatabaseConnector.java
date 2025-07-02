@@ -89,6 +89,31 @@ public class PredictionsDatabaseConnector {
             }
         }
     }
+    public Match getMatchByHomeAndAwayTeams(String homeTeam, String awayTeam) throws SQLException {
+        String query = "SELECT * FROM match WHERE home_team = ? AND away_team = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, homeTeam);
+            statement.setString(2, awayTeam);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                return new Match(
+                        rs.getLong("match_id"),
+                        rs.getString("category_id"),
+                        rs.getInt("season"),
+                        rs.getInt("match_day_number"),
+                        rs.getString("home_team"),
+                        rs.getString("away_team"),
+                        rs.getLong("start_time"),
+                        MatchStatus.valueOf(rs.getString("status")),
+                        rs.getLong("creation_date"),
+                        rs.getLong("modification_date")
+                );
+            } else {
+                return null;
+            }
+        }
+    }
 
     public List<Match> getMatchesByCategoryId(String categoryId) throws SQLException {
         String query = "SELECT * FROM match WHERE category_id = ?";
@@ -295,6 +320,30 @@ public class PredictionsDatabaseConnector {
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, username);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                PlayerBet bet = new PlayerBet(
+                        rs.getLong("bet_id"),
+                        rs.getString("username"),
+                        rs.getLong("match_id"),
+                        rs.getLong("league_id"),
+                        rs.getBigDecimal("total_stake"),
+                        rs.getLong("creation_date")
+                );
+                playerBets.add(bet);
+            }
+        }
+
+        return playerBets;
+    }
+
+    public List<PlayerBet> getPlayerBetsByUsernameAndMatchId(String username, Long matchId) throws SQLException {
+        String query = "SELECT * FROM player_bet WHERE username = ? AND match_id = ?";
+        List<PlayerBet> playerBets = new ArrayList<>();
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, username);
+            statement.setLong(2, matchId);
             ResultSet rs = statement.executeQuery();
             while (rs.next()) {
                 PlayerBet bet = new PlayerBet(

@@ -504,7 +504,8 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     @Then("odds with label (.*) and point (.*) have been stored successfully for the last event type$")
     public void oddsByLabelHaveBeenStored(String label, String pointAsString) {
         try {
-            BigDecimal point = "null".equals(pointAsString) ? null : new BigDecimal(pointAsString);
+            BigDecimal point = "null".equals(pointAsString) || "N/A".equals(pointAsString)
+                    ? null : new BigDecimal(pointAsString);
             Double pointAsDouble = point != null ? point.doubleValue() : null;
             List<Odds> oddsList = predictionsDbConnector.getOddsByLabel(label);
             Optional<Odds> optionalOdds = oddsList.stream()
@@ -525,6 +526,31 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
             List<PlayerBet> playerBets = predictionsDbConnector.getPlayerBetsByUsername(username);
             lastPlayerBet = playerBets.getFirst();
             assertNotNull(lastPlayerBet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Then("a player bet for username (\\w+), home team (.*) and away team (.*) has status (\\w+) and selections$")
+    public void aPlayerBetByUsernameAndMatchHasBeenStored(String username, String homeTeam,
+                                                          String awayTeam, String status,
+                                                          DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        try {
+            lastMatch = predictionsDbConnector.getMatchByHomeAndAwayTeams(homeTeam, awayTeam);
+            List<PlayerBet> playerBets = predictionsDbConnector.getPlayerBetsByUsernameAndMatchId(username, lastMatch.getMatchId());
+            // Should be a list of one element.
+            lastPlayerBet = playerBets.getFirst();
+            assertNotNull(lastPlayerBet);
+            // Assert player bet status.
+            assertEquals(status, lastPlayerBet.getStatus().name());
+            // Assert selections.
+            for (Map<String, String> row : rows) {
+                assertTrue(lastPlayerBet.getSelections().stream()
+                        .anyMatch(bet -> bet.getStatus().name().equals(row.get("status"))
+                                && bet.getEventType().equals(row.get("event_type"))));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
             fail();

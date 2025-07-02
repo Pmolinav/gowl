@@ -33,7 +33,7 @@ public class Odds {
     @Column(name = "label", nullable = false, length = 50)
     private String label;
 
-    @Column(name = "value", nullable = false, precision = 6, scale = 2)
+    @Column(name = "value", nullable = false, precision = 10, scale = 2)
     private BigDecimal value;
 
     @Column(name = "point", precision = 6, scale = 2)

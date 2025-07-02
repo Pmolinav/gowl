@@ -32,7 +32,7 @@ CREATE TABLE odds (
     event_type VARCHAR(100) NOT NULL,
     match_id BIGINT NOT NULL,
     label VARCHAR(50) NOT NULL,
-    value DECIMAL(6,2) NOT NULL,
+    value DECIMAL(10,2) NOT NULL,
     point DECIMAL(6,2),
     provider VARCHAR(50),
     active BOOLEAN DEFAULT TRUE,
