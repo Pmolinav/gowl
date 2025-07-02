@@ -121,14 +121,16 @@ public class PlayerBetDataProcessor {
                         updatedBets.add(bet);
 
                         // Async calls used to store player points.
-                        processPlayerPointsAsync(
-                                matchDayDTO.getCategoryId(),
-                                matchDayDTO.getSeason(),
-                                matchDayDTO.getMatchDayNumber(),
-                                bet.getLeagueId(),
-                                bet.getUsername(),
-                                bet.getTotalStake()
-                        );
+                        if (allSelectionsCorrect) {
+                            processPlayerPointsAsync(
+                                    matchDayDTO.getCategoryId(),
+                                    matchDayDTO.getSeason(),
+                                    matchDayDTO.getMatchDayNumber(),
+                                    bet.getLeagueId(),
+                                    bet.getUsername(),
+                                    bet.getTotalStake()
+                            );
+                        }
 
                     } catch (Exception e) {
                         logger.error("Unexpected error occurred while processing PlayerBet with ID: {}", bet.getBetId(), e);
@@ -171,7 +173,6 @@ public class PlayerBetDataProcessor {
 
         return allProcessed;
     }
-
 
     public Boolean isPredictionCorrect(PlayerBetSelection selection, ExternalMatchScoreDTO result) {
         Odds odds = oddsService.findOddsById(selection.getOddsId()); // Non-cacheable
@@ -255,12 +256,12 @@ public class PlayerBetDataProcessor {
 
     @Async
     public void processPlayerPointsAsync(String categoryId, Integer season, Integer number, Long leagueId, String username, BigDecimal stake) {
-        // TODO: Points management OK?
+
         int points = stake.multiply(BigDecimal.valueOf(100)).intValue();
 
         LeaguePlayerPointsDTO pointsDTO = new LeaguePlayerPointsDTO(categoryId, season, number, leagueId, username, points);
         try {
-            leaguePlayerPointsClient.createLeaguePlayersPoints(pointsDTO);
+            leaguePlayerPointsClient.createOrUpdateLeaguePlayerPoints(pointsDTO);
         } catch (Exception e) {
             logger.error("FATAL_ERROR_TO_RETRY: LeaguePlayerPoints: {}. Manual retry is required.", pointsDTO, e);
         }

@@ -45,8 +45,9 @@ Feature: MatchDataSyncService
       | someUser | 10           | ACTIVE |
     Then received status code is 201
     Then a player with username someUser has been associated to last league successfully
-    # 3. Mock response from External API to get matches and odds call.
+    # 3. Mock responses from External API to get matches and results calls.
     Given mock odds response from external API for external category mapping soccer_usa_mls
+    Given mock results response from external API for external category mapping soccer_usa_mls
     # 4. Wait for the scheduled method (matches) to be executed.
     Then wait for 80 seconds
     # 5. Assert that the expected matches, events and odds are created successfully from JSON response.
@@ -81,8 +82,8 @@ Feature: MatchDataSyncService
     Then odds with label Houston Dynamo and point N/A have been stored successfully for the last event type
     Then odds with label Draw and point N/A have been stored successfully for the last event type
     Then an event with type totals has been stored successfully
-    Then odds with label Over and point 3.5 have been stored successfully for the last event type
-    Then odds with label Under and point 3.5 have been stored successfully for the last event type
+    Then odds with label Over and point 2.5 have been stored successfully for the last event type
+    Then odds with label Under and point 2.5 have been stored successfully for the last event type
     Then an event with type spreads has been stored successfully
     Then odds with label Houston Dynamo and point -0.5 have been stored successfully for the last event type
     Then odds with label St. Louis City SC and point 0.5 have been stored successfully for the last event type
@@ -178,7 +179,7 @@ Feature: MatchDataSyncService
     Given user someUser tries to create new player bet with data with public endpoint
       | label          | point | event_type | expected |
       | Houston Dynamo | N/A   | h2h        | WON      |
-      | Under          | 3.5   | totals     | WON      |
+      | Under          | 2.5   | totals     | WON      |
     Then a match with categoryId MLS with home team Sporting Kansas City and away team Real Salt Lake has been stored successfully
     # PUSH
     When an user with username normalUser and password normalPassword tries to log in
@@ -289,7 +290,6 @@ Feature: MatchDataSyncService
     Then a player bet for username normalUser, home team Columbus Crew SC and away team Philadelphia Union has status WON and selections
       | event_type | status |
       | spreads    | WON    |
-      | totals     | LOST   |
     Then a player bet for username someUser, home team Columbus Crew SC and away team Philadelphia Union has status LOST and selections
       | event_type | status |
       | spreads    | LOST   |

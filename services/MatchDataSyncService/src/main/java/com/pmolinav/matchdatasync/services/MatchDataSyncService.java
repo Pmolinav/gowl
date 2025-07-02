@@ -51,7 +51,7 @@ public class MatchDataSyncService {
 
         try {
             List<MatchDayDTO> upcomingMatchDays = matchDaysClient.findAllMatchDays(now, dateTo, false);
-
+            //TODO: TRY CATCH CON EL 404 not found!
             if (upcomingMatchDays.isEmpty()) {
                 logger.debug("No unsynced matchDays were found to be synced by dateFrom {} and dateTo {}", now, dateTo);
                 return;
@@ -92,7 +92,7 @@ public class MatchDataSyncService {
             long dateFrom = now - offsetEndMs;
 
             List<MatchDayDTO> completedMatchDays = matchDaysClient.findCompletedMatchDays(dateFrom, now, false);
-
+            //TODO: TRY CATCH CON EL 404 not found!
             if (completedMatchDays.isEmpty()) {
                 logger.debug("No completed match days pending result check were found.");
                 return;
@@ -113,7 +113,7 @@ public class MatchDataSyncService {
                     boolean allChecked = playerBetDataProcessor.processResults(matchDay, results);
 
                     if (allChecked) {
-                        matchDay.setResultsChecked(true); // Nuevo flag similar a "synced"
+                        matchDay.setResultsChecked(true); // TODO: REVIEW
                         matchDaysClient.updateMatchDay(matchDay);
                     } else {
                         logger.info("Some player bets are still pending result resolution for MatchDay: {}", matchDay);

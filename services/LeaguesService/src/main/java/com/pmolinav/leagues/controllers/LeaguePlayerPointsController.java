@@ -55,11 +55,9 @@ public class LeaguePlayerPointsController {
     }
 
     @PostMapping
-    public ResponseEntity<LeaguePlayerPointsDTO> createLeaguePlayersPoints(@RequestBody LeaguePlayerPointsDTO leaguePlayerPoints) {
+    public ResponseEntity<LeaguePlayerPointsDTO> createOrUpdateLeaguePlayersPoints(@RequestBody LeaguePlayerPointsDTO leaguePlayerPoints) {
         try {
-            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsService.createLeaguePlayerPoints(leaguePlayerPoints);
-
-//            leaguesService.storeInKafka(ChangeType.CREATE, createdLeague.getLeagueId(), createdLeague);
+            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsService.createOrUpdateLeaguePlayerPoints(leaguePlayerPoints);
 
             return new ResponseEntity<>(createdLeaguePlayerPoints, HttpStatus.CREATED);
         } catch (InternalServerErrorException e) {

@@ -6,6 +6,7 @@ import com.pmolinav.leagues.repositories.LeaguePlayerPointsRepository;
 import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import com.pmolinav.leagueslib.mapper.LeaguePlayerPointsMapper;
 import com.pmolinav.leagueslib.model.LeaguePlayerPoints;
+import com.pmolinav.leagueslib.model.LeaguePlayerPointsId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 @EnableAsync
 @Service
@@ -80,12 +82,27 @@ public class LeaguePlayerPointsService {
     }
 
     @Transactional
-    public LeaguePlayerPointsDTO createLeaguePlayerPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
+    public LeaguePlayerPointsDTO createOrUpdateLeaguePlayerPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
         try {
-            LeaguePlayerPoints entity = leaguePlayerPointsMapper.leaguePlayerPointsDtoToEntity(leaguePlayerPoints);
-            return leaguePlayerPointsMapper.leaguePlayerPointsEntityToDto(leaguePlayerPointsRepository.save(entity));
+            LeaguePlayerPoints entity;
+            Optional<LeaguePlayerPoints> optionalEntity = leaguePlayerPointsRepository.findById(new LeaguePlayerPointsId(
+                    leaguePlayerPoints.getCategoryId(),
+                    leaguePlayerPoints.getSeason(),
+                    leaguePlayerPoints.getMatchDayNumber(),
+                    leaguePlayerPoints.getLeagueId(),
+                    leaguePlayerPoints.getUsername()
+            ));
+            // If present, points are updated.
+            if (optionalEntity.isPresent()) {
+                entity = optionalEntity.get();
+                entity.setPoints(entity.getPoints() + leaguePlayerPoints.getPoints());
+                entity = leaguePlayerPointsRepository.save(entity);
+            } else {
+                entity = leaguePlayerPointsRepository.save(leaguePlayerPointsMapper.leaguePlayerPointsDtoToEntity(leaguePlayerPoints));
+            }
+            return leaguePlayerPointsMapper.leaguePlayerPointsEntityToDto(entity);
         } catch (Exception e) {
-            logger.error("Unexpected error while creating new league player points {} in repository.", leaguePlayerPoints, e);
+            logger.error("Unexpected error while creating or updating league player points {} in repository.", leaguePlayerPoints, e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

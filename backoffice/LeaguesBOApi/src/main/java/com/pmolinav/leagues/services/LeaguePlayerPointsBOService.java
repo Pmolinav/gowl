@@ -57,9 +57,9 @@ public class LeaguePlayerPointsBOService {
         }
     }
 
-    public LeaguePlayerPointsDTO createLeaguePlayerPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
+    public LeaguePlayerPointsDTO createOrUpdateLeaguePlayerPoints(LeaguePlayerPointsDTO leaguePlayerPoints) {
         try {
-            return leaguePlayerPointsClient.createLeaguePlayersPoints(leaguePlayerPoints);
+            return leaguePlayerPointsClient.createOrUpdateLeaguePlayerPoints(leaguePlayerPoints);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());

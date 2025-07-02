@@ -66,9 +66,9 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
                         } else {
                             matchDay.setStartDate(Long.parseLong(row.get("start_date")));
                         }
-                        // If null, now + 2 days as default.
+                        // If null, now as default.
                         if (row.get("end_date") == null) {
-                            matchDay.setEndDate(System.currentTimeMillis() + 172800000L);
+                            matchDay.setEndDate(System.currentTimeMillis());
                         } else {
                             matchDay.setEndDate(Long.parseLong(row.get("end_date")));
                         }

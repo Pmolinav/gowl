@@ -16,7 +16,7 @@ public interface LeaguePlayerPointsClient {
     List<LeaguePlayerPointsDTO> findLeaguePlayerPointsByCategorySeasonAndNumber(@PathVariable String categoryId, @PathVariable int season, @PathVariable int number);
 
     @PostMapping
-    LeaguePlayerPointsDTO createLeaguePlayersPoints(@RequestBody LeaguePlayerPointsDTO leaguePlayerPoints);
+    LeaguePlayerPointsDTO createOrUpdateLeaguePlayerPoints(@RequestBody LeaguePlayerPointsDTO leaguePlayerPoints);
 
     @DeleteMapping("/leagues/{id}/players/{username}")
     void deleteLeaguePlayerPointsByLeagueIdAndPlayer(@PathVariable long id, @PathVariable String username);

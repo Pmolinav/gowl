@@ -195,12 +195,12 @@ class LeaguePlayerPointsBOControllerTest extends BaseUnitTest {
         expectedLeaguePlayerPoints = List.of(new LeaguePlayerPointsDTO("PREMIER",
                 2025, 4, 1L, "someUser", 26));
 
-        when(leaguePlayerPointsBOServiceMock.createLeaguePlayerPoints(any()))
+        when(leaguePlayerPointsBOServiceMock.createOrUpdateLeaguePlayerPoints(any()))
                 .thenReturn(expectedLeaguePlayerPoints.getFirst());
     }
 
     private void whenCreateLeaguePlayerInServiceThrowsServerException() {
-        when(leaguePlayerPointsBOServiceMock.createLeaguePlayerPoints(any()))
+        when(leaguePlayerPointsBOServiceMock.createOrUpdateLeaguePlayerPoints(any()))
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
@@ -249,7 +249,7 @@ class LeaguePlayerPointsBOControllerTest extends BaseUnitTest {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
 
-        result = leaguePlayerPointsBOController.createLeaguePlayersPoints(this.requestUid, leaguePlayerPointsDTO, bindingResult);
+        result = leaguePlayerPointsBOController.createOrUpdateLeaguePlayersPoints(this.requestUid, leaguePlayerPointsDTO, bindingResult);
     }
 
     private void andDeleteLeaguePlayerPointsByLeagueIdAndUsernameIsCalledInController() {
@@ -272,7 +272,7 @@ class LeaguePlayerPointsBOControllerTest extends BaseUnitTest {
 
     private void thenVerifyCreateLeaguePlayerPointsHasBeenCalledInService() {
         verify(leaguePlayerPointsBOServiceMock, times(1))
-                .createLeaguePlayerPoints(any());
+                .createOrUpdateLeaguePlayerPoints(any());
     }
 
     private void thenVerifyDeleteLeaguePlayerPointsByLeagueIdAndUsernameHasBeenCalledInService() {

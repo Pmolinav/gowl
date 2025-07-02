@@ -1,6 +1,7 @@
 package com.pmolinav.database;
 
 import com.pmolinav.predictionslib.dto.MatchStatus;
+import com.pmolinav.predictionslib.dto.PlayerBetStatus;
 import com.pmolinav.predictionslib.model.*;
 
 import java.sql.*;
@@ -89,6 +90,7 @@ public class PredictionsDatabaseConnector {
             }
         }
     }
+
     public Match getMatchByHomeAndAwayTeams(String homeTeam, String awayTeam) throws SQLException {
         String query = "SELECT * FROM match WHERE home_team = ? AND away_team = ?";
 
@@ -290,8 +292,8 @@ public class PredictionsDatabaseConnector {
 
     public void insertPlayerBets(List<PlayerBet> playerBets) throws SQLException {
         String query = "INSERT INTO player_bet " +
-                "(bet_id, username, match_id, total_stake, creation_date) " +
-                "VALUES (?, ?, ?, ?, ?)";
+                "(bet_id, username, match_id, total_stake, status, creation_date) " +
+                "VALUES (?, ?, ?, ?, ?, ?)";
 
         for (PlayerBet bet : playerBets) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -299,11 +301,12 @@ public class PredictionsDatabaseConnector {
                 preparedStatement.setString(2, bet.getUsername());
                 preparedStatement.setLong(3, bet.getMatchId());
                 preparedStatement.setBigDecimal(4, bet.getTotalStake());
+                preparedStatement.setString(5, bet.getStatus().name());
 
                 if (bet.getCreationDate() != null) {
-                    preparedStatement.setLong(5, bet.getCreationDate());
+                    preparedStatement.setLong(6, bet.getCreationDate());
                 } else {
-                    preparedStatement.setNull(5, Types.BIGINT);
+                    preparedStatement.setNull(6, Types.BIGINT);
                 }
 
                 preparedStatement.executeUpdate();
@@ -328,6 +331,7 @@ public class PredictionsDatabaseConnector {
                         rs.getLong("match_id"),
                         rs.getLong("league_id"),
                         rs.getBigDecimal("total_stake"),
+                        PlayerBetStatus.valueOf(rs.getString("status")),
                         rs.getLong("creation_date")
                 );
                 playerBets.add(bet);
@@ -345,21 +349,55 @@ public class PredictionsDatabaseConnector {
             statement.setString(1, username);
             statement.setLong(2, matchId);
             ResultSet rs = statement.executeQuery();
+
             while (rs.next()) {
+                long betId = rs.getLong("bet_id");
+
                 PlayerBet bet = new PlayerBet(
-                        rs.getLong("bet_id"),
+                        betId,
                         rs.getString("username"),
                         rs.getLong("match_id"),
                         rs.getLong("league_id"),
                         rs.getBigDecimal("total_stake"),
+                        PlayerBetStatus.valueOf(rs.getString("status")),
                         rs.getLong("creation_date")
                 );
+
+                // Get player bet selections.
+                bet.setSelections(getSelectionsByBetId(betId));
+
                 playerBets.add(bet);
             }
         }
 
         return playerBets;
     }
+
+    private List<PlayerBetSelection> getSelectionsByBetId(long betId) throws SQLException {
+        String selectionQuery = "SELECT * FROM player_bet_selection WHERE bet_id = ?";
+        List<PlayerBetSelection> selections = new ArrayList<>();
+
+        try (PreparedStatement stmt = connection.prepareStatement(selectionQuery)) {
+            stmt.setLong(1, betId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                PlayerBetSelection selection = new PlayerBetSelection(
+                        rs.getLong("selection_id"),
+                        rs.getLong("bet_id"),
+                        rs.getString("event_type"),
+                        rs.getLong("odds_id"),
+                        rs.getBigDecimal("stake"),
+                        PlayerBetStatus.valueOf(rs.getString("status")),
+                        rs.getLong("creation_date")
+                );
+                selections.add(selection);
+            }
+        }
+
+        return selections;
+    }
+
 
     public void deletePlayerBets() throws SQLException {
         String query = "DELETE FROM player_bet";
@@ -375,19 +413,20 @@ public class PredictionsDatabaseConnector {
 
     public void insertPlayerBetSelections(List<PlayerBetSelection> selections) throws SQLException {
         String query = "INSERT INTO player_bet_selection " +
-                "(bet_id, odds_id, stake, creation_date) " +
-                "VALUES (?, ?, ?, ?)";
+                "(bet_id, odds_id, stake, status, creation_date) " +
+                "VALUES (?, ?, ?, ?, ?)";
 
         for (PlayerBetSelection selection : selections) {
             try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
                 preparedStatement.setLong(1, selection.getBetId());
                 preparedStatement.setLong(2, selection.getOddsId());
                 preparedStatement.setBigDecimal(3, selection.getStake());
+                preparedStatement.setString(4, selection.getStatus().name());
 
                 if (selection.getCreationDate() != null) {
-                    preparedStatement.setLong(4, selection.getCreationDate());
+                    preparedStatement.setLong(5, selection.getCreationDate());
                 } else {
-                    preparedStatement.setNull(4, Types.BIGINT);
+                    preparedStatement.setNull(5, Types.BIGINT);
                 }
 
                 preparedStatement.executeUpdate();
@@ -411,6 +450,7 @@ public class PredictionsDatabaseConnector {
                         rs.getString("event_type"),
                         rs.getLong("odds_id"),
                         rs.getBigDecimal("stake"),
+                        PlayerBetStatus.valueOf(rs.getString("status")),
                         rs.getLong("creation_date")
                 );
             }

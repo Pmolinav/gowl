@@ -174,13 +174,13 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.createLeaguePlayersPoints(any(LeaguePlayerPointsDTO.class)))
+        when(this.leaguePlayerPointsClient.createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class)))
                 .thenReturn(this.expectedLeaguePlayerPoints.getFirst());
     }
 
     private void andCreateLeaguePlayerPointsThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).createLeaguePlayersPoints(any(LeaguePlayerPointsDTO.class));
+                .when(this.leaguePlayerPointsClient).createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class));
     }
 
     private void andFindLeaguePlayerPointsByLeagueIdAndPlayerReturnedValidLeagues() {

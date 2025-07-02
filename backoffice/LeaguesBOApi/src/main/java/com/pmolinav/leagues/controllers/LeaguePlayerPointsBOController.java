@@ -69,14 +69,14 @@ public class LeaguePlayerPointsBOController {
 
     @PostMapping
     @Operation(summary = "Create new league player points info", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<?> createLeaguePlayersPoints(@RequestParam String requestUid,
-                                                       @Valid @RequestBody LeaguePlayerPointsDTO leaguePlayerPoints,
-                                                       BindingResult result) {
+    public ResponseEntity<?> createOrUpdateLeaguePlayersPoints(@RequestParam String requestUid,
+                                                               @Valid @RequestBody LeaguePlayerPointsDTO leaguePlayerPoints,
+                                                               BindingResult result) {
         try {
             if (result.hasErrors()) {
                 return validation(result);
             }
-            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsBOService.createLeaguePlayerPoints(leaguePlayerPoints);
+            LeaguePlayerPointsDTO createdLeaguePlayerPoints = leaguePlayerPointsBOService.createOrUpdateLeaguePlayerPoints(leaguePlayerPoints);
 
             return new ResponseEntity<>(createdLeaguePlayerPoints, HttpStatus.CREATED);
         } catch (CustomStatusException e) {

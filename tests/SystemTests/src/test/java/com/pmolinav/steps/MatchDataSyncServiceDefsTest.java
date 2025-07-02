@@ -47,6 +47,16 @@ public class MatchDataSyncServiceDefsTest extends BaseSystemTest {
                         .withBody(expectedResponse)
                         .withStatus(200)));
     }
+    @Given("mock results response from external API for external category mapping (\\w+)$")
+    public void givenResultsResponseMockedFromExternalApi(String externalCategory) {
+        String expectedResponse = readJsonFromResource("utils/matches_results_response.json");
+
+        wireMock.register(WireMock.get(WireMock.urlPathMatching("/sports/" + externalCategory + "/scores.*"))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(expectedResponse)
+                        .withStatus(200)));
+    }
 
     @Then("wait for (\\d+) seconds$")
     public void waitSecondsForScheduledProcess(int seconds) throws Exception {

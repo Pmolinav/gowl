@@ -510,6 +510,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
             List<Odds> oddsList = predictionsDbConnector.getOddsByLabel(label);
             Optional<Odds> optionalOdds = oddsList.stream()
                     .filter(odds -> odds.getEventType().equals(lastEvent.getEventType())
+                            && odds.getMatchId().equals(lastMatch.getMatchId())
                             && Objects.equals(odds.getPoint() == null ? null : odds.getPoint().doubleValue(), pointAsDouble)).findFirst();
             assertTrue(optionalOdds.isPresent());
             lastOdds = optionalOdds.get();

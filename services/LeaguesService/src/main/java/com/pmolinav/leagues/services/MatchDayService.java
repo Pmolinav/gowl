@@ -142,6 +142,7 @@ public class MatchDayService {
                 .orElseThrow(() -> new NotFoundException("Match day not found"));
 
         matchDay.setSynced(matchDayDTO.isSynced());
+        matchDay.setResultsChecked(matchDayDTO.isResultsChecked());
 
         try {
             matchDayRepository.save(matchDay);
