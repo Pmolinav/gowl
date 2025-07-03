@@ -34,7 +34,7 @@ public class LoginController {
     @Autowired
     private final TokenConfig tokenConfig;
 
-    @PostMapping()
+    @PostMapping
     @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
     public ResponseEntity<?> login(@RequestBody @Valid UserDTO request) {
         try {

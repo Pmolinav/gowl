@@ -44,7 +44,6 @@ public class SpringSecurityConfig {
     SecurityFilterChain filterChain(HttpSecurity http, TokenConfig tokenConfig) throws Exception {
         return http
                 .authorizeHttpRequests(auth -> auth
-                        //TODO: Add user creation public endpoint here.
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
                         .requestMatchers(HttpMethod.GET, "/health").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()

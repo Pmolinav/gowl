@@ -2,6 +2,8 @@ package com.pmolinav.auth.units;
 
 import com.pmolinav.auth.auth.TokenConfig;
 import com.pmolinav.auth.controllers.LoginController;
+import com.pmolinav.auth.controllers.UserController;
+import com.pmolinav.auth.services.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -19,6 +21,10 @@ class BaseUnitTest {
     AuthenticationManager authenticationManager;
     @Mock
     TokenConfig tokenConfig;
+    @Mock
+    UserService userServiceMock;
+    @InjectMocks
+    UserController userController;
 
     public final String requestUid = "someRequestUid";
 
