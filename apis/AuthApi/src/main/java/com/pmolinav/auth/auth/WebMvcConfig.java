@@ -1,4 +1,4 @@
-package com.pmolinav.auth;
+package com.pmolinav.auth.auth;
 
 import com.pmolinav.auth.auth.interceptors.UserAccessInterceptor;
 import org.springframework.context.ApplicationContext;

@@ -95,6 +95,7 @@ class UserControllerTest extends BaseUnitTest {
 
     @Test
     void findUserByUsernameNotFound() {
+        givenMockedSecurityContextWithUser("someUsername");
         whenFindUserByUsernameInServiceThrowsNotFoundException();
         andFindUserByUsernameIsCalledInController();
         thenVerifyFindByUsernameHasBeenCalledInService();
