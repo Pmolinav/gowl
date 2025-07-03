@@ -232,7 +232,6 @@ class MatchDataSyncServiceIntegrationTest extends AbstractContainerBaseTest {
                 .toList().size());
     }
 
-    //TODO: REVISAR POR QUE FALLA AL TIRAR TODOS
     private void scheduledMatchDaySyncWithNoStoredMatchesTest() {
         // 1. Save ExternalCategoryMapping for caching.
         ExternalCategoryMapping mapping = new ExternalCategoryMapping(categoryId, "soccer_spain_la_liga");

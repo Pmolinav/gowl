@@ -328,6 +328,8 @@ public class LeaguesDatabaseConnector {
                 matchDay.setMatchDayNumber(resultSet.getInt("match_day_number"));
                 matchDay.setStartDate(resultSet.getLong("start_date"));
                 matchDay.setEndDate(resultSet.getLong("end_date"));
+                matchDay.setSynced(resultSet.getBoolean("synced"));
+                matchDay.setResultsChecked(resultSet.getBoolean("results_checked"));
 
                 return matchDay;
             } else {

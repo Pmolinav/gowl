@@ -6,6 +6,7 @@ import com.pmolinav.matchdatasync.clients.MatchDaysClient;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchScoreDTO;
 import com.pmolinav.predictionslib.model.ExternalCategoryMapping;
+import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,10 +51,15 @@ public class MatchDataSyncService {
         long dateTo = now + offsetStartMs;
 
         try {
-            List<MatchDayDTO> upcomingMatchDays = matchDaysClient.findAllMatchDays(now, dateTo, false);
-            //TODO: TRY CATCH CON EL 404 not found!
-            if (upcomingMatchDays.isEmpty()) {
-                logger.debug("No unsynced matchDays were found to be synced by dateFrom {} and dateTo {}", now, dateTo);
+            List<MatchDayDTO> upcomingMatchDays;
+            try {
+                upcomingMatchDays = matchDaysClient.findAllMatchDays(now, dateTo, false);
+                if (upcomingMatchDays.isEmpty()) {
+                    logger.info("No unsynced matchDays were found to be synced by dateFrom {} and dateTo {}", now, dateTo);
+                    return;
+                }
+            } catch (FeignException.NotFound nf) {
+                logger.info("No unsynced matchDays were found to be synced by dateFrom {} and dateTo {}", now, dateTo, nf);
                 return;
             }
 
@@ -91,10 +97,15 @@ public class MatchDataSyncService {
             long now = System.currentTimeMillis();
             long dateFrom = now - offsetEndMs;
 
-            List<MatchDayDTO> completedMatchDays = matchDaysClient.findCompletedMatchDays(dateFrom, now, false);
-            //TODO: TRY CATCH CON EL 404 not found!
-            if (completedMatchDays.isEmpty()) {
-                logger.debug("No completed match days pending result check were found.");
+            List<MatchDayDTO> completedMatchDays;
+            try {
+                completedMatchDays = matchDaysClient.findCompletedMatchDays(dateFrom, now, false);
+                if (completedMatchDays.isEmpty()) {
+                    logger.info("No completed match days pending result check were found by dateFrom {} and dateTo {}", dateFrom, now);
+                    return;
+                }
+            } catch (FeignException.NotFound nf) {
+                logger.info("No completed match days pending result check were found by dateFrom {} and dateTo {}", dateFrom, now, nf);
                 return;
             }
 
@@ -113,7 +124,7 @@ public class MatchDataSyncService {
                     boolean allChecked = playerBetDataProcessor.processResults(matchDay, results);
 
                     if (allChecked) {
-                        matchDay.setResultsChecked(true); // TODO: REVIEW
+                        matchDay.setResultsChecked(true);
                         matchDaysClient.updateMatchDay(matchDay);
                     } else {
                         logger.info("Some player bets are still pending result resolution for MatchDay: {}", matchDay);
