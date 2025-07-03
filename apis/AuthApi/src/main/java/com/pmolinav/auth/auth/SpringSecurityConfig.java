@@ -45,6 +45,7 @@ public class SpringSecurityConfig {
         return http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/users").permitAll()
                         .requestMatchers(HttpMethod.GET, "/health").hasAuthority(Role.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
                 )

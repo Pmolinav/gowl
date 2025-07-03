@@ -7,9 +7,10 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableFeignClients(basePackages = "com.pmolinav.auth.clients")
 @EnableConfigurationProperties(TokenConfig.class)
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class},
+        scanBasePackages = {"com.pmolinav.auth", "com.pmolinav.userslib"})
 public class AuthApiMain {
 
     public static void main(String[] args) {

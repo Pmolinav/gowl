@@ -2,11 +2,15 @@ package com.pmolinav.auth.units;
 
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.NotFoundException;
-import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -20,14 +24,14 @@ import static org.mockito.Mockito.*;
 
 class UserControllerTest extends BaseUnitTest {
 
-    UserDTO userDTO;
+    UserPublicDTO userPublicDTO;
     List<User> expectedUsers;
     ResponseEntity<?> result;
 
     /* CREATE USER */
     @Test
     void createUserHappyPath() {
-        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com", true);
+        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com");
         whenCreateUserInServiceReturnedAValidUser();
         andCreateUserIsCalledInController();
         thenVerifyCreateUserHasBeenCalledInService();
@@ -37,7 +41,7 @@ class UserControllerTest extends BaseUnitTest {
 
     @Test
     void createUserBadRequest() {
-        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com", true);
+        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com");
         whenCreateUserInServiceReturnedAValidUser();
         andCreateUserIsCalledInControllerWithBindingResultErrors();
         thenReceivedStatusCodeIs(HttpStatus.BAD_REQUEST);
@@ -45,7 +49,7 @@ class UserControllerTest extends BaseUnitTest {
 
     @Test
     void createUserServerError() {
-        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com", true);
+        givenValidUserDTOForRequest("someUsername", "somePassword", "someName", "some@email.com");
         whenCreateUserInServiceThrowsServerException();
         andCreateUserIsCalledInController();
         thenVerifyCreateUserHasBeenCalledInService();
@@ -81,6 +85,7 @@ class UserControllerTest extends BaseUnitTest {
     /* FIND USER BY USERNAME */
     @Test
     void findUserByUsernameHappyPath() {
+        givenMockedSecurityContextWithUser("someUsername");
         whenFindUserByUsernameInServiceReturnedValidUser();
         andFindUserByUsernameIsCalledInController();
         thenVerifyFindByUsernameHasBeenCalledInService();
@@ -98,13 +103,12 @@ class UserControllerTest extends BaseUnitTest {
 
     @Test
     void findUserByUsernameServerError() {
+        givenMockedSecurityContextWithUser("someUsername");
         whenFindUserByUsernameInServiceThrowsServerException();
         andFindUserByUsernameIsCalledInController();
         thenVerifyFindByUsernameHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
-    /* FIND USER BY USERNAME - NOT ALLOWED IN CONTROLLER. ONLY INTERNAL REQUEST*/
 
     /* DELETE USER */
     @Test
@@ -131,8 +135,18 @@ class UserControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private void givenValidUserDTOForRequest(String username, String password, String name, String email, boolean isAdmin) {
-        userDTO = new UserDTO(username, password, name, email, isAdmin);
+    private void givenValidUserDTOForRequest(String username, String password, String name, String email) {
+        userPublicDTO = new UserPublicDTO(username, password, name, email);
+    }
+
+    private void givenMockedSecurityContextWithUser(String username) {
+        UsernamePasswordAuthenticationToken auth =
+                new UsernamePasswordAuthenticationToken(username, null, List.of());
+
+        SecurityContext context = Mockito.mock(SecurityContext.class);
+
+        Mockito.when(context.getAuthentication()).thenReturn(auth);
+        SecurityContextHolder.setContext(context);
     }
 
     private void whenCreateUserInServiceReturnedAValidUser() {
@@ -140,7 +154,7 @@ class UserControllerTest extends BaseUnitTest {
     }
 
     private void whenCreateUserInServiceThrowsServerException() {
-        when(userServiceMock.createUser(any(UserDTO.class)))
+        when(userServiceMock.createUser(any(UserPublicDTO.class)))
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
@@ -206,7 +220,7 @@ class UserControllerTest extends BaseUnitTest {
         BindingResult bindingResult = mock(BindingResult.class);
         when(bindingResult.hasErrors()).thenReturn(false);
 
-        result = userController.createUser(this.requestUid, userDTO, bindingResult);
+        result = userController.createUser(this.requestUid, userPublicDTO, bindingResult);
     }
 
     private void andCreateUserIsCalledInControllerWithBindingResultErrors() {
@@ -216,7 +230,7 @@ class UserControllerTest extends BaseUnitTest {
                 new FieldError("userDTO", "username", "Username is mandatory.")
         ));
 
-        result = userController.createUser(this.requestUid, userDTO, bindingResult);
+        result = userController.createUser(this.requestUid, userPublicDTO, bindingResult);
     }
 
     private void andDeleteUserIsCalledInController() {
@@ -224,7 +238,7 @@ class UserControllerTest extends BaseUnitTest {
     }
 
     private void thenVerifyCreateUserHasBeenCalledInService() {
-        verify(userServiceMock, times(1)).createUser(any(UserDTO.class));
+        verify(userServiceMock, times(1)).createUser(any(UserPublicDTO.class));
     }
 
     private void thenVerifyFindByIdHasBeenCalledInService() {

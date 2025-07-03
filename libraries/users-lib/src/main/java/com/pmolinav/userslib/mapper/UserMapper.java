@@ -1,6 +1,7 @@
 package com.pmolinav.userslib.mapper;
 
 import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.Role;
 import com.pmolinav.userslib.model.User;
 import org.mapstruct.Mapper;
@@ -22,6 +23,10 @@ public interface UserMapper {
 
     @Mapping(target = "admin", expression = "java(hasAdminRole(user.getRoles()))")
     UserDTO userEntityToUserDTO(User user);
+
+    UserDTO userPublicDTOToUserDTO(UserPublicDTO user);
+
+    UserPublicDTO userDTOToUserPublicDTO(UserDTO user);
 
     default boolean hasAdminRole(List<Role> roles) {
         return roles != null && roles.stream()

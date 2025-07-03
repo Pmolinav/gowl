@@ -6,6 +6,7 @@ import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.NotFoundException;
 import com.pmolinav.auth.services.UserService;
 import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,7 +39,7 @@ public class UserController {
     @PostMapping
     @Operation(summary = "Create a new user", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> createUser(@RequestParam String requestUid,
-                                        @Valid @RequestBody UserDTO userDTO,
+                                        @Valid @RequestBody UserPublicDTO userDTO,
                                         BindingResult result) {
         try {
             if (result.hasErrors()) {
@@ -45,6 +47,7 @@ public class UserController {
             }
             // Encode password before save user.
             userDTO.setPassword(SpringSecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
+            //
             Long createdUserId = userService.createUser(userDTO);
             return new ResponseEntity<>(createdUserId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
@@ -65,10 +68,14 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
     @GetMapping("/username/{username}")
     @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<User> findUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
+    public ResponseEntity<?> findUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
+        String authUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!authUser.equals(username)) {
+            return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
+        }
         try {
             User user = userService.findUserByUsername(username);
             return ResponseEntity.ok(user);

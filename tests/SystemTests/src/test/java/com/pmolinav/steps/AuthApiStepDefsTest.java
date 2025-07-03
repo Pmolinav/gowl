@@ -5,6 +5,8 @@ import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.PredictionsDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
@@ -15,6 +17,8 @@ import org.springframework.http.HttpStatusCode;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -77,6 +81,45 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             fail();
         }
     }
+
+    @When("^try to create a new user with data with public endpoint$")
+    public void tryToCreateANewUserPublicEndpoint(DataTable dataTable) {
+        List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
+        try {
+            for (Map<String, String> row : rows) {
+                executePost(localURL + "/users",
+                        objectMapper.writeValueAsString(new UserPublicDTO(row.get("username"),
+                                row.get("password"),
+                                row.get("name"),
+                                row.get("email"))
+                        ));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^try to get an user by userId with public endpoint$")
+    public void tryToGetAnUserByUserIdPublicEndpoint() {
+        executeGet(localURL + "/users/" + lastUser.getUserId());
+    }
+
+    @When("^try to get an user by username with public endpoint$")
+    public void tryToGetAnUserByLastUsernamePublicEndpoint() {
+        executeGet(localURL + "/users/username/" + lastUser.getUsername());
+    }
+
+    @When("^try to get an user by username (\\w+) with public endpoint$")
+    public void tryToGetAnUserByUsernamePublicEndpoint(String username) {
+        executeGet(localURL + "/users/username/" + username);
+    }
+
+    @When("^try to delete an user by userId with public endpoint$")
+    public void tryToDeleteAnUserByUserIdPublicEndpoint() {
+        executeDelete(localURL + "/users/" + lastUser.getUserId());
+    }
+
 
     @Then("^received status code is (\\d+)$")
     public void receivedStatusCodeIs(int expectedStatusCode) throws IOException {

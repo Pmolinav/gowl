@@ -4,7 +4,8 @@ import com.pmolinav.auth.clients.UserClient;
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.InternalServerErrorException;
 import com.pmolinav.auth.exceptions.NotFoundException;
-import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
+import com.pmolinav.userslib.mapper.UserMapper;
 import com.pmolinav.userslib.model.User;
 import feign.FeignException;
 import feign.RetryableException;
@@ -18,12 +19,19 @@ public class UserService {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    @Autowired
-    private UserClient userClient;
+    private final UserClient userClient;
+    private final UserMapper userMapper;
 
-    public Long createUser(UserDTO userDTO) {
+    @Autowired
+    public UserService(UserClient userClient, UserMapper userMapper) {
+        this.userClient = userClient;
+        this.userMapper = userMapper;
+    }
+
+    public Long createUser(UserPublicDTO userPublicDTO) {
         try {
-            return userClient.createUser(userDTO);
+            // Mapped to always create non-admin users from exposed API.
+            return userClient.createUser(this.userMapper.userPublicDTOToUserDTO(userPublicDTO));
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());

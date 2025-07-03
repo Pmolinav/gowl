@@ -1,6 +1,7 @@
 package com.pmolinav.userslib;
 
 import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.mapper.UserMapper;
 import com.pmolinav.userslib.model.Role;
 import com.pmolinav.userslib.model.User;
@@ -55,4 +56,29 @@ class MappersTests {
         assertEquals(expectedUserDTO, userDTO);
     }
 
+    @Test
+    void userDTOToUserPublicDTOTest() {
+        UserDTO userDTO = new UserDTO("someUser", "somePassword",
+                "someName", "some@email.com", false);
+
+        UserPublicDTO expectedUserPublicDTO = new UserPublicDTO("someUser", "somePassword",
+                "someName", "some@email.com");
+
+        UserPublicDTO userPublicDTO = userMapper.userDTOToUserPublicDTO(userDTO);
+
+        assertEquals(expectedUserPublicDTO, userPublicDTO);
+    }
+
+    @Test
+    void userPublicDTOToUserDTOTest() {
+        UserDTO expectedUserDTO = new UserDTO("someUser", "somePassword",
+                "someName", "some@email.com", false);
+
+        UserPublicDTO userPublicDTO = new UserPublicDTO("someUser", "somePassword",
+                "someName", "some@email.com");
+
+        UserDTO userDTO = userMapper.userPublicDTOToUserDTO(userPublicDTO);
+
+        assertEquals(expectedUserDTO, userDTO);
+    }
 }
