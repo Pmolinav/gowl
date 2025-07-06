@@ -1,0 +1,46 @@
+KUBERNETES COMMANDS.
+
+# Deployment Postgres (to a file)
+kubectl create deployment postgres --image=postgres:15-alpine --port=5432 --dry-run=client -o yaml > deployment-postgres.yaml
+
+# Service Postgres
+kubectl expose deployment postgres --port=5432 --type=ClusterIP
+
+# Get the service to a yaml file
+kubectl get service postgres -o yaml > svc-postgres.yaml
+
+# Deployment UsersService
+kubectl create deployment usersservice --image=pablo7molina/usersservice:latest --port=8001
+
+# Deployment UsersService to a file.
+kubectl create deployment usersservice --image=pablo7molina/usersservice:latest --port=8001 --dry-run=client -o yaml > deployment-usersservice.yaml
+
+# Service UsersService
+kubectl expose deployment usersservice --port=8001 --type=ClusterIP
+
+# Deployment UsersBOApi to a file.
+kubectl create deployment usersboapi --image=pablo7molina/usersboapi:latest --port=8002 --dry-run=client -o yaml > deployment-usersboapi.yaml
+
+# Service UsersBOApi
+kubectl expose deployment usersboapi --port=8002 --type=LoadBalancer
+
+# Get service UsersBOApi
+kubectl get service usersboapi -o yaml > svc-usersboapi.yaml
+
+# Show external IP for LoadBalancer
+minikube service usersboapi --url
+
+# Tag to update image in a deployment
+docker tag usersservice pablo7molina/usersservice
+
+# Fix new image in a deployment.
+kubectl set image deployment usersservice usersservice=pablo7molina/usersservice:v2
+
+# Scale replicas number.
+kubectl scale deployment usersservice --replicas=3
+
+# Apply config from a yaml file
+kubectl apply -f .\deployment-usersservice.yaml
+
+# Remove deployment on Kubernetes from a yaml file
+kubectl delete -f .\deployment-usersservice.yaml
