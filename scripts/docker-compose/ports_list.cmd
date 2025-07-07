@@ -25,7 +25,7 @@ echo -----------------------------------------
 
 echo UsersService PORT: 8001
 echo LeaguesService PORT: 8004
-echo LeaguesService PORT: 8007
+echo PredictionsService PORT: 8007
 echo MatchDataSyncService PORT: 8010
 
 echo -----------------------------------------

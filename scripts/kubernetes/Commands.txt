@@ -44,3 +44,10 @@ kubectl apply -f .\deployment-usersservice.yaml
 
 # Remove deployment on Kubernetes from a yaml file
 kubectl delete -f .\deployment-usersservice.yaml
+
+# Get Persistent Volumes or Persistent Volume Claims
+kubectl get pv
+kubectl get pvc
+
+# Get Config Map
+kubectl get configmap
