@@ -1,6 +1,6 @@
 package com.pmolinav.auth.units;
 
-import com.pmolinav.auth.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.auth.models.request.Role;
 import com.pmolinav.userslib.dto.UserDTO;
 import org.junit.jupiter.api.Test;

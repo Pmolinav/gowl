@@ -1,7 +1,7 @@
 package com.pmolinav.league.units;
 
-import com.pmolinav.league.exceptions.InternalServerErrorException;
-import com.pmolinav.league.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

@@ -1,7 +1,7 @@
 package com.pmolinav.prediction.controllers;
 
-import com.pmolinav.prediction.exceptions.CustomStatusException;
-import com.pmolinav.prediction.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.prediction.services.MatchService;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import io.swagger.v3.oas.annotations.Operation;

@@ -1,10 +1,10 @@
 
 package com.pmolinav.users.services;
 
-import com.pmolinav.users.clients.HealthClient;
-import com.pmolinav.users.exceptions.CustomStatusException;
-import com.pmolinav.users.exceptions.InternalServerErrorException;
-import com.pmolinav.users.exceptions.NotFoundException;
+import com.pmolinav.users.clients.UserClient;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -18,11 +18,11 @@ public class HealthBOService {
     private static final Logger logger = LoggerFactory.getLogger(HealthBOService.class);
 
     @Autowired
-    private HealthClient healthClient;
+    private UserClient userClient;
 
     public void health() {
         try {
-            healthClient.health();
+            userClient.health();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

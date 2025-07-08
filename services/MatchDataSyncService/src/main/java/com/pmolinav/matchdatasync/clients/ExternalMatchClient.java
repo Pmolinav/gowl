@@ -3,7 +3,7 @@ package com.pmolinav.matchdatasync.clients;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchDTO;
 import com.pmolinav.matchdatasync.dto.ExternalMatchScoreDTO;
-import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,9 +1,9 @@
 package com.pmolinav.league.services;
 
 import com.pmolinav.league.clients.LeaguePlayerPointsClient;
-import com.pmolinav.league.exceptions.CustomStatusException;
-import com.pmolinav.league.exceptions.InternalServerErrorException;
-import com.pmolinav.league.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import feign.FeignException;
 import feign.RetryableException;

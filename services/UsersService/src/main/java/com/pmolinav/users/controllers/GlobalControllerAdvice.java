@@ -1,6 +1,6 @@
 //package com.pmolinav.users.controllers;
 //
-//import com.pmolinav.users.exceptions.CustomStatusException;
+//import com.pmolinav.shared.exceptions.CustomStatusException;
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
 //import org.springframework.http.ResponseEntity;

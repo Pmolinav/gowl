@@ -1,7 +1,7 @@
 package com.pmolinav.leagues.unit;
 
-import com.pmolinav.leagues.exceptions.InternalServerErrorException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import org.junit.jupiter.api.Test;

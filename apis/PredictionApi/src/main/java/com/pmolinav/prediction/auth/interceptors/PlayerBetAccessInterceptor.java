@@ -1,7 +1,7 @@
 package com.pmolinav.prediction.auth.interceptors;
 
 import com.pmolinav.prediction.auth.AuthUtils;
-import com.pmolinav.prediction.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.prediction.services.PlayerBetService;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import jakarta.servlet.http.HttpServletRequest;

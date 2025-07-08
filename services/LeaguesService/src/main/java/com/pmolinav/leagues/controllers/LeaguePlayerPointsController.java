@@ -1,8 +1,8 @@
 
 package com.pmolinav.leagues.controllers;
 
-import com.pmolinav.leagues.exceptions.InternalServerErrorException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagues.services.LeaguePlayerPointsService;
 import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import org.springframework.beans.factory.annotation.Autowired;

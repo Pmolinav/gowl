@@ -1,9 +1,9 @@
 package com.pmolinav.prediction.services;
 
 import com.pmolinav.prediction.clients.MatchClient;
-import com.pmolinav.prediction.exceptions.CustomStatusException;
-import com.pmolinav.prediction.exceptions.InternalServerErrorException;
-import com.pmolinav.prediction.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import feign.FeignException;
 import org.slf4j.Logger;

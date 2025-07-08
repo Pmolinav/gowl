@@ -1,7 +1,7 @@
 package com.pmolinav.predictions.controllers;
 
-import com.pmolinav.predictions.exceptions.InternalServerErrorException;
-import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictions.services.MatchService;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.model.Match;

@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "UserClient", url = "usersservice:8001/users")
+@FeignClient(name = "UserClient")
 public interface UserClient {
+
+    @GetMapping("/health")
+    void health();
 
     @GetMapping
     List<User> findAllUsers();

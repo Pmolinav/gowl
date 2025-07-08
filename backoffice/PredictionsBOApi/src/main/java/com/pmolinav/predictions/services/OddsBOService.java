@@ -1,9 +1,9 @@
 package com.pmolinav.predictions.services;
 
 import com.pmolinav.predictions.clients.OddsClient;
-import com.pmolinav.predictions.exceptions.CustomStatusException;
-import com.pmolinav.predictions.exceptions.InternalServerErrorException;
-import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import feign.FeignException;
 import org.slf4j.Logger;

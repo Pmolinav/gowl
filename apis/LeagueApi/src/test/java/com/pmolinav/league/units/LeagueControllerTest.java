@@ -1,7 +1,7 @@
 package com.pmolinav.league.units;
 
-import com.pmolinav.league.exceptions.CustomStatusException;
-import com.pmolinav.league.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.leagueslib.model.LeagueStatus;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,7 @@
 package com.pmolinav.predictions.controllers;
 
-import com.pmolinav.predictions.exceptions.InternalServerErrorException;
-import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictions.services.OddsService;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import com.pmolinav.predictionslib.model.Odds;

@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/libraries/common-auth-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/leagues-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/predictions-lib/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/libraries/shared-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/libraries/users-lib/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/LeaguesService/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/MatchDataSyncService/src/main/java" charset="UTF-8" />

@@ -1,7 +1,7 @@
 package com.pmolinav.league.auth.interceptors;
 
 import com.pmolinav.league.auth.AuthUtils;
-import com.pmolinav.league.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.league.services.LeaguesService;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import jakarta.servlet.http.HttpServletRequest;

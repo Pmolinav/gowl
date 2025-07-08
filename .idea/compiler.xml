@@ -80,20 +80,6 @@
         </processorPath>
         <module name="predictions-lib" />
       </profile>
-      <profile name="Annotation profile for gowl" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
-        </processorPath>
-        <module name="AuthApi" />
-        <module name="UsersBOApi" />
-        <module name="LeagueApi" />
-        <module name="PredictionsBOApi" />
-        <module name="PredictionApi" />
-        <module name="LeaguesBOApi" />
-      </profile>
       <profile name="Annotation profile for MatchDataSyncService" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -102,6 +88,21 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
         <module name="MatchDataSyncService" />
+      </profile>
+      <profile name="Annotation profile for gowl" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="UsersBOApi" />
+        <module name="PredictionApi" />
+        <module name="shared-lib" />
+        <module name="AuthApi" />
+        <module name="LeagueApi" />
+        <module name="PredictionsBOApi" />
+        <module name="LeaguesBOApi" />
       </profile>
     </annotationProcessing>
   </component>
@@ -122,6 +123,7 @@
       <module name="gowl" options="" />
       <module name="leagues-lib" options="-parameters" />
       <module name="predictions-lib" options="-parameters" />
+      <module name="shared-lib" options="-parameters" />
       <module name="users-lib" options="-parameters" />
     </option>
   </component>

@@ -1,8 +1,8 @@
 
 package com.pmolinav.league.controllers;
 
-import com.pmolinav.league.exceptions.CustomStatusException;
-import com.pmolinav.league.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.league.services.LeaguePlayersService;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;

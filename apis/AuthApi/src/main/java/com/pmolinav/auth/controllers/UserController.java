@@ -2,8 +2,8 @@ package com.pmolinav.auth.controllers;
 
 
 import com.pmolinav.auth.auth.SpringSecurityConfig;
-import com.pmolinav.auth.exceptions.CustomStatusException;
-import com.pmolinav.auth.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.auth.services.UserService;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;

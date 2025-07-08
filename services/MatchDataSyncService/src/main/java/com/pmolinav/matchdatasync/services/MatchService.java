@@ -1,6 +1,6 @@
 package com.pmolinav.matchdatasync.services;
 
-import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.matchdatasync.repositories.MatchRepository;
 import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.predictionslib.mapper.MatchMapper;

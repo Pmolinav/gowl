@@ -1,7 +1,7 @@
 package com.pmolinav.leagues.services;
 
-import com.pmolinav.leagues.exceptions.InternalServerErrorException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagues.repositories.LeaguePlayerPointsRepository;
 import com.pmolinav.leagueslib.dto.LeaguePlayerPointsDTO;
 import com.pmolinav.leagueslib.mapper.LeaguePlayerPointsMapper;

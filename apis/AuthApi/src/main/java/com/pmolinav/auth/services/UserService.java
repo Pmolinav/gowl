@@ -1,9 +1,9 @@
 package com.pmolinav.auth.services;
 
 import com.pmolinav.auth.clients.UserClient;
-import com.pmolinav.auth.exceptions.CustomStatusException;
-import com.pmolinav.auth.exceptions.InternalServerErrorException;
-import com.pmolinav.auth.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.mapper.UserMapper;
 import com.pmolinav.userslib.model.User;

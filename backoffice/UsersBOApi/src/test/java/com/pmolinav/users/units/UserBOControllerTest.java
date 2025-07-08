@@ -1,7 +1,7 @@
 package com.pmolinav.users.units;
 
-import com.pmolinav.users.exceptions.CustomStatusException;
-import com.pmolinav.users.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;

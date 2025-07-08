@@ -26,6 +26,7 @@
         <module>libraries/common-auth-lib</module>
         <module>libraries/leagues-lib</module>
         <module>libraries/predictions-lib</module>
+        <module>libraries/shared-lib</module>
         <module>libraries/users-lib</module>
         <module>services/LeaguesService</module>
         <module>services/MatchDataSyncService</module>
@@ -36,6 +37,7 @@
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
+        <spring-cloud.version>2024.0.1</spring-cloud.version>
     </properties>
 
 </project>

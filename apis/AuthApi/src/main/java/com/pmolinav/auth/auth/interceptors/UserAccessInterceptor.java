@@ -1,7 +1,7 @@
 package com.pmolinav.auth.auth.interceptors;
 
 import com.pmolinav.auth.auth.AuthUtils;
-import com.pmolinav.auth.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.auth.services.UserService;
 import com.pmolinav.userslib.model.User;
 import jakarta.servlet.http.HttpServletRequest;

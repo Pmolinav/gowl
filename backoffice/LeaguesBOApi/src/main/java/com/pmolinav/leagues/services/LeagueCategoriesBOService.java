@@ -1,9 +1,9 @@
 package com.pmolinav.leagues.services;
 
 import com.pmolinav.leagues.clients.LeagueCategoriesClient;
-import com.pmolinav.leagues.exceptions.CustomStatusException;
-import com.pmolinav.leagues.exceptions.InternalServerErrorException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.LeagueCategoryDTO;
 import com.pmolinav.leagueslib.model.LeagueCategory;
 import feign.FeignException;

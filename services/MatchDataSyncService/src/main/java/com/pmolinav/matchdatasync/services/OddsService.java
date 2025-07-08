@@ -1,7 +1,7 @@
 package com.pmolinav.matchdatasync.services;
 
-import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
-import com.pmolinav.matchdatasync.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.matchdatasync.repositories.OddsRepository;
 import com.pmolinav.predictionslib.dto.OddsDTO;
 import com.pmolinav.predictionslib.mapper.OddsMapper;

@@ -1,8 +1,8 @@
 package com.pmolinav.leagues.controllers;
 
 import com.pmolinav.leagues.auth.SpringSecurityConfig;
-import com.pmolinav.leagues.exceptions.CustomStatusException;
-import com.pmolinav.leagues.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.leagues.services.LeaguesBOService;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import io.swagger.v3.oas.annotations.Operation;

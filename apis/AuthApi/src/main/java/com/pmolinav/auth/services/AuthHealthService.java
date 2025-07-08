@@ -2,9 +2,9 @@
 package com.pmolinav.auth.services;
 
 import com.pmolinav.auth.clients.HealthClient;
-import com.pmolinav.auth.exceptions.CustomStatusException;
-import com.pmolinav.auth.exceptions.InternalServerErrorException;
-import com.pmolinav.auth.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;

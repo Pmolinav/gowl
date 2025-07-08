@@ -1,7 +1,7 @@
 package com.pmolinav.predictions.units;
 
-import com.pmolinav.predictions.exceptions.CustomStatusException;
-import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

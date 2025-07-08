@@ -1,7 +1,7 @@
 package com.pmolinav.matchdatasync.services;
 
-import com.pmolinav.matchdatasync.exceptions.InternalServerErrorException;
-import com.pmolinav.matchdatasync.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.matchdatasync.repositories.ExternalCategoryMappingRepository;
 import com.pmolinav.predictionslib.model.ExternalCategoryMapping;
 import org.slf4j.Logger;

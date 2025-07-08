@@ -1,7 +1,7 @@
 package com.pmolinav.predictions.units;
 
-import com.pmolinav.predictions.exceptions.InternalServerErrorException;
-import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.predictionslib.dto.EventType;
 import org.junit.jupiter.api.Test;

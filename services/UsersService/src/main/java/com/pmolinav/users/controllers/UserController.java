@@ -1,7 +1,7 @@
 package com.pmolinav.users.controllers;
 
-import com.pmolinav.users.exceptions.InternalServerErrorException;
-import com.pmolinav.users.exceptions.NotFoundException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import com.pmolinav.users.services.UserService;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
