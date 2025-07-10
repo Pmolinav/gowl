@@ -59,13 +59,13 @@ class MatchDayControllerIntegrationTest extends AbstractBaseTest {
         this.expectedMatchDays = List.of(new MatchDayDTO("PREMIER", 2025,
                 10, 12345L, 12345678L));
 
-        when(this.matchDaysClient.findMatchDayByCategoryIdAndSeason(anyString(), anyInt()))
+        when(this.leaguesServiceClient.findMatchDayByCategoryIdAndSeason(anyString(), anyInt()))
                 .thenReturn(this.expectedMatchDays);
     }
 
     private void andFindMatchDaysByCategoryIdAndSeasonThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).findMatchDayByCategoryIdAndSeason(anyString(), anyInt());
+                .when(this.leaguesServiceClient).findMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 }
 

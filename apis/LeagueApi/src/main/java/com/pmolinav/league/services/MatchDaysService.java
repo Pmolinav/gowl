@@ -1,11 +1,11 @@
 package com.pmolinav.league.services;
 
-import com.pmolinav.league.clients.MatchDaysClient;
+import com.pmolinav.league.clients.LeaguesServiceClient;
+import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.model.MatchDayId;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.leagueslib.dto.MatchDayDTO;
-import com.pmolinav.leagueslib.model.MatchDayId;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -21,11 +21,11 @@ public class MatchDaysService {
     private static final Logger logger = LoggerFactory.getLogger(MatchDaysService.class);
 
     @Autowired
-    private MatchDaysClient matchDaysClient;
+    private LeaguesServiceClient leaguesServiceClient;
 
     public List<MatchDayDTO> findAllMatchDays() {
         try {
-            return matchDaysClient.findAllMatchDays();
+            return leaguesServiceClient.findAllMatchDays();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -42,7 +42,7 @@ public class MatchDaysService {
 
     public List<MatchDayDTO> findMatchDayByCategoryId(String categoryId) {
         try {
-            return matchDaysClient.findMatchDayByCategoryId(categoryId);
+            return leaguesServiceClient.findMatchDayByCategoryId(categoryId);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -59,7 +59,7 @@ public class MatchDaysService {
 
     public List<MatchDayDTO> findMatchDayByCategoryIdAndSeason(String categoryId, int season) {
         try {
-            return matchDaysClient.findMatchDayByCategoryIdAndSeason(categoryId, season);
+            return leaguesServiceClient.findMatchDayByCategoryIdAndSeason(categoryId, season);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -76,7 +76,7 @@ public class MatchDaysService {
 
     public MatchDayId createMatchDay(MatchDayDTO matchDay) {
         try {
-            return matchDaysClient.createMatchDay(matchDay);
+            return leaguesServiceClient.createMatchDay(matchDay);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -88,7 +88,7 @@ public class MatchDaysService {
 
     public List<MatchDayId> createMatchDays(List<MatchDayDTO> matchDays) {
         try {
-            return matchDaysClient.createMatchDays(matchDays);
+            return leaguesServiceClient.createMatchDays(matchDays);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -100,7 +100,7 @@ public class MatchDaysService {
 
     public void deleteMatchDaysByCategoryId(String categoryId) {
         try {
-            matchDaysClient.deleteMatchDaysByCategoryId(categoryId);
+            leaguesServiceClient.deleteMatchDaysByCategoryId(categoryId);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -117,7 +117,7 @@ public class MatchDaysService {
 
     public void deleteMatchDaysByCategoryIdAndSeason(String categoryId, int season) {
         try {
-            matchDaysClient.deleteMatchDaysByCategoryIdAndSeason(categoryId, season);
+            leaguesServiceClient.deleteMatchDaysByCategoryIdAndSeason(categoryId, season);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -134,7 +134,7 @@ public class MatchDaysService {
 
     public void deleteMatchDayByCategoryIdSeasonAndNumber(String categoryId, int season, int number) {
         try {
-            matchDaysClient.deleteMatchDayByCategoryIdSeasonAndNumber(categoryId, season, number);
+            leaguesServiceClient.deleteMatchDayByCategoryIdSeasonAndNumber(categoryId, season, number);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

@@ -140,38 +140,38 @@ class MatchBOControllerIntegrationTest extends AbstractBaseTest {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
-        when(this.matchClient.findAll()).thenReturn(expectedMatches);
+        when(this.predictionsServiceClient.findAllMatches()).thenReturn(expectedMatches);
     }
 
     private void andFindAllMatchesThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).findAll();
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findAllMatches();
     }
 
     private void andFindMatchByIdReturnedMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
-        when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
+        when(this.predictionsServiceClient.findMatchById(anyLong())).thenReturn(expectedMatches.getFirst());
     }
 
     private void andFindMatchByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findMatchById(anyLong());
     }
 
     private void andCreateMatchReturnedValidId() {
-        when(this.matchClient.create(any(MatchDTO.class))).thenReturn(1L);
+        when(this.predictionsServiceClient.createMatch(any(MatchDTO.class))).thenReturn(1L);
     }
 
     private void andCreateMatchThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).create(any(MatchDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).createMatch(any(MatchDTO.class));
     }
 
     private void andMatchDeletedOk() {
-        doNothing().when(this.matchClient).delete(anyLong());
+        doNothing().when(this.predictionsServiceClient).deleteMatch(anyLong());
     }
 
     private void andDeleteMatchThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).delete(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).deleteMatch(anyLong());
     }
 }
 

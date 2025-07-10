@@ -1,6 +1,6 @@
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.EventClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -20,11 +20,11 @@ public class EventBOService {
     private static final Logger logger = LoggerFactory.getLogger(EventBOService.class);
 
     @Autowired
-    private EventClient eventClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public List<EventDTO> findAllEvents() {
         try {
-            return eventClient.findAll();
+            return predictionsServiceClient.findAll();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -41,7 +41,7 @@ public class EventBOService {
 
     public EventDTO findEventByType(String type) {
         try {
-            return eventClient.findByType(type);
+            return predictionsServiceClient.findByType(type);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -58,7 +58,7 @@ public class EventBOService {
 
     public Long createEvent(EventDTO eventDTO) {
         try {
-            return eventClient.create(eventDTO);
+            return predictionsServiceClient.create(eventDTO);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -70,7 +70,7 @@ public class EventBOService {
 
     public void updateEvent(String type, EventDTO eventDTO) {
         try {
-            eventClient.update(type, eventDTO);
+            predictionsServiceClient.update(type, eventDTO);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling update with status code {}.", e.status(), e);
@@ -87,7 +87,7 @@ public class EventBOService {
 
     public void deleteEvent(String type) {
         try {
-            eventClient.delete(type);
+            predictionsServiceClient.delete(type);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

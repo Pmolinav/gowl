@@ -1,10 +1,10 @@
 package com.pmolinav.prediction.services;
 
-import com.pmolinav.prediction.clients.OddsClient;
+import com.pmolinav.prediction.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.OddsDTO;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.OddsDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +19,11 @@ public class OddsService {
     private static final Logger logger = LoggerFactory.getLogger(OddsService.class);
 
     @Autowired
-    private OddsClient oddsClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public OddsDTO findById(Long id) {
         try {
-            return oddsClient.findById(id);
+            return predictionsServiceClient.findOddsById(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -40,7 +40,7 @@ public class OddsService {
 
     public List<OddsDTO> findByEventType(String type) {
         try {
-            return oddsClient.findByEventType(type);
+            return predictionsServiceClient.findOddsByEventType(type);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -57,7 +57,7 @@ public class OddsService {
 
     public List<OddsDTO> findOddsByMatchId(Long matchId) {
         try {
-            return oddsClient.findByMatchId(matchId);
+            return predictionsServiceClient.findOddsByMatchId(matchId);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

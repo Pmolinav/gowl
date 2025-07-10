@@ -111,29 +111,29 @@ class OddsControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindOddsByIdReturnedOdds() {
         this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), "coolbet", true));
-        when(this.oddsClient.findById(anyLong())).thenReturn(expectedOdds.getFirst());
+        when(this.predictionsServiceClient.findOddsById(anyLong())).thenReturn(expectedOdds.getFirst());
     }
 
     private void andFindOddsByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findOddsById(anyLong());
     }
 
     private void andFindOddsByEventTypeReturnedOdds() {
         this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), "coolbet", true));
-        when(this.oddsClient.findByEventType(anyString())).thenReturn(expectedOdds);
+        when(this.predictionsServiceClient.findOddsByEventType(anyString())).thenReturn(expectedOdds);
     }
 
     private void andFindOddsByEventTypeThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findByEventType(anyString());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findOddsByEventType(anyString());
     }
 
     private void andFindOddsByMatchIdReturnedOdds() {
         this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), "coolbet", true));
-        when(this.oddsClient.findByMatchId(anyLong())).thenReturn(expectedOdds);
+        when(this.predictionsServiceClient.findOddsByMatchId(anyLong())).thenReturn(expectedOdds);
     }
 
     private void andFindOddsByMatchIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findByMatchId(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findOddsByMatchId(anyLong());
     }
 
 }

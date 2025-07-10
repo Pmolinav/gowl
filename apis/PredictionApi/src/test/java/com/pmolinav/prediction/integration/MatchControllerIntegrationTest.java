@@ -86,24 +86,24 @@ class MatchControllerIntegrationTest extends AbstractBaseTest {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
-        when(this.matchClient.findById(anyLong())).thenReturn(expectedMatches.getFirst());
+        when(this.predictionsServiceClient.findMatchById(anyLong())).thenReturn(expectedMatches.getFirst());
     }
 
     private void andFindMatchByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.matchClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findMatchById(anyLong());
     }
 
     private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberReturnedMatch() {
         expectedMatches = List.of(new MatchDTO("PREMIER", 2025, 3,
                 "Team A", "Team B", 1234567L, MatchStatus.ACTIVE));
 
-        when(this.matchClient.findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt()))
+        when(this.predictionsServiceClient.findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt()))
                 .thenReturn(expectedMatches);
     }
 
     private void andFindMatchesByCategoryIdSeasonAndMatchDayNumberThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchClient).findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt());
+                .when(this.predictionsServiceClient).findByCategoryIdSeasonAndMatchDayNumber(anyString(), anyInt(), anyInt());
     }
 
 }

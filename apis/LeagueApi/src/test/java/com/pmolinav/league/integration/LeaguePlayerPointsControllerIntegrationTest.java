@@ -94,7 +94,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString()))
+        when(this.leaguesServiceClient.findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString()))
                 .thenReturn(this.expectedLeaguePlayerPoints);
     }
 
@@ -104,18 +104,18 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt()))
+        when(this.leaguesServiceClient.findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt()))
                 .thenReturn(this.expectedLeaguePlayerPoints);
     }
 
     private void andFindLeaguePlayerPointsByLeagueIdAndPlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
+                .when(this.leaguesServiceClient).findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andFindLeaguePlayerPointsByCategorySeasonAndNumberThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(this.leaguesServiceClient).findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andFindLeagueByIdReturnedLeague(long leagueId) {
@@ -124,7 +124,7 @@ class LeaguePlayerPointsControllerIntegrationTest extends AbstractBaseTest {
                 22, null, false, "someUser",
                 List.of(new LeaguePlayerDTO(leagueId, "someUser", 30, PlayerStatus.ACTIVE)));
 
-        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(expectedLeague);
+        when(this.leaguesServiceClient.findLeagueById(anyLong())).thenReturn(expectedLeague);
     }
 }
 

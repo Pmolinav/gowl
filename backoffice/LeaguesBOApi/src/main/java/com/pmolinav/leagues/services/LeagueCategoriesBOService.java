@@ -1,6 +1,6 @@
 package com.pmolinav.leagues.services;
 
-import com.pmolinav.leagues.clients.LeagueCategoriesClient;
+import com.pmolinav.leagues.clients.LeaguesServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -21,11 +21,11 @@ public class LeagueCategoriesBOService {
     private static final Logger logger = LoggerFactory.getLogger(LeagueCategoriesBOService.class);
 
     @Autowired
-    private LeagueCategoriesClient leagueCategoriesClient;
+    private LeaguesServiceClient leaguesServiceClient;
 
     public List<LeagueCategory> findAllLeagueCategories() {
         try {
-            return leagueCategoriesClient.findAllLeagueCategories();
+            return leaguesServiceClient.findAllLeagueCategories();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -42,7 +42,7 @@ public class LeagueCategoriesBOService {
 
     public LeagueCategory findLeagueCategoryById(String id) {
         try {
-            return leagueCategoriesClient.findLeagueCategoryById(id);
+            return leaguesServiceClient.findLeagueCategoryById(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -59,7 +59,7 @@ public class LeagueCategoriesBOService {
 
     public String createLeagueCategory(LeagueCategoryDTO leagueCategoryDTO) {
         try {
-            return leagueCategoriesClient.createLeagueCategory(leagueCategoryDTO);
+            return leaguesServiceClient.createLeagueCategory(leagueCategoryDTO);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -71,7 +71,7 @@ public class LeagueCategoriesBOService {
 
     public void deleteLeagueCategory(String id) {
         try {
-            leagueCategoriesClient.deleteLeagueCategory(id);
+            leaguesServiceClient.deleteLeagueCategory(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

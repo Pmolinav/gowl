@@ -85,13 +85,13 @@ class LeagueCategoryControllerIntegrationTest extends AbstractBaseTest {
                 "Italian League", "FOOTBALL", "IT", "localhost",
                 true, 123L, null));
 
-        when(this.leagueCategoriesClient.findLeagueCategoryById(anyString()))
+        when(this.leaguesServiceClient.findLeagueCategoryById(anyString()))
                 .thenReturn(this.expectedLeagueCategories.getFirst());
     }
 
     private void andFindLeagueCategoryByIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).findLeagueCategoryById(anyString());
+                .when(this.leaguesServiceClient).findLeagueCategoryById(anyString());
     }
 
     private void andFindAllLeagueCategoriesReturnedValidLeagues() {
@@ -99,13 +99,13 @@ class LeagueCategoryControllerIntegrationTest extends AbstractBaseTest {
                 "Italian League", "FOOTBALL", "IT", "localhost",
                 true, 123L, null));
 
-        when(this.leagueCategoriesClient.findAllLeagueCategories())
+        when(this.leaguesServiceClient.findAllLeagueCategories())
                 .thenReturn(this.expectedLeagueCategories);
     }
 
     private void andFindAllLeagueCategoriesThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).findAllLeagueCategories();
+                .when(this.leaguesServiceClient).findAllLeagueCategories();
     }
 }
 

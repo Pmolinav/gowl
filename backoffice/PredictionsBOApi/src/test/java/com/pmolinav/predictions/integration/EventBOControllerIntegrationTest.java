@@ -132,36 +132,36 @@ class EventBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindAllEventsReturnedValidEvents() {
         this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findAll()).thenReturn(expectedEvents);
+        when(this.predictionsServiceClient.findAll()).thenReturn(expectedEvents);
     }
 
     private void andFindAllEventsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findAll();
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findAll();
     }
 
     private void andFindEventByIdReturnsEvent() {
         this.expectedEvents = List.of(buildEventDTO());
-        when(this.eventClient.findByType(anyString())).thenReturn(expectedEvents.getFirst());
+        when(this.predictionsServiceClient.findByType(anyString())).thenReturn(expectedEvents.getFirst());
     }
 
     private void andFindEventByEventTypeThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).findByType(anyString());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findByType(anyString());
     }
 
     private void andCreateEventReturnsValidId() {
-        when(this.eventClient.create(any(EventDTO.class))).thenReturn(1L);
+        when(this.predictionsServiceClient.create(any(EventDTO.class))).thenReturn(1L);
     }
 
     private void andCreateEventThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).create(any(EventDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).create(any(EventDTO.class));
     }
 
     private void andDeleteEventReturnsOk() {
-        doNothing().when(this.eventClient).delete(anyString());
+        doNothing().when(this.predictionsServiceClient).delete(anyString());
     }
 
     private void andDeleteEventThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.eventClient).delete(anyString());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).delete(anyString());
     }
 
     private EventDTO buildEventDTO() {

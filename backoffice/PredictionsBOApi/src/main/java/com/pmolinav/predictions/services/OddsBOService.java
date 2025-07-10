@@ -1,6 +1,6 @@
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.OddsClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -19,11 +19,11 @@ public class OddsBOService {
     private static final Logger logger = LoggerFactory.getLogger(OddsBOService.class);
 
     @Autowired
-    private OddsClient oddsClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public List<OddsDTO> findAll() {
         try {
-            return oddsClient.findAll();
+            return predictionsServiceClient.findAllOdds();
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -40,7 +40,7 @@ public class OddsBOService {
 
     public OddsDTO findById(Long id) {
         try {
-            return oddsClient.findById(id);
+            return predictionsServiceClient.findOddsById(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -57,7 +57,7 @@ public class OddsBOService {
 
     public List<OddsDTO> findByEventType(String type) {
         try {
-            return oddsClient.findByEventType(type);
+            return predictionsServiceClient.findOddsByEventType(type);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -74,7 +74,7 @@ public class OddsBOService {
 
     public List<OddsDTO> findOddsByMatchId(Long matchId) {
         try {
-            return oddsClient.findOddsByMatchId(matchId);
+            return predictionsServiceClient.findOddsByMatchId(matchId);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -91,7 +91,7 @@ public class OddsBOService {
 
     public Long create(OddsDTO dto) {
         try {
-            return oddsClient.create(dto);
+            return predictionsServiceClient.createOdds(dto);
         } catch (Exception e) {
             logger.error("Error while creating odds", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -100,7 +100,7 @@ public class OddsBOService {
 
     public void update(Long id, OddsDTO dto) {
         try {
-            oddsClient.update(id, dto);
+            predictionsServiceClient.updateOdds(id, dto);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -117,7 +117,7 @@ public class OddsBOService {
 
     public void delete(Long id) {
         try {
-            oddsClient.delete(id);
+            predictionsServiceClient.deleteOdds(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -134,7 +134,7 @@ public class OddsBOService {
 
     public void deleteByMatchId(Long matchId) {
         try {
-            oddsClient.deleteByMatchId(matchId);
+            predictionsServiceClient.deleteOddsByMatchId(matchId);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

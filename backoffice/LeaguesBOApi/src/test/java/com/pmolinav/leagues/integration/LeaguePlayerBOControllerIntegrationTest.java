@@ -219,18 +219,18 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
 
 
     private void andLeaguePlayersAreDeletedOkOnClient() {
-        doNothing().when(this.leaguePlayersClient).deleteLeaguePlayersByLeagueId(anyLong());
-        doNothing().when(this.leaguePlayersClient).deleteLeaguePlayersByLeagueIdAndPlayer(anyLong(), anyString());
+        doNothing().when(this.leaguesServiceClient).deleteLeaguePlayersByLeagueId(anyLong());
+        doNothing().when(this.leaguesServiceClient).deleteLeaguePlayersByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andLeaguePlayerDeleteByLeagueIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).deleteLeaguePlayersByLeagueId(anyLong());
+                .when(this.leaguesServiceClient).deleteLeaguePlayersByLeagueId(anyLong());
     }
 
     private void andLeaguePlayerDeleteByLeagueIdAndPlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).deleteLeaguePlayersByLeagueIdAndPlayer(anyLong(), anyString());
+                .when(this.leaguesServiceClient).deleteLeaguePlayersByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andCreateLeaguePlayersReturnedValidIds() {
@@ -239,14 +239,14 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
                 new LeaguePlayerId(343L, "otherUser")
         );
 
-        when(this.leaguePlayersClient.createLeaguePlayers(anyList()))
+        when(this.leaguesServiceClient.createLeaguePlayers(anyList()))
                 .thenReturn(this.expectedLeaguePlayerIds);
     }
 
 
     private void andCreateLeaguePlayersThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).createLeaguePlayers(anyList());
+                .when(this.leaguesServiceClient).createLeaguePlayers(anyList());
     }
 
     private void andAddPointsToLeaguePlayerOK() {
@@ -255,13 +255,13 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
                 new LeaguePlayerId(343L, "otherUser")
         );
 
-        doNothing().when(this.leaguePlayersClient).addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
+        doNothing().when(this.leaguesServiceClient).addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
     }
 
 
     private void andAddPointsToLeaguePlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
+                .when(this.leaguesServiceClient).addPointsToLeaguePlayer(anyLong(), anyString(), anyInt());
     }
 
     private void andFindLeaguePlayerByLeagueIdAndPlayerReturnedValidLeagues() {
@@ -269,7 +269,7 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
                 new LeaguePlayerDTO(1L, "someUser", 10, PlayerStatus.ACTIVE)
         );
 
-        when(this.leaguePlayersClient.findLeaguePlayerByLeagueIdAndPlayer(anyLong(), anyString()))
+        when(this.leaguesServiceClient.findLeaguePlayerByLeagueIdAndPlayer(anyLong(), anyString()))
                 .thenReturn(this.expectedLeaguePlayers.getFirst());
     }
 
@@ -278,7 +278,7 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
                 new LeaguePlayerDTO(1L, "someUser", 10, PlayerStatus.ACTIVE)
         );
 
-        when(this.leaguePlayersClient.findLeaguePlayersByLeagueId(anyLong()))
+        when(this.leaguesServiceClient.findLeaguePlayersByLeagueId(anyLong()))
                 .thenReturn(this.expectedLeaguePlayers);
     }
 
@@ -289,23 +289,23 @@ class LeaguePlayerBOControllerIntegrationTest extends AbstractBaseTest {
                         null, false, "someUser", null)
         );
 
-        when(this.leaguePlayersClient.findLeaguesByUsername(anyString()))
+        when(this.leaguesServiceClient.findLeaguesByUsername(anyString()))
                 .thenReturn(this.expectedLeagues);
     }
 
     private void andFindLeaguePlayersByLeagueIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).findLeaguePlayersByLeagueId(anyLong());
+                .when(this.leaguesServiceClient).findLeaguePlayersByLeagueId(anyLong());
     }
 
     private void andFindLeaguePlayerByLeagueIdAndPlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).findLeaguePlayerByLeagueIdAndPlayer(anyLong(), anyString());
+                .when(this.leaguesServiceClient).findLeaguePlayerByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andFindLeaguesByUsernameThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayersClient).findLeaguesByUsername(anyString());
+                .when(this.leaguesServiceClient).findLeaguesByUsername(anyString());
     }
 }
 

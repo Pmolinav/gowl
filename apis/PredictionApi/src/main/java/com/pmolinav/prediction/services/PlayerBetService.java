@@ -1,10 +1,10 @@
 package com.pmolinav.prediction.services;
 
-import com.pmolinav.prediction.clients.PlayerBetClient;
+import com.pmolinav.prediction.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +19,11 @@ public class PlayerBetService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerBetService.class);
 
     @Autowired
-    private PlayerBetClient playerBetClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public PlayerBetDTO findById(Long id) {
         try {
-            return playerBetClient.findById(id);
+            return predictionsServiceClient.findPlayerBetById(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -40,7 +40,7 @@ public class PlayerBetService {
 
     public List<PlayerBetDTO> findByMatchId(Long matchId) {
         try {
-            return playerBetClient.findByMatchId(matchId);
+            return predictionsServiceClient.findPlayerBetsByMatchId(matchId);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -57,7 +57,7 @@ public class PlayerBetService {
 
     public List<PlayerBetDTO> findByUsername(String username) {
         try {
-            return playerBetClient.findByUsername(username);
+            return predictionsServiceClient.findPlayerBetsByUsername(username);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -74,7 +74,7 @@ public class PlayerBetService {
 
     public Long create(PlayerBetDTO dto) {
         try {
-            return playerBetClient.create(dto);
+            return predictionsServiceClient.create(dto);
         } catch (Exception e) {
             logger.error("Error while creating player bet", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -83,7 +83,7 @@ public class PlayerBetService {
 
     public void delete(Long id) {
         try {
-            playerBetClient.delete(id);
+            predictionsServiceClient.delete(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

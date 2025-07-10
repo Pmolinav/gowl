@@ -1,10 +1,10 @@
 package com.pmolinav.prediction.services;
 
-import com.pmolinav.prediction.clients.MatchClient;
+import com.pmolinav.prediction.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.MatchDTO;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.MatchDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,11 +19,11 @@ public class MatchService {
     private static final Logger logger = LoggerFactory.getLogger(MatchService.class);
 
     @Autowired
-    private MatchClient matchClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public MatchDTO findMatchById(Long id) {
         try {
-            return matchClient.findById(id);
+            return predictionsServiceClient.findMatchById(id);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
@@ -42,7 +42,7 @@ public class MatchService {
                                                                      Integer season,
                                                                      Integer matchDayNumber) {
         try {
-            return matchClient.findByCategoryIdSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            return predictionsServiceClient.findByCategoryIdSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);

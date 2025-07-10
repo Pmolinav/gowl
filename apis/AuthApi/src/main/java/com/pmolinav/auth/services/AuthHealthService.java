@@ -1,7 +1,7 @@
 
 package com.pmolinav.auth.services;
 
-import com.pmolinav.auth.clients.HealthClient;
+import com.pmolinav.auth.clients.UserClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -18,11 +18,11 @@ public class AuthHealthService {
     private static final Logger logger = LoggerFactory.getLogger(AuthHealthService.class);
 
     @Autowired
-    private HealthClient healthClient;
+    private UserClient userClient;
 
     public void health() {
         try {
-            healthClient.health();
+            userClient.health();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

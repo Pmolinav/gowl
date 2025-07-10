@@ -154,18 +154,18 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andLeaguePlayerPointsAreDeletedOkOnClient() {
-        doNothing().when(this.leaguePlayerPointsClient).deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
-        doNothing().when(this.leaguePlayerPointsClient).deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
+        doNothing().when(this.leaguesServiceClient).deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
+        doNothing().when(this.leaguesServiceClient).deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andLeaguePlayerPointsDeleteByLeagueIdAndPlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
+                .when(this.leaguesServiceClient).deleteLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andLeaguePlayerPointsDeleteByCategoryIdSeasonAndNumberThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(this.leaguesServiceClient).deleteLeaguePlayerByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andCreateLeaguePlayerPointsReturnedValidId() {
@@ -174,13 +174,13 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class)))
+        when(this.leaguesServiceClient.createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class)))
                 .thenReturn(this.expectedLeaguePlayerPoints.getFirst());
     }
 
     private void andCreateLeaguePlayerPointsThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class));
+                .when(this.leaguesServiceClient).createOrUpdateLeaguePlayerPoints(any(LeaguePlayerPointsDTO.class));
     }
 
     private void andFindLeaguePlayerPointsByLeagueIdAndPlayerReturnedValidLeagues() {
@@ -189,7 +189,7 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString()))
+        when(this.leaguesServiceClient.findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString()))
                 .thenReturn(this.expectedLeaguePlayerPoints);
     }
 
@@ -199,18 +199,18 @@ class LeaguePlayerPointsBOControllerIntegrationTest extends AbstractBaseTest {
                         10, 1L, "someUser", 42)
         );
 
-        when(this.leaguePlayerPointsClient.findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt()))
+        when(this.leaguesServiceClient.findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt()))
                 .thenReturn(this.expectedLeaguePlayerPoints);
     }
 
     private void andFindLeaguePlayerPointsByLeagueIdAndPlayerThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
+                .when(this.leaguesServiceClient).findLeaguePlayerPointsByLeagueIdAndPlayer(anyLong(), anyString());
     }
 
     private void andFindLeaguePlayerPointsByCategorySeasonAndNumberThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguePlayerPointsClient).findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(this.leaguesServiceClient).findLeaguePlayerPointsByCategorySeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 }
 

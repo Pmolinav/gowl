@@ -3,7 +3,7 @@ package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.utils.TokenUtils;
-import com.pmolinav.predictions.clients.*;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,15 +22,7 @@ public abstract class AbstractBaseTest {
     @Autowired
     protected MockMvc mockMvc;
     @MockitoBean
-    protected MatchClient matchClient;
-    @MockitoBean
-    protected PlayerBetSelectionClient playerBetSelectionClient;
-    @MockitoBean
-    protected EventClient eventClient;
-    @MockitoBean
-    protected PlayerBetClient playerBetClient;
-    @MockitoBean
-    protected OddsClient oddsClient;
+    protected PredictionsServiceClient predictionsServiceClient;
     @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
     protected static String authToken;

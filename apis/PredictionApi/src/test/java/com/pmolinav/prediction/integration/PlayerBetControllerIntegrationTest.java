@@ -169,48 +169,48 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
         this.expectedPlayerBets = List.of(
                 new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
+        when(this.predictionsServiceClient.findPlayerBetById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
     }
 
     private void andFindPlayerBetByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findPlayerBetById(anyLong());
     }
 
     private void andFindPlayerBetsByMatchIdReturnedPlayerBets() {
         this.expectedPlayerBets = List.of(
                 new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findByMatchId(anyLong())).thenReturn(expectedPlayerBets);
+        when(this.predictionsServiceClient.findPlayerBetsByMatchId(anyLong())).thenReturn(expectedPlayerBets);
     }
 
     private void andFindPlayerBetsByMatchIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findByMatchId(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findPlayerBetsByMatchId(anyLong());
     }
 
     private void andFindPlayerBetsByUsernameReturnedPlayerBets() {
         this.expectedPlayerBets = List.of(
                 new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBets);
+        when(this.predictionsServiceClient.findPlayerBetsByUsername(anyString())).thenReturn(expectedPlayerBets);
     }
 
     private void andFindPlayerBetsByUsernameThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findByUsername(anyString());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findPlayerBetsByUsername(anyString());
     }
 
     private void andCreatePlayerBetReturnedValidId() {
-        when(this.playerBetClient.create(any(PlayerBetDTO.class))).thenReturn(10L);
+        when(this.predictionsServiceClient.create(any(PlayerBetDTO.class))).thenReturn(10L);
     }
 
     private void andCreatePlayerBetThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).create(any(PlayerBetDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).create(any(PlayerBetDTO.class));
     }
 
     private void andDeletePlayerBetReturnsOk() {
-        doNothing().when(this.playerBetClient).delete(anyLong());
+        doNothing().when(this.predictionsServiceClient).delete(anyLong());
     }
 
     private void andDeletePlayerBetThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).delete(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).delete(anyLong());
     }
 }

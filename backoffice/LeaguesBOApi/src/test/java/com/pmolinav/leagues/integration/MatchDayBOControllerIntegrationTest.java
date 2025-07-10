@@ -237,24 +237,24 @@ class MatchDayBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andMatchDaysAreDeletedOkOnClient() {
-        doNothing().when(this.matchDaysClient).deleteMatchDaysByCategoryId(anyString());
-        doNothing().when(this.matchDaysClient).deleteMatchDaysByCategoryIdAndSeason(anyString(), anyInt());
-        doNothing().when(this.matchDaysClient).deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+        doNothing().when(this.leaguesServiceClient).deleteMatchDaysByCategoryId(anyString());
+        doNothing().when(this.leaguesServiceClient).deleteMatchDaysByCategoryIdAndSeason(anyString(), anyInt());
+        doNothing().when(this.leaguesServiceClient).deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andMatchDayDeleteByCategoryIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).deleteMatchDaysByCategoryId(anyString());
+                .when(this.leaguesServiceClient).deleteMatchDaysByCategoryId(anyString());
     }
 
     private void andMatchDayDeleteByCategoryIdAndSeasonThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).deleteMatchDaysByCategoryIdAndSeason(anyString(), anyInt());
+                .when(this.leaguesServiceClient).deleteMatchDaysByCategoryIdAndSeason(anyString(), anyInt());
     }
 
     private void andMatchDayDeleteByCategoryIdSeasonAndNumberThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
+                .when(this.leaguesServiceClient).deleteMatchDayByCategoryIdSeasonAndNumber(anyString(), anyInt(), anyInt());
     }
 
     private void andCreateMatchDayReturnedValidId() {
@@ -262,7 +262,7 @@ class MatchDayBOControllerIntegrationTest extends AbstractBaseTest {
                 new MatchDayId("PREMIER", 2025, 4)
         );
 
-        when(this.matchDaysClient.createMatchDay(any(MatchDayDTO.class)))
+        when(this.leaguesServiceClient.createMatchDay(any(MatchDayDTO.class)))
                 .thenReturn(this.expectedMatchDayIds.getFirst());
     }
 
@@ -272,25 +272,25 @@ class MatchDayBOControllerIntegrationTest extends AbstractBaseTest {
                 new MatchDayId("PREMIER", 2025, 5)
         );
 
-        when(this.matchDaysClient.createMatchDays(anyList()))
+        when(this.leaguesServiceClient.createMatchDays(anyList()))
                 .thenReturn(this.expectedMatchDayIds);
     }
 
     private void andCreateMatchDayThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).createMatchDay(any(MatchDayDTO.class));
+                .when(this.leaguesServiceClient).createMatchDay(any(MatchDayDTO.class));
     }
 
     private void andCreateMatchDaysThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).createMatchDays(anyList());
+                .when(this.leaguesServiceClient).createMatchDays(anyList());
     }
 
     private void andFindAllMatchDaysReturnedValidLeagues() {
         this.expectedMatchDays = List.of(new MatchDayDTO("PREMIER", 2025,
                 10, 12345L, 12345678L));
 
-        when(this.matchDaysClient.findAllMatchDays())
+        when(this.leaguesServiceClient.findAllMatchDays())
                 .thenReturn(this.expectedMatchDays);
     }
 
@@ -298,7 +298,7 @@ class MatchDayBOControllerIntegrationTest extends AbstractBaseTest {
         this.expectedMatchDays = List.of(new MatchDayDTO("PREMIER", 2025,
                 10, 12345L, 12345678L));
 
-        when(this.matchDaysClient.findMatchDayByCategoryId(anyString()))
+        when(this.leaguesServiceClient.findMatchDayByCategoryId(anyString()))
                 .thenReturn(this.expectedMatchDays);
     }
 
@@ -306,23 +306,23 @@ class MatchDayBOControllerIntegrationTest extends AbstractBaseTest {
         this.expectedMatchDays = List.of(new MatchDayDTO("PREMIER", 2025,
                 10, 12345L, 12345678L));
 
-        when(this.matchDaysClient.findMatchDayByCategoryIdAndSeason(anyString(), anyInt()))
+        when(this.leaguesServiceClient.findMatchDayByCategoryIdAndSeason(anyString(), anyInt()))
                 .thenReturn(this.expectedMatchDays);
     }
 
     private void andFindAllMatchDaysThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).findAllMatchDays();
+                .when(this.leaguesServiceClient).findAllMatchDays();
     }
 
     private void andFindMatchDaysByCategoryIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).findMatchDayByCategoryId(anyString());
+                .when(this.leaguesServiceClient).findMatchDayByCategoryId(anyString());
     }
 
     private void andFindMatchDaysByCategoryIdAndSeasonThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.matchDaysClient).findMatchDayByCategoryIdAndSeason(anyString(), anyInt());
+                .when(this.leaguesServiceClient).findMatchDayByCategoryIdAndSeason(anyString(), anyInt());
     }
 }
 

@@ -142,38 +142,38 @@ class PlayerBetBOControllerIntegrationTest extends AbstractBaseTest {
         this.expectedPlayerBets = List.of(
                 new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findAll()).thenReturn(expectedPlayerBets);
+        when(this.predictionsServiceClient.findAllPlayerBets()).thenReturn(expectedPlayerBets);
 
     }
 
     private void andFindAllPlayerBetsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findAll();
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findAllPlayerBets();
     }
 
     private void andCreatePlayerBetReturnedValidId() {
-        when(this.playerBetClient.create(any(PlayerBetDTO.class))).thenReturn(10L);
+        when(this.predictionsServiceClient.createPlayerBet(any(PlayerBetDTO.class))).thenReturn(10L);
     }
 
     private void andCreatePlayerBetThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).create(any(PlayerBetDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).createPlayerBet(any(PlayerBetDTO.class));
     }
 
     private void andFindPlayerBetByIdReturnedPlayerBet() {
         this.expectedPlayerBets = List.of(
                 new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
+        when(this.predictionsServiceClient.findPlayerBetById(anyLong())).thenReturn(expectedPlayerBets.getFirst());
     }
 
     private void andFindPlayerBetByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findPlayerBetById(anyLong());
     }
 
     private void andDeletePlayerBetReturnsOk() {
-        doNothing().when(this.playerBetClient).delete(anyLong());
+        doNothing().when(this.predictionsServiceClient).deletePlayerBet(anyLong());
     }
 
     private void andDeletePlayerBetThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.playerBetClient).delete(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).deletePlayerBet(anyLong());
     }
 }

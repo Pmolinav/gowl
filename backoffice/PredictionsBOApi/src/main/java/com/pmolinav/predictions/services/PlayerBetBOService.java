@@ -1,9 +1,9 @@
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.PlayerBetClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +18,11 @@ public class PlayerBetBOService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerBetBOService.class);
 
     @Autowired
-    private PlayerBetClient playerBetClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public List<PlayerBetDTO> findAll() {
         try {
-            return playerBetClient.findAll();
+            return predictionsServiceClient.findAllPlayerBets();
         } catch (Exception e) {
             logger.error("Unexpected error while fetching all player bets", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -31,7 +31,7 @@ public class PlayerBetBOService {
 
     public PlayerBetDTO findById(Long id) {
         try {
-            return playerBetClient.findById(id);
+            return predictionsServiceClient.findPlayerBetById(id);
         } catch (FeignException.NotFound e) {
             logger.warn("PlayerBet with id {} not found", id);
             throw new NotFoundException("PlayerBet with id " + id + " not found");
@@ -43,7 +43,7 @@ public class PlayerBetBOService {
 
     public List<PlayerBetDTO> findByMatchId(Long matchId) {
         try {
-            return playerBetClient.findByMatchId(matchId);
+            return predictionsServiceClient.findPlayerBetByMatchId(matchId);
         } catch (Exception e) {
             logger.error("Unexpected error while fetching player bets by matchId", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -52,7 +52,7 @@ public class PlayerBetBOService {
 
     public List<PlayerBetDTO> findByUsername(String username) {
         try {
-            return playerBetClient.findByUsername(username);
+            return predictionsServiceClient.findPlayerBetByUsername(username);
         } catch (Exception e) {
             logger.error("Unexpected error while fetching player bets by username", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -61,7 +61,7 @@ public class PlayerBetBOService {
 
     public Long create(PlayerBetDTO dto) {
         try {
-            return playerBetClient.create(dto);
+            return predictionsServiceClient.createPlayerBet(dto);
         } catch (Exception e) {
             logger.error("Error while creating player bet", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -70,7 +70,7 @@ public class PlayerBetBOService {
 
     public void delete(Long id) {
         try {
-            playerBetClient.delete(id);
+            predictionsServiceClient.deletePlayerBet(id);
         } catch (FeignException.NotFound e) {
             logger.warn("PlayerBet with id {} not found for delete", id);
             throw new NotFoundException("PlayerBet with id " + id + " not found");

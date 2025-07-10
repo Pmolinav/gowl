@@ -7,27 +7,27 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "UserClient")
+@FeignClient(name = "usersservice")
 public interface UserClient {
 
-    @GetMapping("/health")
+    @GetMapping("/users/health")
     void health();
 
-    @GetMapping
+    @GetMapping("/users")
     List<User> findAllUsers();
 
-    @PostMapping
+    @PostMapping("/users")
     Long createUser(@RequestBody UserDTO userDTO);
 
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     User findUserById(@PathVariable long id);
 
-    @GetMapping("/username/{username}")
+    @GetMapping("/users/username/{username}")
     User findUserByUsername(@PathVariable String username);
 
-//    @PutMapping("/{id}")
+//    @PutMapping("/users/{id}")
 //    User updateUser(@PathVariable long id, @RequestBody UserUpdateDTO userDetails);
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/users/{id}")
     void deleteUser(@PathVariable long id);
 }

@@ -163,7 +163,7 @@ class LeagueControllerIntegrationTest extends AbstractBaseTest {
                 22, null, false, "someUser",
                 List.of(new LeaguePlayerDTO(leagueId, "someUser", 30, PlayerStatus.ACTIVE))));
 
-        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
+        when(this.leaguesServiceClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByNameReturnedLeague() {
@@ -172,37 +172,37 @@ class LeagueControllerIntegrationTest extends AbstractBaseTest {
                 22, null, false, "someUser",
                 List.of(new LeaguePlayerDTO("someUser", 30, PlayerStatus.ACTIVE))));
 
-        when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
+        when(this.leaguesServiceClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findLeagueById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).findLeagueById(anyLong());
     }
 
     private void andCreateLeagueReturnedValidId() {
-        when(this.leaguesClient.createLeague(any(LeagueDTO.class))).thenReturn(1L);
+        when(this.leaguesServiceClient.createLeague(any(LeagueDTO.class))).thenReturn(1L);
     }
 
     private void andCreateLeagueThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).createLeague(any(LeagueDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).createLeague(any(LeagueDTO.class));
     }
 
     private void andCloseLeagueByIdReturnedOk() {
-        doNothing().when(this.leaguesClient).closeLeagueById(anyLong());
+        doNothing().when(this.leaguesServiceClient).closeLeagueById(anyLong());
     }
 
     private void andCloseLeagueByNameReturnedOk() {
-        doNothing().when(this.leaguesClient).closeLeagueByName(anyString());
+        doNothing().when(this.leaguesServiceClient).closeLeagueByName(anyString());
     }
 
     private void andCloseLeagueByIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguesClient).closeLeagueById(anyLong());
+                .when(this.leaguesServiceClient).closeLeagueById(anyLong());
     }
 
     private void andCloseLeagueByNameThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguesClient).closeLeagueByName(anyString());
+                .when(this.leaguesServiceClient).closeLeagueByName(anyString());
     }
 
 }

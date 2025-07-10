@@ -1,7 +1,7 @@
 
 package com.pmolinav.league.services;
 
-import com.pmolinav.league.clients.HealthClient;
+import com.pmolinav.league.clients.LeaguesServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -18,11 +18,11 @@ public class HealthService {
     private static final Logger logger = LoggerFactory.getLogger(HealthService.class);
 
     @Autowired
-    private HealthClient healthClient;
+    private LeaguesServiceClient leaguesServiceClient;
 
     public void health() {
         try {
-            healthClient.health();
+            leaguesServiceClient.health();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

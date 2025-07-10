@@ -134,37 +134,37 @@ class PlayerBetSelectionBOControllerIntegrationTest extends AbstractBaseTest {
     // Stubs
 
     private void andFindAllSelectionsThrowsException() {
-        doThrow(new RuntimeException("error")).when(this.playerBetSelectionClient).findAll();
+        doThrow(new RuntimeException("error")).when(this.predictionsServiceClient).findAllPlayerBetSelections();
     }
 
     private void andFindAllSelectionsReturnsValidList() {
         expectedSelections = List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
                 new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE));
-        when(this.playerBetSelectionClient.findAll()).thenReturn(expectedSelections);
+        when(this.predictionsServiceClient.findAllPlayerBetSelections()).thenReturn(expectedSelections);
     }
 
     private void andFindByIdThrowsException() {
-        doThrow(new RuntimeException("error")).when(this.playerBetSelectionClient).findById(anyLong());
+        doThrow(new RuntimeException("error")).when(this.predictionsServiceClient).findPlayerBetSelectionById(anyLong());
     }
 
     private void andFindByIdReturnsValid() {
         expectedSelections = List.of(new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE));
-        when(this.playerBetSelectionClient.findById(4L)).thenReturn(expectedSelections.getFirst());
+        when(this.predictionsServiceClient.findPlayerBetSelectionById(4L)).thenReturn(expectedSelections.getFirst());
     }
 
     private void andCreateSelectionThrowsException() {
-        doThrow(new RuntimeException("error")).when(this.playerBetSelectionClient).create(any(PlayerBetSelectionDTO.class));
+        doThrow(new RuntimeException("error")).when(this.predictionsServiceClient).createPlayerBetSelection(any(PlayerBetSelectionDTO.class));
     }
 
     private void andCreateSelectionReturnsValidId() {
-        when(this.playerBetSelectionClient.create(any(PlayerBetSelectionDTO.class))).thenReturn(101L);
+        when(this.predictionsServiceClient.createPlayerBetSelection(any(PlayerBetSelectionDTO.class))).thenReturn(101L);
     }
 
     private void andDeleteSelectionThrowsException() {
-        doThrow(new RuntimeException("error")).when(this.playerBetSelectionClient).delete(anyLong());
+        doThrow(new RuntimeException("error")).when(this.predictionsServiceClient).deletePlayerBetSelection(anyLong());
     }
 
     private void andDeleteSelectionReturnsOk() {
-        doNothing().when(this.playerBetSelectionClient).delete(anyLong());
+        doNothing().when(this.predictionsServiceClient).deletePlayerBetSelection(anyLong());
     }
 }

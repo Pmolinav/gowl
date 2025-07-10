@@ -1,7 +1,7 @@
 
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.HealthClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -18,11 +18,11 @@ public class HealthBOService {
     private static final Logger logger = LoggerFactory.getLogger(HealthBOService.class);
 
     @Autowired
-    private HealthClient healthClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public void health() {
         try {
-            healthClient.health();
+            predictionsServiceClient.health();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

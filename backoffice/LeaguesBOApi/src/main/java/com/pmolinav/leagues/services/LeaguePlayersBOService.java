@@ -1,12 +1,12 @@
 package com.pmolinav.leagues.services;
 
-import com.pmolinav.leagues.clients.LeaguePlayersClient;
-import com.pmolinav.shared.exceptions.CustomStatusException;
-import com.pmolinav.shared.exceptions.InternalServerErrorException;
-import com.pmolinav.shared.exceptions.NotFoundException;
+import com.pmolinav.leagues.clients.LeaguesServiceClient;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.leagueslib.dto.LeaguePlayerDTO;
 import com.pmolinav.leagueslib.model.LeaguePlayerId;
+import com.pmolinav.shared.exceptions.CustomStatusException;
+import com.pmolinav.shared.exceptions.InternalServerErrorException;
+import com.pmolinav.shared.exceptions.NotFoundException;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -22,11 +22,11 @@ public class LeaguePlayersBOService {
     private static final Logger logger = LoggerFactory.getLogger(LeaguePlayersBOService.class);
 
     @Autowired
-    private LeaguePlayersClient leaguePlayersClient;
+    private LeaguesServiceClient leaguesServiceClient;
 
     public LeaguePlayerDTO findLeaguePlayerByByLeagueIdAndPlayer(long id, String username) {
         try {
-            return leaguePlayersClient.findLeaguePlayerByLeagueIdAndPlayer(id, username);
+            return leaguesServiceClient.findLeaguePlayerByLeagueIdAndPlayer(id, username);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -43,7 +43,7 @@ public class LeaguePlayersBOService {
 
     public List<LeaguePlayerDTO> findLeaguePlayersByLeagueId(long id) {
         try {
-            return leaguePlayersClient.findLeaguePlayersByLeagueId(id);
+            return leaguesServiceClient.findLeaguePlayersByLeagueId(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -60,7 +60,7 @@ public class LeaguePlayersBOService {
 
     public List<LeagueDTO> findLeaguesByUsername(String username) {
         try {
-            return leaguePlayersClient.findLeaguesByUsername(username);
+            return leaguesServiceClient.findLeaguesByUsername(username);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -77,7 +77,7 @@ public class LeaguePlayersBOService {
 
     public List<LeaguePlayerId> createLeaguePlayers(List<LeaguePlayerDTO> leaguePlayers) {
         try {
-            return leaguePlayersClient.createLeaguePlayers(leaguePlayers);
+            return leaguesServiceClient.createLeaguePlayers(leaguePlayers);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -89,7 +89,7 @@ public class LeaguePlayersBOService {
 
     public void addPointsToLeaguePlayer(long id, String username, int points) {
         try {
-            leaguePlayersClient.addPointsToLeaguePlayer(id, username, points);
+            leaguesServiceClient.addPointsToLeaguePlayer(id, username, points);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -106,7 +106,7 @@ public class LeaguePlayersBOService {
 
     public void deleteLeaguePlayersByLeagueIdAndPlayer(Long id, String username) {
         try {
-            leaguePlayersClient.deleteLeaguePlayersByLeagueIdAndPlayer(id, username);
+            leaguesServiceClient.deleteLeaguePlayersByLeagueIdAndPlayer(id, username);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -123,7 +123,7 @@ public class LeaguePlayersBOService {
 
     public void deleteLeaguePlayersByLeagueId(Long id) {
         try {
-            leaguePlayersClient.deleteLeaguePlayersByLeagueId(id);
+            leaguesServiceClient.deleteLeaguePlayersByLeagueId(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

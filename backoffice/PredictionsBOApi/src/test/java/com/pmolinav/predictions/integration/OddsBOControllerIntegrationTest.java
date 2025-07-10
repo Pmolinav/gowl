@@ -137,35 +137,35 @@ class OddsBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindAllOddsReturnedValidOdds() {
         this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true));
-        when(this.oddsClient.findAll()).thenReturn(expectedOdds);
+        when(this.predictionsServiceClient.findAllOdds()).thenReturn(expectedOdds);
     }
 
     private void andFindAllOddsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findAll();
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findAllOdds();
     }
 
     private void andCreateOddsReturnedValidId() {
-        when(this.oddsClient.create(any(OddsDTO.class))).thenReturn(10L);
+        when(this.predictionsServiceClient.createOdds(any(OddsDTO.class))).thenReturn(10L);
     }
 
     private void andCreateOddsThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).create(any(OddsDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).createOdds(any(OddsDTO.class));
     }
 
     private void andFindOddsByIdReturnedOdds() {
         this.expectedOdds = List.of(new OddsDTO(EventType.H2H.getName(), 1L, "LABEL1", BigDecimal.valueOf(2.0), null, true));
-        when(this.oddsClient.findById(anyLong())).thenReturn(expectedOdds.getFirst());
+        when(this.predictionsServiceClient.findOddsById(anyLong())).thenReturn(expectedOdds.getFirst());
     }
 
     private void andFindOddsByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).findById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).findOddsById(anyLong());
     }
 
     private void andDeleteOddsByIdReturnsOk() {
-        doNothing().when(this.oddsClient).delete(anyLong());
+        doNothing().when(this.predictionsServiceClient).deleteOdds(anyLong());
     }
 
     private void andDeleteOddsByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.oddsClient).delete(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.predictionsServiceClient).deleteOdds(anyLong());
     }
 }

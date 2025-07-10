@@ -137,12 +137,12 @@ class LeagueCategoryBOControllerIntegrationTest extends AbstractBaseTest {
 
 
     private void andLeagueCategoryIsDeletedOkOnClient() {
-        doNothing().when(this.leagueCategoriesClient).deleteLeagueCategory(anyString());
+        doNothing().when(this.leaguesServiceClient).deleteLeagueCategory(anyString());
     }
 
     private void andLeagueCategoryDeleteThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).deleteLeagueCategory(anyString());
+                .when(this.leaguesServiceClient).deleteLeagueCategory(anyString());
     }
 
     private void andFindLeagueCategoryByIdReturnedLeague() {
@@ -150,23 +150,23 @@ class LeagueCategoryBOControllerIntegrationTest extends AbstractBaseTest {
                 "Italian League", "FOOTBALL", "IT", "localhost",
                 true, 123L, null));
 
-        when(this.leagueCategoriesClient.findLeagueCategoryById(anyString()))
+        when(this.leaguesServiceClient.findLeagueCategoryById(anyString()))
                 .thenReturn(this.expectedLeagueCategories.getFirst());
     }
 
     private void andFindLeagueCategoryByIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).findLeagueCategoryById(anyString());
+                .when(this.leaguesServiceClient).findLeagueCategoryById(anyString());
     }
 
     private void andCreateLeagueCategoryReturnedValidId() {
-        when(this.leagueCategoriesClient.createLeagueCategory(any(LeagueCategoryDTO.class)))
+        when(this.leaguesServiceClient.createLeagueCategory(any(LeagueCategoryDTO.class)))
                 .thenReturn("CALCIO");
     }
 
     private void andCreateLeagueCategoryThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).createLeagueCategory(any(LeagueCategoryDTO.class));
+                .when(this.leaguesServiceClient).createLeagueCategory(any(LeagueCategoryDTO.class));
     }
 
     private void andFindAllLeagueCategoriesReturnedValidLeagues() {
@@ -174,13 +174,13 @@ class LeagueCategoryBOControllerIntegrationTest extends AbstractBaseTest {
                 "Italian League", "FOOTBALL", "IT", "localhost",
                 true, 123L, null));
 
-        when(this.leagueCategoriesClient.findAllLeagueCategories())
+        when(this.leaguesServiceClient.findAllLeagueCategories())
                 .thenReturn(this.expectedLeagueCategories);
     }
 
     private void andFindAllLeagueCategoriesThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leagueCategoriesClient).findAllLeagueCategories();
+                .when(this.leaguesServiceClient).findAllLeagueCategories();
     }
 }
 

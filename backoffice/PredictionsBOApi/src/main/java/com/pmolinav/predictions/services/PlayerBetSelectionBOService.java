@@ -1,9 +1,9 @@
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.PlayerBetSelectionClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +18,11 @@ public class PlayerBetSelectionBOService {
     private static final Logger logger = LoggerFactory.getLogger(PlayerBetSelectionBOService.class);
 
     @Autowired
-    private PlayerBetSelectionClient playerBetSelectionClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public List<PlayerBetSelectionDTO> findAll() {
         try {
-            return playerBetSelectionClient.findAll();
+            return predictionsServiceClient.findAllPlayerBetSelections();
         } catch (Exception e) {
             logger.error("Unexpected error while fetching all selections", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -31,7 +31,7 @@ public class PlayerBetSelectionBOService {
 
     public PlayerBetSelectionDTO findById(Long id) {
         try {
-            return playerBetSelectionClient.findById(id);
+            return predictionsServiceClient.findPlayerBetSelectionById(id);
         } catch (FeignException.NotFound e) {
             logger.warn("Selection with id {} not found", id);
             throw new NotFoundException("Selection with id " + id + " not found");
@@ -43,7 +43,7 @@ public class PlayerBetSelectionBOService {
 
     public List<PlayerBetSelectionDTO> findByBetId(Long betId) {
         try {
-            return playerBetSelectionClient.findByBetId(betId);
+            return predictionsServiceClient.findPlayerBetSelectionsByBetId(betId);
         } catch (Exception e) {
             logger.error("Unexpected error while fetching selections by betId", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -52,7 +52,7 @@ public class PlayerBetSelectionBOService {
 
     public Long create(PlayerBetSelectionDTO dto) {
         try {
-            return playerBetSelectionClient.create(dto);
+            return predictionsServiceClient.createPlayerBetSelection(dto);
         } catch (Exception e) {
             logger.error("Error while creating selection", e);
             throw new InternalServerErrorException(e.getMessage());
@@ -61,7 +61,7 @@ public class PlayerBetSelectionBOService {
 
     public void delete(Long id) {
         try {
-            playerBetSelectionClient.delete(id);
+            predictionsServiceClient.deletePlayerBetSelection(id);
         } catch (FeignException.NotFound e) {
             logger.warn("Selection with id {} not found for delete", id);
             throw new NotFoundException("Selection with id " + id + " not found");

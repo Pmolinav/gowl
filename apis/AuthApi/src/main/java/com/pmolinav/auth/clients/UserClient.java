@@ -7,8 +7,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "UserService", url = "usersservice:8001/users")
+@FeignClient(name = "usersservice")
 public interface UserClient {
+
+    @GetMapping("/health")
+    void health();
 
     @PostMapping
     Long createUser(@RequestBody UserDTO userDTO);

@@ -1,6 +1,6 @@
 package com.pmolinav.predictions.services;
 
-import com.pmolinav.predictions.clients.MatchClient;
+import com.pmolinav.predictions.clients.PredictionsServiceClient;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
@@ -20,11 +20,11 @@ public class MatchBOService {
     private static final Logger logger = LoggerFactory.getLogger(MatchBOService.class);
 
     @Autowired
-    private MatchClient matchClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public List<MatchDTO> findAllMatches() {
         try {
-            return matchClient.findAll();
+            return predictionsServiceClient.findAllMatches();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
@@ -41,7 +41,7 @@ public class MatchBOService {
 
     public MatchDTO findMatchById(Long id) {
         try {
-            return matchClient.findById(id);
+            return predictionsServiceClient.findMatchById(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
@@ -60,7 +60,7 @@ public class MatchBOService {
                                                                      Integer season,
                                                                      Integer matchDayNumber) {
         try {
-            return matchClient.findByCategoryIdSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
+            return predictionsServiceClient.findMatchesByCategoryIdSeasonAndMatchDayNumber(categoryId, season, matchDayNumber);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
@@ -78,7 +78,7 @@ public class MatchBOService {
 
     public void updateMatch(Long id, MatchDTO matchDTO) {
         try {
-            matchClient.update(id, matchDTO);
+            predictionsServiceClient.updateMatch(id, matchDTO);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -95,7 +95,7 @@ public class MatchBOService {
 
     public Long createMatch(MatchDTO matchDTO) {
         try {
-            return matchClient.create(matchDTO);
+            return predictionsServiceClient.createMatch(matchDTO);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -107,7 +107,7 @@ public class MatchBOService {
 
     public void deleteMatch(Long id) {
         try {
-            matchClient.delete(id);
+            predictionsServiceClient.deleteMatch(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling Match service with status code {}.", e.status(), e);

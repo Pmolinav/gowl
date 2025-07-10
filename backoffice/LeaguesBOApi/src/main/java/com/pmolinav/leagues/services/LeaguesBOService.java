@@ -1,10 +1,10 @@
 package com.pmolinav.leagues.services;
 
-import com.pmolinav.leagues.clients.LeaguesClient;
+import com.pmolinav.leagues.clients.LeaguesServiceClient;
+import com.pmolinav.leagueslib.dto.LeagueDTO;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.leagueslib.dto.LeagueDTO;
 import feign.FeignException;
 import feign.RetryableException;
 import org.slf4j.Logger;
@@ -20,11 +20,11 @@ public class LeaguesBOService {
     private static final Logger logger = LoggerFactory.getLogger(LeaguesBOService.class);
 
     @Autowired
-    private LeaguesClient leaguesClient;
+    private LeaguesServiceClient leaguesServiceClient;
 
     public List<LeagueDTO> findAllLeagues() {
         try {
-            return leaguesClient.findAllLeagues();
+            return leaguesServiceClient.findAllLeagues();
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -41,7 +41,7 @@ public class LeaguesBOService {
 
     public Long createLeague(LeagueDTO leagueDTO) {
         try {
-            return leaguesClient.createLeague(leagueDTO);
+            return leaguesServiceClient.createLeague(leagueDTO);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -53,7 +53,7 @@ public class LeaguesBOService {
 
     public void closeLeagueById(long id) {
         try {
-            leaguesClient.closeLeagueById(id);
+            leaguesServiceClient.closeLeagueById(id);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -65,7 +65,7 @@ public class LeaguesBOService {
 
     public void closeLeagueByName(String name) {
         try {
-            leaguesClient.closeLeagueByName(name);
+            leaguesServiceClient.closeLeagueByName(name);
         } catch (FeignException e) {
             logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
             throw new CustomStatusException(e.getMessage(), e.status());
@@ -77,7 +77,7 @@ public class LeaguesBOService {
 
     public LeagueDTO findLeagueById(long id) {
         try {
-            return leaguesClient.findLeagueById(id);
+            return leaguesServiceClient.findLeagueById(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -94,7 +94,7 @@ public class LeaguesBOService {
 
     public LeagueDTO findLeagueByName(String name) {
         try {
-            return leaguesClient.findLeagueByName(name);
+            return leaguesServiceClient.findLeagueByName(name);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -111,7 +111,7 @@ public class LeaguesBOService {
 
     public void deleteLeague(Long id) {
         try {
-            leaguesClient.deleteLeague(id);
+            leaguesServiceClient.deleteLeague(id);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
@@ -128,7 +128,7 @@ public class LeaguesBOService {
 
     public void deleteLeagueByName(String name) {
         try {
-            leaguesClient.deleteLeagueByName(name);
+            leaguesServiceClient.deleteLeagueByName(name);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

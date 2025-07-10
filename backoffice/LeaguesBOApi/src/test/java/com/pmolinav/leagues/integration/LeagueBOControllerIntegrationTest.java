@@ -213,19 +213,19 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andLeagueIsDeletedOkOnClient() {
-        doNothing().when(this.leaguesClient).deleteLeague(anyLong());
+        doNothing().when(this.leaguesServiceClient).deleteLeague(anyLong());
     }
 
     private void andLeagueByNameIsDeletedOkOnClient() {
-        doNothing().when(this.leaguesClient).deleteLeagueByName(anyString());
+        doNothing().when(this.leaguesServiceClient).deleteLeagueByName(anyString());
     }
 
     private void andLeagueDeleteThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteLeague(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).deleteLeague(anyLong());
     }
 
     private void andLeagueDeleteByNameThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).deleteLeagueByName(anyString());
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).deleteLeagueByName(anyString());
     }
 
     private void andFindLeagueByIdReturnedLeague() {
@@ -233,7 +233,7 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser", null));
 
-        when(this.leaguesClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
+        when(this.leaguesServiceClient.findLeagueById(anyLong())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByNameReturnedLeague() {
@@ -241,37 +241,37 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser", null));
 
-        when(this.leaguesClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
+        when(this.leaguesServiceClient.findLeagueByName(anyString())).thenReturn(this.expectedLeagues.getFirst());
     }
 
     private void andFindLeagueByIdThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findLeagueById(anyLong());
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).findLeagueById(anyLong());
     }
 
     private void andCreateLeagueReturnedValidId() {
-        when(this.leaguesClient.createLeague(any(LeagueDTO.class))).thenReturn(1L);
+        when(this.leaguesServiceClient.createLeague(any(LeagueDTO.class))).thenReturn(1L);
     }
 
     private void andCreateLeagueThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).createLeague(any(LeagueDTO.class));
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).createLeague(any(LeagueDTO.class));
     }
 
     private void andCloseLeagueByIdReturnedOk() {
-        doNothing().when(this.leaguesClient).closeLeagueById(anyLong());
+        doNothing().when(this.leaguesServiceClient).closeLeagueById(anyLong());
     }
 
     private void andCloseLeagueByNameReturnedOk() {
-        doNothing().when(this.leaguesClient).closeLeagueByName(anyString());
+        doNothing().when(this.leaguesServiceClient).closeLeagueByName(anyString());
     }
 
     private void andCloseLeagueByIdThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguesClient).closeLeagueById(anyLong());
+                .when(this.leaguesServiceClient).closeLeagueById(anyLong());
     }
 
     private void andCloseLeagueByNameThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException"))
-                .when(this.leaguesClient).closeLeagueByName(anyString());
+                .when(this.leaguesServiceClient).closeLeagueByName(anyString());
     }
 
     private void andFindAllLeaguesReturnedValidLeagues() {
@@ -279,11 +279,11 @@ class LeagueBOControllerIntegrationTest extends AbstractBaseTest {
                 "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
                 22, null, false, "someUser", null));
 
-        when(this.leaguesClient.findAllLeagues()).thenReturn(this.expectedLeagues);
+        when(this.leaguesServiceClient.findAllLeagues()).thenReturn(this.expectedLeagues);
     }
 
     private void andFindAllLeaguesThrowsNonRetryableException() {
-        doThrow(new RuntimeException("someException")).when(this.leaguesClient).findAllLeagues();
+        doThrow(new RuntimeException("someException")).when(this.leaguesServiceClient).findAllLeagues();
     }
 }
 

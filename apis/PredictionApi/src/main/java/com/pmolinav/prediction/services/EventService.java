@@ -1,10 +1,10 @@
 package com.pmolinav.prediction.services;
 
-import com.pmolinav.prediction.clients.EventClient;
+import com.pmolinav.prediction.clients.PredictionsServiceClient;
+import com.pmolinav.predictionslib.dto.EventDTO;
 import com.pmolinav.shared.exceptions.CustomStatusException;
 import com.pmolinav.shared.exceptions.InternalServerErrorException;
 import com.pmolinav.shared.exceptions.NotFoundException;
-import com.pmolinav.predictionslib.dto.EventDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,11 +17,11 @@ public class EventService {
     private static final Logger logger = LoggerFactory.getLogger(EventService.class);
 
     @Autowired
-    private EventClient eventClient;
+    private PredictionsServiceClient predictionsServiceClient;
 
     public EventDTO findEventByEventType(String type) {
         try {
-            return eventClient.findByEventType(type);
+            return predictionsServiceClient.findByEventType(type);
         } catch (FeignException e) {
             if (e.status() != 404) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
