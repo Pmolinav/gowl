@@ -1,5 +1,11 @@
 KUBERNETES COMMANDS.
 
+# Mini Kube Start
+minikube start --driver=hyperv
+
+#Mini Kube Remove
+minikube delete
+
 # Deployment Postgres (to a file)
 kubectl create deployment postgres --image=postgres:15-alpine --port=5432 --dry-run=client -o yaml > deployment-postgres.yaml
 
@@ -51,3 +57,9 @@ kubectl get pvc
 
 # Get Config Map
 kubectl get configmap
+
+# Create cluster role binding to avoid permission errors
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
+
+# Cluster role binding to yaml file
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default -o yaml > clusterrolabinding.yaml
