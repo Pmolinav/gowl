@@ -66,7 +66,8 @@ public class SpringSecurityConfig {
         // Allow Draftbit to call the API for testing purposes.
         config.setAllowedOrigins(List.of(
                 "https://builder.draftbit.com",
-                "https://web.draftbit.com"
+                "https://web.draftbit.com",
+                "https://snack-web-player.s3.us-west-1.amazonaws.com"
         ));
         config.setAllowedOriginPatterns(List.of("https://*.draftbit.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
