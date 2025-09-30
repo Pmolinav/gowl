@@ -71,7 +71,7 @@ public class SpringSecurityConfig {
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         // No cookies or credentials needed.
-        config.setAllowCredentials(false);
+        config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
