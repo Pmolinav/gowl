@@ -61,11 +61,16 @@ public class SpringSecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
 
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("*"));
-        config.setAllowedOriginPatterns(List.of("*"));
+        // Allow Draftbit to call the API for testing purposes.
+        config.setAllowedOrigins(List.of(
+                "https://builder.draftbit.com",
+                "https://web.draftbit.com"
+        ));
+        config.setAllowedOriginPatterns(List.of("https://*.draftbit.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        config.setAllowCredentials(true);
+        // No cookies or credentials needed.
+        config.setAllowCredentials(false);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
