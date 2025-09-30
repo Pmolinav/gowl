@@ -70,7 +70,6 @@ public class SpringSecurityConfig {
         config.setAllowedOriginPatterns(List.of("https://*.draftbit.com"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-        // No cookies or credentials needed.
         config.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
