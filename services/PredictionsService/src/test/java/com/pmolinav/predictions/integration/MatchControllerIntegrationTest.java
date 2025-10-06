@@ -54,6 +54,7 @@ class MatchControllerIntegrationTest extends AbstractContainerBaseTest {
     @Test
     void findMatchByIdHappyPath() throws Exception {
         Match storedMatch = givenSomePreviouslyStoredMatchWithId();
+        givenSomePreviouslyStoredOddsWithId();
 
         MvcResult result = mockMvc.perform(get("/matches/" + storedMatch.getMatchId()))
                 .andExpect(status().isOk())
@@ -66,6 +67,7 @@ class MatchControllerIntegrationTest extends AbstractContainerBaseTest {
         assertNotNull(matchResponse);
         assertEquals(storedMatch.getHomeTeam(), matchResponse.getHomeTeam());
         assertEquals(storedMatch.getAwayTeam(), matchResponse.getAwayTeam());
+        assertFalse(matchResponse.getOdds().isEmpty());
     }
 
     @Test

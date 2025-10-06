@@ -100,7 +100,8 @@ public class MatchDataProcessor {
                             externalMatch.getAway_team(),
                             externalStartTime,
                             MatchStatus.ACTIVE,
-                            externalMatch.getId()
+                            externalMatch.getId(),
+                            null
                     );
                     match = matchService.createMatch(matchDTO);
                 }

@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -38,6 +40,8 @@ public class MatchDTO {
     @Size(max = 100, message = "External ID must be at most 100 characters.")
     private String externalId;
 
+    private List<OddsDTO> odds;
+
     public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status) {
         this.categoryId = categoryId;
         this.season = season;
@@ -46,5 +50,16 @@ public class MatchDTO {
         this.awayTeam = awayTeam;
         this.startTime = startTime;
         this.status = status;
+    }
+
+    public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status, List<OddsDTO> odds) {
+        this.categoryId = categoryId;
+        this.season = season;
+        this.matchDayNumber = matchDayNumber;
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.startTime = startTime;
+        this.status = status;
+        this.odds = odds;
     }
 }

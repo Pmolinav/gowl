@@ -55,7 +55,7 @@ public class Match {
     private Long modificationDate;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "match", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "match", fetch = FetchType.EAGER)
     private List<Odds> odds;
 
     @ToString.Exclude
