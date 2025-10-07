@@ -1,6 +1,7 @@
 package com.pmolinav.predictionslib.mapper;
 
 import com.pmolinav.predictionslib.dto.MatchDTO;
+import com.pmolinav.predictionslib.dto.SimpleMatchDTO;
 import com.pmolinav.predictionslib.model.Match;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,6 +20,10 @@ public interface MatchMapper {
     Match matchDtoToEntity(MatchDTO matchDTO);
 
     MatchDTO matchEntityToDto(Match match);
+
+    SimpleMatchDTO matchEntityToSimpleDto(Match match);
+
+    SimpleMatchDTO matchDTOToSimpleDto(MatchDTO matchDTO);
 
     void updateEntityFromDto(MatchDTO dto, @MappingTarget Match entity);
 }

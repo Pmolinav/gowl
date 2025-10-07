@@ -33,6 +33,7 @@ public abstract class AbstractContainerBaseTest {
 
     protected static Match lastMatch;
     protected static Event lastEvent;
+    protected static PlayerBet lastPlayerBet;
 
     @Autowired
     protected MockMvc mockMvc;
@@ -125,15 +126,17 @@ public abstract class AbstractContainerBaseTest {
         bet.setLeagueId(1L);
         bet.setTotalStake(BigDecimal.valueOf(100.00));
 
-        return playerBetRepository.save(bet);
+        lastPlayerBet = playerBetRepository.save(bet);
+        return lastPlayerBet;
     }
 
     protected PlayerBetSelection givenSomePreviouslyStoredPlayerBetSelectionWithId(String username) {
-        Odds odds = givenSomePreviouslyStoredOddsWithId();
         PlayerBet bet = givenSomePreviouslyStoredPlayerBetWithId(username);
+        Odds odds = givenSomePreviouslyStoredOddsWithId();
 
         PlayerBetSelection selection = new PlayerBetSelection();
         selection.setBetId(bet.getBetId());
+        selection.setEventType(lastEvent.getEventType());
         selection.setOddsId(odds.getOddsId());
         selection.setStake(BigDecimal.valueOf(50.00));
 

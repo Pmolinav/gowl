@@ -4,6 +4,7 @@ package com.pmolinav.predictions.controllers;
 import com.pmolinav.predictions.exceptions.CustomStatusException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.services.PlayerBetBOService;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -67,8 +68,8 @@ public class PlayerBetBOController {
 
     @GetMapping("/username/{username}")
     @Operation(summary = "Retrieve player bets by username", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<PlayerBetDTO>> findPlayerBetsByUsername(@RequestParam String requestUid,
-                                                                       @PathVariable String username) {
+    public ResponseEntity<List<PlayerBetByUsernameDTO>> findPlayerBetsByUsername(@RequestParam String requestUid,
+                                                                                 @PathVariable String username) {
         try {
             return ResponseEntity.ok(playerBetBOService.findByUsername(username));
         } catch (CustomStatusException e) {

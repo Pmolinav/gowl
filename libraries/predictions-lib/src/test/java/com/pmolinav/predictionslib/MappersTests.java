@@ -46,6 +46,32 @@ class MappersTests {
     }
 
     @Test
+    void matchEntityToSimpleDtoTest() {
+        Match entity = new Match(1L, "PREMIER", 2024, 3,
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED, null, null);
+
+        SimpleMatchDTO expected = new SimpleMatchDTO("Team A", "Team B",
+                123456789L, MatchStatus.SCHEDULED);
+
+        SimpleMatchDTO actual = matchMapper.matchEntityToSimpleDto(entity);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void matchDTOToSimpleDtoTest() {
+        MatchDTO dto = new MatchDTO("PREMIER", 2024, 3,
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED);
+
+        SimpleMatchDTO expected = new SimpleMatchDTO("Team A", "Team B",
+                123456789L, MatchStatus.SCHEDULED);
+
+        SimpleMatchDTO actual = matchMapper.matchDTOToSimpleDto(dto);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void eventDtoToEntityTest() {
         EventDTO dto = new EventDTO(EventType.H2H.getName(), EventType.H2H.getDescription());
 
@@ -95,6 +121,32 @@ class MappersTests {
     }
 
     @Test
+    void oddsEntityToSimpleDtoTest() {
+        Odds entity = new Odds(2L, EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), "provider", true, 1000L, 2000L);
+
+        SimpleOddsDTO expected = new SimpleOddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), true);
+
+        SimpleOddsDTO actual = oddsMapper.oddsEntityToSimpleDto(entity);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void oddsDTOToSimpleDtoTest() {
+        OddsDTO dto = new OddsDTO(EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), null, true);
+
+        SimpleOddsDTO expected = new SimpleOddsDTO(EventType.H2H.getName(), "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), true);
+
+        SimpleOddsDTO actual = oddsMapper.oddsDTOToSimpleDto(dto);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
     void playerBetDtoToEntityTest() {
         PlayerBetDTO dto = new PlayerBetDTO("user123", 3L, 1L, BigDecimal.TEN, null);
 
@@ -110,7 +162,7 @@ class MappersTests {
     void playerBetEntityToDtoTest() {
         PlayerBet entity = new PlayerBet(1L, "user123", 3L, 1L, BigDecimal.TEN, 123456789L);
 
-        PlayerBetDTO expected = new PlayerBetDTO("user123", 3L, 1L, BigDecimal.TEN, null);
+        PlayerBetDTO expected = new PlayerBetDTO("user123", 3L, 1L, BigDecimal.TEN, 123456789L, null);
 
         PlayerBetDTO actual = playerBetMapper.playerBetEntityToDto(entity);
 
@@ -156,12 +208,47 @@ class MappersTests {
         ));
 
         PlayerBetDTO expected = new PlayerBetDTO("user123", 3L, 1L,
-                BigDecimal.TEN, List.of(
+                BigDecimal.TEN, 123456789L, List.of(
                 new PlayerBetSelectionDTO(EventType.H2H.getName(), 3L, BigDecimal.ONE),
                 new PlayerBetSelectionDTO(EventType.H2H.getName(), 4L, BigDecimal.TWO)
         ));
 
         PlayerBetDTO actual = playerBetMapper.playerBetEntityToDto(entity);
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void playerBetEntityToByUsernameDtoTest() {
+        Match match = new Match(1L, "PREMIER", 2024, 3,
+                "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED,
+                null, null);
+
+        PlayerBetSelection selection1 = new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 3L,
+                BigDecimal.ONE, 123456789L);
+        selection1.setOdds(new Odds(2L, EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(2.5), "provider", true, 1000L, 2000L));
+
+        PlayerBetSelection selection2 = new PlayerBetSelection(11L, 1L, EventType.H2H.getName(), 4L,
+                BigDecimal.TWO, 123456789L);
+        selection2.setOdds(new Odds(2L, EventType.H2H.getName(), 1L, "Under", BigDecimal.valueOf(2.20),
+                BigDecimal.valueOf(2.5), "provider", true, 1000L, 2000L));
+
+        PlayerBet entity = new PlayerBet(1L, "user123",
+                3L, 1L, BigDecimal.TEN, 123456789L);
+
+        entity.setSelections(List.of(selection1, selection2));
+
+        entity.setMatch(match);
+
+        PlayerBetByUsernameDTO expected = new PlayerBetByUsernameDTO("user123",
+                matchMapper.matchEntityToSimpleDto(match), 1L,
+                BigDecimal.TEN, 123456789L, List.of(
+                playerBetSelectionMapper.playerBetEntityToByUsernameDtoList(selection1),
+                playerBetSelectionMapper.playerBetEntityToByUsernameDtoList(selection2))
+        );
+
+        PlayerBetByUsernameDTO actual = playerBetMapper.playerBetEntityToByUsernameDto(entity);
 
         assertEquals(expected, actual);
     }

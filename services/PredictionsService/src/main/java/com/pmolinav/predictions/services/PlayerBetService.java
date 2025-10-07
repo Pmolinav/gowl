@@ -4,6 +4,7 @@ import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.repositories.PlayerBetRepository;
 import com.pmolinav.predictions.repositories.PlayerBetSelectionRepository;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.mapper.PlayerBetMapper;
 import com.pmolinav.predictionslib.model.PlayerBet;
@@ -88,14 +89,14 @@ public class PlayerBetService {
     }
 
     @Transactional(readOnly = true)
-    public List<PlayerBetDTO> findByUsername(String username) {
+    public List<PlayerBetByUsernameDTO> findByUsername(String username) {
         try {
-            List<PlayerBet> bets = playerBetRepository.findByUsername(username);
+            List<PlayerBet> bets = playerBetRepository.findAllByUsernameWithDetails(username);
             if (CollectionUtils.isEmpty(bets)) {
                 logger.warn("No player bets found for username {}", username);
                 throw new NotFoundException("No player bets for username: " + username);
             }
-            return bets.stream().map(playerBetMapper::playerBetEntityToDto).toList();
+            return playerBetMapper.playerBetEntityToByUsernameDtoList(bets);
         } catch (Exception e) {
             logger.error("Error fetching player bets by username {}", username, e);
             throw new InternalServerErrorException(e.getMessage());

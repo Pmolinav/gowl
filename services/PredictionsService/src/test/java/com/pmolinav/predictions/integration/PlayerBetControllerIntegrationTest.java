@@ -1,10 +1,12 @@
 package com.pmolinav.predictions.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.Odds;
 import com.pmolinav.predictionslib.model.PlayerBet;
+import com.pmolinav.predictionslib.model.PlayerBetSelection;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -67,6 +69,23 @@ class PlayerBetControllerIntegrationTest extends AbstractContainerBaseTest {
 
         assertNotNull(dto);
         assertEquals("user1", dto.getUsername());
+    }
+
+    @Test
+    void findPlayerBetsByUsernameHappyPath() throws Exception {
+        PlayerBetSelection playerBetSelection = givenSomePreviouslyStoredPlayerBetSelectionWithId("user1");
+
+        MvcResult result = mockMvc.perform(get("/player-bets/username/" + lastPlayerBet.getUsername()))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<PlayerBetByUsernameDTO> dto = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<PlayerBetByUsernameDTO>>() {
+                });
+
+        assertNotNull(dto);
+        assertEquals(1, dto.size());
+        assertEquals("user1", dto.getFirst().getUsername());
     }
 
     @Test

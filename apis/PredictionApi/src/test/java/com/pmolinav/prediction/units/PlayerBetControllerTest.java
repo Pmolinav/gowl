@@ -2,7 +2,10 @@ package com.pmolinav.prediction.units;
 
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.MatchStatus;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
+import com.pmolinav.predictionslib.dto.SimpleMatchDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
 
     private PlayerBetDTO playerBetDTO;
     private List<PlayerBetDTO> expectedPlayerBets;
+    private List<PlayerBetByUsernameDTO> expectedPlayerBetsByUsername;
     private ResponseEntity<?> result;
 
     /* FIND BY ID */
@@ -77,7 +81,7 @@ class PlayerBetControllerTest extends BaseUnitTest {
         andFindPlayerBetsByUsernameIsCalled();
         thenVerifyFindPlayerBetsByUsernameCalled();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseListIs(expectedPlayerBets);
+        thenReceivedResponseListByUsernameIs(expectedPlayerBetsByUsername);
     }
 
     @Test
@@ -177,10 +181,12 @@ class PlayerBetControllerTest extends BaseUnitTest {
     }
 
     private void whenFindPlayersBetsByUsernameReturnsValidDTO() {
-        expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
+        expectedPlayerBetsByUsername = List.of(
+                new PlayerBetByUsernameDTO("someUser",
+                        new SimpleMatchDTO("Home", "Away", 1234L, MatchStatus.ACTIVE),
+                        1L, BigDecimal.TEN, null)
         );
-        when(playerBetServiceMock.findByUsername("someUser")).thenReturn(expectedPlayerBets);
+        when(playerBetServiceMock.findByUsername("someUser")).thenReturn(expectedPlayerBetsByUsername);
     }
 
     private void whenFindPlayerBetsByUsernameThrowsNotFound() {
@@ -274,6 +280,11 @@ class PlayerBetControllerTest extends BaseUnitTest {
     }
 
     private void thenReceivedResponseListIs(List<PlayerBetDTO> expected) {
+        assertNotNull(result);
+        assertEquals(expected, result.getBody());
+    }
+
+    private void thenReceivedResponseListByUsernameIs(List<PlayerBetByUsernameDTO> expected) {
         assertNotNull(result);
         assertEquals(expected, result.getBody());
     }

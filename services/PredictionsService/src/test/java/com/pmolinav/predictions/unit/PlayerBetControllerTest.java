@@ -3,6 +3,7 @@ package com.pmolinav.predictions.unit;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictionslib.dto.EventType;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.PlayerBet;
@@ -20,6 +21,7 @@ import static org.mockito.Mockito.*;
 class PlayerBetControllerTest extends BaseUnitTest {
 
     PlayerBetDTO playerBetDTO;
+    List<PlayerBetByUsernameDTO> playerBetsByUsernameDTO;
     ResponseEntity<?> result;
 
     /* FIND ALL PLAYER BETS */
@@ -129,6 +131,39 @@ class PlayerBetControllerTest extends BaseUnitTest {
         result = playerBetController.findById(1L);
 
         verify(playerBetServiceMock).findById(1L);
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
+    }
+
+    /* FIND PLAYER BETS BY USERNAME */
+    @Test
+    void findByUsernameHappyPath() {
+        playerBetsByUsernameDTO = List.of(new PlayerBetByUsernameDTO());
+        when(playerBetServiceMock.findByUsername("someUser")).thenReturn(playerBetsByUsernameDTO);
+
+        result = playerBetController.findByUsername("someUser");
+
+        verify(playerBetServiceMock).findByUsername("someUser");
+        assertEquals(HttpStatus.OK, result.getStatusCode());
+        assertEquals(playerBetsByUsernameDTO, result.getBody());
+    }
+
+    @Test
+    void findByUsernameNotFound() {
+        when(playerBetServiceMock.findByUsername("someUser")).thenThrow(new NotFoundException("Not found"));
+
+        result = playerBetController.findByUsername("someUser");
+
+        verify(playerBetServiceMock).findByUsername("someUser");
+        assertEquals(HttpStatus.NOT_FOUND, result.getStatusCode());
+    }
+
+    @Test
+    void findByUsernameServerError() {
+        when(playerBetServiceMock.findByUsername("someUser")).thenThrow(new InternalServerErrorException("Error"));
+
+        result = playerBetController.findByUsername("someUser");
+
+        verify(playerBetServiceMock).findByUsername("someUser");
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, result.getStatusCode());
     }
 

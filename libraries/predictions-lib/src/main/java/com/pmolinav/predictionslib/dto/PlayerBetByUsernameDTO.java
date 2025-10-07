@@ -16,14 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class PlayerBetDTO {
+public class PlayerBetByUsernameDTO {
 
     @NotBlank(message = "Username is mandatory.")
     @Size(max = 100, message = "Username must be at most 100 characters.")
     private String username;
 
-    @NotNull(message = "Match ID must not be null.")
-    private Long matchId;
+    @NotNull(message = "Match must not be null.")
+    private SimpleMatchDTO match;
 
     @NotNull(message = "League ID must not be null.")
     private Long leagueId;
@@ -35,19 +35,19 @@ public class PlayerBetDTO {
     private Long creationDate;
 
     @NotNull(message = "Selections must not be null.")
-    private List<PlayerBetSelectionDTO> selections;
+    private List<PlayerBetSelectionByUsernameDTO> selections;
 
-    public PlayerBetDTO(String username, Long matchId, Long leagueId, BigDecimal totalStake, List<PlayerBetSelectionDTO> selections) {
+    public PlayerBetByUsernameDTO(String username, SimpleMatchDTO match, Long leagueId, BigDecimal totalStake, List<PlayerBetSelectionByUsernameDTO> selections) {
         this.username = username;
-        this.matchId = matchId;
+        this.match = match;
         this.leagueId = leagueId;
         this.totalStake = totalStake;
         this.selections = selections;
     }
 
-    public PlayerBetDTO(String username, Long matchId, Long leagueId, BigDecimal totalStake, Long creationDate, List<PlayerBetSelectionDTO> selections) {
+    public PlayerBetByUsernameDTO(String username, SimpleMatchDTO match, Long leagueId, BigDecimal totalStake, Long creationDate, List<PlayerBetSelectionByUsernameDTO> selections) {
         this.username = username;
-        this.matchId = matchId;
+        this.match = match;
         this.leagueId = leagueId;
         this.totalStake = totalStake;
         this.creationDate = creationDate;
@@ -58,14 +58,14 @@ public class PlayerBetDTO {
     public BigDecimal getCalculatedStake() {
         return totalStake != null ? totalStake :
                 selections.stream()
-                        .map(PlayerBetSelectionDTO::getStake)
+                        .map(PlayerBetSelectionByUsernameDTO::getStake)
                         .reduce(BigDecimal.ONE, BigDecimal::multiply);
     }
 
     @JsonIgnore
     public void setCalculatedStake() {
         this.totalStake = selections.stream()
-                .map(PlayerBetSelectionDTO::getStake)
+                .map(PlayerBetSelectionByUsernameDTO::getStake)
                 .reduce(BigDecimal.ONE, BigDecimal::multiply);
     }
 }

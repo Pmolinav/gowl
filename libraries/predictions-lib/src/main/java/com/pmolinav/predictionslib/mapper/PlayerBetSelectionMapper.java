@@ -1,5 +1,6 @@
 package com.pmolinav.predictionslib.mapper;
 
+import com.pmolinav.predictionslib.dto.PlayerBetSelectionByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
 import com.pmolinav.predictionslib.model.PlayerBetSelection;
 import org.mapstruct.Mapper;
@@ -18,6 +19,9 @@ public interface PlayerBetSelectionMapper {
     PlayerBetSelection playerBetSelectionDtoToEntity(PlayerBetSelectionDTO dto);
 
     PlayerBetSelectionDTO playerBetSelectionEntityToDto(PlayerBetSelection entity);
+
+    @Mapping(target = "odds", source = "odds")
+    PlayerBetSelectionByUsernameDTO playerBetEntityToByUsernameDtoList(PlayerBetSelection selection);
 
     void updateEntityFromDto(PlayerBetSelectionDTO dto, @MappingTarget PlayerBetSelection entity);
 }

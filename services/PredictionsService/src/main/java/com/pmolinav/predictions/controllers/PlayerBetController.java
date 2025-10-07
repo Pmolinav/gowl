@@ -4,6 +4,7 @@ package com.pmolinav.predictions.controllers;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
 import com.pmolinav.predictions.services.PlayerBetService;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import com.pmolinav.predictionslib.model.PlayerBet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,9 @@ public class PlayerBetController {
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<List<PlayerBetDTO>> findByUsername(@PathVariable String username) {
+    public ResponseEntity<List<PlayerBetByUsernameDTO>> findByUsername(@PathVariable String username) {
         try {
-            List<PlayerBetDTO> bets = playerBetService.findByUsername(username);
+            List<PlayerBetByUsernameDTO> bets = playerBetService.findByUsername(username);
             return ResponseEntity.ok(bets);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();

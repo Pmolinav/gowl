@@ -3,6 +3,7 @@ package com.pmolinav.predictions.services;
 import com.pmolinav.predictions.clients.PlayerBetClient;
 import com.pmolinav.predictions.exceptions.InternalServerErrorException;
 import com.pmolinav.predictions.exceptions.NotFoundException;
+import com.pmolinav.predictionslib.dto.PlayerBetByUsernameDTO;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import feign.FeignException;
 import org.slf4j.Logger;
@@ -50,7 +51,7 @@ public class PlayerBetBOService {
         }
     }
 
-    public List<PlayerBetDTO> findByUsername(String username) {
+    public List<PlayerBetByUsernameDTO> findByUsername(String username) {
         try {
             return playerBetClient.findByUsername(username);
         } catch (Exception e) {

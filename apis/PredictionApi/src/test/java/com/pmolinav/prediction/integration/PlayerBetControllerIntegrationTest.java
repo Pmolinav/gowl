@@ -2,9 +2,7 @@ package com.pmolinav.prediction.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pmolinav.predictionslib.dto.EventType;
-import com.pmolinav.predictionslib.dto.PlayerBetDTO;
-import com.pmolinav.predictionslib.dto.PlayerBetSelectionDTO;
+import com.pmolinav.predictionslib.dto.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -35,6 +33,7 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     private List<PlayerBetDTO> expectedPlayerBets;
+    private List<PlayerBetByUsernameDTO> expectedPlayerBetsByUsername;
 
     @Test
     void findPlayerBetByIdInternalServerError() throws Exception {
@@ -104,11 +103,11 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        List<PlayerBetDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
-                new TypeReference<List<PlayerBetDTO>>() {
+        List<PlayerBetByUsernameDTO> responseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<PlayerBetByUsernameDTO>>() {
                 });
 
-        assertEquals(expectedPlayerBets, responseList);
+        assertEquals(expectedPlayerBetsByUsername, responseList);
     }
 
     @Test
@@ -188,10 +187,12 @@ class PlayerBetControllerIntegrationTest extends AbstractBaseTest {
     }
 
     private void andFindPlayerBetsByUsernameReturnedPlayerBets() {
-        this.expectedPlayerBets = List.of(
-                new PlayerBetDTO("someUser", 2L, 1L, BigDecimal.TEN, null)
+        this.expectedPlayerBetsByUsername = List.of(
+                new PlayerBetByUsernameDTO("someUser",
+                        new SimpleMatchDTO("Home", "Away", 1234L, MatchStatus.ACTIVE),
+                        1L, BigDecimal.TEN, null)
         );
-        when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBets);
+        when(this.playerBetClient.findByUsername(anyString())).thenReturn(expectedPlayerBetsByUsername);
     }
 
     private void andFindPlayerBetsByUsernameThrowsNonRetryableException() {

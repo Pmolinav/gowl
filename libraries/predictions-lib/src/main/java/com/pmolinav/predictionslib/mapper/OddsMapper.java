@@ -1,6 +1,7 @@
 package com.pmolinav.predictionslib.mapper;
 
 import com.pmolinav.predictionslib.dto.OddsDTO;
+import com.pmolinav.predictionslib.dto.SimpleOddsDTO;
 import com.pmolinav.predictionslib.model.Odds;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -19,6 +20,10 @@ public interface OddsMapper {
     Odds oddsDtoToEntity(OddsDTO dto);
 
     OddsDTO oddsEntityToDto(Odds entity);
+
+    SimpleOddsDTO oddsEntityToSimpleDto(Odds entity);
+
+    SimpleOddsDTO oddsDTOToSimpleDto(OddsDTO oddsDTO);
 
     void updateEntityFromDto(OddsDTO dto, @MappingTarget Odds entity);
 }
