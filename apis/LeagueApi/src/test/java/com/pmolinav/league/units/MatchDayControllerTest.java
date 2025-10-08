@@ -1,8 +1,12 @@
 package com.pmolinav.league.units;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.league.exceptions.InternalServerErrorException;
 import com.pmolinav.league.exceptions.NotFoundException;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.dto.SimpleMatchDayDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,12 +14,14 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class MatchDayControllerTest extends BaseUnitTest {
 
-    List<MatchDayDTO> expectedMatchDay;
+    List<MatchDayDTO> expectedMatchDays;
+    List<SimpleMatchDayDTO> expectedSimpleMatchDays;
     ResponseEntity<?> result;
 
     /* FIND MATCH DAYS BY CATEGORY ID AND SEASON */
@@ -25,7 +31,7 @@ class MatchDayControllerTest extends BaseUnitTest {
         andFindMatchDaysByCategoryIdAndSeasonIsCalledInController();
         thenVerifyFindMatchDaysByCategoryIdAndSeasonHasBeenCalledInService();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseBodyAsMatchDayListIs(expectedMatchDay);
+        thenReceivedResponseBodyAsSimpleMatchDayListIs(expectedSimpleMatchDays);
     }
 
     @Test
@@ -45,10 +51,16 @@ class MatchDayControllerTest extends BaseUnitTest {
     }
 
     private void whenFindMatchDayByCategoryIdAndSeasonInServiceReturnedValidMatchDays() {
-        expectedMatchDay = List.of(new MatchDayDTO("PREMIER", 2025,
+        expectedMatchDays = List.of(new MatchDayDTO("PREMIER", 2025,
                 10, 12345L, 12345678L));
-
-        when(matchDaysServiceMock.findMatchDayByCategoryIdAndSeason("PREMIER", 2025)).thenReturn(expectedMatchDay);
+        try {
+            this.expectedSimpleMatchDays = new ObjectMapper().readValue("[{\"label\":\"J 10\", \"value\": \"10\"}]",
+                    new TypeReference<List<SimpleMatchDayDTO>>() {
+                    });
+        } catch (JsonProcessingException e) {
+            fail();
+        }
+        when(matchDaysServiceMock.findMatchDayByCategoryIdAndSeason("PREMIER", 2025)).thenReturn(expectedMatchDays);
     }
 
     private void whenFindMatchDaysByCategoryIdAndSeasonInServiceThrowsNotFoundException() {
@@ -73,6 +85,11 @@ class MatchDayControllerTest extends BaseUnitTest {
     }
 
     private void thenReceivedResponseBodyAsMatchDayListIs(List<MatchDayDTO> expectedResult) {
+        assertNotNull(result);
+        assertEquals(expectedResult, result.getBody());
+    }
+
+    private void thenReceivedResponseBodyAsSimpleMatchDayListIs(List<SimpleMatchDayDTO> expectedResult) {
         assertNotNull(result);
         assertEquals(expectedResult, result.getBody());
     }

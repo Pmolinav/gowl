@@ -4,6 +4,7 @@ import com.pmolinav.league.exceptions.CustomStatusException;
 import com.pmolinav.league.exceptions.NotFoundException;
 import com.pmolinav.league.services.MatchDaysService;
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.dto.SimpleMatchDayDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,12 +31,15 @@ public class MatchDayController {
 
     @GetMapping("/categories/{categoryId}/seasons/{season}")
     @Operation(summary = "Retrieve match days by category ID and season", description = "Bearer token is required to authorize users.")
-    public ResponseEntity<List<MatchDayDTO>> findMatchDaysByCategoryIdAndSeason(@RequestParam String requestUid,
-                                                                                @PathVariable String categoryId,
-                                                                                @PathVariable Integer season) {
+    public ResponseEntity<List<SimpleMatchDayDTO>> findMatchDaysByCategoryIdAndSeason(@RequestParam String requestUid,
+                                                                                      @PathVariable String categoryId,
+                                                                                      @PathVariable Integer season) {
         try {
             List<MatchDayDTO> matchDays = matchDaysService.findMatchDayByCategoryIdAndSeason(categoryId, season);
-            return ResponseEntity.ok(matchDays);
+            return ResponseEntity.ok(matchDays.stream().map(matchDayDTO ->
+                    new SimpleMatchDayDTO("J " + matchDayDTO.getMatchDayNumber(),
+                            String.valueOf(matchDayDTO.getMatchDayNumber()))).toList()
+            );
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {

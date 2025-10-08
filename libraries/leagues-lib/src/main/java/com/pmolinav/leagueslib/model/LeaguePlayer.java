@@ -9,7 +9,8 @@ import java.util.Objects;
 @Table(
         name = "league_player",
         indexes = {
-                @Index(name = "idx_leagueplayer_league", columnList = "league_id")
+                @Index(name = "idx_leagueplayer_league", columnList = "league_id"),
+                @Index(name = "idx_leagueplayer_user", columnList = "username")
         }
 )
 @Getter

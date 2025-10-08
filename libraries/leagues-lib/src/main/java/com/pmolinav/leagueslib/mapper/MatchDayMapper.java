@@ -1,6 +1,7 @@
 package com.pmolinav.leagueslib.mapper;
 
 import com.pmolinav.leagueslib.dto.MatchDayDTO;
+import com.pmolinav.leagueslib.dto.SimpleMatchDayDTO;
 import com.pmolinav.leagueslib.model.MatchDay;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;

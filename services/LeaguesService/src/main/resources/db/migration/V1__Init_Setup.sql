@@ -69,6 +69,7 @@ CREATE TABLE league_player (
 );
 
 CREATE INDEX idx_leagueplayer_league ON league_player (league_id);
+CREATE INDEX idx_leagueplayer_user ON league_player (username);
 
 -- Players per league and theis points table.
 CREATE TABLE league_player_points (
