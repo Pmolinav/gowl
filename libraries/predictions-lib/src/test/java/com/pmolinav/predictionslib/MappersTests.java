@@ -6,7 +6,9 @@ import com.pmolinav.predictionslib.model.*;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,11 +36,20 @@ class MappersTests {
 
     @Test
     void matchEntityToDtoTest() {
+        Odds odds1 = new Odds(1L, EventType.H2H.getName(), 1L, "Over", BigDecimal.valueOf(1.85),
+                BigDecimal.valueOf(1.5), null, true, null, null);
+        Odds odds2 = new Odds(1L, EventType.TOTALS.getName(), 1L, "Total", BigDecimal.valueOf(2.20),
+                null, null, true, null, null);
+        List<Odds> oddsList = new ArrayList<>(List.of(odds1, odds2));
+
         Match entity = new Match(1L, "PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED, null, null);
+        entity.setOdds(oddsList);
 
         MatchDTO expected = new MatchDTO("PREMIER", 2024, 3,
                 "Team A", "Team B", 123456789L, MatchStatus.SCHEDULED);
+        expected.setOdds(oddsList.stream().map(oddsMapper::oddsEntityToDto).toList());
+        expected.setH2hOdds(Stream.of(odds1).map(oddsMapper::oddsEntityToDto).toList());
 
         MatchDTO actual = matchMapper.matchEntityToDto(entity);
 

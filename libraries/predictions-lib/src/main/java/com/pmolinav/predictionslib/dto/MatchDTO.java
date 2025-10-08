@@ -42,6 +42,8 @@ public class MatchDTO {
 
     private List<OddsDTO> odds;
 
+    private List<OddsDTO> h2hOdds;
+
     public MatchDTO(String categoryId, Integer season, Integer matchDayNumber, String homeTeam, String awayTeam, Long startTime, MatchStatus status) {
         this.categoryId = categoryId;
         this.season = season;
