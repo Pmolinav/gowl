@@ -101,6 +101,7 @@ public class MatchDataProcessor {
                             externalStartTime,
                             MatchStatus.ACTIVE,
                             externalMatch.getId(),
+                            null,
                             null
                     );
                     match = matchService.createMatch(matchDTO);

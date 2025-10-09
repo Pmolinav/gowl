@@ -69,6 +69,18 @@ public class LeagueController {
         }
     }
 
+    @GetMapping("/username/{username}")
+    public ResponseEntity<List<LeagueDTO>> findLeaguesByUsername(@PathVariable String username) {
+        try {
+            List<LeagueDTO> leagues = leagueService.findByUsername(username);
+            return ResponseEntity.ok(leagues);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Long> createLeague(@RequestBody LeagueDTO leagueDTO) {
         try {

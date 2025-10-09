@@ -118,6 +118,20 @@ public class LeagueBOController {
         }
     }
 
+    @GetMapping("/username/{username}")
+    @Operation(summary = "Get leagues by username", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<List<LeagueDTO>> getLeagueByUsername(@RequestParam String requestUid,
+                                                               @PathVariable String username) {
+        try {
+            List<LeagueDTO> leagues = leaguesBOService.findLeaguesByUsername(username);
+            return ResponseEntity.ok(leagues);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
     @DeleteMapping("{id}")
     @Operation(summary = "Delete a league by Id", description = "Bearer token is required to authorize users.")
     public ResponseEntity<?> deleteLeague(@RequestParam String requestUid,

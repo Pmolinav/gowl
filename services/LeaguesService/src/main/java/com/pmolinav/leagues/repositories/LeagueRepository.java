@@ -22,6 +22,14 @@ public interface LeagueRepository extends JpaRepository<League, Long> {
     @Modifying
     @Query("UPDATE League l SET l.status = 'CLOSED' WHERE l.name = :name")
     int closeLeagueByName(@Param("name") String name);
+
+    @Query("""
+        SELECT l
+        FROM League l
+        JOIN l.leaguePlayers lp
+        WHERE lp.username = :username
+    """)
+    List<League> findAllByPlayerUsername(@Param("username") String username);
 }
 
 

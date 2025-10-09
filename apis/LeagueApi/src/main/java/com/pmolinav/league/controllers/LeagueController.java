@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @AllArgsConstructor
@@ -100,6 +101,20 @@ public class LeagueController {
         try {
             LeagueDTO league = leaguesService.findLeagueByName(name);
             return ResponseEntity.ok(league);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return new ResponseEntity<>(e.getStatusCode());
+        }
+    }
+
+    @GetMapping("/username/{username}")
+    @Operation(summary = "Get leagues by username", description = "Bearer token is required to authorize users.")
+    public ResponseEntity<List<LeagueDTO>> getLeagueByUsername(@RequestParam String requestUid,
+                                                               @PathVariable String username) {
+        try {
+            List<LeagueDTO> leagues = leaguesService.findLeaguesByUsername(username);
+            return ResponseEntity.ok(leagues);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {

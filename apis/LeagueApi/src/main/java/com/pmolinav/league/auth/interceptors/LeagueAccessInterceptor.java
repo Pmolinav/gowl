@@ -71,6 +71,14 @@ public class LeagueAccessInterceptor implements HandlerInterceptor {
                         leaguePlayerDTO -> leaguePlayerDTO.getUsername().equals(username))) {
                     allowed = true;
                 }
+            }else if (path.matches(".*/leagues/username/[^/]+$")) {
+                // GET /leagues/username/{username}
+                String requestedUsername = path.substring(path.lastIndexOf("/") + 1);
+
+                // Solo permitimos si el username del token coincide con el del path
+                if (requestedUsername.equals(username)) {
+                    allowed = true;
+                }
             }
         } catch (CustomStatusException e) {
             response.sendError(e.getStatusCode().value(), e.getMessage());

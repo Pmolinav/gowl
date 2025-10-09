@@ -311,7 +311,7 @@ public class LeaguesDatabaseConnector {
     }
 
     public MatchDay getMatchDayByCategoryIdSeasonAndMatchDayNumber(String categoryId, int season, int matchDayNumber) throws SQLException {
-        String query = "SELECT category_id, season, match_day_number, start_date, end_date " +
+        String query = "SELECT category_id, season, match_day_number, start_date, end_date, synced, results_checked " +
                 "FROM match_day WHERE category_id = ? AND season = ? AND match_day_number = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {

@@ -86,6 +86,25 @@ public class LeagueService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public List<LeagueDTO> findByUsername(String username) {
+        try {
+            List<League> leagues = leagueRepository.findAllByPlayerUsername(username);
+
+            if (CollectionUtils.isEmpty(leagues)) {
+                throw new NotFoundException(String.format("Leagues by username %s do not exist.", username));
+            }
+
+            return leagues.stream().map(leagueMapper::leagueEntityToDto).toList();
+        } catch (NotFoundException e) {
+            logger.error("Leagues by username {} was not found.", username, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while searching leagues by username {} in repository.", username, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     @Transactional
     public League createLeague(LeagueDTO leagueDTO) {
         try {

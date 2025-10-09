@@ -240,7 +240,6 @@ Feature: MatchDataSyncService
       | Under              | 3.5   | totals     | WON      |
     # 7. Wait for the scheduled method (results) to be executed.
     Then wait for 110 seconds
-    # TODO: Why this part is not working now ?
     # 8. Assert that the different bets are successfully stored as WON, LOST or PUSH
     Then a player bet for username normalUser, home team Chicago Fire and away team Charlotte FC has status WON and selections
       | event_type | status |

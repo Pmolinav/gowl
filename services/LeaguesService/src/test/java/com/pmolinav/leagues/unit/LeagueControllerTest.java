@@ -156,6 +156,32 @@ class LeagueControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* FIND LEAGUES BY USERNAME */
+    @Test
+    void findLeagueByUsernameHappyPath() {
+        whenFindLeaguesByUsernameInServiceReturnedValidLeague();
+        andFindLeaguesByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseBodyAsLeaguesIs(expectedLeagues);
+    }
+
+    @Test
+    void findLeagueByUsernameNotFound() {
+        whenFindLeaguesByUsernameInServiceThrowsNotFoundException();
+        andFindLeaguesByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void findLeaguesByUsernameServerError() {
+        whenFindLeaguesByUsernameInServiceThrowsServerException();
+        andFindLeaguesByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     /* DELETE LEAGUES BY LEAGUE ID*/
     @Test
     void deleteLeaguesByLeagueIdHappyPath() {
@@ -304,6 +330,23 @@ class LeagueControllerTest extends BaseUnitTest {
                 .thenThrow(new InternalServerErrorException("Internal Server Error"));
     }
 
+    private void whenFindLeaguesByUsernameInServiceReturnedValidLeague() {
+        expectedLeagues = List.of(new LeagueDTO("Some League", "Some description",
+                "PREMIER", false, "somePass", LeagueStatus.ACTIVE,
+                200, null, false, "someUser", null));
+
+        when(leagueServiceMock.findByUsername("someUser")).thenReturn(expectedLeagues);
+    }
+
+    private void whenFindLeaguesByUsernameInServiceThrowsNotFoundException() {
+        when(leagueServiceMock.findByUsername("someUser")).thenThrow(new NotFoundException("Not Found"));
+    }
+
+    private void whenFindLeaguesByUsernameInServiceThrowsServerException() {
+        when(leagueServiceMock.findByUsername("someUser"))
+                .thenThrow(new InternalServerErrorException("Internal Server Error"));
+    }
+
     private void whenDeleteLeagueByLeagueIdInServiceIsOk() {
         doNothing().when(leagueServiceMock).deleteLeague(anyLong());
     }
@@ -346,6 +389,10 @@ class LeagueControllerTest extends BaseUnitTest {
 
     private void andFindLeagueByNameIsCalledInController() {
         result = leagueController.findLeagueByName("Some League");
+    }
+
+    private void andFindLeaguesByUsernameIsCalledInController() {
+        result = leagueController.findLeaguesByUsername("someUser");
     }
 
     private void andCreateLeagueIsCalledInController() {
@@ -395,6 +442,10 @@ class LeagueControllerTest extends BaseUnitTest {
         verify(leagueServiceMock, times(1)).findByName(anyString());
     }
 
+    private void thenVerifyFindByUsernameHasBeenCalledInService() {
+        verify(leagueServiceMock, times(1)).findByUsername(anyString());
+    }
+
     private void thenVerifyDeleteLeagueByLeagueIdHasBeenCalledInService() {
         verify(leagueServiceMock, times(1))
                 .deleteLeague(anyLong());
@@ -420,6 +471,11 @@ class LeagueControllerTest extends BaseUnitTest {
     }
 
     private void thenReceivedResponseBodyAsLeagueIs(LeagueDTO expectedResult) {
+        assertNotNull(result);
+        assertEquals(expectedResult, result.getBody());
+    }
+
+    private void thenReceivedResponseBodyAsLeaguesIs(List<LeagueDTO> expectedResult) {
         assertNotNull(result);
         assertEquals(expectedResult, result.getBody());
     }

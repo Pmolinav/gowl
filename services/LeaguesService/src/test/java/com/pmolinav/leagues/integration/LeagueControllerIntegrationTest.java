@@ -72,7 +72,7 @@ class LeagueControllerIntegrationTest extends AbstractContainerBaseTest {
 
     @Test
     void findLeagueByNameNotFound() throws Exception {
-        mockMvc.perform(get("/leagues/names/fakeUser"))
+        mockMvc.perform(get("/leagues/names/fakeLeagueName"))
                 .andExpect(status().isNotFound());
     }
 
@@ -84,11 +84,33 @@ class LeagueControllerIntegrationTest extends AbstractContainerBaseTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        LeagueDTO leagueResponseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+        LeagueDTO leagueResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
                 new TypeReference<LeagueDTO>() {
                 });
 
+        assertNotNull(leagueResponse);
+    }
+
+    @Test
+    void findLeaguesByUsernameNotFound() throws Exception {
+        mockMvc.perform(get("/leagues/username/fakeUser"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findLeaguesByUsernameHappyPath() throws Exception {
+        givenSomePreviouslyStoredLeaguePlayerWithId("someUser");
+
+        MvcResult result = mockMvc.perform(get("/leagues/username/someUser"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        List<LeagueDTO> leagueResponseList = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<List<LeagueDTO>>() {
+                });
+
         assertNotNull(leagueResponseList);
+        assertEquals(1, leagueResponseList.size());
     }
 
     @Test

@@ -278,7 +278,7 @@ Feature: PredictionsBOApi
     Then a player bet for username otherUser has been stored successfully
     When try to get all player bets
     Then received status code is 200
-    Then a list of player bets with usernames someUser,otherUser is returned in response
+    Then a list of player bets with usernames someUser,otherUser is returned in BO response
 
   Scenario: Get player bet by playerBetId successfully
     Given try to create new player bet with data
@@ -303,7 +303,7 @@ Feature: PredictionsBOApi
     Then a player bet for username otherUser has been stored successfully
     When try to get player bets by matchId
     Then received status code is 200
-    Then a list of player bets with usernames someUser,otherUser is returned in response
+    Then a list of player bets with usernames someUser,otherUser is returned in BO response
 
   Scenario: Get player bets by username successfully
     Given try to create new player bet with data

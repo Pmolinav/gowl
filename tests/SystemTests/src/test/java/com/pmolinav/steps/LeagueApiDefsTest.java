@@ -94,6 +94,11 @@ public class LeagueApiDefsTest extends BaseSystemTest {
         executeGet(localURL + "/leagues/names/" + name);
     }
 
+    @When("^try to get leagues by username (.*) with public endpoint$")
+    public void tryToGetALeaguesByUsernamePublicEndpoint(String username) {
+        executeGet(localURL + "/leagues/username/" + username);
+    }
+
     @When("^try to close a league by leagueId with public endpoint$")
     public void tryToCloseALeagueByLeagueIdPublicEndpoint() {
         executePut(localURL + "/leagues/close/" + lastLeague.getLeagueId());

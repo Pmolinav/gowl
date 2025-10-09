@@ -475,6 +475,17 @@ public class LeaguesBOApiDefsTest extends BaseSystemTest {
         }
     }
 
+    @Then("a list of simple match days with values (.*) are returned in response$")
+    public void aListOfLeagueCategoriesWithValuesIsReturned(String numbers) throws JsonProcessingException {
+        List<Integer> numbersList = Stream.of(numbers.split(",")).map(Integer::parseInt).toList();
+        List<SimpleMatchDayDTO> obtainedMatchDays = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<SimpleMatchDayDTO>>() {
+        });
+        assertNotNull(obtainedMatchDays);
+        for (Integer number : numbersList) {
+            assertTrue(obtainedMatchDays.stream().anyMatch(matchDay -> Integer.valueOf(matchDay.getValue()).equals(number)));
+        }
+    }
+
     @Then("a list of leagues with names (.*) are returned in response$")
     public void aListOfLeaguesWithNamesIsReturned(String names) throws JsonProcessingException {
         List<String> namesList = List.of(names.split(","));

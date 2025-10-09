@@ -139,4 +139,4 @@ Feature: PredictionApi
     When try to delete a player bet by playerBetId with public endpoint
     Then received status code is 200
 
-  # TODO: PLAYER BET SELECTIONS ( IS NECESSARY ? )
+  # TODO: PLAYER BET SELECTIONS ( NOT NECESSARY FOR NOW )

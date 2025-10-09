@@ -109,6 +109,23 @@ public class LeaguesBOService {
         }
     }
 
+    public List<LeagueDTO> findLeaguesByUsername(String username) {
+        try {
+            return leaguesClient.findLeaguesByUsername(username);
+        } catch (FeignException e) {
+            if (e instanceof RetryableException) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("Leagues for username {} not found.", username, e);
+                throw new NotFoundException("Leagues for username " + username + " not found");
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     public void deleteLeague(Long id) {
         try {
             leaguesClient.deleteLeague(id);

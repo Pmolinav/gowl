@@ -582,7 +582,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
 
     @Then("a match with categoryId (\\w+) returned in response$")
     public void matchWithCategoryIdHasBeenStoredSuccessfully(String categoryId) throws JsonProcessingException {
-        Match obtainedMatch = objectMapper.readValue(latestResponse.getBody(), Match.class);
+        MatchDTO obtainedMatch = objectMapper.readValue(latestResponse.getBody(), MatchDTO.class);
         assertNotNull(obtainedMatch);
         assertEquals(categoryId, obtainedMatch.getCategoryId());
     }
@@ -590,7 +590,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
     @Then("a list of matches with categoryIds (.*) are returned in response$")
     public void aListOfMatchesWithCategoryIdsIsReturned(String categoryIds) throws JsonProcessingException {
         List<String> categoryIdList = List.of(categoryIds.split(","));
-        List<Match> obtainedMatches = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<Match>>() {
+        List<MatchDTO> obtainedMatches = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<MatchDTO>>() {
         });
         assertNotNull(obtainedMatches);
         for (String categoryId : categoryIdList) {
@@ -652,10 +652,20 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         assertEquals(username, obtainedPlayerBet.getUsername());
     }
 
+    @Then("a list of player bets with usernames (.*) is returned in BO response$")
+    public void aListOfPlayerBetsWithUsernamesAreReturnedInBO(String usernames) throws JsonProcessingException {
+        List<String> usernamesList = List.of(usernames.split(","));
+        List<PlayerBetDTO> playerBets = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<PlayerBetDTO>>() {
+        });
+        assertNotNull(playerBets);
+        for (String username : usernamesList) {
+            assertTrue(playerBets.stream().anyMatch(playerBet -> playerBet.getUsername().equals(username)));
+        }
+    }
     @Then("a list of player bets with usernames (.*) is returned in response$")
     public void aListOfPlayerBetsWithUsernamesAreReturned(String usernames) throws JsonProcessingException {
         List<String> usernamesList = List.of(usernames.split(","));
-        List<PlayerBetDTO> playerBets = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<PlayerBetDTO>>() {
+        List<PlayerBetByUsernameDTO> playerBets = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<PlayerBetByUsernameDTO>>() {
         });
         assertNotNull(playerBets);
         for (String username : usernamesList) {

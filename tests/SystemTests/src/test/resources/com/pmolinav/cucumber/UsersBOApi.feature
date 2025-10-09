@@ -12,8 +12,7 @@ Feature: UserBOApi
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
 
-    # TODO: Should be changed by a public endpoint in AuthApi.
-  Scenario: Create a new user with no auth (public endpoint)
+  Scenario: Create a new user with no auth
     Given invalid auth token
     When try to create a new user with data
       | username | password    | name    | email         | is_admin |

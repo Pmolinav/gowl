@@ -47,7 +47,7 @@ Feature: LeagueApi
   Scenario: Get match days by categoryId and season from LeagueApi
     When try to get match days by categoryId PREMIER and season 2025 with public endpoint
     Then received status code is 200
-    Then a list of match days with season 2025 and numbers 1,2 are returned in response
+    Then a list of simple match days with values 1,2 are returned in response
 
    # LEAGUES
   Scenario: Create a new league with LeagueApi bad request
@@ -106,6 +106,32 @@ Feature: LeagueApi
     When try to get a league by name Friendly League with public endpoint
     Then received status code is 200
     Then a league with name Friendly League is returned in response
+
+  Scenario: Get leagues by username with another user from LeagueApi with error
+    Given try to create a new league with public endpoint with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | someUser,0,ACTIVE;normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username someUser has been associated to last league successfully
+    Then a player with username normalUser has been associated to last league successfully
+    When try to get leagues by username someUser with public endpoint
+    Then received status code is 403
+
+  Scenario: Get leagues by username simplified successfully from LeagueApi
+    Given try to create a new league with public endpoint with data
+      | name            | description          | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League | A League for Friends | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | someUser,0,ACTIVE;normalUser,0,ACTIVE |
+    Given try to create a new league with public endpoint with data
+      | name              | description            | category_id | is_public | password | status | max_players | logo_url             | is_premium | owner_username | league_players                        |
+      | Friendly League 2 | A League for Friends 2 | PREMIER     | false     | fiends   | ACTIVE | 20          | http://example.com/1 | false      | normalUser     | someUser,0,ACTIVE;normalUser,0,ACTIVE |
+    Then received status code is 201
+    Then a league with name Friendly League and status ACTIVE has been stored successfully
+    Then a player with username someUser has been associated to last league successfully
+    Then a player with username normalUser has been associated to last league successfully
+    When try to get leagues by username normalUser with public endpoint
+    Then received status code is 200
+    Then a list of leagues with names Friendly League,Friendly League 2 are returned in response
 
   Scenario: Close league by leagueId successfully from LeagueApi
     Given try to create a new league with public endpoint with data
