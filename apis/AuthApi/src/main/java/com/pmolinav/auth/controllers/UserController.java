@@ -5,6 +5,8 @@ import com.pmolinav.auth.auth.SpringSecurityConfig;
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.NotFoundException;
 import com.pmolinav.auth.services.UserService;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +47,7 @@ public class UserController {
             }
             // Encode password before save user.
             userDTO.setPassword(SpringSecurityConfig.passwordEncoder().encode(userDTO.getPassword()));
-            //
+
             Long createdUserId = userService.createUser(userDTO);
             return new ResponseEntity<>(createdUserId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
@@ -77,6 +79,56 @@ public class UserController {
         try {
             User user = userService.findUserByUsername(username);
             return ResponseEntity.ok(user);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}")
+    @Operation(summary = "Update specific user by username",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserByUsername(@RequestParam String requestUid,
+                                                  @PathVariable String username,
+                                                  @Valid @RequestBody UpdateUserDTO updateUserDTO,
+                                                  BindingResult result) {
+        String authUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!authUser.equals(username)) {
+            return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
+        }
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userService.updateUserByUsername(username, updateUserDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}/password")
+    @Operation(summary = "Update password for specific user by username",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserPasswordByUsername(@RequestParam String requestUid,
+                                                          @PathVariable String username,
+                                                          @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO,
+                                                          BindingResult result) {
+        String authUser = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!authUser.equals(username)) {
+            return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
+        }
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userService.updateUserPasswordByUsername(username, updatePasswordDTO);
+            return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {

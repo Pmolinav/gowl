@@ -2,6 +2,8 @@ package com.pmolinav.auth.units;
 
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.NotFoundException;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;
@@ -112,6 +114,62 @@ class UserControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    /* UPDATE USER BY USERNAME */
+    @Test
+    void updateUserByUsernameHappyPath() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserByUsernameInServiceIsOk();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserByUsernameNotFound() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserByUsernameInServiceThrowsNotFoundException();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserByUsernameServerError() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserByUsernameInServiceThrowsServerException();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* UPDATE USER PASSWORD BY USERNAME */
+    @Test
+    void updateUserPasswordByUsernameHappyPath() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserPasswordByUsernameInServiceIsOk();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserPasswordByUsernameNotFound() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserPasswordByUsernameInServiceThrowsNotFoundException();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserPasswordByUsernameServerError() {
+        givenMockedSecurityContextWithUser("someUsername");
+        whenUpdateUserPasswordByUsernameInServiceThrowsServerException();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     /* DELETE USER */
     @Test
     void deleteUserHappyPath() {
@@ -194,6 +252,40 @@ class UserControllerTest extends BaseUnitTest {
                 .thenThrow(new CustomStatusException("Internal Server Error", 500));
     }
 
+    private void whenUpdateUserByUsernameInServiceIsOk() {
+        doNothing().when(userServiceMock)
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByUsernameInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userServiceMock)
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByUsernameInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userServiceMock)
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceIsOk() {
+        doNothing().when(userServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
     private void whenDeleteUserInServiceIsOk() {
         doNothing().when(userServiceMock).deleteUser(anyLong());
     }
@@ -216,6 +308,22 @@ class UserControllerTest extends BaseUnitTest {
 
     private void andFindUserByUsernameIsCalledInController() {
         result = userController.findUserByUsername(this.requestUid, "someUsername");
+    }
+
+    private void andUpdateUserByUsernameIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+
+        result = userController.updateUserByUsername(this.requestUid, "someUsername",
+                new UpdateUserDTO("new name", "new@email.com", null), bindingResult);
+    }
+
+    private void andUpdateUserPasswordByUsernameIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+
+        result = userController.updateUserPasswordByUsername(this.requestUid, "someUsername",
+                new UpdatePasswordDTO("oldPass", "newPass"), bindingResult);
     }
 
     private void andCreateUserIsCalledInController() {
@@ -249,6 +357,16 @@ class UserControllerTest extends BaseUnitTest {
 
     private void thenVerifyFindByUsernameHasBeenCalledInService() {
         verify(userServiceMock, times(1)).findUserByUsername(anyString());
+    }
+
+    private void thenVerifyUpdateByUsernameHasBeenCalledInService() {
+        verify(userServiceMock, times(1))
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void thenVerifyUpdatePasswordByUsernameHasBeenCalledInService() {
+        verify(userServiceMock, times(1))
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
     }
 
     private void thenVerifyDeleteUserHasBeenCalledInService() {

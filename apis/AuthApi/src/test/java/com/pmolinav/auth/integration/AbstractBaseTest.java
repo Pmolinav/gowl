@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ActiveProfiles("test")
 public abstract class AbstractBaseTest {
-    protected static String username = "someUser";
+    protected static String username = "someUsername";
     protected static final String password = "$2a$10$pn85ACcwW6v74Kkt3pnPau7A4lv8N2d.fvwXuLsYanv07PzlXTu9S";
     protected static final String requestUid = "someRequestUid";
 

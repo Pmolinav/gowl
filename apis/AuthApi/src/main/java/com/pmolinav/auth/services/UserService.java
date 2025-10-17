@@ -4,6 +4,8 @@ import com.pmolinav.auth.clients.UserClient;
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.InternalServerErrorException;
 import com.pmolinav.auth.exceptions.NotFoundException;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.mapper.UserMapper;
 import com.pmolinav.userslib.model.User;
@@ -61,6 +63,41 @@ public class UserService {
     public User findUserByUsername(String username) {
         try {
             return userClient.findUserByUsername(username);
+        } catch (FeignException e) {
+            if (e instanceof RetryableException) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("User with username {} not found.", username, e);
+                throw new NotFoundException("User " + username + " not found");
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+
+    public void updateUserByUsername(String username, UpdateUserDTO updateUserDTO) {
+        try {
+            userClient.updateUserByUsername(username, updateUserDTO);
+        } catch (FeignException e) {
+            if (e instanceof RetryableException) {
+                logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+                throw new CustomStatusException(e.getMessage(), e.status());
+            } else {
+                logger.warn("User with username {} not found.", username, e);
+                throw new NotFoundException("User " + username + " not found");
+            }
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    public void updateUserPasswordByUsername(String username, UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            userClient.updateUserPasswordByUsername(username, updatePasswordDTO);
         } catch (FeignException e) {
             if (e instanceof RetryableException) {
                 logger.error("Unexpected error while calling service with status code {}.", e.status(), e);

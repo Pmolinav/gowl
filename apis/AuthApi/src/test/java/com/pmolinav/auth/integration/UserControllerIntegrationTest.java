@@ -2,6 +2,8 @@ package com.pmolinav.auth.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Assertions;
@@ -112,6 +114,34 @@ class UserControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
+    void updateUserByUsernameHappyPath() throws Exception {
+        andUserIsUpdatedOkOnClient();
+
+        UpdateUserDTO requestDto = new UpdateUserDTO("Updated name", "updated@email.com", null);
+
+        mockMvc.perform(put("/users/username/" + username + "?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
+    void updateUserPasswordByUsernameHappyPath() throws Exception {
+        andUserPasswordIsUpdatedOkOnClient();
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("pass", "updatedPass");
+
+        mockMvc.perform(put("/users/username/" + username + "/password" + "?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    @Test
     void deleteUserByIdInternalServerError() throws Exception {
         andFindUserByIdReturnedUser();
         andUserDeleteThrowsNonRetryableException();
@@ -121,16 +151,15 @@ class UserControllerIntegrationTest extends AbstractBaseTest {
                 .andExpect(status().isInternalServerError());
     }
 
-    //TODO: Why this test only work separately?
-//    @Test
-//    void deleteUserByIdHappyPath() throws Exception {
-//        andFindUserByIdReturnedUser();
-//        andUserIsDeletedOkOnClient();
-//
-//        mockMvc.perform(delete("/users/123?requestUid=" + requestUid)
-//                        .header(HttpHeaders.AUTHORIZATION, authToken))
-//                .andExpect(status().isOk());
-//    }
+    @Test
+    void deleteUserByIdHappyPath() throws Exception {
+        andFindUserByIdReturnedUser();
+        andUserIsDeletedOkOnClient();
+
+        mockMvc.perform(delete("/users/1?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken))
+                .andExpect(status().isOk());
+    }
 
     private void andUserIsDeletedOkOnClient() {
         doNothing().when(this.userClient).deleteUser(anyLong());
@@ -166,6 +195,14 @@ class UserControllerIntegrationTest extends AbstractBaseTest {
 
     private void andCreateUserThrowsNonRetryableException() {
         doThrow(new RuntimeException("someException")).when(this.userClient).createUser(any(UserDTO.class));
+    }
+
+    private void andUserIsUpdatedOkOnClient() {
+        doNothing().when(this.userClient).updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void andUserPasswordIsUpdatedOkOnClient() {
+        doNothing().when(this.userClient).updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
     }
 }
 

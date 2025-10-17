@@ -60,7 +60,7 @@ class LoginControllerTest extends BaseUnitTest {
 
     private void doNothingWhenAuthenticateIsCalled() {
         Authentication auth = new UsernamePasswordAuthenticationToken(
-                "someUser",
+                "someUsername",
                 "somePassword",
                 Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()))
         );
@@ -79,7 +79,7 @@ class LoginControllerTest extends BaseUnitTest {
 
     private void andLoginsIsCalledInController() {
         UserDTO user = new UserDTO();
-        user.setUsername("someUser");
+        user.setUsername("someUsername");
         user.setPassword("somePassword");
         result = loginController.login(user);
     }

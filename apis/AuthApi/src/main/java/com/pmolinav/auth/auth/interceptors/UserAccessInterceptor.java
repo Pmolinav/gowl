@@ -22,7 +22,8 @@ public class UserAccessInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if ("POST".equalsIgnoreCase(request.getMethod())) {
+        if ("POST".equalsIgnoreCase(request.getMethod()) ||
+                "PUT".equalsIgnoreCase(request.getMethod())) {
             return true;
         }
 

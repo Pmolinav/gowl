@@ -27,14 +27,14 @@ public interface UserClient {
     @PutMapping("/{id}")
     void updateUserById(@PathVariable long id, @RequestBody UpdateUserDTO updateUserDTO);
 
+    @PutMapping("/{id}/password")
+    void updateUserPasswordById(@PathVariable long id, @RequestBody UpdatePasswordDTO updatePasswordDTO);
+
     @PutMapping("/username/{username}")
     void updateUserByUsername(@PathVariable String username, @RequestBody UpdateUserDTO updateUserDTO);
 
     @PutMapping("/username/{username}/password")
     void updateUserPasswordByUsername(@PathVariable String username, @RequestBody UpdatePasswordDTO updatePasswordDTO);
-
-    @PutMapping("/{id}/password")
-    void updateUserPasswordById(@PathVariable long id, @RequestBody UpdatePasswordDTO updatePasswordDTO);
 
     @DeleteMapping("/{id}")
     void deleteUser(@PathVariable long id);

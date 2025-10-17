@@ -115,6 +115,7 @@ public class UserBOController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
     @PutMapping("/username/{username}")
     @Operation(summary = "Update specific user by username",
             description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
@@ -155,6 +156,7 @@ public class UserBOController {
         }
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
     @PutMapping("/username/{username}/password")
     @Operation(summary = "Update password for specific user by username",
             description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
