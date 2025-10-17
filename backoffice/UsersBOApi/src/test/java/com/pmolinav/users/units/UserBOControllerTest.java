@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -131,16 +132,18 @@ class UserBOControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private void givenValidUserDTOForRequest(String username, String password, String name, String email, boolean isAdmin) {
-        userDTO = new UserDTO(username, password, name, email, isAdmin);
+    private void givenValidUserDTOForRequest(String username, String password, String name, String email, boolean admin) {
+        userDTO = new UserDTO(username, password, name, email, LocalDate.of(1990, 10, 20), admin);
     }
 
     private void whenFindAllUsersInServiceReturnedValidUsers() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null),
+                        "some@email.com", LocalDate.of(1990, 10, 20),
+                        1L, null, null),
                 new User(2L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                        "some@email.com", LocalDate.of(1990, 10, 20),
+                        1L, null, null));
 
         when(userBOServiceMock.findAllUsers()).thenReturn(expectedUsers);
     }
@@ -165,8 +168,8 @@ class UserBOControllerTest extends BaseUnitTest {
 
     private void whenFindUserByIdInServiceReturnedValidUser() {
         expectedUsers = List.of(
-                new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                new User(1L, "someUser", "somePassword", "someName", "some@email.com",
+                        LocalDate.of(1990, 10, 20), 1L, null, null));
 
         when(userBOServiceMock.findUserById(1L)).thenReturn(expectedUsers.getFirst());
     }
@@ -182,8 +185,8 @@ class UserBOControllerTest extends BaseUnitTest {
 
     private void whenFindUserByUsernameInServiceReturnedValidUser() {
         expectedUsers = List.of(
-                new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, null, null));
+                new User(1L, "someUser", "somePassword", "someName", "some@email.com",
+                        LocalDate.of(1990, 10, 20), 1L, null, null));
 
         when(userBOServiceMock.findUserByUsername(eq(expectedUsers.getFirst().getUsername()))).thenReturn(expectedUsers.getFirst());
     }

@@ -2,7 +2,6 @@ package com.pmolinav.steps;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.datatable.DataTable;
@@ -12,6 +11,7 @@ import io.cucumber.java.en.When;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -45,11 +45,13 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         try {
             // Insert each requested player
             for (Map<String, String> row : rows) {
+                String[] date = row.get("birthDate").split("-");
                 usersDbConnector.insertUser(new User(null,
                                 row.get("username"),
                                 new BCryptPasswordEncoder().encode(row.get("password")),
                                 row.get("name"),
                                 row.get("email"),
+                                LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0])),
                                 row.get("creation_date") != null ?
                                         Long.parseLong(row.get("creation_date")) : new Date().getTime(),
                                 row.get("modification_date") != null ?
@@ -69,12 +71,14 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         try {
             for (Map<String, String> row : rows) {
+                String[] date = row.get("birthDate").split("-");
                 executePost(localURL + "/users",
                         objectMapper.writeValueAsString(new UserDTO(row.get("username"),
                                 row.get("password"),
                                 row.get("name"),
                                 row.get("email"),
-                                Boolean.parseBoolean(row.get("is_admin")))
+                                LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0])),
+                                Boolean.parseBoolean(row.get("admin")))
                         ));
             }
         } catch (Exception e) {

@@ -95,11 +95,12 @@ public class UsersDatabaseConnector {
                 String dbPassword = resultSet.getString("password");
                 String dbName = resultSet.getString("name");
                 String dbEmail = resultSet.getString("email");
+                Date dbBirthDate = resultSet.getDate("birth_date");
                 Long dbCreationDate = resultSet.getLong("creation_date");
                 Long dbModificationDate = resultSet.getLong("modification_date");
 
                 return new User(dbUserId, dbUsername, dbPassword, dbName, dbEmail,
-                        dbCreationDate, dbModificationDate, null);
+                        dbBirthDate.toLocalDate(), dbCreationDate, dbModificationDate, null);
             } else {
                 return null;
             }

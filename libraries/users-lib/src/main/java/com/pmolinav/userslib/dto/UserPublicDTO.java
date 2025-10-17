@@ -5,6 +5,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,5 +27,8 @@ public class UserPublicDTO {
     @NotBlank(message = "Email is mandatory.")
     @Email(message = "Invalid email format.")
     private String email;
+
+    @NotNull(message = "Birth date is required")
+    private LocalDate birthDate;
 
 }

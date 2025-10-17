@@ -12,8 +12,8 @@ Feature: AuthApi
       | ROLE_PREMIUM |
       | ROLE_ADMIN   |
     Given the following users have been stored previously
-      | username | password     | name     | email          | roles      | creation_date | modification_date |
-      | someUser | somePassword | someName | some@email.com | ROLE_ADMIN | 123456        | 123456            |
+      | username | password     | name     | email          | birthDate | roles      | creation_date | modification_date |
+      | someUser | somePassword | someName | some@email.com | 12-3-1998 | ROLE_ADMIN | 123456        | 123456            |
 
   Scenario: An user logs in successfully
     When an user with username someUser and password somePassword tries to log in
@@ -25,8 +25,8 @@ Feature: AuthApi
 
   Scenario: Create a new user successfully from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email         |
-      | newUser  | newPassword | newName | new@email.com |
+      | username | password    | name    | email         | birthDate |
+      | newUser  | newPassword | newName | new@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
 
@@ -38,8 +38,8 @@ Feature: AuthApi
 
   Scenario: Get user by userId successfully from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When an user with username newUser and password newPassword tries to log in
@@ -50,8 +50,8 @@ Feature: AuthApi
 
   Scenario: An user is not authorized to get other user by userId from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When an user with username someUser and password somePassword tries to log in
@@ -62,8 +62,8 @@ Feature: AuthApi
 
   Scenario: Get user by username successfully from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When an user with username newUser and password newPassword tries to log in
@@ -73,8 +73,8 @@ Feature: AuthApi
 
   Scenario: An user is not authorized to get another user by username from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When an user with username newUser and password newPassword tries to log in
@@ -84,8 +84,8 @@ Feature: AuthApi
 
   Scenario: Delete user by userId successfully from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     When an user with username newUser and password newPassword tries to log in
     Then received status code is 200
@@ -95,8 +95,8 @@ Feature: AuthApi
 
   Scenario: An user is not authorized to delete another user from public endpoint
     When try to create a new user with data with public endpoint
-      | username | password    | name    | email          |
-      | newUser  | newPassword | newName | some@email.com |
+      | username | password    | name    | email          | birthDate |
+      | newUser  | newPassword | newName | some@email.com | 12-3-1998 |
     Then received status code is 201
     Then an user with username newUser has been stored successfully
     When an user with username someUser and password somePassword tries to log in

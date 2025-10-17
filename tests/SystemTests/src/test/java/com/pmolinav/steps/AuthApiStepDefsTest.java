@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatusCode;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -87,12 +88,14 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         try {
             for (Map<String, String> row : rows) {
+                String[] date = row.get("birthDate").split("-");
                 executePost(localURL + "/users",
                         objectMapper.writeValueAsString(new UserPublicDTO(row.get("username"),
                                 row.get("password"),
                                 row.get("name"),
-                                row.get("email"))
-                        ));
+                                row.get("email"),
+                                LocalDate.of(Integer.parseInt(date[2]), Integer.parseInt(date[1]), Integer.parseInt(date[0]))
+                        )));
             }
         } catch (Exception e) {
             e.printStackTrace();

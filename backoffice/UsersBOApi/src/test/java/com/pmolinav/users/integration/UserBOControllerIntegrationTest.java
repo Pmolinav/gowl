@@ -15,6 +15,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -66,7 +67,7 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
         andCreateUserThrowsNonRetryableException();
 
         UserDTO requestDto = new UserDTO("someUser", "somePassword", "someName",
-                "some@email.com", false);
+                "some@email.com", LocalDate.of(1990, 10, 20), false);
 
         mockMvc.perform(post("/users?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -80,7 +81,7 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
         andCreateUserReturnedValidId();
 
         UserDTO requestDto = new UserDTO("someUser", "somePassword", "someName",
-                "some@email.com", false);
+                "some@email.com", LocalDate.of(1990, 10, 20), false);
 
         MvcResult result = mockMvc.perform(post("/users?requestUid=" + requestUid)
                         .header(HttpHeaders.AUTHORIZATION, authToken)
@@ -163,14 +164,16 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindUserByIdReturnedUser() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", LocalDate.of(1990, 10, 20),
+                new Date().getTime(), null, null));
 
         when(this.userClient.findUserById(anyLong())).thenReturn(this.expectedUsers.getFirst());
     }
 
     private void andFindUserByUsernameReturnedUser() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", LocalDate.of(1990, 10, 20),
+                new Date().getTime(), null, null));
 
         when(this.userClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
     }
@@ -189,7 +192,8 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
 
     private void andFindAllUsersReturnedValidUsers() {
         this.expectedUsers = List.of(new User(1L, "someUser", "somePassword",
-                "someName", "some@email.com", new Date().getTime(), null, null));
+                "someName", "some@email.com", LocalDate.of(1990, 10, 20),
+                new Date().getTime(), null, null));
 
         when(this.userClient.findAllUsers()).thenReturn(this.expectedUsers);
     }

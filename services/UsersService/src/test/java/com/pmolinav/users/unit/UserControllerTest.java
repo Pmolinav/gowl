@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -146,16 +147,18 @@ class UserControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    private void givenValidUserDTOForRequest(String username, String password, String name, String email, boolean isAdmin) {
-        userDTO = new UserDTO(username, password, name, email, isAdmin);
+    private void givenValidUserDTOForRequest(String username, String password, String name, String email, boolean admin) {
+        userDTO = new UserDTO(username, password, name, email, LocalDate.of(1990, 10, 20), admin);
     }
 
     private void whenFindAllUsersInServiceReturnedValidUsers() {
         expectedUsers = List.of(
                 new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", 1L, new Date().getTime(), null),
+                        "some@email.com", LocalDate.of(1990, 10, 20),
+                        1L, new Date().getTime(), null),
                 new User(2L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date().getTime(), null, null));
+                        "some@email.com", LocalDate.of(1990, 10, 20),
+                        new Date().getTime(), null, null));
 
         when(userServiceMock.findAllUsers()).thenReturn(expectedUsers);
     }
@@ -170,8 +173,10 @@ class UserControllerTest extends BaseUnitTest {
     }
 
     private void whenCreateUserInServiceReturnedAValidUser() {
-        when(userServiceMock.createUser(any())).thenReturn(new User(1L, "someUser", "somePassword", "someName",
-                "some@email.com", new Date().getTime(), null, null));
+        when(userServiceMock.createUser(any())).thenReturn(new User(1L, "someUser",
+                "somePassword", "someName", "some@email.com",
+                LocalDate.of(1990, 10, 20),
+                new Date().getTime(), null, null));
     }
 
     private void whenCreateUserInServiceThrowsServerException() {
@@ -181,8 +186,8 @@ class UserControllerTest extends BaseUnitTest {
 
     private void whenFindUserByIdInServiceReturnedValidUser() {
         expectedUsers = List.of(
-                new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date().getTime(), null, null));
+                new User(1L, "someUser", "somePassword", "someName", "some@email.com",
+                        LocalDate.of(1990, 10, 20), new Date().getTime(), null, null));
 
         when(userServiceMock.findById(1L)).thenReturn(expectedUsers.getFirst());
     }
@@ -198,8 +203,8 @@ class UserControllerTest extends BaseUnitTest {
 
     private void whenFindUserByUsernameInServiceReturnedValidUser() {
         expectedUsers = List.of(
-                new User(1L, "someUser", "somePassword", "someName",
-                        "some@email.com", new Date().getTime(), null, null));
+                new User(1L, "someUser", "somePassword", "someName", "some@email.com",
+                        LocalDate.of(1990, 10, 20), new Date().getTime(), null, null));
 
         when(userServiceMock.findByUsername(eq(expectedUsers.getFirst().getUsername())))
                 .thenReturn(expectedUsers.getFirst());

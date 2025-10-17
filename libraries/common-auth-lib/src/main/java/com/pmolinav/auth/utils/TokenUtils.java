@@ -37,7 +37,7 @@ public class TokenUtils {
         Claims claims = Jwts.claims()
                 .subject(username)
                 .add("authorities", objectMapper.writeValueAsString(roles))
-                .add("isAdmin", roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN")))
+                .add("admin", roles.stream().anyMatch(r -> r.getAuthority().equals("ROLE_ADMIN")))
                 .add("username", username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + validitySeconds))

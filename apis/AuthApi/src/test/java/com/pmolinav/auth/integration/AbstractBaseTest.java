@@ -16,6 +16,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -65,6 +66,7 @@ public abstract class AbstractBaseTest {
                 SpringSecurityConfig.passwordEncoder().encode(this.request.getPassword()),
                 "somename",
                 "some@email.com",
+                LocalDate.of(1990, 10, 20),
                 new Date().getTime(),
                 null,
                 List.of(new Role(1L, com.pmolinav.auth.models.request.Role.ROLE_ADMIN.name())));

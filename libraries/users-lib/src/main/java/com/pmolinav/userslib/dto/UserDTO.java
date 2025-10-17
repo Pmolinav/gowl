@@ -3,7 +3,10 @@ package com.pmolinav.userslib.dto;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 import lombok.*;
+
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -25,6 +28,9 @@ public class UserDTO {
     @NotBlank(message = "Email is mandatory.")
     @Email(message = "Invalid email format.")
     private String email;
+
+    @NotNull(message = "Birth date is required")
+    private LocalDate birthDate;
 
     @NotNull(message = "Admin is mandatory.")
     private boolean admin;

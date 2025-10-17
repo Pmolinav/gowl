@@ -7,9 +7,9 @@ Feature: HealthChecks
       | ROLE_PREMIUM |
       | ROLE_ADMIN   |
     Given the following users have been stored previously
-      | username   | password       | name        | email            | roles      | creation_date | modification_date |
-      | someUser   | somePassword   | someName    | some@email.com   | ROLE_ADMIN | 123456        | 123456            |
-      | normalUser | normalPassword | Normal Name | normal@email.com | ROLE_USER  | 123456        | 123456            |
+      | username   | password       | name        | email            | birthDate | roles      | creation_date | modification_date |
+      | someUser   | somePassword   | someName    | some@email.com   | 12-3-1998 | ROLE_ADMIN | 123456        | 123456            |
+      | normalUser | normalPassword | Normal Name | normal@email.com | 13-3-1998 | ROLE_USER  | 123456        | 123456            |
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
 

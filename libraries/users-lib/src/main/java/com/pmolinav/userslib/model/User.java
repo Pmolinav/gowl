@@ -3,6 +3,7 @@ package com.pmolinav.userslib.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -31,6 +32,9 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
 
+    @Column(name = "birth_date", nullable = false)
+    private LocalDate birthDate;
+
     @Column(name = "creationDate", nullable = false)
     private Long creationDate;
 
@@ -56,11 +60,12 @@ public class User {
                 && Objects.equals(password, user.password)
                 && Objects.equals(name, user.name)
                 && Objects.equals(email, user.email)
+                && Objects.equals(birthDate, user.birthDate)
                 && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, username, password, name, email, roles);
+        return Objects.hash(userId, username, password, name, email, birthDate, roles);
     }
 }
