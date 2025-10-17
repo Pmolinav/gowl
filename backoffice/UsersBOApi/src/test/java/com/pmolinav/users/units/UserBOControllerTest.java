@@ -2,6 +2,8 @@ package com.pmolinav.users.units;
 
 import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.NotFoundException;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.Test;
@@ -105,7 +107,131 @@ class UserBOControllerTest extends BaseUnitTest {
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    /* FIND USER BY USERNAME - NOT ALLOWED IN CONTROLLER. ONLY INTERNAL REQUEST*/
+    /* FIND USER BY USERNAME */
+    @Test
+    void findUserByUsernameHappyPath() {
+        whenFindUserByUsernameInServiceReturnedValidUser();
+        andFindUserByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+        thenReceivedResponseBodyAsStringIs(String.valueOf(expectedUsers.getFirst()));
+    }
+
+    @Test
+    void findUserByUsernameNotFound() {
+        whenFindUserByUsernameInServiceThrowsNotFoundException();
+        andFindUserByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void findUserByUsernameServerError() {
+        whenFindUserByUsernameInServiceThrowsServerException();
+        andFindUserByUsernameIsCalledInController();
+        thenVerifyFindByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* UPDATE USER BY ID */
+    @Test
+    void updateUserByIdHappyPath() {
+        whenUpdateUserByIdInServiceReturnedValidUser();
+        andUpdateUserByIdIsCalledInController();
+        thenVerifyUpdateByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserByIdNotFound() {
+        whenUpdateUserByIdInServiceThrowsNotFoundException();
+        andUpdateUserByIdIsCalledInController();
+        thenVerifyUpdateByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserByIdServerError() {
+        whenUpdateUserByIdInServiceThrowsServerException();
+        andUpdateUserByIdIsCalledInController();
+        thenVerifyUpdateByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* UPDATE USER BY USERNAME */
+    @Test
+    void updateUserByUsernameHappyPath() {
+        whenUpdateUserByUsernameInServiceReturnedValidUser();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserByUsernameNotFound() {
+        whenUpdateUserByUsernameInServiceThrowsNotFoundException();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserByUsernameServerError() {
+        whenUpdateUserByUsernameInServiceThrowsServerException();
+        andUpdateUserByUsernameIsCalledInController();
+        thenVerifyUpdateByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* UPDATE USER PASSWORD BY ID */
+    @Test
+    void updateUserPasswordByIdHappyPath() {
+        whenUpdateUserPasswordByIdInServiceReturnedValidUser();
+        andUpdateUserPasswordByIdIsCalledInController();
+        thenVerifyUpdatePasswordByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserPasswordByIdNotFound() {
+        whenUpdateUserPasswordByIdInServiceThrowsNotFoundException();
+        andUpdateUserPasswordByIdIsCalledInController();
+        thenVerifyUpdatePasswordByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserPasswordByIdServerError() {
+        whenUpdateUserPasswordByIdInServiceThrowsServerException();
+        andUpdateUserPasswordByIdIsCalledInController();
+        thenVerifyUpdatePasswordByIdHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /* UPDATE USER PASSWORD BY USERNAME */
+    @Test
+    void updateUserPasswordByUsernameHappyPath() {
+        whenUpdateUserPasswordByUsernameInServiceReturnedValidUser();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.OK);
+    }
+
+    @Test
+    void updateUserPasswordByUsernameNotFound() {
+        whenUpdateUserPasswordByUsernameInServiceThrowsNotFoundException();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void updateUserPasswordByUsernameServerError() {
+        whenUpdateUserPasswordByUsernameInServiceThrowsServerException();
+        andUpdateUserPasswordByUsernameIsCalledInController();
+        thenVerifyUpdatePasswordByUsernameHasBeenCalledInService();
+        thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     /* DELETE USER */
     @Test
@@ -191,6 +317,83 @@ class UserBOControllerTest extends BaseUnitTest {
         when(userBOServiceMock.findUserByUsername(eq(expectedUsers.getFirst().getUsername()))).thenReturn(expectedUsers.getFirst());
     }
 
+    private void whenFindUserByUsernameInServiceThrowsNotFoundException() {
+        when(userBOServiceMock.findUserByUsername("someUser")).thenThrow(new NotFoundException("Not Found"));
+    }
+
+    private void whenFindUserByUsernameInServiceThrowsServerException() {
+        when(userBOServiceMock.findUserByUsername("someUser"))
+                .thenThrow(new CustomStatusException("Internal Server Error", 500));
+    }
+
+    private void whenUpdateUserByIdInServiceReturnedValidUser() {
+        doNothing().when(userBOServiceMock)
+                .updateUserById(anyLong(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByIdInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userBOServiceMock)
+                .updateUserById(anyLong(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByIdInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userBOServiceMock)
+                .updateUserById(anyLong(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByUsernameInServiceReturnedValidUser() {
+        doNothing().when(userBOServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserByUsernameInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userBOServiceMock)
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserByUsernameInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userBOServiceMock)
+                .updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByIdInServiceReturnedValidUser() {
+        doNothing().when(userBOServiceMock)
+                .updateUserPasswordById(anyLong(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByIdInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userBOServiceMock)
+                .updateUserPasswordById(anyLong(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByIdInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userBOServiceMock)
+                .updateUserPasswordById(anyLong(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceReturnedValidUser() {
+        doNothing().when(userBOServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceThrowsNotFoundException() {
+        doThrow(new NotFoundException("Not Found"))
+                .when(userBOServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
+    private void whenUpdateUserPasswordByUsernameInServiceThrowsServerException() {
+        doThrow(new CustomStatusException("Internal Server Error", 500))
+                .when(userBOServiceMock)
+                .updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
+    }
+
     private void whenDeleteUserInServiceIsOk() {
         doNothing().when(userBOServiceMock).deleteUser(anyLong());
     }
@@ -213,6 +416,40 @@ class UserBOControllerTest extends BaseUnitTest {
 
     private void andFindUserByIdIsCalledInController() {
         result = userBOController.getUserById(this.requestUid, 1L);
+    }
+
+    private void andFindUserByUsernameIsCalledInController() {
+        result = userBOController.getUserByUsername(this.requestUid, "someUser");
+    }
+
+    private void andUpdateUserByIdIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+        result = userBOController.updateUserById(this.requestUid, 1L,
+                new UpdateUserDTO("new name", "new@email.com", null), bindingResult);
+    }
+
+    private void andUpdateUserByUsernameIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+
+        result = userBOController.updateUserByUsername(this.requestUid, "someUser",
+                new UpdateUserDTO("new name", "new@email.com", null), bindingResult);
+    }
+
+    private void andUpdateUserPasswordByIdIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+        result = userBOController.updateUserPasswordById(this.requestUid, 1L,
+                new UpdatePasswordDTO("oldPass", "newPass"), bindingResult);
+    }
+
+    private void andUpdateUserPasswordByUsernameIsCalledInController() {
+        BindingResult bindingResult = mock(BindingResult.class);
+        when(bindingResult.hasErrors()).thenReturn(false);
+
+        result = userBOController.updateUserPasswordByUsername(this.requestUid, "someUser",
+                new UpdatePasswordDTO("oldPass", "newPass"), bindingResult);
     }
 
     private void andCreateUserIsCalledInController() {
@@ -246,6 +483,26 @@ class UserBOControllerTest extends BaseUnitTest {
 
     private void thenVerifyFindByIdHasBeenCalledInService() {
         verify(userBOServiceMock, times(1)).findUserById(anyLong());
+    }
+
+    private void thenVerifyFindByUsernameHasBeenCalledInService() {
+        verify(userBOServiceMock, times(1)).findUserByUsername(anyString());
+    }
+
+    private void thenVerifyUpdateByIdHasBeenCalledInService() {
+        verify(userBOServiceMock, times(1)).updateUserById(anyLong(), any(UpdateUserDTO.class));
+    }
+
+    private void thenVerifyUpdateByUsernameHasBeenCalledInService() {
+        verify(userBOServiceMock, times(1)).updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void thenVerifyUpdatePasswordByIdHasBeenCalledInService() {
+        verify(userBOServiceMock, times(1)).updateUserPasswordById(anyLong(), any(UpdatePasswordDTO.class));
+    }
+
+    private void thenVerifyUpdatePasswordByUsernameHasBeenCalledInService() {
+        verify(userBOServiceMock, times(1)).updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
     }
 
     private void thenVerifyDeleteUserHasBeenCalledInService() {

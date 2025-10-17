@@ -4,6 +4,8 @@ import com.pmolinav.users.auth.SpringSecurityConfig;
 import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.NotFoundException;
 import com.pmolinav.users.services.UserBOService;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -78,10 +80,10 @@ public class UserBOController {
         }
     }
 
-    // TODO: Maybe a new exposed API will be needed.
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or #username.equals(authentication.principal)")
     @GetMapping("/username/{username}")
-    @Operation(summary = "Get a specific user by username", description = "Bearer token is required to authorize users.")
+    @Operation(summary = "Get a specific user by username",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
     public ResponseEntity<User> getUserByUsername(@RequestParam String requestUid, @PathVariable String username) {
         try {
             User user = userBOService.findUserByUsername(username);
@@ -93,34 +95,85 @@ public class UserBOController {
         }
     }
 
-    //TODO: Complete
-//    @PutMapping("{id}")
-//    @Operation(summary = "Update a specific user", description = "Bearer token is required to authorize users.")
-//    public ResponseEntity<User> updateUser(@PathVariable long id, @RequestBody UserDTO userDetails) {
-//
-//        String message = validateMandatoryFieldsInRequest(userDetails);
-//
-//        try {
-//            User updatedUser = userService.findById(id);
-//
-//            if (!StringUtils.hasText(message)) {
-//                updatedUser.setUsername(userDetails.getUsername());
-//                // Encode password before update user.
-//                updatedUser.setPassword(WebSecurityConfig.passwordEncoder().encode(userDetails.getPassword()));
-//                if (userDetails.getRole() != null) {
-//                    updatedUser.setRole(userDetails.getRole().name());
-//                }
-//                userService.createUser(updatedUser);
-//                return ResponseEntity.ok(updatedUser);
-//            } else {
-//                throw new BadRequestException(message);
-//            }
-//        } catch (NotFoundException e) {
-//            logger.error(e.getMessage());
-//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//        }
-//
-//    }
+    @PutMapping("/{id}")
+    @Operation(summary = "Update specific user by user Id",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserById(@RequestParam String requestUid,
+                                            @PathVariable long id,
+                                            @Valid @RequestBody UpdateUserDTO updateUserDTO,
+                                            BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userBOService.updateUserById(id, updateUserDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}")
+    @Operation(summary = "Update specific user by username",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserByUsername(@RequestParam String requestUid,
+                                                  @PathVariable String username,
+                                                  @Valid @RequestBody UpdateUserDTO updateUserDTO,
+                                                  BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userBOService.updateUserByUsername(username, updateUserDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/{id}/password")
+    @Operation(summary = "Update password for specific user by user Id",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserPasswordById(@RequestParam String requestUid,
+                                                    @PathVariable long id,
+                                                    @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO,
+                                                    BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userBOService.updateUserPasswordById(id, updatePasswordDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}/password")
+    @Operation(summary = "Update password for specific user by username",
+            description = "Bearer token is required to authorize users. Only the affected user or ADMIN users are Authorized")
+    public ResponseEntity<?> updateUserPasswordByUsername(@RequestParam String requestUid,
+                                                          @PathVariable String username,
+                                                          @Valid @RequestBody UpdatePasswordDTO updatePasswordDTO,
+                                                          BindingResult result) {
+        try {
+            if (result.hasErrors()) {
+                return validation(result);
+            }
+            userBOService.updateUserPasswordByUsername(username, updatePasswordDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     @DeleteMapping("{id}")
     @Operation(summary = "Delete an user by Id", description = "Bearer token is required to authorize users.")

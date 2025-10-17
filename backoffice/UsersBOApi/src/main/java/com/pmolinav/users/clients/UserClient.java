@@ -1,5 +1,7 @@
 package com.pmolinav.users.clients;
 
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,8 +24,17 @@ public interface UserClient {
     @GetMapping("/username/{username}")
     User findUserByUsername(@PathVariable String username);
 
-//    @PutMapping("/{id}")
-//    User updateUser(@PathVariable long id, @RequestBody UserUpdateDTO userDetails);
+    @PutMapping("/{id}")
+    void updateUserById(@PathVariable long id, @RequestBody UpdateUserDTO updateUserDTO);
+
+    @PutMapping("/username/{username}")
+    void updateUserByUsername(@PathVariable String username, @RequestBody UpdateUserDTO updateUserDTO);
+
+    @PutMapping("/username/{username}/password")
+    void updateUserPasswordByUsername(@PathVariable String username, @RequestBody UpdatePasswordDTO updatePasswordDTO);
+
+    @PutMapping("/{id}/password")
+    void updateUserPasswordById(@PathVariable long id, @RequestBody UpdatePasswordDTO updatePasswordDTO);
 
     @DeleteMapping("/{id}")
     void deleteUser(@PathVariable long id);

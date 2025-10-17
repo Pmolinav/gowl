@@ -2,9 +2,10 @@ package com.pmolinav.users.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -19,6 +20,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
+import static junit.framework.TestCase.assertEquals;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -59,7 +61,7 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<List<User>>() {
                 });
 
-        Assertions.assertEquals(expectedUsers, userResponseList);
+        assertEquals(expectedUsers, userResponseList);
     }
 
     @Test
@@ -117,7 +119,7 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<User>() {
                 });
 
-        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
+        assertEquals(expectedUsers.getFirst(), userResponse);
     }
 
     @Test
@@ -133,7 +135,61 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
                 new TypeReference<User>() {
                 });
 
-        Assertions.assertEquals(expectedUsers.getFirst(), userResponse);
+        assertEquals(expectedUsers.getFirst(), userResponse);
+    }
+
+    @Test
+    void updateUserByIdHappyPath() throws Exception {
+        andUpdateUserByIdReturnedUser();
+
+        UpdateUserDTO requestDto = new UpdateUserDTO("other name", null,
+                LocalDate.of(1993, 11, 5));
+
+        mockMvc.perform(put("/users/3?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateUserByUsernameHappyPath() throws Exception {
+        andUpdateUserByUsernameReturnedUser();
+
+        UpdateUserDTO requestDto = new UpdateUserDTO("someName", "some@email.com",
+                LocalDate.of(1990, 10, 20));
+
+        mockMvc.perform(put("/users/username/" + username + "?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateUserPasswordByIdHappyPath() throws Exception {
+        andUpdateUserPasswordByIdReturnedUser();
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("oldPassword", "newPassword");
+
+        mockMvc.perform(put("/users/3/password?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateUserPasswordByUsernameHappyPath() throws Exception {
+        andUpdateUserPasswordByUsernameReturnedUser();
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("oldPassword123", "newPassword321");
+
+        mockMvc.perform(put("/users/username/" + username + "/password" + "?requestUid=" + requestUid)
+                        .header(HttpHeaders.AUTHORIZATION, authToken)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -176,6 +232,22 @@ class UserBOControllerIntegrationTest extends AbstractBaseTest {
                 new Date().getTime(), null, null));
 
         when(this.userClient.findUserByUsername(anyString())).thenReturn(this.expectedUsers.getFirst());
+    }
+
+    private void andUpdateUserByIdReturnedUser() {
+        doNothing().when(this.userClient).updateUserById(anyLong(), any(UpdateUserDTO.class));
+    }
+
+    private void andUpdateUserByUsernameReturnedUser() {
+        doNothing().when(this.userClient).updateUserByUsername(anyString(), any(UpdateUserDTO.class));
+    }
+
+    private void andUpdateUserPasswordByIdReturnedUser() {
+        doNothing().when(this.userClient).updateUserPasswordById(anyLong(), any(UpdatePasswordDTO.class));
+    }
+
+    private void andUpdateUserPasswordByUsernameReturnedUser() {
+        doNothing().when(this.userClient).updateUserPasswordByUsername(anyString(), any(UpdatePasswordDTO.class));
     }
 
     private void andFindUserByIdThrowsNonRetryableException() {
