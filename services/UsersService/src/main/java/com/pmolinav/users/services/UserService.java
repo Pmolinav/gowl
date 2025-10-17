@@ -1,8 +1,11 @@
 package com.pmolinav.users.services;
 
+import com.pmolinav.users.auth.SpringSecurityConfig;
 import com.pmolinav.users.exceptions.InternalServerErrorException;
 import com.pmolinav.users.exceptions.NotFoundException;
 import com.pmolinav.users.repositories.UserRepository;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.mapper.UserMapper;
 import com.pmolinav.userslib.model.User;
@@ -13,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -87,6 +91,102 @@ public class UserService {
             throw e;
         } catch (Exception e) {
             logger.error("Unexpected error while searching user with username {} in repository.", username, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public User updateUserById(long id, UpdateUserDTO updateUserDTO) {
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException(String.format("User with id %s does not exist.", id)));
+            if (StringUtils.hasText(updateUserDTO.getName())) {
+                user.setName(updateUserDTO.getName());
+            }
+            if (StringUtils.hasText(updateUserDTO.getEmail())) {
+                user.setEmail(updateUserDTO.getEmail());
+            }
+            if (updateUserDTO.getBirthDate() != null) {
+                user.setBirthDate(updateUserDTO.getBirthDate());
+            }
+            logger.info("User with id {} updated successfully.", id);
+            return user;
+        } catch (NotFoundException e) {
+            logger.error("User with id {} was not found.", id, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating user in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public User updateUserByUsername(String username, UpdateUserDTO updateUserDTO) {
+        try {
+            User user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new NotFoundException(String.format("User with username %s does not exist.", username)));
+            if (StringUtils.hasText(updateUserDTO.getName())) {
+                user.setName(updateUserDTO.getName());
+            }
+            if (StringUtils.hasText(updateUserDTO.getEmail())) {
+                user.setEmail(updateUserDTO.getEmail());
+            }
+            if (updateUserDTO.getBirthDate() != null) {
+                user.setBirthDate(updateUserDTO.getBirthDate());
+            }
+            logger.info("User with username {} updated successfully.", username);
+            return user;
+        } catch (NotFoundException e) {
+            logger.error("User with username {} was not found.", username, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating user in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public User updateUserPasswordById(long id, UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException(String.format("User with id %s does not exist.", id)));
+
+            if (SpringSecurityConfig.passwordEncoder().matches(updatePasswordDTO.getOldPassword(), user.getPassword())) {
+                user.setPassword(SpringSecurityConfig.passwordEncoder().encode(updatePasswordDTO.getNewPassword()));
+            } else {
+                return null;
+            }
+
+            logger.info("User with id {} password updated successfully.", id);
+            return user;
+        } catch (NotFoundException e) {
+            logger.error("User with id {} was not found.", id, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating user password in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public User updateUserPasswordByUsername(String username, UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            User user = userRepository.findByUsername(username)
+                    .orElseThrow(() -> new NotFoundException(String.format("User with username %s does not exist.", username)));
+
+            if (SpringSecurityConfig.passwordEncoder().matches(updatePasswordDTO.getOldPassword(), user.getPassword())) {
+                user.setPassword(SpringSecurityConfig.passwordEncoder().encode(updatePasswordDTO.getNewPassword()));
+            } else {
+                return null;
+            }
+
+            logger.info("User with username {} password updated successfully.", username);
+            return user;
+        } catch (NotFoundException e) {
+            logger.error("User with username {} was not found.", username, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating user password in repository.", e);
             throw new InternalServerErrorException(e.getMessage());
         }
     }

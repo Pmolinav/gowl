@@ -147,6 +147,8 @@ public class UserBOController {
             if (result.hasErrors()) {
                 return validation(result);
             }
+
+            // Passwords will be encoded in service after matching.
             userBOService.updateUserPasswordById(id, updatePasswordDTO);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
@@ -168,6 +170,8 @@ public class UserBOController {
             if (result.hasErrors()) {
                 return validation(result);
             }
+
+            // Passwords will be encoded in service after matching.
             userBOService.updateUserPasswordByUsername(username, updatePasswordDTO);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {

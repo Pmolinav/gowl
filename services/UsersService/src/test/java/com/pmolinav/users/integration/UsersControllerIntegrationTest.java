@@ -2,10 +2,12 @@ package com.pmolinav.users.integration;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pmolinav.users.auth.SpringSecurityConfig;
 import com.pmolinav.users.repositories.UserRepository;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -22,6 +24,7 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.matchesPattern;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -58,7 +61,7 @@ class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
                 new TypeReference<List<User>>() {
                 });
 
-        Assertions.assertEquals(2, userResponseList.size());
+        assertEquals(2, userResponseList.size());
     }
 
     @Test
@@ -95,7 +98,159 @@ class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
                 new TypeReference<User>() {
                 });
 
-        Assertions.assertEquals(3L, userResponse.getUserId());
+        assertEquals(3L, userResponse.getUserId());
+    }
+
+    @Test
+    void findUserByUsernameNotFound() throws Exception {
+        mockMvc.perform(get("/users/username/nonExistingUser"))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void findUserByUsernameHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(12);
+
+        MvcResult result = mockMvc.perform(get("/users/username/someUser"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        User userResponse = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<User>() {
+                });
+
+        assertEquals(12L, userResponse.getUserId());
+    }
+
+    @Test
+    void updateUserByIdNotFound() throws Exception {
+        UpdateUserDTO requestDto = new UpdateUserDTO(null, "other@email.com",
+                LocalDate.of(2004, 5, 8));
+
+        mockMvc.perform(put("/users/798709")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateUserByIdHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(64);
+
+        UpdateUserDTO requestDto = new UpdateUserDTO("Updated name", "updated@email.com", null);
+
+        mockMvc.perform(put("/users/64")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+
+        User user = userRepository.findById(64L).orElse(new User());
+        assertEquals(requestDto.getName(), user.getName());
+        assertEquals(requestDto.getEmail(), user.getEmail());
+        assertNotNull(user.getBirthDate());
+    }
+
+    @Test
+    void updateUserByUsernameNotFound() throws Exception {
+        UpdateUserDTO requestDto = new UpdateUserDTO(null, "other@email.com",
+                LocalDate.of(2004, 5, 8));
+
+        mockMvc.perform(put("/users/username/invent")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateUserByUsernameHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(33);
+
+        UpdateUserDTO requestDto = new UpdateUserDTO("New name", "new@email.com",
+                LocalDate.of(2025, 10, 17));
+
+        mockMvc.perform(put("/users/username/someUser")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+
+        User user = userRepository.findById(33L).orElse(new User());
+        assertEquals(requestDto.getName(), user.getName());
+        assertEquals(requestDto.getEmail(), user.getEmail());
+        assertEquals(requestDto.getBirthDate(), user.getBirthDate());
+    }
+
+    @Test
+    void updateUserPasswordByIdBadRequest() throws Exception {
+        givenSomePreviouslyStoredDataWithId(179);
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("oldPass", "newPass");
+
+        mockMvc.perform(put("/users/179/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateUserPasswordByIdNotFound() throws Exception {
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("pass", "newPass");
+
+        mockMvc.perform(put("/users/7987029/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateUserPasswordByIdHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(87);
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("somePassword", "newPassword");
+
+        mockMvc.perform(put("/users/87/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+
+        User user = userRepository.findById(87L).orElse(new User());
+        assertTrue(SpringSecurityConfig.passwordEncoder().matches(requestDto.getNewPassword(), user.getPassword()));
+    }
+
+    @Test
+    void updateUserPasswordByUsernameBadRequest() throws Exception {
+        givenSomePreviouslyStoredDataWithId(664);
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("oldPass", "newPass");
+
+        mockMvc.perform(put("/users/username/someUser/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    void updateUserPasswordByUsernameNotFound() throws Exception {
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("pass", "newPass");
+
+        mockMvc.perform(put("/users/username/fake/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void updateUserPasswordByUsernameHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(88);
+
+        UpdatePasswordDTO requestDto = new UpdatePasswordDTO("somePassword", "newPassword");
+
+        mockMvc.perform(put("/users/username/someUser/password")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+
+        User user = userRepository.findById(88L).orElse(new User());
+        assertTrue(SpringSecurityConfig.passwordEncoder().matches(requestDto.getNewPassword(), user.getPassword()));
     }
 
     @Test

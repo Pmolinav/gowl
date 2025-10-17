@@ -11,6 +11,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 /**
  * Docker Environment is needed to run integration tests.
  **/
@@ -62,7 +64,7 @@ public abstract class AbstractContainerBaseTest {
                 statement.executeUpdate(deleteUsersQuery);
             }
         } catch (Exception e) {
-            Assertions.fail();
+            fail();
         }
     }
 
@@ -78,12 +80,16 @@ public abstract class AbstractContainerBaseTest {
                 String insertRoleAdminQuery = "INSERT INTO roles (role_id, name) VALUES (" + 3 + ", 'ROLE_ADMIN');";
                 statement.executeUpdate(insertRoleAdminQuery);
 
-                String insertUserQuery = "INSERT INTO users (user_id, username, password, name, email, creation_date, modification_date) " +
-                        "VALUES (" + idUser + ", 'someUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'John Doe', 'john@example.com', '12345', NULL);";
+                String insertUserQuery = "INSERT INTO users (user_id, username, password, name, email, birth_date, creation_date, modification_date) " +
+                        "VALUES (" + idUser + ", 'someUser', '" +
+                        SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', " +
+                        "'John Doe', 'john@example.com', '1997-06-09', '12345', NULL);";
                 statement.executeUpdate(insertUserQuery);
 
-                String insertUserQuery2 = "INSERT INTO users (user_id, username, password, name, email, creation_date, modification_date) " +
-                        "VALUES (" + (idUser + 1) + ", 'otherUser', '" + SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', 'Jane Smith', 'jane@example.com', '123456', '1234567');";
+                String insertUserQuery2 = "INSERT INTO users (user_id, username, password, name, email, birth_date, creation_date, modification_date) " +
+                        "VALUES (" + (idUser + 1) + ", 'otherUser', '" +
+                        SpringSecurityConfig.passwordEncoder().encode("somePassword") + "', " +
+                        "'Jane Smith', 'jane@example.com', '1998-12-03', '123456', '1234567');";
                 statement.executeUpdate(insertUserQuery2);
 
                 String insertUserRoleQuery = "INSERT INTO users_roles (user_id, role_id) VALUES (" + idUser + ", " + 3 + ");";
@@ -93,7 +99,7 @@ public abstract class AbstractContainerBaseTest {
                 statement.executeUpdate(insertUserRoleQuery2);
             }
         } catch (Exception e) {
-            Assertions.fail();
+            fail();
         }
     }
 }

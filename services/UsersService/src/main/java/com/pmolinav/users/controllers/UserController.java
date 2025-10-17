@@ -1,8 +1,11 @@
 package com.pmolinav.users.controllers;
 
+import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.InternalServerErrorException;
 import com.pmolinav.users.exceptions.NotFoundException;
 import com.pmolinav.users.services.UserService;
+import com.pmolinav.userslib.dto.UpdatePasswordDTO;
+import com.pmolinav.userslib.dto.UpdateUserDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,32 +78,63 @@ public class UserController {
         }
     }
 
-// TODO: Complete
-//    @PutMapping("{id}")
-//    @Operation(summary = "Update a specific user", description = "Bearer token is required to authorize users.")
-//    public ResponseEntity<User> updateUser(@RequestParam String requestUid, @PathVariable long id, @RequestBody UserDTO userDetails) {
-//        String message = validateMandatoryFieldsInRequest(userDetails);
-//        try {
-//            User updatedUser = userService.findById(id);
-//
-//            if (!StringUtils.hasText(message)) {
-//                updatedUser.setName(userDetails.getName());
-//                updatedUser.setDescription(userDetails.getDescription());
-//                updatedUser.setPrice(userDetails.getPrice());
-//                if (userDetails.getType() != null) {
-//                    updatedUser.setType(userDetails.getType().name());
-//                }
-//                userService.createUser(updatedUser);
-//                return ResponseEntity.ok(updatedUser);
-//            } else {
-//                return ResponseEntity.badRequest().build();
-//            }
-//        } catch (NotFoundException e) {
-//            return ResponseEntity.notFound().build();
-//        } catch (UnexpectedException e) {
-//            return ResponseEntity.status(e.getStatusCode()).build();
-//        }
-//    }
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateUserById(@PathVariable long id,
+                                            @RequestBody UpdateUserDTO updateUserDTO) {
+        try {
+            userService.updateUserById(id, updateUserDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}")
+    public ResponseEntity<?> updateUserByUsername(@PathVariable String username,
+                                                  @RequestBody UpdateUserDTO updateUserDTO) {
+        try {
+            userService.updateUserByUsername(username, updateUserDTO);
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/{id}/password")
+    public ResponseEntity<?> updateUserPasswordById(@PathVariable long id,
+                                                    @RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            User user = userService.updateUserPasswordById(id, updatePasswordDTO);
+            if (user == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/username/{username}/password")
+    public ResponseEntity<?> updateUserPasswordByUsername(@PathVariable String username,
+                                                          @RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        try {
+            User user = userService.updateUserPasswordByUsername(username, updatePasswordDTO);
+            if (user == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteUser(@PathVariable long id) {
