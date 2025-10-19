@@ -1,6 +1,7 @@
 package com.pmolinav.userslib.dto;
 
 import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -18,6 +19,7 @@ public class UpdateUserDTO {
     @Email(message = "Invalid email format.")
     private String email;
 
+    @Past
     private LocalDate birthDate;
 
 }

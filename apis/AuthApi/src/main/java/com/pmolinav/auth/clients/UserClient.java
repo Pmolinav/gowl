@@ -7,7 +7,7 @@ import com.pmolinav.userslib.model.User;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "UserService", url = "usersservice:8001/users")
+@FeignClient(name = "UserClient", url = "usersservice:8001/users")
 public interface UserClient {
 
     @PostMapping

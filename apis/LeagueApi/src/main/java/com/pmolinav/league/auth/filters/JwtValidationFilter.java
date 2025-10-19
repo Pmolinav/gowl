@@ -43,7 +43,8 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             String token = header.replace("Bearer ", "");
             UsernamePasswordAuthenticationToken authentication = new TokenUtils(
                     this.tokenConfig.getSecret(),
-                    this.tokenConfig.getValiditySeconds()).getAuthentication(token);
+                    this.tokenConfig.getValiditySeconds(),
+                    this.tokenConfig.getRefreshValiditySeconds()).getAuthentication(token);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);

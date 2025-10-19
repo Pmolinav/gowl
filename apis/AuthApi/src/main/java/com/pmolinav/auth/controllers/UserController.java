@@ -29,12 +29,11 @@ import java.util.Map;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("users")
-@Tag(name = "2. Users", description = "The Users Controller. Required to create an user. A valid token is granted and allows valid users to call other controllers with permissions.")
+@Tag(name = "4. Users", description = "The Users Controller. Required to create an user. A valid token is granted and allows valid users to call other controllers with permissions.")
 public class UserController {
 
     @Autowired
     private UserService userService;
-
 
     @PostMapping
     @Operation(summary = "Create a new user", description = "Bearer token is required to authorize users.")

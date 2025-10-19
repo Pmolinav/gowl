@@ -6,7 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.scheduling.annotation.EnableAsync;
 
+@EnableAsync
 @EnableFeignClients(basePackages = "com.pmolinav.auth.clients")
 @EnableConfigurationProperties(TokenConfig.class)
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class},

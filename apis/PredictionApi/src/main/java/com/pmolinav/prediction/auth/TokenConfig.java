@@ -9,6 +9,7 @@ public class TokenConfig {
 
     private String secret;
     private Long validitySeconds;
+    private Long refreshValiditySeconds;
 
     public String getSecret() {
         return secret;
@@ -24,6 +25,14 @@ public class TokenConfig {
 
     public void setValiditySeconds(Long validitySeconds) {
         this.validitySeconds = validitySeconds;
+    }
+
+    public Long getRefreshValiditySeconds() {
+        return refreshValiditySeconds;
+    }
+
+    public void setRefreshValiditySeconds(Long refreshValiditySeconds) {
+        this.refreshValiditySeconds = refreshValiditySeconds;
     }
 }
 

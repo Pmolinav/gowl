@@ -37,7 +37,8 @@ public abstract class AbstractBaseTest {
 
     @BeforeEach
     public void givenValidToken() throws Exception {
-        authToken = "Bearer " + new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY", 12345L)
+        authToken = "Bearer " + new TokenUtils("c7eD5hYnJnVr3uFTh5WTG2XKj6qbBszvuztf8WbCcJY",
+                12345L, 1234567L)
                 .createToken(username, Collections.singletonList(
                         new SimpleGrantedAuthority("ROLE_ADMIN")));
     }

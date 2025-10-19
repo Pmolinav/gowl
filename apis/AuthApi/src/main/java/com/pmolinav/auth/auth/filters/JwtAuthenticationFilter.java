@@ -27,6 +27,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
 
+
     public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
         this.authenticationManager = authenticationManager;
         this.tokenConfig = tokenConfig;
@@ -64,13 +65,20 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         Collection<? extends GrantedAuthority> roles = authResult.getAuthorities();
 
-        String token = new TokenUtils(this.tokenConfig.getSecret(),
-                this.tokenConfig.getValiditySeconds()).createToken(username, roles);
+        TokenUtils tokenUtils = new TokenUtils(
+                this.tokenConfig.getSecret(),
+                this.tokenConfig.getValiditySeconds(),
+                this.tokenConfig.getRefreshValiditySeconds()
+        );
 
-        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + token);
+        String accessToken = tokenUtils.createToken(username, roles);
+        String refreshToken = tokenUtils.createRefreshToken(username);
+
+        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + accessToken);
 
         Map<String, Object> body = new HashMap<>();
-        body.put("token", token);
+        body.put("token", accessToken);
+        body.put("refreshToken", refreshToken);
         body.put("message", String.format("Welcome %s, init session was successful!", username));
         body.put("username", username);
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));

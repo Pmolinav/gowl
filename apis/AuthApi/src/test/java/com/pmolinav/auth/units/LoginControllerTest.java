@@ -3,6 +3,7 @@ package com.pmolinav.auth.units;
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.models.request.Role;
 import com.pmolinav.userslib.dto.UserDTO;
+import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -78,10 +79,11 @@ class LoginControllerTest extends BaseUnitTest {
     }
 
     private void andLoginsIsCalledInController() {
+        HttpServletRequest request = mock(HttpServletRequest.class);
         UserDTO user = new UserDTO();
         user.setUsername("someUsername");
         user.setPassword("somePassword");
-        result = loginController.login(user);
+        result = loginController.login(user, request);
     }
 
     private void thenVerifyAuthenticationHasBeenCalledInManager() {

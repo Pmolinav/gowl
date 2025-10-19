@@ -13,5 +13,6 @@ public class TokenConfig {
 
     private String secret;
     private Long validitySeconds;
+    private Long refreshValiditySeconds;
 
 }
