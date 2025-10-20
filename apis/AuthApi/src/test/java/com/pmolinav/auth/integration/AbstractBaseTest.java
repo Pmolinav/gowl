@@ -4,12 +4,12 @@ package com.pmolinav.auth.integration;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.auth.SpringSecurityConfig;
 import com.pmolinav.auth.clients.UserClient;
+import com.pmolinav.auth.clients.UserTokenClient;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.model.Role;
 import com.pmolinav.userslib.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -35,10 +36,13 @@ public abstract class AbstractBaseTest {
     protected MockMvc mockMvc;
     @MockitoBean
     protected UserClient userClient;
+    @MockitoBean
+    protected UserTokenClient userTokenClient;
     @Autowired
     protected final ObjectMapper objectMapper = new ObjectMapper();
     private UserDTO request;
     protected static String authToken;
+    protected static String refreshToken;
 
     @BeforeEach
     public void mockLoginSuccessfully() throws Exception {
@@ -51,7 +55,10 @@ public abstract class AbstractBaseTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        authToken = result.getResponse().getHeader(HttpHeaders.AUTHORIZATION);
+        Map<String, String> body = new ObjectMapper().readValue(
+                result.getResponse().getContentAsString(), Map.class);
+        authToken = "Bearer " + body.get("token");
+        refreshToken = body.get("refreshToken");
     }
 
     protected void giveSomeValidRequest() {

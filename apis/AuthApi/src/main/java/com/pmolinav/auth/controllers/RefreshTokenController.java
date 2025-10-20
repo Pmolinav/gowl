@@ -24,7 +24,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("refresh")
-@Tag(name = "3. Refresh Token", description = "The Refresh Token Controller. The refresh token is refreshed and allows valid users to continue with their sessions and call other controllers with permissions.")
+@Tag(name = "3. Refresh Token", description = "The Refresh Token Controller. The token is refreshed and allows valid users to continue with their sessions and call other controllers with permissions.")
 public class RefreshTokenController {
 
     @Autowired

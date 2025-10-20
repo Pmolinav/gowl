@@ -5,7 +5,6 @@ import com.pmolinav.auth.models.request.Role;
 import com.pmolinav.userslib.dto.UserDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import org.junit.jupiter.api.Test;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,9 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -29,11 +30,11 @@ class LoginControllerTest extends BaseUnitTest {
     void loginHappyPath() {
         returnValidTokenConfigValues();
         doNothingWhenAuthenticateIsCalled();
+        doNothingWhenUserTokenServiceIsCalled();
         andLoginsIsCalledInController();
         thenVerifyAuthenticationHasBeenCalledInManager();
         thenReceivedStatusCodeIs(HttpStatus.OK);
-        thenReceivedResponseBodyIsEmpty();
-        thenReceivedResponseAuthHeaderMatchesWithToken();
+        thenReceivedResponseBodyContains("Welcome someUsername");
     }
 
     @Test
@@ -42,7 +43,6 @@ class LoginControllerTest extends BaseUnitTest {
         andLoginsIsCalledInController();
         thenVerifyAuthenticationHasBeenCalledInManager();
         thenReceivedStatusCodeIs(HttpStatus.UNAUTHORIZED);
-        thenReceivedResponseBodyIsEmpty();
     }
 
     @Test
@@ -51,7 +51,6 @@ class LoginControllerTest extends BaseUnitTest {
         andLoginsIsCalledInController();
         thenVerifyAuthenticationHasBeenCalledInManager();
         thenReceivedStatusCodeIs(HttpStatus.INTERNAL_SERVER_ERROR);
-        thenReceivedResponseBodyIsEmpty();
     }
 
     private void returnValidTokenConfigValues() {
@@ -66,6 +65,13 @@ class LoginControllerTest extends BaseUnitTest {
                 Collections.singletonList(new SimpleGrantedAuthority(Role.ROLE_ADMIN.name()))
         );
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(auth);
+    }
+
+    private void doNothingWhenUserTokenServiceIsCalled() {
+        doNothing()
+                .when(userTokenAsyncServiceMock)
+                .saveUserTokenAsync(anyString(), anyString(), nullable(String.class),
+                        nullable(String.class), any(LocalDateTime.class));
     }
 
     private void whenAuthenticateThrowsBadCredentialsException() {
@@ -94,13 +100,9 @@ class LoginControllerTest extends BaseUnitTest {
         assertEquals(httpStatus, result.getStatusCode());
     }
 
-    private void thenReceivedResponseBodyIsEmpty() {
+    private void thenReceivedResponseBodyContains(String value) {
         assertNotNull(result);
-        assertNull(result.getBody());
-    }
-
-    private void thenReceivedResponseAuthHeaderMatchesWithToken() {
-        String bearerTokenRegex = "^Bearer\\s[a-zA-Z0-9-_.]+$";
-        assertTrue(String.valueOf(result.getHeaders().get(HttpHeaders.AUTHORIZATION).get(0)).matches(bearerTokenRegex));
+        assertNotNull(result.getBody());
+        assertTrue(result.getBody().toString().contains(value));
     }
 }

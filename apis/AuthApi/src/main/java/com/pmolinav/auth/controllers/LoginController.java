@@ -61,7 +61,7 @@ public class LoginController {
 
             SecurityContextHolder.getContext().setAuthentication(authResult);
 
-            String username = ((org.springframework.security.core.userdetails.User) authResult.getPrincipal()).getUsername();
+            String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
             TokenUtils tokenUtils = new TokenUtils(
                     tokenConfig.getSecret(),
@@ -76,7 +76,7 @@ public class LoginController {
             LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(tokenConfig.getRefreshValiditySeconds() / 1000);
             userTokenAsyncService.saveUserTokenAsync(username, refreshToken, userAgent, ipAddress, expiresAt);
 
-            Map<String, Object> response = new HashMap<>();
+            Map<String, String> response = new HashMap<>();
             response.put("token", accessToken);
             response.put("refreshToken", refreshToken);
             response.put("message", String.format("Welcome %s, init session was successful!", username));
