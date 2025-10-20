@@ -2,7 +2,9 @@ package com.pmolinav.userslib.mapper;
 
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
+import com.pmolinav.userslib.dto.UserTokenDTO;
 import com.pmolinav.userslib.model.Role;
+import com.pmolinav.userslib.model.Token;
 import com.pmolinav.userslib.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -27,6 +29,12 @@ public interface UserMapper {
     UserDTO userPublicDTOToUserDTO(UserPublicDTO user);
 
     UserPublicDTO userDTOToUserPublicDTO(UserDTO user);
+
+    UserTokenDTO tokenEntityToDTO(Token token);
+
+    @Mapping(target = "creationDate", expression = "java(System.currentTimeMillis())")
+    @Mapping(target = "modificationDate", expression = "java(System.currentTimeMillis())")
+    Token userTokenDTOToEntity(UserTokenDTO userToken);
 
     default boolean hasAdminRole(List<Role> roles) {
         return roles != null && roles.stream()

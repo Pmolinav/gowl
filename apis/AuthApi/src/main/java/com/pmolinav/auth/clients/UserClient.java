@@ -26,10 +26,10 @@ public interface UserClient {
     void updateUserPasswordByUsername(@PathVariable String username, @RequestBody UpdatePasswordDTO updatePasswordDTO);
 
     @PutMapping("/email/{email}/password")
-    void updateUserPasswordByEmail(@PathVariable String email, String newPassword);
+    void updateUserPasswordByEmail(@PathVariable String email, @RequestParam String newPassword);
 
-    @GetMapping("/users/exists")
-    Boolean existsByEmail(@RequestParam String email);
+    @GetMapping("/exists/email/{email}")
+    Boolean existsByEmail(@PathVariable String email);
 
     @DeleteMapping("/{id}")
     void deleteUser(@PathVariable long id);

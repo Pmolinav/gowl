@@ -123,6 +123,36 @@ class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
     }
 
     @Test
+    void existsUserByEmailFalse() throws Exception {
+        givenSomePreviouslyStoredDataWithId(399);
+
+        MvcResult result = mockMvc.perform(get("/users/exists/email/" + "fake@email.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Boolean response = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<Boolean>() {
+                });
+
+        assertFalse(response);
+    }
+
+    @Test
+    void existsUserByEmailHappyPath() throws Exception {
+        givenSomePreviouslyStoredDataWithId(399);
+
+        MvcResult result = mockMvc.perform(get("/users/exists/email/" + "jane@example.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Boolean response = objectMapper.readValue(result.getResponse().getContentAsString(),
+                new TypeReference<Boolean>() {
+                });
+
+        assertTrue(response);
+    }
+
+    @Test
     void updateUserByIdNotFound() throws Exception {
         UpdateUserDTO requestDto = new UpdateUserDTO(null, "other@email.com",
                 LocalDate.of(2004, 5, 8));
@@ -251,6 +281,15 @@ class UsersControllerIntegrationTest extends AbstractContainerBaseTest {
 
         User user = userRepository.findById(88L).orElse(new User());
         assertTrue(SpringSecurityConfig.passwordEncoder().matches(requestDto.getNewPassword(), user.getPassword()));
+    }
+
+    @Test
+    void updateUserPasswordByEmailBadRequest() throws Exception {
+        givenSomePreviouslyStoredDataWithId(623);
+
+        mockMvc.perform(put("/users/email/john@example.com/password?newPassword=newPass")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
     @Test

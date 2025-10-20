@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient(name = "UserTokenClient", url = "usersservice:8001/users")
+@FeignClient(name = "UserTokenClient", url = "usersservice:8001/tokens")
 public interface UserTokenClient {
 
-    @PostMapping("/tokens")
+    @PostMapping
     void saveUserToken(@RequestBody UserTokenDTO userToken);
 
-    @PostMapping("/tokens/invalidate")
+    @PostMapping("/invalidate")
     void invalidateToken(@RequestBody LogoutDTO logoutDTO);
 
-    @DeleteMapping("/tokens/invalidate/all")
+    @DeleteMapping("/invalidate/all")
     void invalidateAllTokens(@RequestParam String username);
 }

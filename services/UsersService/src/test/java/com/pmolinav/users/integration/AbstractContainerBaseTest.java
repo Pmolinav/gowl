@@ -1,7 +1,6 @@
 package com.pmolinav.users.integration;
 
 import com.pmolinav.users.auth.SpringSecurityConfig;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.context.ActiveProfiles;
@@ -62,6 +61,9 @@ public abstract class AbstractContainerBaseTest {
 
                 String deleteUsersQuery = "DELETE FROM users;";
                 statement.executeUpdate(deleteUsersQuery);
+
+                String deleteTokensQuery = "DELETE FROM tokens;";
+                statement.executeUpdate(deleteTokensQuery);
             }
         } catch (Exception e) {
             fail();
@@ -97,6 +99,26 @@ public abstract class AbstractContainerBaseTest {
 
                 String insertUserRoleQuery2 = "INSERT INTO users_roles (user_id, role_id) VALUES (" + (idUser + 1) + ", " + 3 + ");";
                 statement.executeUpdate(insertUserRoleQuery2);
+            }
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    protected void givenSomePreviouslyStoredTokenDataWithId(long idToken) {
+        try (Connection connection = DriverManager.getConnection(jdbcUrl, username, password)) {
+            try (Statement statement = connection.createStatement()) {
+                String insertTokenQuery = "INSERT INTO tokens (id, username, refresh_token, device_info, ip_address, " +
+                        "expires_at, creation_date, modification_date) " +
+                        "VALUES (" + idToken + ", 'someUser', 'someToken', " +
+                        "'Mozilla Agent', '192.168.1.11', '2028-06-09', '12345', NULL);";
+                statement.executeUpdate(insertTokenQuery);
+
+                String insertTokenQuery2 = "INSERT INTO tokens (id, username, refresh_token, device_info, ip_address, " +
+                        "expires_at, creation_date, modification_date) " +
+                        "VALUES (" + (idToken + 1) + ", 'someUser', 'otherToken', " +
+                        "'Chrome Agent', '192.168.1.11', '2028-06-09', '12345', NULL);";
+                statement.executeUpdate(insertTokenQuery2);
             }
         } catch (Exception e) {
             fail();

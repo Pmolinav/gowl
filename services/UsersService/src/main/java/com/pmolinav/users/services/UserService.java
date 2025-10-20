@@ -95,6 +95,16 @@ public class UserService {
         }
     }
 
+    @Transactional(readOnly = true)
+    public boolean existsByEmail(String email) {
+        try {
+            return userRepository.existsByEmail(email);
+        } catch (Exception e) {
+            logger.error("Unexpected error while checking if user exists by email {} in repository.", email, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     @Transactional
     public User updateUserById(long id, UpdateUserDTO updateUserDTO) {
         try {
@@ -184,6 +194,25 @@ public class UserService {
             return user;
         } catch (NotFoundException e) {
             logger.error("User with username {} was not found.", username, e);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while updating user password in repository.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
+    @Transactional
+    public User updateUserPasswordByEmail(String email, String newPassword) {
+        try {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new NotFoundException(String.format("User with email %s does not exist.", email)));
+
+            user.setPassword(SpringSecurityConfig.passwordEncoder().encode(newPassword));
+
+            logger.info("User with email {} password updated successfully.", email);
+            return user;
+        } catch (NotFoundException e) {
+            logger.error("User with email {} was not found.", email, e);
             throw e;
         } catch (Exception e) {
             logger.error("Unexpected error while updating user password in repository.", e);

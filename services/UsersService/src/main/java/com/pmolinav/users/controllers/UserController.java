@@ -78,6 +78,18 @@ public class UserController {
         }
     }
 
+    @GetMapping("exists/email/{email}")
+    public ResponseEntity<Boolean> existsByEmail(@PathVariable String email) {
+        try {
+            boolean exists = userService.existsByEmail(email);
+            return ResponseEntity.ok(exists);
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUserById(@PathVariable long id,
                                             @RequestBody UpdateUserDTO updateUserDTO) {
@@ -128,6 +140,19 @@ public class UserController {
             if (user == null) {
                 return ResponseEntity.badRequest().build();
             }
+            return ResponseEntity.ok().build();
+        } catch (NotFoundException e) {
+            return ResponseEntity.notFound().build();
+        } catch (CustomStatusException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PutMapping("/email/{email}/password")
+    public ResponseEntity<?> updateUserPasswordByEmail(@PathVariable String email,
+                                                       @RequestParam String newPassword) {
+        try {
+            userService.updateUserPasswordByEmail(email, newPassword);
             return ResponseEntity.ok().build();
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
