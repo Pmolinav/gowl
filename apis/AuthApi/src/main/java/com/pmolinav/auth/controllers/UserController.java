@@ -29,7 +29,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("users")
-@Tag(name = "4. Users", description = "The Users Controller. Required to create an user. A valid token is granted and allows valid users to call other controllers with permissions.")
+@Tag(name = "6. Users", description = "The Users Controller. Required to create an user. A valid token is granted and allows valid users to call other controllers with permissions.")
 public class UserController {
 
     @Autowired
@@ -50,7 +50,7 @@ public class UserController {
             Long createdUserId = userService.createUser(userDTO);
             return new ResponseEntity<>(createdUserId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -63,7 +63,7 @@ public class UserController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -81,7 +81,7 @@ public class UserController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -106,7 +106,7 @@ public class UserController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -131,7 +131,7 @@ public class UserController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 
@@ -144,7 +144,7 @@ public class UserController {
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getStatusCode());
         }
     }
 

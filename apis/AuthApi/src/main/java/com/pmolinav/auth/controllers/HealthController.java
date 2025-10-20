@@ -29,7 +29,6 @@ public class HealthController {
             return ResponseEntity.ok("UP");
         } catch (Exception e) {
             return new ResponseEntity<>("KO", HttpStatus.INTERNAL_SERVER_ERROR);
-
         }
     }
 }
