@@ -4,8 +4,10 @@ import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.PredictionsDatabaseConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
+import com.pmolinav.userslib.dto.LogoutDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
+import com.pmolinav.userslib.model.User;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
@@ -21,8 +23,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 public class AuthApiStepDefsTest extends BaseSystemTest {
 
@@ -73,10 +74,12 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             userRequest.setUsername(user);
             userRequest.setPassword(password);
 
-            executePost(localURL + "/login",
-                    objectMapper.writeValueAsString(userRequest));
+            executePost(localURL + "/login", objectMapper.writeValueAsString(userRequest));
 
-            authToken = authResponse.getHeader(HttpHeaders.AUTHORIZATION);
+            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+
+            authToken = responseMap.get("token");
+            refreshToken = responseMap.get("refreshToken");
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -123,6 +126,94 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         executeDelete(localURL + "/users/" + lastUser.getUserId());
     }
 
+    @When("^last user tries to refresh token$")
+    public void anUserTriesToRefreshToken() {
+        try {
+            executePost(localURL + "/refresh",
+                    objectMapper.writeValueAsString(Map.of("refreshToken", refreshToken)));
+
+            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+
+            authToken = responseMap.get("token");
+            refreshToken = responseMap.get("refreshToken");
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) tries to log out")
+    public void anUserTriesToLogOut(String user) {
+        try {
+            executePost(localURL + "/auth/logout",
+                    objectMapper.writeValueAsString(new LogoutDTO(user, refreshToken)));
+
+            authToken = authResponse.getHeader(HttpHeaders.AUTHORIZATION);
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) tries to invalidate all tokens")
+    public void anUserTriesToInvalidateTokens(String user) {
+        try {
+            executeDelete(localURL + "/auth/logout/all", Map.of("username", user));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) requests verification code$")
+    public void anUserRequestsVerificationCode(String username) {
+        try {
+            User user = usersDbConnector.getUserByUsername(username);
+
+            executePost(localURL + "/auth/send-code", null, Map.of("email", user.getEmail()));
+
+            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+
+            assertNotNull(responseMap.get("message"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) tries to validate verification code$")
+    public void anUserTriesToValidateCode(String username) {
+        try {
+            User user = usersDbConnector.getUserByUsername(username);
+
+            executePost(localURL + "/auth/validate-code", null,
+                    Map.of("email", user.getEmail(), "code", "XXXX"));
+
+            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+
+            assertNotNull(responseMap.get("message"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) tries to update password with OTP$")
+    public void anUserTriesToUpdatePasswordByEmail(String username) {
+        try {
+            User user = usersDbConnector.getUserByUsername(username);
+
+            executePut(localURL + "/auth/update-password",
+                    Map.of("email", user.getEmail(), "code", "XXXX"));
+
+            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+
+            assertNotNull(responseMap.get("message"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
 
     @Then("^received status code is (\\d+)$")
     public void receivedStatusCodeIs(int expectedStatusCode) throws IOException {

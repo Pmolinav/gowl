@@ -104,3 +104,34 @@ Feature: AuthApi
     Then an user with username newUser has been stored successfully
     When try to delete an user by userId with public endpoint
     Then received status code is 403
+
+#    TOKENS
+
+  Scenario: An user logs in and then refreshes token successfully
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
+    Then refresh token has been stored successfully for user someUser
+    When last user tries to refresh token
+
+  Scenario: An user logs in and then logout
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
+    When an user with username someUser tries to log out
+    Then refresh token has been removed for user someUser
+
+  Scenario: An user logs in and then invalidates all tokens
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
+    When an user with username someUser tries to invalidate all tokens
+    Then all tokens has been removed for user someUser
+
+#    FORGOT PASSWORD
+
+  Scenario: An user logs in and then refreshes token successfully
+    When an user with username someUser and password somePassword tries to log in
+    Then received status code is 200
+    When an user with username someUser tries to log out
+    Then refresh token has been removed for user someUser
+    When an user with username someUser requests verification code
+    When an user with username someUser tries to validate verification code
+    When an user with username someUser tries to update password with OTP

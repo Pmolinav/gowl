@@ -3,12 +3,14 @@ package com.pmolinav.steps;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.pmolinav.userslib.dto.UserDTO;
+import com.pmolinav.userslib.model.Token;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.util.CollectionUtils;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -117,6 +119,41 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         try {
             lastUser = usersDbConnector.getUserByUsername(username);
             assertNotNull(lastUser);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Then("refresh token has been stored successfully for user (.*)$")
+    public void refreshTokenHasBeenStoredForUser(String username) {
+        try {
+            List<Token> tokens = usersDbConnector.getTokensByUsername(username);
+            assertFalse(CollectionUtils.isEmpty(tokens));
+            assertTrue(tokens.stream().anyMatch(token -> token.getRefreshToken().equals(refreshToken)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Then("refresh token has been removed for user (.*)$")
+    public void refreshTokenHasBeenRemovedForUser(String username) {
+        try {
+            List<Token> tokens = usersDbConnector.getTokensByUsername(username);
+            assertFalse(CollectionUtils.isEmpty(tokens));
+            assertFalse(tokens.stream().anyMatch(token -> token.getRefreshToken().equals(refreshToken)));
+        } catch (SQLException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @Then("all tokens has been removed for user (.*)$")
+    public void allTokensHaveBeenRemovedForUser(String username) {
+        try {
+            List<Token> tokens = usersDbConnector.getTokensByUsername(username);
+            assertTrue(CollectionUtils.isEmpty(tokens));
         } catch (SQLException e) {
             e.printStackTrace();
             fail();

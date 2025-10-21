@@ -1,6 +1,7 @@
 package com.pmolinav.database;
 
 import com.pmolinav.userslib.model.Role;
+import com.pmolinav.userslib.model.Token;
 import com.pmolinav.userslib.model.User;
 import org.springframework.util.CollectionUtils;
 
@@ -165,6 +166,37 @@ public class UsersDatabaseConnector {
         }
     }
 
+    /*** TOKENS  ***/
+
+    public List<Token> getTokensByUsername(String username) throws SQLException {
+        String query = "SELECT username, refresh_token, device_info, ip_address, expires_at, creation_date, modification_date" +
+                " FROM tokens WHERE username = ?";
+
+        List<Token> result = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // Set query params.
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            // Extract data from result set.
+            if (resultSet.next()) {
+                String dbUsername = resultSet.getString("username");
+                String dbToken = resultSet.getString("refresh_token");
+                String dbDevice = resultSet.getString("device_info");
+                String dbIp = resultSet.getString("ip_address");
+                Date dbExpiresAt = resultSet.getDate("expires_at");
+                Long dbCreationDate = resultSet.getLong("creation_date");
+                Long dbModificationDate = resultSet.getLong("modification_date");
+
+                result.add(new Token(dbUsername, dbToken, dbDevice, dbIp, dbCreationDate, dbModificationDate,
+                        dbExpiresAt.toLocalDate().atStartOfDay()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to get user.", e);
+        }
+        return result;
+    }
+
     public void deleteUsersRoles() throws SQLException {
         String query = "DELETE FROM users_roles";
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
@@ -185,11 +217,22 @@ public class UsersDatabaseConnector {
         }
     }
 
+    public void deleteTokens() throws SQLException {
+        String query = "DELETE FROM tokens";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new SQLException("Unexpected error occurred while trying to delete tokens.", e);
+        }
+    }
+
     public void deleteAll() throws SQLException {
         try {
             deleteUsersRoles();
             deleteRoles();
             deleteUsers();
+            deleteTokens();
         } catch (SQLException e) {
             e.printStackTrace();
             throw new SQLException("Unexpected error occurred while trying to delete all users data.", e);

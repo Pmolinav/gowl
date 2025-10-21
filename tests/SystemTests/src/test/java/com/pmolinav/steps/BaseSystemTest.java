@@ -1,7 +1,6 @@
 package com.pmolinav.steps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
@@ -42,6 +41,7 @@ public class BaseSystemTest {
     protected static ResponseResults authResponse = null;
     protected static ResponseResults latestResponse = null;
     protected static String authToken;
+    protected static String refreshToken;
     // Users
     protected static User lastUser;
     // Leagues
@@ -125,10 +125,14 @@ public class BaseSystemTest {
     }
 
     protected void executePost(String url, String body) {
-        executePost(url, body, UUID.randomUUID().toString());
+        executePost(url, body, null, UUID.randomUUID().toString());
     }
 
-    protected void executePost(String url, String body, String requestUid) {
+    protected void executePost(String url, String body, Map<String, Object> queryParams) {
+        executePost(url, body, queryParams, UUID.randomUUID().toString());
+    }
+
+    protected void executePost(String url, String body, Map<String, Object> queryParams, String requestUid) {
         final Map<String, String> headers = new HashMap<>();
         headers.put(HttpHeaders.CONTENT_TYPE, "application/json");
         headers.put(HttpHeaders.ACCEPT, "application/json");
@@ -143,7 +147,7 @@ public class BaseSystemTest {
 
         restTemplate.setErrorHandler(errorHandler);
         latestResponse = restTemplate
-                .execute(url + "?requestUid=" + requestUid, HttpMethod.POST, requestCallback, response -> {
+                .execute(url + "?requestUid=" + requestUid + composeQueryParams(queryParams), HttpMethod.POST, requestCallback, response -> {
                     if (errorHandler.hasError) {
                         return (errorHandler.getResult());
                     } else {
