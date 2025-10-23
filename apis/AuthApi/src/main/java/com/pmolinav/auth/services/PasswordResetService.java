@@ -13,6 +13,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -34,8 +35,13 @@ public class PasswordResetService {
     @Value("${reset.password.rate-limit.window-minutes}")
     private long attemptWindowMinutes;
 
-    private static final String PREFIX = "verification-code:";
-    private static final String ATTEMPT_PREFIX = "password-reset-attempts:";
+    @Value("${reset.password.token.expiration-minutes}")
+    private long tokenExpirationMinutes;
+
+    private static final String CODE_PREFIX = "verification-code:";
+    private static final String TOKEN_PREFIX = "reset-token:";
+    private static final String ATTEMPTS_PREFIX = "email-attempts:";
+    private static final String CODE_ATTEMPTS_PREFIX = "code-attempts:";
 
     @Autowired
     public PasswordResetService(UserClient userClient, StringRedisTemplate redisTemplate, JavaMailSender mailSender) {
@@ -45,7 +51,7 @@ public class PasswordResetService {
     }
 
     public void sendResetCode(String email, String ipAddress) {
-        if (isRateLimited(email) || isRateLimited(ipAddress)) {
+        if (isRateLimited(ATTEMPTS_PREFIX, email) || isRateLimited(ATTEMPTS_PREFIX, ipAddress)) {
             throw new CustomStatusException("Too many requests. Try again later.", HttpStatus.TOO_MANY_REQUESTS);
         }
 
@@ -55,26 +61,53 @@ public class PasswordResetService {
         }
 
         String code = String.format("%04d", new Random().nextInt(10000));
-        String key = PREFIX + email;
+        String key = CODE_PREFIX + email;
 
         redisTemplate.opsForValue().set(key, code, expirationMinutes, TimeUnit.MINUTES);
         sendEmail(email, code);
     }
 
-    public boolean validateCode(String email, String code) {
-        String key = PREFIX + email;
+    public String validateCode(String email, String code, String ipAddress) {
+        if (isRateLimited(CODE_ATTEMPTS_PREFIX, email) || isRateLimited(CODE_ATTEMPTS_PREFIX, ipAddress)) {
+            throw new CustomStatusException("Too many requests. Try again later.", HttpStatus.TOO_MANY_REQUESTS);
+        }
+        String key = CODE_PREFIX + email;
         String storedCode = redisTemplate.opsForValue().get(key);
 
         if (storedCode != null && storedCode.equals(code)) {
             redisTemplate.delete(key);
-            redisTemplate.delete(ATTEMPT_PREFIX + email);
-            return true;
+            // Remove user attempts keys.
+            redisTemplate.delete(ATTEMPTS_PREFIX + email);
+            redisTemplate.delete(ATTEMPTS_PREFIX + ipAddress);
+            redisTemplate.delete(CODE_ATTEMPTS_PREFIX + email);
+            redisTemplate.delete(CODE_ATTEMPTS_PREFIX + ipAddress);
+
+            String token = UUID.randomUUID().toString();
+            String tokenKey = TOKEN_PREFIX + email;
+
+            // Token to allow user to update password.
+            redisTemplate.opsForValue().set(tokenKey, token, tokenExpirationMinutes, TimeUnit.MINUTES);
+
+            logger.info("Verification code validated. Reset token {} generated for {}", token, email);
+            return token;
         }
-        return false;
+
+        logger.warn("Verification code {} does not exists for email {}", code, email);
+        return null;
     }
 
-    public void updatePassword(String email, String newPassword) {
+    public void updatePassword(String email, String newPassword, String token) {
+        String tokenKey = TOKEN_PREFIX + email;
+        String storedToken = redisTemplate.opsForValue().get(tokenKey);
+
+        if (storedToken == null || !storedToken.equals(token)) {
+            throw new CustomStatusException("Invalid or expired reset token.", HttpStatus.UNAUTHORIZED);
+        }
+        redisTemplate.delete(tokenKey);
+
         userClient.updateUserPasswordByEmail(email, newPassword);
+
+        logger.info("Password updated successfully for email {}", email);
     }
 
     private void sendEmail(String email, String code) {
@@ -84,22 +117,21 @@ public class PasswordResetService {
         message.setText("This is your one-time verification code: " + code +
                 "\nThis code will expire after ten minutes.");
         mailSender.send(message);
-        logger.debug("Verification code was sent properly for email {}", email);
+        logger.info("Verification code was sent properly for email {}", email);
     }
 
-    private boolean isRateLimited(String key) {
-        String redisKey = ATTEMPT_PREFIX + key;
-        Long attempts = redisTemplate.opsForValue().increment(redisKey);
+    private boolean isRateLimited(String prefix, String key) {
+        if (key != null) {
+            String redisKey = prefix + key;
+            Long attempts = redisTemplate.opsForValue().increment(redisKey);
 
-        if (attempts == 1) {
-            redisTemplate.expire(redisKey, attemptWindowMinutes, TimeUnit.MINUTES);
+            if (attempts > maxAttemptsPerHour) {
+                logger.warn("Rate limit reached for {}", key);
+                return true;
+            } else if (attempts == 1) {
+                redisTemplate.expire(redisKey, attemptWindowMinutes, TimeUnit.MINUTES);
+            }
         }
-
-        if (attempts > maxAttemptsPerHour) {
-            logger.warn("Rate limit reached for {}", key);
-            return true;
-        }
-
         return false;
     }
 }

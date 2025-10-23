@@ -29,7 +29,9 @@ public class ResetPasswordController {
     @PostMapping("/send-code")
     @Operation(summary = "Request code to email",
             description = "An user request a verification code (OTP) to reset password. It will be sent by email.")
-    public ResponseEntity<?> forgotPassword(@RequestParam String email, HttpServletRequest request) {
+    public ResponseEntity<?> forgotPasswordSendCode(@RequestParam String requestUid,
+                                                    @RequestParam String email,
+                                                    HttpServletRequest request) {
         try {
             String ip = request.getRemoteAddr();
             passwordResetService.sendResetCode(email, ip);
@@ -46,11 +48,15 @@ public class ResetPasswordController {
     @PostMapping("/validate-code")
     @Operation(summary = "Validate verification code for email",
             description = "The users try to validate their verification codes.")
-    public ResponseEntity<?> validateCode(@RequestParam String email, @RequestParam String code) {
+    public ResponseEntity<?> validateCode(@RequestParam String requestUid,
+                                          @RequestParam String email,
+                                          @RequestParam String code,
+                                          HttpServletRequest request) {
         try {
-            boolean valid = passwordResetService.validateCode(email, code);
-            return valid ?
-                    ResponseEntity.ok(Map.of("valid", true)) :
+            String ip = request.getRemoteAddr();
+            String token = passwordResetService.validateCode(email, code, ip);
+            return token != null ?
+                    ResponseEntity.ok(Map.of("valid", true, "token", token)) :
                     ResponseEntity.badRequest().body(Map.of("valid", false, "message", "Invalid or expired code"));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
@@ -62,10 +68,12 @@ public class ResetPasswordController {
     @PutMapping("/update-password")
     @Operation(summary = "Update Password",
             description = "An user tries to update password with previously validated token.")
-    public ResponseEntity<?> updatePassword(@RequestParam String token,
-                                            @RequestParam String newPassword) {
+    public ResponseEntity<?> updatePassword(@RequestParam String requestUid,
+                                            @RequestParam String email,
+                                            @RequestParam String newPassword,
+                                            @RequestParam String token) {
         try {
-            passwordResetService.updatePassword(token, newPassword);
+            passwordResetService.updatePassword(email, newPassword, token);
             return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
