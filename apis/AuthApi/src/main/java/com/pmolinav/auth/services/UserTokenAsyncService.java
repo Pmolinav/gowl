@@ -27,8 +27,13 @@ public class UserTokenAsyncService {
     }
 
     @Async
-    public void saveUserTokenAsync(String username, String refreshToken, String deviceInfo, String ipAddress, LocalDateTime expiresAt) {
+    public void saveUserTokenAsync(String username, String oldRefreshToken, String refreshToken,
+                                   String deviceInfo, String ipAddress, LocalDateTime expiresAt) {
         try {
+            // If an old refresh token is present, it is invalidated previously.
+            if (oldRefreshToken != null) {
+                invalidateToken(new LogoutDTO(username, oldRefreshToken));
+            }
             userTokenClient.saveUserToken(new UserTokenDTO(username, refreshToken, deviceInfo, ipAddress, expiresAt));
             logger.info("Asynchronous call: User token saved for user {}", username);
         } catch (FeignException e) {

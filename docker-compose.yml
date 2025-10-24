@@ -53,6 +53,9 @@ services:
     ports:
       - "8003:8003"
       - "5003:5003" # Debugging port
+    depends_on:
+      - redis
+      - mailhog
     env_file: apis/AuthApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5003
@@ -203,8 +206,25 @@ services:
       - spring
     restart: always
 
+  redis:
+    image: redis:7.2.5
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - data-redis:/data
+    command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+
 volumes:
   data-postgres:
+  data-redis:
 
 networks:
   spring:

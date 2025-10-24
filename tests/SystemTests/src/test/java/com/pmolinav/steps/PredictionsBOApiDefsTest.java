@@ -652,7 +652,7 @@ public class PredictionsBOApiDefsTest extends BaseSystemTest {
         assertEquals(username, obtainedPlayerBet.getUsername());
     }
 
-    @Then("a list of player bets with usernames (.*) is returned in BO response$")
+    @Then("a list of player bets with usernames (.*) is returned in BO or by matchId response$")
     public void aListOfPlayerBetsWithUsernamesAreReturnedInBO(String usernames) throws JsonProcessingException {
         List<String> usernamesList = List.of(usernames.split(","));
         List<PlayerBetDTO> playerBets = objectMapper.readValue(latestResponse.getBody(), new TypeReference<List<PlayerBetDTO>>() {

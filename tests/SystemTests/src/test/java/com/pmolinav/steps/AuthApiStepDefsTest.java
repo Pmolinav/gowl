@@ -76,10 +76,12 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
 
             executePost(localURL + "/login", objectMapper.writeValueAsString(userRequest));
 
-            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+            if (authResponse != null && authResponse.getBody() != null) {
+                Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
 
-            authToken = responseMap.get("token");
-            refreshToken = responseMap.get("refreshToken");
+                authToken = "Bearer " + responseMap.get("token");
+                refreshToken = responseMap.get("refreshToken");
+            }
         } catch (Exception e) {
             e.printStackTrace();
             fail();
@@ -91,7 +93,7 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         try {
             for (Map<String, String> row : rows) {
-                String[] date = row.get("birthDate").split("-");
+                String[] date = row.get("birth_date").split("-");
                 executePost(localURL + "/users",
                         objectMapper.writeValueAsString(new UserPublicDTO(row.get("username"),
                                 row.get("password"),
@@ -132,7 +134,7 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             executePost(localURL + "/refresh",
                     objectMapper.writeValueAsString(Map.of("refreshToken", refreshToken)));
 
-            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+            Map<String, String> responseMap = objectMapper.readValue(latestResponse.getBody(), Map.class);
 
             authToken = responseMap.get("token");
             refreshToken = responseMap.get("refreshToken");
@@ -147,8 +149,6 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         try {
             executePost(localURL + "/auth/logout",
                     objectMapper.writeValueAsString(new LogoutDTO(user, refreshToken)));
-
-            authToken = authResponse.getHeader(HttpHeaders.AUTHORIZATION);
         } catch (Exception e) {
             e.printStackTrace();
             fail();

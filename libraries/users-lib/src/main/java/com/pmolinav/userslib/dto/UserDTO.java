@@ -1,9 +1,9 @@
 package com.pmolinav.userslib.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -30,6 +30,7 @@ public class UserDTO {
     private String email;
 
     @NotNull(message = "Birth date is required")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate birthDate;
 
     @NotNull(message = "Admin is mandatory.")

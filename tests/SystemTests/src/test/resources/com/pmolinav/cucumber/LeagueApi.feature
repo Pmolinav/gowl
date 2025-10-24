@@ -7,9 +7,9 @@ Feature: LeagueApi
       | ROLE_PREMIUM |
       | ROLE_ADMIN   |
     Given the following users have been stored previously
-      | username   | password       | name        | email            | birthDate | roles      | creation_date | modification_date |
-      | someUser   | somePassword   | someName    | some@email.com   | 12-3-1998 | ROLE_ADMIN | 123456        | 123456            |
-      | normalUser | normalPassword | Normal Name | normal@email.com | 13-3-1998 | ROLE_USER  | 123456        | 123456            |
+      | username   | password       | name        | email            | birth_date | roles      | creation_date | modification_date |
+      | someUser   | somePassword   | someName    | some@email.com   | 12-3-1998  | ROLE_ADMIN | 123456        | 123456            |
+      | normalUser | normalPassword | Normal Name | normal@email.com | 13-3-1998  | ROLE_USER  | 123456        | 123456            |
     Given the following categories have been stored previously
       | category_id | name                | description             | sport    | country | icon_url             | is_active | creation_date | modification_date |
       | PREMIER     | Premier League      | England First Division  | FOOTBALL | EN      | http://example.com/1 | true      | 123456        | 123456            |

@@ -2,6 +2,7 @@ package com.pmolinav.auth.auth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.services.UserTokenAsyncService;
 import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.userslib.dto.UserDTO;
 import jakarta.servlet.FilterChain;
@@ -15,22 +16,24 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-
-import static com.pmolinav.auth.utils.TokenUtils.HEADER_AUTHORIZATION;
-import static com.pmolinav.auth.utils.TokenUtils.PREFIX_TOKEN;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
+    private final UserTokenAsyncService userTokenAsyncService;
 
 
-    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, TokenConfig tokenConfig) {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager,
+                                   TokenConfig tokenConfig,
+                                   UserTokenAsyncService userTokenAsyncService) {
         this.authenticationManager = authenticationManager;
         this.tokenConfig = tokenConfig;
+        this.userTokenAsyncService = userTokenAsyncService;
     }
 
     @Override
@@ -71,10 +74,22 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
                 this.tokenConfig.getRefreshValiditySeconds()
         );
 
+        String ipAddress = request.getHeader("X-Forwarded-For");
+        if (ipAddress == null || ipAddress.isEmpty()) {
+            ipAddress = request.getRemoteAddr();
+        }
+
+        String userAgent = request.getHeader("User-Agent");
+        if (userAgent == null || userAgent.isBlank()) {
+            userAgent = "unknown";
+        }
+
         String accessToken = tokenUtils.createToken(username, roles);
         String refreshToken = tokenUtils.createRefreshToken(username);
 
-        response.addHeader(HEADER_AUTHORIZATION, PREFIX_TOKEN + accessToken);
+        // Async call to save the new refresh token.
+        LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(tokenConfig.getRefreshValiditySeconds() / 1000);
+        userTokenAsyncService.saveUserTokenAsync(username, null, refreshToken, userAgent, ipAddress, expiresAt);
 
         Map<String, Object> body = new HashMap<>();
         body.put("token", accessToken);

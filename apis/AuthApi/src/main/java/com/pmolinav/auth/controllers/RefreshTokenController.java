@@ -65,8 +65,7 @@ public class RefreshTokenController {
 
             // Async call to save the new refresh token.
             LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(tokenConfig.getRefreshValiditySeconds() / 1000);
-            userTokenAsyncService.saveUserTokenAsync(username, newRefreshToken, userAgent, ipAddress, expiresAt);
-
+            userTokenAsyncService.saveUserTokenAsync(username, refreshToken, newRefreshToken, userAgent, ipAddress, expiresAt);
 
             Map<String, String> response = new HashMap<>();
             response.put("token", newAccessToken);

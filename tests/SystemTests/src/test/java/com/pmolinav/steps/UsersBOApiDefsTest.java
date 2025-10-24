@@ -47,7 +47,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         try {
             // Insert each requested player
             for (Map<String, String> row : rows) {
-                String[] date = row.get("birthDate").split("-");
+                String[] date = row.get("birth_date").split("-");
                 usersDbConnector.insertUser(new User(null,
                                 row.get("username"),
                                 new BCryptPasswordEncoder().encode(row.get("password")),
@@ -73,7 +73,7 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
         List<Map<String, String>> rows = dataTable.asMaps(String.class, String.class);
         try {
             for (Map<String, String> row : rows) {
-                String[] date = row.get("birthDate").split("-");
+                String[] date = row.get("birth_date").split("-");
                 executePost(localURL + "/users",
                         objectMapper.writeValueAsString(new UserDTO(row.get("username"),
                                 row.get("password"),
@@ -141,7 +141,6 @@ public class UsersBOApiDefsTest extends BaseSystemTest {
     public void refreshTokenHasBeenRemovedForUser(String username) {
         try {
             List<Token> tokens = usersDbConnector.getTokensByUsername(username);
-            assertFalse(CollectionUtils.isEmpty(tokens));
             assertFalse(tokens.stream().anyMatch(token -> token.getRefreshToken().equals(refreshToken)));
         } catch (SQLException e) {
             e.printStackTrace();

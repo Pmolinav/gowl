@@ -1,6 +1,7 @@
 package com.pmolinav.steps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
@@ -37,7 +38,7 @@ public class BaseSystemTest {
     protected static UsersDatabaseConnector usersDbConnector;
     protected static LeaguesDatabaseConnector leaguesDbConnector;
     protected static PredictionsDatabaseConnector predictionsDbConnector;
-    protected final static ObjectMapper objectMapper = new ObjectMapper();
+    protected final static ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     protected static ResponseResults authResponse = null;
     protected static ResponseResults latestResponse = null;
     protected static String authToken;

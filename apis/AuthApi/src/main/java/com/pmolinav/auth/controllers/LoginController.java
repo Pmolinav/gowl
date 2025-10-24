@@ -42,6 +42,7 @@ public class LoginController {
     @Autowired
     private final UserTokenAsyncService userTokenAsyncService;
 
+    // This method replicates JwtAuthenticationFilter logic and is used for unit testing and Swagger.
     @PostMapping
     @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
     public ResponseEntity<?> login(@RequestBody @Valid UserDTO userDTO, HttpServletRequest request) {
@@ -74,7 +75,7 @@ public class LoginController {
 
             // Async call to save the new refresh token.
             LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(tokenConfig.getRefreshValiditySeconds() / 1000);
-            userTokenAsyncService.saveUserTokenAsync(username, refreshToken, userAgent, ipAddress, expiresAt);
+            userTokenAsyncService.saveUserTokenAsync(username, null, refreshToken, userAgent, ipAddress, expiresAt);
 
             Map<String, String> response = new HashMap<>();
             response.put("token", accessToken);

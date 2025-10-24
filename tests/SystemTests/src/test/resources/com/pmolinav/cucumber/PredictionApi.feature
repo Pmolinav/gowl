@@ -7,9 +7,9 @@ Feature: PredictionApi
       | ROLE_PREMIUM |
       | ROLE_ADMIN   |
     Given the following users have been stored previously
-      | username   | password       | name        | email            | birthDate | roles      | creation_date | modification_date |
-      | someUser   | somePassword   | someName    | some@email.com   | 12-3-1998 | ROLE_ADMIN | 123456        | 123456            |
-      | normalUser | normalPassword | Normal Name | normal@email.com | 13-3-1998 | ROLE_USER  | 123456        | 123456            |
+      | username   | password       | name        | email            | birth_date | roles      | creation_date | modification_date |
+      | someUser   | somePassword   | someName    | some@email.com   | 12-3-1998  | ROLE_ADMIN | 123456        | 123456            |
+      | normalUser | normalPassword | Normal Name | normal@email.com | 13-3-1998  | ROLE_USER  | 123456        | 123456            |
     Given the following matches have been stored previously
       | match_id | category_id | season | match_day_number | home_team    | away_team  | start_time | status | creation_date | modification_date |
       | 101      | PREMIER     | 2025   | 1                | Team Alpha   | Team Beta  | 1624005000 | ACTIVE | 1624000000    | 1624005000        |
@@ -113,7 +113,7 @@ Feature: PredictionApi
     Then a player bet for username normalUser has been stored successfully
     When try to get player bets by matchId with public endpoint
     Then received status code is 200
-    Then a list of player bets with usernames normalUser is returned in response
+    Then a list of player bets with usernames normalUser is returned in BO or by matchId response
 
   Scenario: Get player bets by username successfully
     Given try to create new player bet with data with public endpoint

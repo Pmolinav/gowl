@@ -70,7 +70,7 @@ class LoginControllerTest extends BaseUnitTest {
     private void doNothingWhenUserTokenServiceIsCalled() {
         doNothing()
                 .when(userTokenAsyncServiceMock)
-                .saveUserTokenAsync(anyString(), anyString(), nullable(String.class),
+                .saveUserTokenAsync(anyString(), nullable(String.class), anyString(), nullable(String.class),
                         nullable(String.class), any(LocalDateTime.class));
     }
 

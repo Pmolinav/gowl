@@ -35,8 +35,8 @@ public class UsersDatabaseConnector {
     /*** USERS  ***/
 
     public void insertUser(User user) throws SQLException {
-        String query = "INSERT INTO users (username, password, name, email, creation_date, modification_date) "
-                + "VALUES (?,?,?,?,?,?)";
+        String query = "INSERT INTO users (username, password, name, email, birth_date, creation_date, modification_date) "
+                + "VALUES (?,?,?,?,?,?,?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             // Set query params.
@@ -44,8 +44,9 @@ public class UsersDatabaseConnector {
             preparedStatement.setString(2, user.getPassword());
             preparedStatement.setString(3, user.getName());
             preparedStatement.setString(4, user.getEmail());
-            preparedStatement.setLong(5, user.getCreationDate());
-            preparedStatement.setLong(6, user.getModificationDate());
+            preparedStatement.setDate(5, Date.valueOf(user.getBirthDate()));
+            preparedStatement.setLong(6, user.getCreationDate());
+            preparedStatement.setLong(7, user.getModificationDate());
 
             preparedStatement.executeUpdate();
 
@@ -82,7 +83,7 @@ public class UsersDatabaseConnector {
     }
 
     public User getUserByUsername(String username) throws SQLException {
-        String query = "SELECT user_id, username, password, name, email, creation_date, modification_date" +
+        String query = "SELECT user_id, username, password, name, birth_date, email, creation_date, modification_date" +
                 " FROM users WHERE username = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
