@@ -95,6 +95,13 @@
             <artifactId>postgresql</artifactId>
             <version>42.7.5</version>
         </dependency>
+        <!-- Redis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>6.2.0</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>io.cucumber</groupId>
             <artifactId>cucumber-spring</artifactId>

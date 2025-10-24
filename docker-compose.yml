@@ -214,6 +214,8 @@ services:
     volumes:
       - data-redis:/data
     command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
+    networks:
+      - spring
 
   mailhog:
     image: mailhog/mailhog
@@ -221,6 +223,8 @@ services:
     ports:
       - "1025:1025"  # SMTP
       - "8025:8025"  # Web UI
+    networks:
+      - spring
 
 volumes:
   data-postgres:

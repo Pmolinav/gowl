@@ -106,23 +106,30 @@ Feature: AuthApi
     Then received status code is 403
 
 #    TOKENS
+#    Wait 5 seconds instructions are needed to prevent errors due to async calls.
 
   Scenario: An user logs in and then refreshes token successfully
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
+    Then wait for 5 seconds
     Then refresh token has been stored successfully for user someUser
     When last user tries to refresh token
+    Then wait for 5 seconds
     Then refresh token has been stored successfully for user someUser
 
   Scenario: An user logs in and then logout
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
+    Then wait for 5 seconds
+    Then refresh token has been stored successfully for user someUser
     When an user with username someUser tries to log out
     Then refresh token has been removed for user someUser
 
   Scenario: An user logs in and then invalidates all tokens
     When an user with username someUser and password somePassword tries to log in
     Then received status code is 200
+    Then wait for 5 seconds
+    Then refresh token has been stored successfully for user someUser
     When an user with username someUser tries to invalidate all tokens
     Then all tokens has been removed for user someUser
 
@@ -135,4 +142,5 @@ Feature: AuthApi
     Then refresh token has been removed for user someUser
     When an user with username someUser requests verification code
     When an user with username someUser tries to validate verification code
-    When an user with username someUser tries to update password with OTP
+    When an user with username someUser tries to update password to newPass with OTP
+    Then the new password for user someUser matches with newPass

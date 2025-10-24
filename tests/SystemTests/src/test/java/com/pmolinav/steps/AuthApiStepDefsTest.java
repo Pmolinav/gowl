@@ -3,19 +3,21 @@ package com.pmolinav.steps;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.PredictionsDatabaseConnector;
+import com.pmolinav.database.RedisConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.userslib.dto.LogoutDTO;
 import com.pmolinav.userslib.dto.UserDTO;
 import com.pmolinav.userslib.dto.UserPublicDTO;
 import com.pmolinav.userslib.model.User;
 import io.cucumber.datatable.DataTable;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -27,6 +29,13 @@ import static org.junit.Assert.*;
 
 public class AuthApiStepDefsTest extends BaseSystemTest {
 
+    private static final String CODE_PREFIX = "verification-code:";
+    private static final String TOKEN_PREFIX = "reset-token:";
+    private static final String ATTEMPTS_PREFIX = "email-attempts:";
+    private static final String CODE_ATTEMPTS_PREFIX = "code-attempts:";
+
+    private String passwordToken;
+
     private final String localURL = "http://localhost:8003";
 
     @BeforeAll
@@ -35,10 +44,11 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             usersDbConnector = new UsersDatabaseConnector();
             leaguesDbConnector = new LeaguesDatabaseConnector();
             predictionsDbConnector = new PredictionsDatabaseConnector();
+            redisConnector = new RedisConnector();
 
             wireMock = new WireMock(WIREMOCK_HOST, WIREMOCK_PORT);
             wireMock.resetMappings();
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
@@ -50,11 +60,16 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
             usersDbConnector.deleteAll();
             leaguesDbConnector.deleteAll();
             predictionsDbConnector.deleteAll();
-//            dbConnector.deleteHistory();
+            redisConnector.deleteAll();
         } catch (SQLException e) {
             e.printStackTrace();
             fail();
         }
+    }
+
+    @AfterAll
+    public static void closeConnections() {
+        redisConnector.close();
     }
 
     @Given("^invalid auth token$")
@@ -172,7 +187,7 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
 
             executePost(localURL + "/auth/send-code", null, Map.of("email", user.getEmail()));
 
-            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+            Map<String, String> responseMap = objectMapper.readValue(latestResponse.getBody(), Map.class);
 
             assertNotNull(responseMap.get("message"));
         } catch (Exception e) {
@@ -186,11 +201,37 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         try {
             User user = usersDbConnector.getUserByUsername(username);
 
+            String code = redisConnector.getValue(CODE_PREFIX + user.getEmail());
+
             executePost(localURL + "/auth/validate-code", null,
-                    Map.of("email", user.getEmail(), "code", "XXXX"));
+                    Map.of("email", user.getEmail(),
+                            "code", code));
 
-            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
+            Map<String, Object> responseMap = objectMapper.readValue(latestResponse.getBody(), Map.class);
 
+            this.passwordToken = String.valueOf(responseMap.get("token"));
+            assertNotNull(this.passwordToken);
+            assertTrue((Boolean) responseMap.get("valid"));
+        } catch (Exception e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+
+    @When("^an user with username (.*) tries to update password to (.*) with OTP$")
+    public void anUserTriesToUpdatePasswordByEmail(String username, String password) {
+        try {
+            User user = usersDbConnector.getUserByUsername(username);
+
+            String token = redisConnector.getValue(TOKEN_PREFIX + user.getEmail());
+            assertEquals(this.passwordToken, token);
+
+            executePut(localURL + "/auth/update-password",
+                    Map.of("email", user.getEmail(),
+                            "newPassword", password,
+                            "token", token));
+
+            Map<String, String> responseMap = objectMapper.readValue(latestResponse.getBody(), Map.class);
             assertNotNull(responseMap.get("message"));
         } catch (Exception e) {
             e.printStackTrace();
@@ -198,18 +239,12 @@ public class AuthApiStepDefsTest extends BaseSystemTest {
         }
     }
 
-    @When("^an user with username (.*) tries to update password with OTP$")
-    public void anUserTriesToUpdatePasswordByEmail(String username) {
+    @Then("^the new password for user (.*) matches with (.*)$")
+    public void newPasswordMatches(String username, String password) {
         try {
             User user = usersDbConnector.getUserByUsername(username);
-
-            executePut(localURL + "/auth/update-password",
-                    Map.of("email", user.getEmail(), "code", "XXXX"));
-
-            Map<String, String> responseMap = objectMapper.readValue(authResponse.getBody(), Map.class);
-
-            assertNotNull(responseMap.get("message"));
-        } catch (Exception e) {
+            assertTrue(new BCryptPasswordEncoder().matches(password, user.getPassword()));
+        } catch (SQLException e) {
             e.printStackTrace();
             fail();
         }

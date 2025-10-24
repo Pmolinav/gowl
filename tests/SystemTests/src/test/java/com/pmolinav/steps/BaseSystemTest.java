@@ -7,6 +7,7 @@ import com.pmolinav.HeaderSettingRequestCallback;
 import com.pmolinav.ResponseResults;
 import com.pmolinav.database.LeaguesDatabaseConnector;
 import com.pmolinav.database.PredictionsDatabaseConnector;
+import com.pmolinav.database.RedisConnector;
 import com.pmolinav.database.UsersDatabaseConnector;
 import com.pmolinav.leagueslib.model.*;
 import com.pmolinav.predictionslib.model.*;
@@ -38,6 +39,7 @@ public class BaseSystemTest {
     protected static UsersDatabaseConnector usersDbConnector;
     protected static LeaguesDatabaseConnector leaguesDbConnector;
     protected static PredictionsDatabaseConnector predictionsDbConnector;
+    protected static RedisConnector redisConnector;
     protected final static ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     protected static ResponseResults authResponse = null;
     protected static ResponseResults latestResponse = null;
