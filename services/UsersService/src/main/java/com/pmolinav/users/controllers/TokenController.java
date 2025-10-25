@@ -1,11 +1,11 @@
 package com.pmolinav.users.controllers;
 
-import com.pmolinav.users.exceptions.CustomStatusException;
 import com.pmolinav.users.exceptions.InternalServerErrorException;
 import com.pmolinav.users.exceptions.NotFoundException;
+import com.pmolinav.users.exceptions.UnauthorizedException;
 import com.pmolinav.users.services.TokenService;
-import com.pmolinav.userslib.dto.*;
-import com.pmolinav.userslib.model.User;
+import com.pmolinav.userslib.dto.LogoutDTO;
+import com.pmolinav.userslib.dto.UserTokenDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +24,19 @@ public class TokenController {
         this.tokenService = tokenService;
     }
 
+
+    @GetMapping("/exists/username/{username}")
+    public ResponseEntity<Boolean> existsTokenForUsername(@PathVariable String username, @RequestParam String token) {
+        try {
+            boolean exists = tokenService.existsTokenForUsername(username, token);
+            return ResponseEntity.ok(exists);
+        } catch (UnauthorizedException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        } catch (InternalServerErrorException e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Void> saveToken(@RequestBody UserTokenDTO userToken) {
         try {
@@ -35,6 +48,7 @@ public class TokenController {
             return ResponseEntity.internalServerError().build();
         }
     }
+
     @PostMapping("invalidate")
     public ResponseEntity<Void> invalidateToken(@RequestBody LogoutDTO logoutDTO) {
         try {

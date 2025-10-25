@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,6 +26,8 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void refreshTokenHappyPath() throws Exception {
+        givenTokenExistsInClient(true);
+
         Map<String, String> requestMap = Map.of("refreshToken", refreshToken);
         MvcResult result = mockMvc.perform(post("/refresh")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -46,8 +50,9 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
     }
 
     @Test
-    void refreshTokenUnauthorized() throws Exception {
+    void refreshTokenDoesNotExistsUnauthorized() throws Exception {
         giveSomeValidRequest();
+        givenTokenExistsInClient(false);
 
         UserDTO fakeUserRequest = new UserDTO();
         fakeUserRequest.setUsername("fakeUser");
@@ -57,6 +62,22 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(fakeUserRequest)))
                 .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void refreshTokenUnauthorized() throws Exception {
+        giveSomeValidRequest();
+
+        Map<String, String> requestMap = Map.of("refreshToken", refreshToken);
+        mockMvc.perform(post("/refresh")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestMap)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    private void givenTokenExistsInClient(boolean exists) {
+        when(this.userTokenClient.existsTokenForUser(anyString(), anyString()))
+                .thenReturn(exists);
     }
 }
 

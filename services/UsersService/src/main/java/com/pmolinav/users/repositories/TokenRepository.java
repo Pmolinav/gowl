@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface TokenRepository extends JpaRepository<Token, Long> {
     // All crud database methods
+    boolean existsByRefreshToken(String refreshToken);
+
     Optional<Token> findByRefreshToken(String refreshToken);
 
     void deleteByUsername(String username);

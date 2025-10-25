@@ -63,6 +63,12 @@ public class RefreshTokenController {
             String username = tokenUtils.parseToken(refreshToken).getSubject();
             String newRefreshToken = tokenUtils.createRefreshToken(username);
 
+            boolean tokenExists = userTokenAsyncService.existsTokenForUser(username, refreshToken);
+            if (!tokenExists) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Map.of("error","Refresh token has been invalidated"));
+            }
+
             // Async call to save the new refresh token.
             LocalDateTime expiresAt = LocalDateTime.now().plusSeconds(tokenConfig.getRefreshValiditySeconds() / 1000);
             userTokenAsyncService.saveUserTokenAsync(username, refreshToken, newRefreshToken, userAgent, ipAddress, expiresAt);

@@ -45,6 +45,18 @@ public class UserTokenAsyncService {
         }
     }
 
+    public boolean existsTokenForUser(String username, String refreshToken) {
+        try {
+            return userTokenClient.existsTokenForUser(username, refreshToken);
+        } catch (FeignException e) {
+            logger.error("Unexpected error while calling service with status code {}.", e.status(), e);
+            throw new CustomStatusException(e.getMessage(), e.status());
+        } catch (Exception e) {
+            logger.error("Unexpected exception occurred while calling service.", e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
+    }
+
     public void invalidateToken(LogoutDTO logoutDTO) {
         try {
             userTokenClient.invalidateToken(logoutDTO);

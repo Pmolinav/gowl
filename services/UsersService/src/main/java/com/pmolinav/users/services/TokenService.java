@@ -1,6 +1,7 @@
 package com.pmolinav.users.services;
 
 import com.pmolinav.users.exceptions.InternalServerErrorException;
+import com.pmolinav.users.exceptions.UnauthorizedException;
 import com.pmolinav.users.repositories.TokenRepository;
 import com.pmolinav.userslib.dto.LogoutDTO;
 import com.pmolinav.userslib.dto.UserTokenDTO;
@@ -30,6 +31,24 @@ public class TokenService {
         this.tokenRepository = tokenRepository;
         this.userMapper = userMapper;
 //        this.messageProducer = messageProducer;
+    }
+
+    @Transactional(readOnly = true)
+    public boolean existsTokenForUsername(String username, String refreshToken) {
+        try {
+            Token token = tokenRepository.findByRefreshToken(refreshToken)
+                    .orElseThrow(() -> new UnauthorizedException("Invalid refresh token"));
+
+            if (!token.getUsername().equals(username)) {
+                throw new UnauthorizedException("Token does not belong to user");
+            }
+            return true;
+        } catch (UnauthorizedException e) {
+            throw e;
+        } catch (Exception e) {
+            logger.error("Unexpected error while checking if token exists by username {} in repository.", username, e);
+            throw new InternalServerErrorException(e.getMessage());
+        }
     }
 
     @Transactional

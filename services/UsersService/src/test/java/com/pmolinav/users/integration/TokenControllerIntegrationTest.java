@@ -16,8 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -41,6 +40,45 @@ class TokenControllerIntegrationTest extends AbstractContainerBaseTest {
         UserTokenDTO requestDto = new UserTokenDTO("someUser", "someToken", "Device Agent",
                 "192.168.1.1", LocalDate.now().plusDays(20).atStartOfDay());
         mockMvc.perform(post("/tokens")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void existsTokenForUsernameUnauthorized() throws Exception {
+        givenSomePreviouslyStoredTokenDataWithId(657);
+
+        LogoutDTO requestDto = new LogoutDTO("someUser", "inventedToken");
+
+        mockMvc.perform(get("/tokens/exists/username/" + requestDto.getUsername()
+                        + "?token=" + requestDto.getRefreshToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void existsTokenForUsernameDifferentUserUnauthorized() throws Exception {
+        givenSomePreviouslyStoredTokenDataWithId(879);
+
+        LogoutDTO requestDto = new LogoutDTO("otherUser", "someToken");
+
+        mockMvc.perform(get("/tokens/exists/username/" + requestDto.getUsername()
+                        + "?token=" + requestDto.getRefreshToken())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
+    void existsTokenForUsernameHappyPath() throws Exception {
+        givenSomePreviouslyStoredTokenDataWithId(346);
+
+        LogoutDTO requestDto = new LogoutDTO("someUser", "someToken");
+
+        mockMvc.perform(get("/tokens/exists/username/" + requestDto.getUsername()
+                        + "?token=" + requestDto.getRefreshToken())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestDto)))
                 .andExpect(status().isOk());

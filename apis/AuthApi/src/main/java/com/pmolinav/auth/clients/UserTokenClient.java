@@ -3,13 +3,13 @@ package com.pmolinav.auth.clients;
 import com.pmolinav.userslib.dto.LogoutDTO;
 import com.pmolinav.userslib.dto.UserTokenDTO;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @FeignClient(name = "UserTokenClient", url = "usersservice:8001/tokens")
 public interface UserTokenClient {
+
+    @GetMapping("/exists/username/{username}")
+    boolean existsTokenForUser(@PathVariable String username, @RequestParam String token);
 
     @PostMapping
     void saveUserToken(@RequestBody UserTokenDTO userToken);
