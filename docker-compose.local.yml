@@ -1,0 +1,254 @@
+services:
+  ## DATABASE
+  postgres:
+    container_name: postgres
+    image: postgres:15-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: users
+    volumes:
+      - data-postgres:/var/lib/postgresql/data
+      - ./scripts/docker-compose/init_dbs.sh:/docker-entrypoint-initdb.d/init_dbs.sh:ro
+    restart: always
+    networks:
+      - spring
+
+  #  zookeeper:
+  #    container_name: zookeeper
+  #    image: 'bitnami/zookeeper:latest'
+  #    environment:
+  #      - ZOOKEEPER_CLIENT_PORT=2181
+  #      - ZOOKEEPER_TICK_TIME=2000
+  #      - ALLOW_ANONYMOUS_LOGIN=yes
+  #    networks:
+  #      - spring
+  #    ports:
+  #      - '2181:2181'
+  #    restart: always
+  #
+  #  kafka:
+  #    container_name: kafka
+  #    image: 'bitnami/kafka:latest'
+  #    depends_on:
+  #      - zookeeper
+  #    environment:
+  #      - KAFKA_BROKER_ID=1
+  #      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+  #      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+  #      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+  #      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+  #    networks:
+  #      - spring
+  #    ports:
+  #      - '9092:9092'
+  #    restart: always
+
+  ## APIS
+  authapi:
+    container_name: authapi
+    build:
+      context: ./apis/AuthApi
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+      - "5003:5003" # Debugging port
+    depends_on:
+      - redis
+      - mailhog
+    env_file: apis/AuthApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5003
+    networks:
+      - spring
+    restart: always
+
+  leagueapi:
+    container_name: leagueapi
+    build:
+      context: ./apis/LeagueApi
+      dockerfile: Dockerfile
+    ports:
+      - "8006:8006"
+      - "5006:5006" # Debugging port
+    env_file: apis/LeagueApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+    networks:
+      - spring
+    restart: always
+
+  predictionapi:
+    container_name: predictionapi
+    build:
+      context: ./apis/PredictionApi
+      dockerfile: Dockerfile
+    ports:
+      - "8009:8009"
+      - "5009:5009" # Debugging port
+    env_file: apis/PredictionApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5009
+    networks:
+      - spring
+    restart: always
+
+  ## BACKOFFICE
+  leaguesboapi:
+    container_name: leaguesboapi
+    build:
+      context: ./backoffice/LeaguesBOApi
+      dockerfile: Dockerfile
+    ports:
+      - "8005:8005"
+      - "5005:5005" # Debugging port
+    env_file: backoffice/LeaguesBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    networks:
+      - spring
+    restart: always
+
+  predictionsboapi:
+    container_name: predictionsboapi
+    build:
+      context: ./backoffice/PredictionsBOApi
+      dockerfile: Dockerfile
+    ports:
+      - "8008:8008"
+      - "5008:5008" # Debugging port
+    env_file: backoffice/PredictionsBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5008
+    networks:
+      - spring
+    restart: always
+
+  usersboapi:
+    container_name: usersboapi
+    build:
+      context: ./backoffice/UsersBOApi
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8002"
+      - "5002:5002" # Debugging port
+    env_file: backoffice/UsersBOApi/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
+    networks:
+      - spring
+    restart: always
+
+  ## SERVICES
+  leaguesservice:
+    container_name: leaguesservice
+    build:
+      context: ./services/LeaguesService
+      dockerfile: Dockerfile
+    ports:
+      - "8004:8004"
+      - "5004:5004" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/LeaguesService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5004
+    networks:
+      - spring
+    restart: always
+
+  matchdatasyncservice:
+    container_name: matchdatasyncservice
+    build:
+      context: ./services/MatchDataSyncService
+      dockerfile: Dockerfile
+    ports:
+      - "8010:8010"
+      - "5010:5010" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/MatchDataSyncService/.env_testing
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5010
+    networks:
+      - spring
+    restart: always
+
+  predictionsservice:
+    container_name: predictionsservice
+    build:
+      context: ./services/PredictionsService
+      dockerfile: Dockerfile
+    ports:
+      - "8007:8007"
+      - "5007:5007" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/PredictionsService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+    networks:
+      - spring
+    restart: always
+
+  usersservice:
+    container_name: usersservice
+    build:
+      context: ./services/UsersService
+      dockerfile: Dockerfile
+    ports:
+      - "8001:8001"
+      - "5001:5001" # Debugging port
+    depends_on:
+      - postgres
+    #      - kafka
+    env_file: services/UsersService/.env
+    environment:
+      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
+    networks:
+      - spring
+    restart: always
+
+  ## UTILS
+  wiremock:
+    image: wiremock/wiremock:latest
+    container_name: wiremock
+    ports:
+      - "8888:8080" # Exposes WireMock on port 8888
+    volumes:
+      - ./wiremock:/home/wiremock
+    networks:
+      - spring
+    restart: always
+
+  redis:
+    image: redis:7.2.5
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - data-redis:/data
+    command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
+    networks:
+      - spring
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - spring
+
+volumes:
+  data-postgres:
+  data-redis:
+
+networks:
+  spring:

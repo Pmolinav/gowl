@@ -3,12 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Spring Security Demo</title>
+          content="width=device-width, initial-scale=1.0">
+    <title>GOWL User BackOffice API</title>
+    <style>
+        :root {
+            --primary: #944ad5;
+            --primary-light: #b97df0;
+            --primary-dark: #6a2aa1;
+            --background: #1b1a1f;
+            --text-main: #f3f3f3;
+            --text-muted: #cfcfcf;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, var(--background), #2a2831);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-light);
+            text-shadow: 0 0 15px rgba(148, 74, 213, 0.6);
+        }
+
+        h2 {
+            font-weight: 400;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.2rem;
+        }
+
+        a.button {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary));
+            color: white;
+            text-decoration: none;
+            padding: 0.9rem 1.8rem;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(148, 74, 213, 0.4);
+        }
+
+        a.button:hover {
+            background: linear-gradient(90deg, var(--primary), var(--primary-light));
+            transform: scale(1.06);
+            box-shadow: 0 6px 25px rgba(185, 125, 240, 0.5);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--primary-light);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .glow {
+            width: 160px;
+            height: 160px;
+            background: radial-gradient(circle, rgba(148, 74, 213, 0.35) 0%, rgba(27,26,31,0) 70%);
+            position: absolute;
+            top: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 50%;
+            z-index: -1;
+        }
+    </style>
 </head>
 <body>
-<h1>Welcome to Gowl</h1>
-<h2>Please see the Api documentation <a href="/api/swagger.html">here</a></h2>
+
+<div class="glow"></div>
+
+<h1>🚀 Welcome to GOWL Users BO API</h1>
+<h2>Your BackOffice user service is up and running!</h2>
+
+<a href="/swagger-ui/index.html" class="button">📘 View API Documentation</a>
+
+<footer>
+    © 2025 GOWL Platform | <a href="https://github.com/pablo7molina">GitHub</a>
+</footer>
+
 </body>
 </html>

@@ -33,6 +33,12 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
+        String path = request.getRequestURI();
+        if (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui")
+                || path.startsWith("/api-docs") || path.startsWith("/api/swagger.html")) {
+            chain.doFilter(request, response);
+            return;
+        }
 
         String header = request.getHeader(HEADER_AUTHORIZATION);
 
