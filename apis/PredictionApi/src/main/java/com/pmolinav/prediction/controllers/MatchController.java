@@ -1,5 +1,6 @@
 package com.pmolinav.prediction.controllers;
 
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.prediction.exceptions.CustomStatusException;
 import com.pmolinav.prediction.exceptions.NotFoundException;
 import com.pmolinav.prediction.services.MatchService;
@@ -8,6 +9,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,8 @@ import java.util.List;
 @Tag(name = "5. Matches", description = "The Match Controller. Contains all the operations that can be performed on a match.")
 public class MatchController {
 
+    private static final Logger logger = LoggerFactory.getLogger(MatchController.class);
+
     @Autowired
     private MatchService matchService;
 
@@ -30,11 +36,15 @@ public class MatchController {
     public ResponseEntity<MatchDTO> findMatchById(@RequestParam String requestUid,
                                                   @PathVariable long id) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("MatchController: findMatchById. Path: id: {}", id);
             return ResponseEntity.ok(matchService.findMatchById(id));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 
@@ -45,12 +55,17 @@ public class MatchController {
             @PathVariable Integer season,
             @PathVariable Integer number) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("MatchController: findByCategoryIdSeasonAndMatchDayNumber. " +
+                    "Path: categoryId: {}, season: {}, number: {}", categoryId, season, number);
             List<MatchDTO> matches = matchService.findByCategoryIdAndSeasonAndMatchDayNumber(categoryId, season, number);
             return ResponseEntity.ok(matches);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 }

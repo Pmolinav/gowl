@@ -6,11 +6,15 @@ import com.pmolinav.prediction.services.PlayerBetService;
 import com.pmolinav.predictionslib.dto.PlayerBetDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class PlayerBetAccessInterceptor implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(PlayerBetAccessInterceptor.class);
 
     private final PlayerBetService playerBetService;
     private final AuthUtils authUtils;
@@ -36,12 +40,14 @@ public class PlayerBetAccessInterceptor implements HandlerInterceptor {
 
             PlayerBetDTO playerBetDTO = playerBetService.findById(id);
             if (!playerBetDTO.getUsername().equals(username)) {
+                logger.error("Requested user does not have permissions for path {}.", path);
                 response.sendError(HttpServletResponse.SC_FORBIDDEN, "You are not authorized to delete this player bet.");
                 return false;
             }
 
             return true;
         } catch (CustomStatusException e) {
+            logger.error("Unexpected error occurred with status {}.", e.getStatusCode().value(), e);
             response.sendError(e.getStatusCode().value(), e.getMessage());
             return false;
         }

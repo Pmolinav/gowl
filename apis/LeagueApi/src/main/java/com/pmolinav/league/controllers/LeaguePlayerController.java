@@ -1,6 +1,7 @@
 
 package com.pmolinav.league.controllers;
 
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.league.exceptions.CustomStatusException;
 import com.pmolinav.league.exceptions.NotFoundException;
 import com.pmolinav.league.services.LeaguePlayersService;
@@ -11,6 +12,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +34,8 @@ import java.util.Map;
 @Tag(name = "5. League players", description = "The league players Controller. Contains all the operations that can be performed on league players.")
 public class LeaguePlayerController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LeaguePlayerController.class);
+
     @Autowired
     private final LeaguePlayersService leaguePlayersService;
 
@@ -44,6 +50,10 @@ public class LeaguePlayerController {
                                                                                @PathVariable Long id,
                                                                                @PathVariable String username) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.LEAGUE_ID.key(), String.valueOf(id));
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
+            logger.info("LeaguePlayerController: findLeaguePlayerByLeagueIdAndPlayer. Path: id: {}, username: {}", id, username);
             LeaguePlayerDTO leaguePlayer = leaguePlayersService.findLeaguePlayerByByLeagueIdAndPlayer(id, username);
 
             return ResponseEntity.ok(leaguePlayer);
@@ -51,6 +61,10 @@ public class LeaguePlayerController {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.LEAGUE_ID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
     }
 
@@ -59,6 +73,9 @@ public class LeaguePlayerController {
     public ResponseEntity<List<LeaguePlayerDTO>> findLeaguePlayersByLeagueId(@RequestParam String requestUid,
                                                                              @PathVariable Long id) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.LEAGUE_ID.key(), String.valueOf(id));
+            logger.info("LeaguePlayerController: findLeaguePlayersByLeagueId. Path: id: {}", id);
             List<LeaguePlayerDTO> leagues = leaguePlayersService.findLeaguePlayersByLeagueId(id);
 
             return ResponseEntity.ok(leagues);
@@ -66,6 +83,9 @@ public class LeaguePlayerController {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.LEAGUE_ID.key());
         }
     }
 
@@ -74,6 +94,9 @@ public class LeaguePlayerController {
     public ResponseEntity<List<LeagueDTO>> findLeaguePlayersByUsername(@RequestParam String requestUid,
                                                                        @PathVariable String username) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
+            logger.info("LeaguePlayerController: findLeaguePlayersByUsername. Path: username: {}", username);
             List<LeagueDTO> leagues = leaguePlayersService.findLeaguesByUsername(username);
 
             return ResponseEntity.ok(leagues);
@@ -81,6 +104,9 @@ public class LeaguePlayerController {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
     }
 
@@ -91,6 +117,9 @@ public class LeaguePlayerController {
                                                  BindingResult result) {
         try {
             String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
+            logger.info("LeaguePlayerController: createLeaguePlayers. Request body: {}", leaguePlayers);
 
             if (!leaguePlayers.getFirst().getUsername().equals(username)) {
                 return new ResponseEntity<>("Username in request does not match authenticated user", HttpStatus.FORBIDDEN);
@@ -109,8 +138,10 @@ public class LeaguePlayerController {
             return new ResponseEntity<>(createdLeaguePlayers, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
-
     }
 
     // TODO: Change by update League PlayerStatus?
@@ -120,6 +151,10 @@ public class LeaguePlayerController {
                                                                     @PathVariable Long id,
                                                                     @PathVariable String username) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.LEAGUE_ID.key(), String.valueOf(id));
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
+            logger.info("LeaguePlayerController: deleteLeaguePlayersByLeagueIdAndPlayer. Path: id: {}, username: {}", id, username);
             leaguePlayersService.deleteLeaguePlayersByLeagueIdAndPlayer(id, username);
 
             return ResponseEntity.ok().build();
@@ -127,6 +162,10 @@ public class LeaguePlayerController {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.LEAGUE_ID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
     }
 

@@ -5,11 +5,15 @@ import com.pmolinav.league.services.LeaguesService;
 import com.pmolinav.leagueslib.dto.LeagueDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class LeaguePlayersAccessInterceptor implements HandlerInterceptor {
+
+    private static final Logger logger = LoggerFactory.getLogger(LeaguePlayersAccessInterceptor.class);
 
     private final AuthUtils authUtils;
     private final LeaguesService leaguesService;
@@ -73,6 +77,7 @@ public class LeaguePlayersAccessInterceptor implements HandlerInterceptor {
             }
 
         } catch (Exception e) {
+            logger.error("Unexpected error occurred with status 500.", e);
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Interceptor error: " + e.getMessage());
             return false;
         }

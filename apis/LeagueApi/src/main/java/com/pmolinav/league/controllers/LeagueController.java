@@ -1,5 +1,6 @@
 package com.pmolinav.league.controllers;
 
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.league.auth.SpringSecurityConfig;
 import com.pmolinav.league.exceptions.CustomStatusException;
 import com.pmolinav.league.exceptions.NotFoundException;
@@ -11,6 +12,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +34,8 @@ import java.util.Map;
 @Tag(name = "4. Leagues", description = "The League Controller. Contains all the operations that can be performed on a league.")
 public class LeagueController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LeagueController.class);
+
     @Autowired
     private LeaguesService leaguesService;
 
@@ -40,6 +46,9 @@ public class LeagueController {
                                           @Valid @RequestBody LeagueDTO leagueDTO,
                                           BindingResult result) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.USERNAME.key(), leagueDTO.getOwnerUsername());
+            logger.info("LeagueController: createLeague. Request body: {}", leagueDTO);
             if (result.hasErrors()) {
                 return validation(result);
             }
@@ -51,6 +60,9 @@ public class LeagueController {
             return new ResponseEntity<>(createdLeagueId, HttpStatus.CREATED);
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
     }
 
@@ -59,10 +71,16 @@ public class LeagueController {
     public ResponseEntity<?> closeLeagueById(@RequestParam String requestUid,
                                              @PathVariable long id) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.LEAGUE_ID.key(), String.valueOf(id));
+            logger.info("LeagueController: createLeague. Path: id: {}", id);
             leaguesService.closeLeagueById(id);
             return ResponseEntity.ok().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.LEAGUE_ID.key());
         }
     }
 
@@ -71,10 +89,14 @@ public class LeagueController {
     public ResponseEntity<?> closeLeagueByName(@RequestParam String requestUid,
                                                @PathVariable String name) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("LeagueController: closeLeagueByName. Path: name: {}", name);
             leaguesService.closeLeagueByName(name);
             return ResponseEntity.ok().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 
@@ -83,12 +105,18 @@ public class LeagueController {
     public ResponseEntity<LeagueDTO> getLeagueById(@RequestParam String requestUid,
                                                    @PathVariable long id) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.LEAGUE_ID.key(), String.valueOf(id));
+            logger.info("LeagueController: getLeagueById. Path: id: {}", id);
             LeagueDTO league = leaguesService.findLeagueById(id);
             return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.LEAGUE_ID.key());
         }
     }
 
@@ -99,12 +127,16 @@ public class LeagueController {
     public ResponseEntity<LeagueDTO> getLeagueByName(@RequestParam String requestUid,
                                                      @PathVariable String name) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("LeagueController: getLeagueByName. Path: name: {}", name);
             LeagueDTO league = leaguesService.findLeagueByName(name);
             return ResponseEntity.ok(league);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 
@@ -113,12 +145,18 @@ public class LeagueController {
     public ResponseEntity<List<LeagueDTO>> getLeagueByUsername(@RequestParam String requestUid,
                                                                @PathVariable String username) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
+            logger.info("LeagueController: getLeagueByUsername. Path: username: {}", username);
             List<LeagueDTO> leagues = leaguesService.findLeaguesByUsername(username);
             return ResponseEntity.ok(leagues);
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
+            MDC.remove(MDCCommonKeys.USERNAME.key());
         }
     }
 

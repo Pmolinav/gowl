@@ -1,0 +1,24 @@
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <springProperty scope="context" name="LOGSTASH_HOST" source="LOGSTASH_HOST" defaultValue="logstash"/>
+    <springProperty scope="context" name="LOGSTASH_PORT" source="LOGSTASH_PORT" defaultValue="5000"/>
+    <springProperty scope="context" name="ROOT_LOGGER_LEVEL" source="ROOT_LOGGER_LEVEL" defaultValue="INFO"/>
+    <springProperty scope="context" name="APP_LOGGER_LEVEL" source="APP_LOGGER_LEVEL" defaultValue="INFO"/>
+
+    <!-- Logstash TCP appender -->
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${LOGSTASH_HOST}:${LOGSTASH_PORT}</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <!-- Personalized fields -->
+            <customFields>{"application":"leagueapi"}</customFields>
+        </encoder>
+    </appender>
+
+    <!-- Root logger -->
+    <root level="${ROOT_LOGGER_LEVEL}">
+        <appender-ref ref="LOGSTASH"/>
+    </root>
+
+    <logger name="com.pmolinav" level="${APP_LOGGER_LEVEL:-INFO}"/>
+</configuration>
