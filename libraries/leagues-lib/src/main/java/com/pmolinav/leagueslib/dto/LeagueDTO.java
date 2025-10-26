@@ -27,6 +27,7 @@ public class LeagueDTO {
 
     private boolean isPublic;
 
+    @ToString.Exclude
     @Size(max = 100, message = "Password must not exceed 100 characters.")
     private String password;
 

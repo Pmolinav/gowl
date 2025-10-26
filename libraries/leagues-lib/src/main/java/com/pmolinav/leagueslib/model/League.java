@@ -38,6 +38,7 @@ public class League {
     @Column(name = "is_public", nullable = false)
     private boolean isPublic;
 
+    @ToString.Exclude
     @Column(name = "password")
     private String password;
 

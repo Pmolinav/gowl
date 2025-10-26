@@ -18,6 +18,7 @@ public class UserPublicDTO {
     @NotBlank(message = "Username is mandatory.")
     private String username;
 
+    @ToString.Exclude
     @NotBlank(message = "Password is mandatory.")
     private String password;
 
