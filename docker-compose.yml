@@ -14,37 +14,7 @@ services:
       - ./scripts/docker-compose/init_dbs.sh:/docker-entrypoint-initdb.d/init_dbs.sh:ro
     restart: always
     networks:
-      - spring
-
-  #  zookeeper:
-  #    container_name: zookeeper
-  #    image: 'bitnami/zookeeper:latest'
-  #    environment:
-  #      - ZOOKEEPER_CLIENT_PORT=2181
-  #      - ZOOKEEPER_TICK_TIME=2000
-  #      - ALLOW_ANONYMOUS_LOGIN=yes
-  #    networks:
-  #      - spring
-  #    ports:
-  #      - '2181:2181'
-  #    restart: always
-  #
-  #  kafka:
-  #    container_name: kafka
-  #    image: 'bitnami/kafka:latest'
-  #    depends_on:
-  #      - zookeeper
-  #    environment:
-  #      - KAFKA_BROKER_ID=1
-  #      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
-  #      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
-  #      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
-  #      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-  #    networks:
-  #      - spring
-  #    ports:
-  #      - '9092:9092'
-  #    restart: always
+      - default
 
   ## APIS
   authapi:
@@ -56,11 +26,14 @@ services:
     depends_on:
       - redis
       - mailhog
+      - logstash
     env_file: apis/AuthApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5003
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
     networks:
-      - spring
+      - default
     restart: always
 
   leagueapi:
@@ -70,10 +43,19 @@ services:
       - "8006:8006"
       - "5006:5006" # Debugging port
     env_file: apis/LeagueApi/.env
+    depends_on:
+      - logstash
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5006
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   predictionapi:
@@ -83,10 +65,19 @@ services:
       - "8009:8009"
       - "5009:5009" # Debugging port
     env_file: apis/PredictionApi/.env
+    depends_on:
+      - logstash
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5009
+      - LOGSTASH_HOST=logstash
+      - LOGSTASH_PORT=5000
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   ## BACKOFFICE
@@ -99,8 +90,13 @@ services:
     env_file: backoffice/LeaguesBOApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   predictionsboapi:
@@ -112,8 +108,13 @@ services:
     env_file: backoffice/PredictionsBOApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5008
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   usersboapi:
@@ -125,8 +126,13 @@ services:
     env_file: backoffice/UsersBOApi/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5002
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   ## SERVICES
@@ -142,8 +148,13 @@ services:
     env_file: services/LeaguesService/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5004
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   matchdatasyncservice:
@@ -159,7 +170,7 @@ services:
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5010
     networks:
-      - spring
+      - default
     restart: always
 
   predictionsservice:
@@ -174,8 +185,13 @@ services:
     env_file: services/PredictionsService/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5007
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   usersservice:
@@ -190,8 +206,13 @@ services:
     env_file: services/UsersService/.env
     environment:
       - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: "0.50"
     networks:
-      - spring
+      - default
     restart: always
 
   ## UTILS
@@ -203,7 +224,12 @@ services:
     volumes:
       - ./wiremock:/home/wiremock
     networks:
-      - spring
+      - default
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.25"
     restart: always
 
   redis:
@@ -215,7 +241,13 @@ services:
       - data-redis:/data
     command: [ "redis-server", "--save", "60", "1", "--loglevel", "warning" ]
     networks:
-      - spring
+      - default
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.25"
+    restart: always
 
   mailhog:
     image: mailhog/mailhog
@@ -224,11 +256,61 @@ services:
       - "1025:1025"  # SMTP
       - "8025:8025"  # Web UI
     networks:
-      - spring
+      - default
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+          cpus: "0.25"
+    restart: always
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.1
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m  # <= Reduce heap from 1g/1g to 512/512
+    ports:
+      - "9200:9200"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    networks:
+      - default
+    restart: always
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.17.1
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - default
+    restart: always
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:8.17.1
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logstash/pipeline:/usr/share/logstash/pipeline
+    environment:
+      - LS_JAVA_OPTS=-Xms256m -Xmx512m
+      - pipeline.workers=1
+      - pipeline.batch.size=50
+      - monitoring.enabled=false
+      - xpack.monitoring.enabled=false
+      - xpack.management.enabled=false
+    networks:
+      - default
+    restart: always
 
 volumes:
   data-postgres:
   data-redis:
 
 networks:
-  spring:
+  default:
+    driver: bridge

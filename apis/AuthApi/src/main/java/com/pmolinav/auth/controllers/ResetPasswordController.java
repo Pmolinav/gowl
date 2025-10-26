@@ -1,6 +1,7 @@
 package com.pmolinav.auth.controllers;
 
 
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.exceptions.CustomStatusException;
 import com.pmolinav.auth.exceptions.NotFoundException;
 import com.pmolinav.auth.services.PasswordResetService;
@@ -8,6 +9,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +27,8 @@ import java.util.Map;
 @Tag(name = "5. Reset Password", description = "Reset Password Controller. This endpoints will be used to reset user's password.")
 public class ResetPasswordController {
 
+    private static final Logger logger = LoggerFactory.getLogger(ResetPasswordController.class);
+
     @Autowired
     private final PasswordResetService passwordResetService;
 
@@ -33,6 +39,8 @@ public class ResetPasswordController {
                                                     @RequestParam String email,
                                                     HttpServletRequest request) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("ResetPasswordController: forgotPasswordSendCode. Params: email: {}", email);
             String ip = request.getRemoteAddr();
             passwordResetService.sendResetCode(email, ip);
             return ResponseEntity.ok(Map.of("message", "Verification code successfully sent"));
@@ -42,6 +50,8 @@ public class ResetPasswordController {
             return new ResponseEntity<>(e.getStatusCode());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 
@@ -53,6 +63,8 @@ public class ResetPasswordController {
                                           @RequestParam String code,
                                           HttpServletRequest request) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("ResetPasswordController: validateCode. Params: email: {}, code: {}", email, code);
             String ip = request.getRemoteAddr();
             String token = passwordResetService.validateCode(email, code, ip);
             return token != null ?
@@ -62,6 +74,8 @@ public class ResetPasswordController {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 
@@ -73,12 +87,16 @@ public class ResetPasswordController {
                                             @RequestParam String newPassword,
                                             @RequestParam String token) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("ResetPasswordController: updatePassword. Params: email: {}, newPassword: ***, token: {}", email, token);
             passwordResetService.updatePassword(email, newPassword, token);
             return ResponseEntity.ok(Map.of("message", "Password updated successfully"));
         } catch (NotFoundException e) {
             return ResponseEntity.notFound().build();
         } catch (CustomStatusException e) {
             return new ResponseEntity<>(e.getStatusCode());
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 

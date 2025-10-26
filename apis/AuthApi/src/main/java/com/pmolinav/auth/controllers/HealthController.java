@@ -1,9 +1,13 @@
 package com.pmolinav.auth.controllers;
 
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.services.AuthHealthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "1. Health", description = "The Health Controller. It can be used to check the application status.")
 public class HealthController {
 
+    private static final Logger logger = LoggerFactory.getLogger(HealthController.class);
+
     @Autowired
     private AuthHealthService authHealthService;
 
@@ -24,11 +30,15 @@ public class HealthController {
     @Operation(summary = "Health check", description = "This endpoint will notify us if needed services are UP or KO.")
     public ResponseEntity<String> health(@RequestParam String requestUid) {
         try {
+            MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+            logger.info("HealthController: health.");
             authHealthService.health();
 
             return ResponseEntity.ok("UP");
         } catch (Exception e) {
             return new ResponseEntity<>("KO", HttpStatus.INTERNAL_SERVER_ERROR);
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 }

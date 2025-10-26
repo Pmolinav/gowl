@@ -30,6 +30,7 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
 
         Map<String, String> requestMap = Map.of("refreshToken", refreshToken);
         MvcResult result = mockMvc.perform(post("/refresh")
+                        .param("requestUid", "someRequestUid")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestMap)))
                 .andExpect(status().isOk())
@@ -45,7 +46,8 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void refreshTokenNoRequestBodyBadRequest() throws Exception {
-        mockMvc.perform(post("/refresh"))
+        mockMvc.perform(post("/refresh")
+                        .param("requestUid", "someRequestUid"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -59,6 +61,7 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
         fakeUserRequest.setUsername("fakePass");
 
         mockMvc.perform(post("/refresh")
+                        .param("requestUid", "someRequestUid")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(fakeUserRequest)))
                 .andExpect(status().isUnauthorized());
@@ -70,6 +73,7 @@ class RefreshTokenControllerIntegrationTest extends AbstractBaseTest {
 
         Map<String, String> requestMap = Map.of("refreshToken", refreshToken);
         mockMvc.perform(post("/refresh")
+                        .param("requestUid", "someRequestUid")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestMap)))
                 .andExpect(status().isUnauthorized());

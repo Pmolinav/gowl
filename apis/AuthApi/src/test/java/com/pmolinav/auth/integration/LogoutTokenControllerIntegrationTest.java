@@ -31,6 +31,7 @@ class LogoutTokenControllerIntegrationTest extends AbstractBaseTest {
         andTokenIsInvalidated();
         Map<String, String> requestMap = Map.of("refreshToken", refreshToken);
         MvcResult result = mockMvc.perform(post("/auth/logout")
+                        .param("requestUid", "someRequestUid")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestMap)))
                 .andExpect(status().isOk())
@@ -45,7 +46,9 @@ class LogoutTokenControllerIntegrationTest extends AbstractBaseTest {
     @Test
     void logoutAllTokensHappyPath() throws Exception {
         andAllTokensAreInvalidated();
-        MvcResult result = mockMvc.perform(delete("/auth/logout/all?username=" + username))
+        MvcResult result = mockMvc.perform(delete("/auth/logout/all")
+                        .param("requestUid", "someRequestUid")
+                        .param("username", username))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -57,7 +60,8 @@ class LogoutTokenControllerIntegrationTest extends AbstractBaseTest {
 
     @Test
     void logoutTokenNoRequestBodyBadRequest() throws Exception {
-        mockMvc.perform(post("/auth/logout"))
+        mockMvc.perform(post("/auth/logout")
+                        .param("requestUid", "someRequestUid"))
                 .andExpect(status().isBadRequest());
     }
 

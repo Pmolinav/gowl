@@ -2,12 +2,16 @@ package com.pmolinav.auth.auth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.utils.TokenUtils;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,11 +20,14 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.pmolinav.auth.utils.TokenUtils.HEADER_AUTHORIZATION;
 import static com.pmolinav.auth.utils.TokenUtils.PREFIX_TOKEN;
 
 public class JwtValidationFilter extends BasicAuthenticationFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtValidationFilter.class);
 
     private final TokenConfig tokenConfig;
 
@@ -33,21 +40,23 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
-        String path = request.getRequestURI();
-        if (path.startsWith("/v3/api-docs") || path.startsWith("/swagger-ui")
-                || path.startsWith("/api-docs") || path.startsWith("/api/swagger.html")) {
-            chain.doFilter(request, response);
-            return;
+        long start = System.currentTimeMillis();
+        String correlationUid = request.getHeader(MDCCommonKeys.CORRELATION_UID.key());
+        if (correlationUid == null || correlationUid.isBlank()) {
+            correlationUid = UUID.randomUUID().toString();
         }
+        MDC.put(MDCCommonKeys.CORRELATION_UID.key(), correlationUid);
+        logger.info("Incoming call: {} {}. Query: {}. Correlation-Uid: {}",
+                request.getMethod(), request.getRequestURI(), request.getQueryString(), correlationUid);
 
         String header = request.getHeader(HEADER_AUTHORIZATION);
 
-        if (header == null || !header.startsWith(PREFIX_TOKEN)) {
-            chain.doFilter(request, response);
-            return;
-        }
-
         try {
+            if (header == null || !header.startsWith(PREFIX_TOKEN)) {
+                chain.doFilter(request, response);
+                return;
+            }
+
             String token = header.replace(PREFIX_TOKEN, "");
             UsernamePasswordAuthenticationToken authentication = new TokenUtils(
                     this.tokenConfig.getSecret(),
@@ -64,6 +73,14 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
             response.setStatus(401);
             response.setContentType("application/json");
+        } finally {
+            long elapsed = System.currentTimeMillis() - start;
+            MDC.put(MDCCommonKeys.ELAPSED_TIME.key(), String.valueOf(elapsed));
+
+            logger.info("Outgoing call: {} {}. Response Status: {}. Correlation-Uid: {}. Elapsed-time: {}",
+                    request.getMethod(), request.getRequestURI(), response.getStatus(), correlationUid, elapsed);
+
+            MDC.clear();
         }
     }
 

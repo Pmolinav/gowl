@@ -2,12 +2,16 @@ package com.pmolinav.auth.auth.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.services.UserTokenAsyncService;
 import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.userslib.dto.UserDTO;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -20,8 +24,11 @@ import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
 
     private final AuthenticationManager authenticationManager;
     private final TokenConfig tokenConfig;
@@ -42,17 +49,36 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         String username = null;
         String password = null;
 
+        long start = System.currentTimeMillis();
+        String correlationUid = request.getHeader(MDCCommonKeys.CORRELATION_UID.key());
+        if (correlationUid == null || correlationUid.isBlank()) {
+            correlationUid = UUID.randomUUID().toString();
+        }
+        MDC.put(MDCCommonKeys.CORRELATION_UID.key(), correlationUid);
+
+        logger.info("Attempt Authentication. Incoming call: {} {}. Query: {}. Correlation-Uid: {}",
+                request.getMethod(), request.getRequestURI(), request.getQueryString(), correlationUid);
         try {
             UserDTO user = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
             username = user.getUsername();
             password = user.getPassword();
 
-            // logger.info("Username desde request InputStream (raw) " + username);
-            // logger.info("Password desde request InputStream (raw) " + password);
+            MDC.put(MDCCommonKeys.USERNAME.key(), username);
 
+            UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+            return authenticationManager.authenticate(authToken);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            long elapsed = System.currentTimeMillis() - start;
+            MDC.put(MDCCommonKeys.ELAPSED_TIME.key(), String.valueOf(elapsed));
+
+            logger.info("Outgoing call: {} {}. Response Status: {}. Correlation-Uid: {}. Elapsed-time: {}",
+                    request.getMethod(), request.getRequestURI(), response.getStatus(), correlationUid, elapsed);
+
+            MDC.clear();
         }
+
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
         return authenticationManager.authenticate(authToken);
     }
@@ -84,6 +110,11 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             userAgent = "unknown";
         }
 
+        MDC.put(MDCCommonKeys.USER_IP.key(), ipAddress);
+        MDC.put(MDCCommonKeys.USER_AGENT.key(), userAgent);
+
+        logger.info("Successful authentication for user {} with ip {} and agent {}", username, ipAddress, userAgent);
+
         String accessToken = tokenUtils.createToken(username, roles);
         String refreshToken = tokenUtils.createRefreshToken(username);
 
@@ -109,6 +140,8 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String, Object> body = new HashMap<>();
         body.put("message", "Authentication error. Incorrect user or password.");
         body.put("error", failed.getMessage());
+
+        logger.warn("Unsuccessful authentication with message {}", failed.getMessage());
 
         response.getWriter().write(new ObjectMapper().writeValueAsString(body));
         response.setStatus(401);

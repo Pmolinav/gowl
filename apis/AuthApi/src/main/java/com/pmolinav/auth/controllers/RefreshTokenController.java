@@ -2,6 +2,7 @@ package com.pmolinav.auth.controllers;
 
 
 import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.services.UserTokenAsyncService;
 import com.pmolinav.auth.utils.TokenUtils;
 import io.jsonwebtoken.JwtException;
@@ -9,6 +10,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +31,8 @@ import java.util.Map;
 @Tag(name = "3. Refresh Token", description = "The Refresh Token Controller. The token is refreshed and allows valid users to continue with their sessions and call other controllers with permissions.")
 public class RefreshTokenController {
 
+    private static final Logger logger = LoggerFactory.getLogger(RefreshTokenController.class);
+
     @Autowired
     private final AuthenticationManager authenticationManager;
 
@@ -38,9 +44,11 @@ public class RefreshTokenController {
 
     @PostMapping
     @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
-    public ResponseEntity<?> refreshToken(@RequestBody Map<String, String> tokenRequest,
+    public ResponseEntity<?> refreshToken(@RequestParam String requestUid,
+                                          @RequestBody Map<String, String> tokenRequest,
                                           HttpServletRequest request) {
-
+        MDC.put(MDCCommonKeys.REQUEST_UID.key(), requestUid);
+        logger.info("RefreshTokenController: refreshToken. Request body: {}", tokenRequest);
         String ipAddress = request.getHeader("X-Forwarded-For");
         if (ipAddress == null || ipAddress.isEmpty()) {
             ipAddress = request.getRemoteAddr();
@@ -66,7 +74,7 @@ public class RefreshTokenController {
             boolean tokenExists = userTokenAsyncService.existsTokenForUser(username, refreshToken);
             if (!tokenExists) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                        .body(Map.of("error","Refresh token has been invalidated"));
+                        .body(Map.of("error", "Refresh token has been invalidated"));
             }
 
             // Async call to save the new refresh token.
@@ -84,6 +92,8 @@ public class RefreshTokenController {
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Map.of("error", "Unexpected error generating token"));
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 }

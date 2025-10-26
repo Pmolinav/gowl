@@ -2,6 +2,8 @@ package com.pmolinav.auth.controllers;
 
 
 import com.pmolinav.auth.auth.TokenConfig;
+import com.pmolinav.auth.auth.interceptors.UserAccessInterceptor;
+import com.pmolinav.auth.dto.MDCCommonKeys;
 import com.pmolinav.auth.services.UserTokenAsyncService;
 import com.pmolinav.auth.utils.TokenUtils;
 import com.pmolinav.userslib.dto.UserDTO;
@@ -10,6 +12,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +38,8 @@ import java.util.Map;
 @Tag(name = "2. Login", description = "The Login Controller. Required to authorize users. A valid token is granted and allows valid users to call other controllers with permissions.")
 public class LoginController {
 
+    private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
+
     @Autowired
     private final AuthenticationManager authenticationManager;
 
@@ -47,6 +54,7 @@ public class LoginController {
     @Operation(summary = "Authorize user", description = "This is a public endpoint. Authentication is not required to call, but requested user must be registered.")
     public ResponseEntity<?> login(@RequestBody @Valid UserDTO userDTO, HttpServletRequest request) {
         try {
+            logger.info("LoginController: login. Request body: {}", userDTO);
             String ipAddress = request.getHeader("X-Forwarded-For");
             if (ipAddress == null || ipAddress.isEmpty()) {
                 ipAddress = request.getRemoteAddr();
@@ -90,6 +98,8 @@ public class LoginController {
             } else {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+        } finally {
+            MDC.remove(MDCCommonKeys.REQUEST_UID.key());
         }
     }
 }
